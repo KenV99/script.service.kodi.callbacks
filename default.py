@@ -42,7 +42,7 @@ import xbmcgui
 import xbmcaddon
 import xbmcvfs
 import subprocess
-import monitorext
+
 import abc
 import urllib2
 from urlparse import urlparse
@@ -59,7 +59,8 @@ __settingsdir__ = xbmc.translatePath(os.path.join(__cwd__, 'resources')).decode(
 __resource__ = xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib')).decode('utf-8')
 __author__ = 'KenV99'
 __options__ = dict()
-
+sys.path.append(__resource__)
+import monitorext
 
 def notification(text, *silence):
     """
