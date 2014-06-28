@@ -44,7 +44,7 @@ import xbmcgui
 import xbmcaddon
 import xbmcvfs
 import subprocess
-
+import sys
 import abc
 import urllib2
 from urlparse import urlparse
