@@ -18,13 +18,9 @@
 #    This script is based on script.randomitems & script.wacthlist & script.xbmc.callbacks
 #    Thanks to their original authors and pilulli
 
-# TODO branch github and use version with monitorext in lib and remove dependency from addon.xml
-# TODO reload MonitorEx and Listener with settings change
-
 """
 debug = True
 remote = False
-import sys
 if debug:
     if remote:
         sys.path.append(r'C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
@@ -221,8 +217,6 @@ class Player(xbmc.Player):
                 pass
             if filename[0:3] == 'pvr':
                 rtype = 'liveTV'
-                if __options__['monitorPlayback']:
-                    xbmc.sleep(5000)
             elif filename != '':
                 for string in substrings:
                     if string in filename:
@@ -236,23 +230,29 @@ class Player(xbmc.Player):
                     rtype = "episode"
             return rtype
         except Exception, e:
-            return 'unknown'
+            e = sys.exc_info()[0]
+            err = True
+            msg = e.reason + '\n' + traceback.format_exc()
 
     def getTitle(self):
-        try:
-            if __options__['tester']:
-                return 'testing'
-            if self.isPlayingAudio():
-                return xbmc.getInfoLabel('MusicPlayer.Title')
-            if self.isPlayingVideo():
-                if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
-                    if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
-                        return (xbmc.getInfoLabel('VideoPlayer.TVShowTitle') + '-' + xbmc.getInfoLabel('VideoPlayer.Season')
-                               + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
-                else:
-                    return xbmc.getInfoLabel('VideoPlayer.Title')
-        except Exception, e:
-            return 'unknown'
+        if __options__['tester']:
+            return 'testing'
+        while not (self.isPlayingAudio() or self.isPlayingVideo()):
+            xbmc.sleep(500)
+        if self.isPlayingAudio():
+            while xbmc.getInfoLabel('MusicPlayer.Title') is None:
+                xbmc.sleep(500)
+            return xbmc.getInfoLabel('MusicPlayer.Title')
+        if self.isPlayingVideo():
+            while xbmc.getInfoLabel('VideoPlayer.Title') is None:
+                xbmc.sleep(500)
+            if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
+                if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
+                    return (xbmc.getInfoLabel('VideoPlayer.TVShowTitle') + '-' + xbmc.getInfoLabel('VideoPlayer.Season')
+                           + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
+            else:
+                return xbmc.getInfoLabel('VideoPlayer.Title')
+
 
     def getAspectRatio(self):
         if __options__['tester']:
@@ -283,10 +283,7 @@ class Player(xbmc.Player):
                 runtimeargs.append('aspectratio=' + self.getAspectRatio())
             if __options__['arg_resolution']:
                 runtimeargs.append('resolution=' + self.getResoluion())
-        try:
-            self.dispatcher.dispatch('onPlaybackStarted', runtimeargs)
-        except Exception, e:
-            pass
+        self.dispatcher.dispatch('onPlaybackStarted', runtimeargs)
 
     def onPlayBackStopped(self):
         if not __options__['monitorPlayback']:
@@ -330,9 +327,7 @@ class Monitor(monitorext.MonitorEx):  # monitorext.MonitorEx
         self.dispatcher.dispatch('onScreensaverDeactivated', [])
 
     def onSettingsChanged(self):
-        self.dispatcher.ddict = None
-        self.dispatcher.ddict = dict()
-        read_settings(self.dispatcher.ddict)
+        Main.load()
 
     def onStereoModeChange(self):
         runtimeargs = []
@@ -559,49 +554,59 @@ class Main():
     player = None
 
     @staticmethod
+    def load():
+        if Main.dispatcher is not None:
+            del Main.dispatcher
+        if Main.mm is not None:
+            del Main.mm
+        if Main.player is not None:
+            del Main.player
+        Main.dispatcher = Dispatcher()
+        read_settings(Main.dispatcher.ddict)
+        Main.mm = Monitor(__options__['monitorStereoMode'], __options__['monitorProfiles'],
+                          __options__['monitorPlayback'])
+        Main.mm.dispatcher = Main.dispatcher
+        Main.player = Player()
+        Main.player.dispatcher = Main.dispatcher
+        Main.mm.player = Main.player
+        sleep_int = __options__['interval']
+        if __options__['needs_listener']:
+            Main.mm.Listen(interval=sleep_int)
+
+    @staticmethod
     def run():
         global __options__
         try:
             __options__['tester'] = False
             info('Starting %s version %s' % (__scriptname__, __version__))
-
-            dispatcher = Dispatcher()
-            read_settings(dispatcher.ddict)
-            if 'onStartup' in dispatcher.ddict:
-                dispatcher.dispatch('onStartup', [])
-            mm = Monitor(__options__['monitorStereoMode'], __options__['monitorProfiles'],
-                         __options__['monitorPlayback'])
-            mm.dispatcher = dispatcher
-            player = Player()
-            player.dispatcher = dispatcher
-            mm.player = player
+            Main.load()
+            if 'onStartup' in Main.dispatcher.ddict:
+                Main.dispatcher.dispatch('onStartup', [])
             sleep_int = __options__['interval']
-            if __options__['needs_listener']:
-                mm.Listen(interval=sleep_int)
             executed_idle = False
             idletime = 60 * __options__['idle_time']
             while not xbmc.abortRequested:
-                if 'onIdle' in dispatcher.ddict:
+                if 'onIdle' in Main.dispatcher.ddict:
                     if xbmc.getGlobalIdleTime() > idletime:
                         if not executed_idle:
-                            dispatcher.dispatch('onIdle', [])
+                            Main.dispatcher.dispatch('onIdle', [])
                             executed_idle = True
                     else:
                         executed_idle = False
                 xbmc.sleep(sleep_int)
-            if 'onShutdown' in dispatcher.ddict:
-                dispatcher.dispatch('onShutdown', [])
-            if mm is not None:
-                mm.StopListening()
-                del mm
-            del player
-            del dispatcher
+            if 'onShutdown' in Main.dispatcher.ddict:
+                Main.dispatcher.dispatch('onShutdown', [])
+            if Main.mm is not None:
+                Main.mm.StopListening()
+                del Main.mm
+            del Main.player
+            del Main.dispatcher
             info('Stopped %s' % __scriptname__)
         except Exception, e:
             e = sys.exc_info()[0]
             msg = ''
             if hasattr(e, 'message'):
-                msg += e.message
+                msg = msg + str(e.message)
             msg = msg + '\n' + traceback.format_exc()
             info('Unhandled Error occured: %s' % msg)
             sys.exit()

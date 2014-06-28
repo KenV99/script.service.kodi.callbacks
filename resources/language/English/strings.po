@@ -52,51 +52,51 @@ msgid "Test Command"
 msgstr ""
 
 msgctxt "#32010"
-msgid "onPlaybackStarted"
+msgid "on Playback Started"
 msgstr ""
 
 msgctxt "#32011"
-msgid "onPlaybackStopped"
+msgid "on Playback Stopped"
 msgstr ""
 
 msgctxt "#32012"
-msgid "onPlaybackPaused"
+msgid "on Playback Paused"
 msgstr ""
 
 msgctxt "#32013"
-msgid "onPlaybackResumed"
+msgid "on Playback Resumed"
 msgstr ""
 
 msgctxt "#32014"
-msgid "onStartup"
+msgid "on Startup"
 msgstr ""
 
 msgctxt "#32015"
-msgid "onIdle"
+msgid "on Idle"
 msgstr ""
 
 msgctxt "#32016"
-msgid "onShutdown"
+msgid "on Shutdown"
 msgstr ""
 
 msgctxt "#32017"
-msgid "onScreensaverActivated"
+msgid "on Screensave rActivated"
 msgstr ""
 
 msgctxt "#32018"
-msgid "onScreensaverDeactivated"
+msgid "on Screensaver Deactivated"
 msgstr ""
 
 msgctxt "#32019"
-msgid "onStereoModeChange (3D mode)"
+msgid "on Stereoscopic Mode Change (3D mode)"
 msgstr ""
 
 msgctxt "#32020"
-msgid "onProfileChange"
+msgid "on User Profile Change"
 msgstr ""
 
 msgctxt "#32021"
-msgid "onDatabaseUpdated"
+msgid "on Library Database Updated"
 msgstr ""
 
 msgctxt "#32030"
