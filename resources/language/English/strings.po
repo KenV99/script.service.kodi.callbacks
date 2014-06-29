@@ -190,3 +190,7 @@ msgstr ""
 msgctxt "#32052"
 msgid "Command for %s executed successfully"
 msgstr ""
+
+msgctxt "#32053"
+msgid "'Terminating on unhandled Error: %s'"
+msgstr ""

@@ -21,11 +21,12 @@
 #
 ######################################################################
 
-debug = False
+debug = True
 remote = False
 if debug:
     if remote:
-        sys.path.append(r'C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\pycharm-debug.py3k\\')
+        sys.path.append(r'C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
+                        r'pycharm-debug.py3k\\')
         import pydevd
         pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
     else:
@@ -49,6 +50,7 @@ from default import Dispatcher, read_settings, __options__
 
 __options__['tester'] = True
 __testpoint__ = sys.argv[1]
+
 try:
     dispatcher = Dispatcher()
     read_settings(dispatcher.ddict)
