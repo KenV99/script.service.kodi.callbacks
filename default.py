@@ -125,7 +125,7 @@ def read_settings(ddict):
             else:
                 mstr = _settings.getSetting(setid + '.htp')
             if mstr == '':
-                break
+                continue
             if mtype == 'script' or mtype == 'python':
                 setid = (i + '_arg').decode('utf-8')
                 argstr = _settings.getSetting(setid)
@@ -236,7 +236,6 @@ class Player(xbmc.Player):
         else:
             return 'unknown'
 
-
     def getTitle(self):
         if self.isPlayingAudio():
             while xbmc.getInfoLabel('MusicPlayer.Title') is None:
@@ -278,7 +277,6 @@ class Player(xbmc.Player):
         if vr is None:
             vr = 'unknown'
         return vr
-
 
     def onPlayBackStarted(self):
         if not __options__['monitorPlayback']:
@@ -385,7 +383,8 @@ class Dispatcher():
                 notification(__language__(32051) % (event_id, result[1]))
             else:
                 info('Command for %s executed successfully' % event_id)
-                notification(__language__(32052) % event_id)
+                if not __options__['tester']:
+                    (__language__(32052) % event_id)
             return result
         else:
             return [True, 'No registered command for \'%s\'' % event_id]
@@ -402,6 +401,7 @@ class AbstractWorker():
         self.cmd_str = cmd_str
         self.userargs = userargs
         self.passed = self.check()
+        self.needs_shell = False
 
     @abc.abstractmethod
     def check(self):
@@ -415,14 +415,16 @@ class AbstractWorker():
 
 
 class WorkerScript(AbstractWorker):
-    needs_shell = False
 
     def check(self):
+        tmp = self.cmd_str
         self.cmd_str = []
-        tmp = xbmc.translatePath(self.cmd_str).decode('utf-8')
+        tmp = xbmc.translatePath(tmp).decode('utf-8')
         if xbmcvfs.exists(tmp):
             self.cmd_str.append(tmp)
             self.separate_userargs()
+            self.type = 'script'
+            return True
         else:
             return False
 
@@ -442,10 +444,13 @@ class WorkerScript(AbstractWorker):
                 for i in new:
                     ret.append(i)
             self.userargs = ret
+        else:
+            self.userargs = []
 
     def run(self, runtimeargs):
         err = False
         msg = ''
+
         margs = self.cmd_str + runtimeargs + self.userargs
         try:
             result = subprocess.check_output(margs, shell=self.needs_shell, stderr=subprocess.STDOUT)
@@ -469,6 +474,7 @@ class WorkerPy(AbstractWorker):
             fn, ext = os.path.splitext(tmp)
             if ext == '.py':
                 self.cmd_str = tmp
+                self.type = 'python'
                 return True
         else:
             return False
@@ -494,6 +500,7 @@ class WorkerPy(AbstractWorker):
 class WorkerBuiltin(AbstractWorker):
 
     def check(self):
+        self.type = 'built-in'
         return True
 
     def run(self, runtimeargs):
@@ -516,6 +523,7 @@ class WorkerHTTP(AbstractWorker):
     def check(self):
         o = urlparse(self.cmd_str)
         if o.scheme != '' and o.netloc != '' and o.path != '':
+            self.type = 'http'
             return True
         else:
             return False
@@ -543,6 +551,7 @@ class WorkerHTTP(AbstractWorker):
 class WorkerJson(AbstractWorker):
 
     def check(self):
+        self.type = 'json'
         return True
 
     def run(self, runtimeargs):

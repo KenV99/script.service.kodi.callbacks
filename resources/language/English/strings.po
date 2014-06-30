@@ -80,7 +80,7 @@ msgid "on Shutdown"
 msgstr ""
 
 msgctxt "#32017"
-msgid "on Screensave rActivated"
+msgid "on Screensaver Activated"
 msgstr ""
 
 msgctxt "#32018"
@@ -144,7 +144,7 @@ msgid "Event ID"
 msgstr ""
 
 msgctxt "#32041"
-msgid "Media type {music:movie:episode:liveTV:unknown}"
+msgid "Media type {music:movie:episode:liveTV:recordedTV:stream:unknown}"
 msgstr ""
 
 msgctxt "#32042"
