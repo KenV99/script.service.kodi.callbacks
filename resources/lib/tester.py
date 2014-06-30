@@ -48,7 +48,7 @@ __language__ = __addon__.getLocalizedString
 sys.path.append(__cwd__)
 sys.path.append(__resource__)
 from default import Dispatcher, read_settings, __options__
-from dialogtextbox import show_textbox
+from dialogtb import show_textbox
 
 __options__['tester'] = True
 __testpoint__ = sys.argv[1]
