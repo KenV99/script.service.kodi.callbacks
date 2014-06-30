@@ -20,7 +20,7 @@
 #  Runs as a script from the settings page to test scripts
 #
 ######################################################################
-
+"""
 debug = False
 remote = False
 if debug:
@@ -33,6 +33,7 @@ if debug:
         sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 3.1.3\pycharm-debug-py3k.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True)
+"""
 
 import sys
 import os
