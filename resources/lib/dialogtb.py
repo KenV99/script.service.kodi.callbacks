@@ -14,6 +14,7 @@
 # *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 # *  http://www.gnu.org/copyleft/gpl.html
 # *
+"""
 debug = False
 remote = False
 if debug:
@@ -26,6 +27,7 @@ if debug:
         sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 3.1.3\pycharm-debug-py3k.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True)
+"""
 
 import sys
 import xbmc
