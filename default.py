@@ -56,6 +56,7 @@ __settingsdir__ = xbmc.translatePath(os.path.join(__cwd__, 'resources')).decode(
 __resource__ = xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib')).decode('utf-8')
 __author__ = 'KenV99'
 __options__ = dict()
+__testerruntimeargs__ = []
 sys.path.append(__resource__)
 import monitorext
 
@@ -451,7 +452,6 @@ class WorkerScript(AbstractWorker):
     def run(self, runtimeargs):
         err = False
         msg = ''
-
         margs = self.cmd_str + runtimeargs + self.userargs
         try:
             result = subprocess.check_output(margs, shell=self.needs_shell, stderr=subprocess.STDOUT)
@@ -483,6 +483,8 @@ class WorkerPy(AbstractWorker):
     def run(self, runtimeargs):
         err = False
         msg = ''
+        if __options__['tester']:
+            runtimeargs = __testerruntimeargs__
         args = ', '.join(runtimeargs) + ', ' + self.userargs
         try:
             if len(args) > 1:

@@ -21,7 +21,7 @@
 #
 ######################################################################
 """
-debug = False
+debug = True
 remote = False
 if debug:
     if remote:
@@ -48,14 +48,14 @@ __language__ = __addon__.getLocalizedString
 
 sys.path.append(__cwd__)
 sys.path.append(__resource__)
-from default import Dispatcher, read_settings, __options__
+from default import Dispatcher, read_settings, __options__, __testerruntimeargs__
 from dialogtb import show_textbox
 
 __options__['tester'] = True
 __testpoint__ = sys.argv[1]
 
 
-def format_results(result, ddict):
+def format_results(result, ddict, rtargs):
     """
     @param result: Return from dispatcher
     @type result: list
@@ -67,6 +67,14 @@ def format_results(result, ddict):
     worker = ddict[__testpoint__]
     output = ['Testing for event: %s\n' % __testpoint__, 'Command type: %s\n' % worker.type,
               'Command: %s\n' % worker.cmd_str]
+    if len(rtargs) > 0:
+        if type(rtargs) is str:
+            output.append('User args: %s' % rtargs)
+        else:
+            for i in rtargs:
+                output.append('Runtime arg: %s' % i)
+    else:
+        output.append('Runtime args: None')
     if len(worker.userargs) > 0:
         if type(worker.userargs) is str:
             output.append('User args: %s' % worker.userargs)
@@ -90,14 +98,41 @@ def format_results(result, ddict):
     return output
 
 
+def simulateruntimeargs(worker):
+
+    rtargs = []
+    if __options__['arg_eventid']:
+        rtargs.append('event=' + worker.event_id)
+    if worker.type == 'script' or worker.type == 'python':
+        if worker.event_id == 'onPlaybackStarted':
+            if __options__['arg_mediatype']:
+                rtargs.append('media=unknown')
+            if __options__['arg_filename']:
+                rtargs.append('file=\\path\\file name.ext')
+            if __options__['arg_title']:
+                rtargs.append('title=Star Wars Episode IV: A New Hope')
+            if __options__['arg_aspectratio']:
+                rtargs.append('aspectratio=2.40')
+            if __options__['arg_resolution']:
+                rtargs.append('resolution=1080')
+        elif worker.event_id == 'onStereoModeChange':
+            if __options__['arg_stereomode']:
+                rtargs.append('stereomode=monoscopic')
+        elif worker.event_id == 'onProfileChange':
+            if __options__['arg_profilepath']:
+                rtargs.append('profilepath=\\xbmc\\userdate\\profiles\\asmallchild\\')
+    return rtargs
+
 try:
     dispatcher = Dispatcher()
     read_settings(dispatcher.ddict)
     if __testpoint__ in dispatcher.ddict:
-        result = dispatcher.dispatch(__testpoint__, [])
-        output = format_results(result, dispatcher.ddict)
+        rtargs = simulateruntimeargs(dispatcher.ddict[__testpoint__])
+        result = dispatcher.dispatch(__testpoint__, rtargs)
+        output = format_results(result, dispatcher.ddict, rtargs)
         show_textbox('Results', output)
     else:
+        __testerruntimeargs__ = []
         dialog = xbmcgui.Dialog()
         dialog.ok(__language__(32049), __language__(32050))
 except Exception, e:

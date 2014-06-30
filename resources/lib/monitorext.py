@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+# *  This Program is free software; you can redistribute it and/or modify
+# *  it under the terms of the GNU General Public License as published by
+# *  the Free Software Foundation; either version 2, or (at your option)
+# *  any later version.
+# *
+# *  This Program is distributed in the hope that it will be useful,
+# *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# *  GNU General Public License for more details.
+# *
+# *  You should have received a copy of the GNU General Public License
+# *  along with this program; see the file LICENSE.txt.  If not, write to
+# *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+# *  http://www.gnu.org/copyleft/gpl.html
+# *
+
 import threading
 from json import loads as jloads
 
@@ -5,14 +22,14 @@ import xbmc
 import xbmcaddon
 
 __p__ = None
-__addon__ = xbmcaddon.Addon('script.module.monitorext')
-__scriptname__ = __addon__.getAddonInfo('name')
+# __addon__ = xbmcaddon.Addon('script.module.monitorext')
+# __scriptname__ = __addon__.getAddonInfo('name')
 
 
 def debug(txt):
     if isinstance(txt, str):
         txt = txt.decode("utf-8")
-    message = u"### [%s] - %s" % (__scriptname__, txt)
+    message = u"### [%s] - %s" % ('xbmc.callbacks2', txt)
     xbmc.log(msg=message.encode("utf-8"), level=xbmc.LOGDEBUG)
 
 

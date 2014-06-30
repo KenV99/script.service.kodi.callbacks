@@ -1,4 +1,4 @@
-
+0.0.5 Bug fixes
 0.0.3 Bug fixes, Custom Dialog for Testing
 0.0.2 Reloads MonitorEx and listener with Settings Change, Added wait code for long latency PlayBack Starts
 0.0.1 Initial alpha
