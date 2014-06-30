@@ -21,7 +21,7 @@
 # TODO branch github and use version with monitorext in lib and remove dependency from addon.xml
 # TODO reload MonitorEx and Listener with settings change
 
-debug = True
+debug = False
 remote = False
 import sys
 if debug:
