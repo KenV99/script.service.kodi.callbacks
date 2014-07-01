@@ -1,29 +1,30 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-# *  This Program is free software; you can redistribute it and/or modify
-# *  it under the terms of the GNU General Public License as published by
-# *  the Free Software Foundation; either version 2, or (at your option)
-# *  any later version.
-# *
-# *  This Program is distributed in the hope that it will be useful,
-# *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-# *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# *  GNU General Public License for more details.
-# *
-# *  You should have received a copy of the GNU General Public License
-# *  along with this program; see the file LICENSE.txt.  If not, write to
-# *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
-# *  http://www.gnu.org/copyleft/gpl.html
-# *
+#
+#     Copyright (C) 2014 KenV99
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
 
 import threading
 from json import loads as jloads
 
 import xbmc
-import xbmcaddon
-
-__p__ = None
+# import xbmcaddon
 # __addon__ = xbmcaddon.Addon('script.module.monitorext')
 # __scriptname__ = __addon__.getAddonInfo('name')
+__p__ = None
 
 
 def debug(txt):
@@ -66,16 +67,21 @@ def getPlayingState():
     @return: 'Unknown', 'Playing' or 'Stopped'
     @rtype: str
     """
-    if __p__ is not None:
-        if __p__.isPlaying():
-            ps = 'Playing'
-        else:
-            ps = 'Stopped'
+    if __p__ is xbmc.Player():
+        _p = __p__
     else:
-        if xbmc.Player.isPlaying(xbmc.Player()):
-            ps = 'Playing'
-        else:
-            ps = 'Stopped'
+        _p = xbmc.Player()
+    if _p.isPlaying():
+        for i in xrange(0, 40):
+            if not(_p.isPlayingAudio() or _p.isPlayingVideo()):
+                if i == 40:
+                    return 'Stalled'
+                xbmc.sleep(250)
+            else:
+                break
+        ps = 'Playing'
+    else:
+        ps = 'Stopped'
     return ps
 
 
@@ -183,10 +189,13 @@ class MonitorEx(xbmc.Monitor):
         return ps
 
     def __onPlaybackStarted(self):
-        if getPlayingState() == 'Playing':
+        state = getPlayingState()
+        if state == 'Playing':
             self.onPlaybackStarted()
-        else:
+        elif state == 'Stopped':
             self.onPlaybackStopped()
+        else:
+            pass
 
     def onPlaybackStarted(self):
         pass
