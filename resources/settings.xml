@@ -109,7 +109,7 @@
     <setting default="" id="onPlaybackStarted_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onPlaybackStarted)" visible="!eq(-8,0)"/>
 
     <setting label="32011" type="lsep"/>
-    <setting default="none" id="onPlaybackPaused_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="onPlaybackStopped_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
     <setting default="" id="onPlaybackStopped_str.scr" label="32003" type="file" visible="eq(-1,1)" />
     <setting default="" id="onPlaybackStopped_arg" label="32007" type="text" visible="eq(-2,1)" />
     <setting default="true" label="32008" id="onPlaybackStopped_shell" visible="eq(-3,1)" type="bool" />
