@@ -14,7 +14,7 @@
     <setting default="" id="onStartup_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onStartup_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onStartup_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onStartup_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onStartup)" visible="!eq(-8,0)" />
+    <setting default="" id="onStartup_test" label="32009" type="action" action="RunScript($CWD/tester.py, onStartup)" visible="!eq(-8,0)" />
 
     <setting label="32015" type="lsep"/>
     <setting default="none" id="onIdle_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -26,7 +26,7 @@
     <setting default="" id="onIdle_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onIdle_str.htp" label="32006" type="text" visible="eq(-7,4)" />
     <setting label="32033" type="slider" id="idle_time" default="10" range="1,1,60" option="int" visible="!eq(-8,0)" />
-    <setting default="" id="onIdle_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onIdle)" visible="!eq(-9,0)" />
+    <setting default="" id="onIdle_test" label="32009" type="action" action="RunScript($CWD/tester.py, onIdle)" visible="!eq(-9,0)" />
 
     <setting label="32016" type="lsep"/>
     <setting default="none" id="onShutdown_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -37,7 +37,7 @@
     <setting default="" id="onShutdown_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onShutdown_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onShutdown_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onShutdown_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onShutdown)" visible="!eq(-8,0)" />
+    <setting default="" id="onShutdown_test" label="32009" type="action" action="RunScript($CWD/tester.py, onShutdown)" visible="!eq(-8,0)" />
 
     <setting label="32017" type="lsep"/>
     <setting default="none" id="onScreensaverActivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -48,7 +48,7 @@
     <setting default="" id="onScreensaverActivated_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onScreensaverActivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onScreensaverActivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onScreensaverActivated_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onScreensaverActivated)" visible="!eq(-8,0)" />
+    <setting default="" id="onScreensaverActivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScreensaverActivated)" visible="!eq(-8,0)" />
 
     <setting label="32018" type="lsep"/>
     <setting default="none" id="onScreensaverDeactivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -59,7 +59,7 @@
     <setting default="" id="onScreensaverDeactivated_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onScreensaverDeactivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onScreensaverDeactivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onScreensaverDeactivated_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onScreensaverDeactivated)" visible="!eq(-8,0)" />
+    <setting default="" id="onScreensaverDeactivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScreensaverDeactivated)" visible="!eq(-8,0)" />
 
     <setting label="32019" type="lsep"/>
     <setting default="none" id="onStereoModeChange_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -70,7 +70,7 @@
     <setting default="" id="onStereoModeChange_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onStereoModeChange_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onStereoModeChange_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onStereoModeChange_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onStereoModeChange)" visible="!eq(-8,0)"/>
+    <setting default="" id="onStereoModeChange_test" label="32009" type="action" action="RunScript($CWD/tester.py, onStereoModeChange)" visible="!eq(-8,0)"/>
 
     <setting label="32020" type="lsep"/>
     <setting default="none" id="onProfileChange_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -81,7 +81,7 @@
     <setting default="" id="onProfileChange_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onProfileChange_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onProfileChange_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onProfileChange_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onProfileChange)" visible="!eq(-8,0)" />
+    <setting default="" id="onProfileChange_test" label="32009" type="action" action="RunScript($CWD/tester.py, onProfileChange)" visible="!eq(-8,0)" />
 
     <setting label="32021" type="lsep"/>
     <setting default="none" id="onDatabaseUpdated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -92,7 +92,7 @@
     <setting default="" id="onDatabaseUpdated_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onDatabaseUpdated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onDatabaseUpdated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onDatabaseUpdated_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onDatabaseUpdated)" visible="!eq(-8,0)" />
+    <setting default="" id="onDatabaseUpdated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDatabaseUpdated)" visible="!eq(-8,0)" />
 
   </category>
 
@@ -106,7 +106,7 @@
     <setting default="" id="onPlaybackStarted_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onPlaybackStarted_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onPlaybackStarted_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackStarted_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onPlaybackStarted)" visible="!eq(-8,0)"/>
+    <setting default="" id="onPlaybackStarted_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackStarted)" visible="!eq(-8,0)"/>
 
     <setting label="32011" type="lsep"/>
     <setting default="none" id="onPlaybackStopped_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -117,7 +117,7 @@
     <setting default="" id="onPlaybackStopped_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onPlaybackStopped_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onPlaybackStopped_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackStopped_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onPlaybackStopped)" visible="!eq(-8,0)" />
+    <setting default="" id="onPlaybackStopped_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackStopped)" visible="!eq(-8,0)" />
 
     <setting label="32012" type="lsep"/>
     <setting default="none" id="onPlaybackPaused_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -128,7 +128,7 @@
     <setting default="" id="onPlaybackPaused_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onPlaybackPaused_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onPlaybackPaused_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackPaused_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onPlaybackPaused)" visible="!eq(-8,0)" />
+    <setting default="" id="onPlaybackPaused_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackPaused)" visible="!eq(-8,0)" />
 
     <setting label="32013" type="lsep"/>
     <setting default="none" id="onPlaybackResumed_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
@@ -139,7 +139,7 @@
     <setting default="" id="onPlaybackResumed_arg" label="32007" type="text" visible="eq(-5,2)" />
     <setting default="" id="onPlaybackResumed_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onPlaybackResumed_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackResumed_test" label="32009" type="action" action="RunScript($CWD/resources/lib/tester.py, onPlaybackResumed)" visible="!eq(-8,0)" />
+    <setting default="" id="onPlaybackResumed_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackResumed)" visible="!eq(-8,0)" />
   </category>
 
   <category label="32034">

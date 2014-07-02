@@ -47,9 +47,8 @@ __addon__ = xbmcaddon.Addon('script.xbmc.callbacks2')
 __cwd__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode('utf-8')
 __resource__ = xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib')).decode('utf-8')
 __language__ = __addon__.getLocalizedString
+xbmc.log('$$$ xbmc.callbacks2 - Starting tester.py from cwd: %s', __cwd__)
 
-sys.path.append(__cwd__)
-sys.path.append(__resource__)
 from default import Dispatcher, read_settings, __options__
 from dialogtb import show_textbox
 
