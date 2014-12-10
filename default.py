@@ -19,9 +19,10 @@
 ##    This script is based on script.randomitems & script.wacthlist & script.xbmc.callbacks
 #    Thanks to their original authors and pilulli
 
-debug = True
+debug = False
 remote = False
 if debug:
+    import sys
     if remote:
         sys.path.append(r'C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
                         r'pycharm-debug.py3k\\')
@@ -566,7 +567,15 @@ class WorkerHTTP(AbstractWorker):
         msg = ''
         try:
             u = urllib2.urlopen(self.cmd_str, timeout=20)
-            result = u.read()
+            info('urlib2 return code: %s' % u.getcode())
+            try:
+                result = u.read()
+            except Exception as e:
+                err = True
+                result = ''
+                msg = 'Error on url read'
+                if hasattr(e, 'message'):
+                    msg = msg + '\n' + (str(e.message))
             del u
             msg = str(result)
         except urllib2.URLError, e:
