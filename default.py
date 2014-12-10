@@ -592,6 +592,7 @@ class WorkerHTTP(AbstractWorker):
             if u is not None:
                 try:
                     result = u.read()
+                    info('Successful read after catching BadStatusLine')
                 except Exception as e:
                     err = True
                     result = ''
@@ -599,7 +600,7 @@ class WorkerHTTP(AbstractWorker):
                     if hasattr(e, 'message'):
                         msg = msg + '\n' + (str(e.message))
                 del u
-                msg = str(result)            
+                msg = str(result)
         except httplib.HTTPException, e:
             err = True
             msg = 'HTTPException'
