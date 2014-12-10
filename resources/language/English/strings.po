@@ -13,7 +13,7 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#Add-on messages id=32001 to 32047
+#Add-on messages id=32001 to 32069
 
 msgctxt "#32001"
 msgid "General"
@@ -48,55 +48,55 @@ msgid "requires shell?"
 msgstr ""
 
 msgctxt "#32009"
-msgid "Test Command"
+msgid "Test Command (click OK to save changes first)"
 msgstr ""
 
 msgctxt "#32010"
-msgid "onPlaybackStarted"
+msgid "on Playback Started"
 msgstr ""
 
 msgctxt "#32011"
-msgid "onPlaybackStopped"
+msgid "on Playback Stopped"
 msgstr ""
 
 msgctxt "#32012"
-msgid "onPlaybackPaused"
+msgid "on Playback Paused"
 msgstr ""
 
 msgctxt "#32013"
-msgid "onPlaybackResumed"
+msgid "on Playback Resumed"
 msgstr ""
 
 msgctxt "#32014"
-msgid "onStartup"
+msgid "on Startup"
 msgstr ""
 
 msgctxt "#32015"
-msgid "onIdle"
+msgid "on Idle"
 msgstr ""
 
 msgctxt "#32016"
-msgid "onShutdown"
+msgid "on Shutdown"
 msgstr ""
 
 msgctxt "#32017"
-msgid "onScreensaverActivated"
+msgid "on Screensaver Activated"
 msgstr ""
 
 msgctxt "#32018"
-msgid "onScreensaverDeactivated"
+msgid "on Screensaver Deactivated"
 msgstr ""
 
 msgctxt "#32019"
-msgid "onStereoModeChange (3D mode)"
+msgid "on Stereoscopic Mode Change (3D mode)"
 msgstr ""
 
 msgctxt "#32020"
-msgid "onProfileChange"
+msgid "on User Profile Change"
 msgstr ""
 
 msgctxt "#32021"
-msgid "onDatabaseUpdated"
+msgid "on Library Database Updated"
 msgstr ""
 
 msgctxt "#32030"
@@ -144,7 +144,7 @@ msgid "Event ID"
 msgstr ""
 
 msgctxt "#32041"
-msgid "Media type {music:movie:episode:liveTV:unknown}"
+msgid "Media type {music:movie:episode:liveTV:recordedTV:PVR radio:stream:unknown}"
 msgstr ""
 
 msgctxt "#32042"
@@ -189,4 +189,72 @@ msgstr ""
 
 msgctxt "#32052"
 msgid "Command for %s executed successfully"
+msgstr ""
+
+msgctxt "#32053"
+msgid "Terminating on unhandled Error: %s"
+msgstr ""
+
+msgctxt "#32054"
+msgid "Testing for event: %s\n"
+msgstr ""
+
+msgctxt "#32055"
+msgid "Command type: %s\n"
+msgstr ""
+
+msgctxt "#32056"
+msgid "Command: %s\n"
+msgstr ""
+
+msgctxt "#32057"
+msgid "Runtime args: %s"
+msgstr ""
+
+msgctxt "#32058"
+msgid "Runtime arg: %s"
+msgstr ""
+
+msgctxt "#32059"
+msgid "Runtime args: None"
+msgstr ""
+
+msgctxt "#32060"
+msgid "User args: %s"
+msgstr ""
+
+msgctxt "#32061"
+msgid "User arg: %s"
+msgstr ""
+
+msgctxt "#32062"
+msgid "User args: None"
+msgstr ""
+
+msgctxt "#32063"
+msgid "Error Encountered"
+msgstr ""
+
+msgctxt "#32064"
+msgid "Error message: %s"
+msgstr ""
+
+msgctxt "#32065"
+msgid "No further error info available"
+msgstr ""
+
+msgctxt "#32066"
+msgid "Command completed without error detection"
+msgstr ""
+
+msgctxt "#32067"
+msgid "Command output: %s"
+msgstr ""
+
+msgctxt "#32068"
+msgid "Command did not produce output"
+msgstr ""
+
+msgctxt "#32069"
+msgid "Results"
 msgstr ""
