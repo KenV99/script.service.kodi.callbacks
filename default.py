@@ -589,6 +589,17 @@ class WorkerHTTP(AbstractWorker):
             err = False
             info('Http Bad Status Line caught and passed')
             # pass - returned a status code that is not understood in the library
+            if u is not None:
+                try:
+                    result = u.read()
+                except Exception as e:
+                    err = True
+                    result = ''
+                    msg = 'Error on url read'
+                    if hasattr(e, 'message'):
+                        msg = msg + '\n' + (str(e.message))
+                del u
+                msg = str(result)            
         except httplib.HTTPException, e:
             err = True
             msg = 'HTTPException'
