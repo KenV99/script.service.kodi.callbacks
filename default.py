@@ -1,29 +1,26 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-# *  This Program is free software; you can redistribute it and/or modify
-# *  it under the terms of the GNU General Public License as published by
-# *  the Free Software Foundation; either version 2, or (at your option)
-# *  any later version.
-# *
-# *  This Program is distributed in the hope that it will be useful,
-# *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-# *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# *  GNU General Public License for more details.
-# *
-# *  You should have received a copy of the GNU General Public License
-# *  along with this program; see the file LICENSE.txt.  If not, write to
-# *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
-# *  http://www.gnu.org/copyleft/gpl.html
-# *
 #
-#    This script is based on script.randomitems & script.wacthlist & script.xbmc.callbacks
+#     Copyright (C) 2014 KenV99
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+##    This script is based on script.randomitems & script.wacthlist & script.xbmc.callbacks
 #    Thanks to their original authors and pilulli
-
-# TODO branch github and use version with monitorext in lib and remove dependency from addon.xml
-# TODO reload MonitorEx and Listener with settings change
-
+"""
 debug = False
 remote = False
-import sys
 if debug:
     if remote:
         sys.path.append(r'C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
@@ -34,6 +31,7 @@ if debug:
         sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 3.1.3\pycharm-debug-py3k.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True)
+"""
 
 import os
 from json import loads as jloads
@@ -42,7 +40,7 @@ import xbmcgui
 import xbmcaddon
 import xbmcvfs
 import subprocess
-import monitorext
+import sys
 import abc
 import urllib2
 from urlparse import urlparse
@@ -59,6 +57,8 @@ __settingsdir__ = xbmc.translatePath(os.path.join(__cwd__, 'resources')).decode(
 __resource__ = xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib')).decode('utf-8')
 __author__ = 'KenV99'
 __options__ = dict()
+sys.path.append(__resource__)
+import monitorext
 
 
 def notification(text, *silence):
@@ -98,11 +98,13 @@ def info(txt):
 def read_settings(ddict):
     """
     Reads settings from settings.xml and loads gloval __options__ and Dispatcher.ddict
-    @param ddict: dictionary objet from Dispatcher
+    @param ddict: dictionary object from Dispatcher
     @type ddict: dict
     """
     global __options__
     _settings = xbmcaddon.Addon("script.xbmc.callbacks2")
+
+    # Read in binary options
     setlist = ['user_monitor_playback', 'notifications', 'arg_eventid', 'arg_mediatype', 'arg_filename',
                'arg_title', 'arg_aspectratio', 'arg_resolution', 'arg_profilepath', 'arg_stereomode']
     for i in setlist:
@@ -110,6 +112,8 @@ def read_settings(ddict):
     __options__['interval'] = int(float(_settings.getSetting('interval')))
     __options__['needs_listener'] = __options__['monitorStereoMode'] = __options__['monitorProfiles'] = False
     __options__['monitorPlayback'] = False
+
+    # Read from settings command related settings and create workers in dictionary structure
     setlist = ['onPlaybackStarted', 'onPlaybackStopped', 'onPlaybackPaused', 'onPlaybackResumed', 'onDatabaseUpdated',
                'onScreensaverActivated', 'onScreensaverDeactivated', 'onShutdown', 'onStereoModeChange',
                'onProfileChange', 'onIdle', 'onStartup']
@@ -127,33 +131,36 @@ def read_settings(ddict):
             else:
                 mstr = _settings.getSetting(setid + '.htp')
             if mstr == '':
-                break
+                continue
             if mtype == 'script' or mtype == 'python':
                 setid = (i + '_arg').decode('utf-8')
                 argstr = _settings.getSetting(setid)
             else:
                 argstr = ''
             worker = Factory.build_worker(mtype, mstr, argstr)
-            if mtype == 'script':
-                setid = (i + '_shell').decode('utf-8')
-                if _settings.getSetting(setid) == 'true':
-                    worker.needs_shell = True
-                else:
-                    worker.needs_shell = False
-            worker.event_id = i
-            ddict[i] = worker
-            if i in ['onStereoModeChange', 'onProfileChange']:
-                __options__['needs_listener'] = True
-                if i == 'onStereoModeChange':
-                    __options__['monitorStereoMode'] = True
-                else:
-                    __options__['monitorProfiles'] = True
-            elif i in ['onPlaybackStarted', 'onPlaybackStopped']:
-                if __options__['user_monitor_playback']:
+            if worker is not None:
+                if mtype == 'script':
+                    setid = (i + '_shell').decode('utf-8')
+                    if _settings.getSetting(setid) == 'true':
+                        worker.needs_shell = True
+                    else:
+                        worker.needs_shell = False
+                worker.event_id = i
+                ddict[i] = worker
+                if i in ['onStereoModeChange', 'onProfileChange']:
                     __options__['needs_listener'] = True
-                    __options__['monitorPlayback'] = True
-            if i == 'onIdle':
-                __options__['idle_time'] = int(_settings.getSetting('idle_time'))
+                    if i == 'onStereoModeChange':
+                        __options__['monitorStereoMode'] = True
+                    else:
+                        __options__['monitorProfiles'] = True
+                elif i in ['onPlaybackStarted', 'onPlaybackStopped']:
+                    if __options__['user_monitor_playback']:
+                        __options__['needs_listener'] = True
+                        __options__['monitorPlayback'] = True
+                if i == 'onIdle':
+                    __options__['idle_time'] = int(_settings.getSetting('idle_time'))
+            else:
+                info('Due to errors, unable to register command: %s' % mstr)
 
 
 class Factory(object):
@@ -186,6 +193,9 @@ class Factory(object):
             worker = WorkerHTTP(cmd_string, argstr)
         if worker.passed:
             return worker
+        else:
+            del worker
+            return None
 
 
 class Player(xbmc.Player):
@@ -200,71 +210,94 @@ class Player(xbmc.Player):
 
     @staticmethod
     def playing_type():
+        """
+        @return: [music|movie|episode|stream|liveTV|recordedTV|PVRradio|unknown]
+        """
+        substrings = ['-trailer', 'http://']
+        isMovie = False
+        if xbmc.Player.isPlayingAudio(xbmc.Player()):
+            return "music"
+        else:
+            if xbmc.getCondVisibility('VideoPlayer.Content(movies)'):
+                isMovie = True
         try:
-            if __options__['tester']:
-                return 'testing'
-            substrings = ['-trailer', 'http://']
-            rtype = 'unknown'
+            filename = xbmc.Player.getPlayingFile(xbmc.Player())
+        except:
             filename = ''
-            isMovie = False
-            if xbmc.Player.isPlayingAudio(xbmc.Player()):
-                rtype = "music"
-            else:
-                if xbmc.getCondVisibility('VideoPlayer.Content(movies)'):
-                    isMovie = True
-            try:
-                filename = xbmc.Player.getPlayingFile(xbmc.Player())
-            except:
-                pass
+        if filename != '':
             if filename[0:3] == 'pvr':
-                rtype = 'liveTV'
-                if __options__['monitorPlayback']:
-                    xbmc.sleep(5000)
-            elif filename != '':
-                for string in substrings:
-                    if string in filename:
-                        isMovie = False
-                        break
-            if isMovie:
-                rtype = "movie"
-            elif xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
-                # Check for tv show title and season to make sure it's really an episode
-                if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
-                    rtype = "episode"
-            return rtype
-        except Exception, e:
+                if xbmc.getCondVisibility('Pvr.IsPlayingTv'):
+                    return 'liveTV'
+                elif xbmc.getCondVisibility('Pvr.IsPlayingRecording'):
+                    return 'recordedTV'
+                elif xbmc.getCondVisibility('Pvr.IsPlayingRadio'):
+                    return 'PVRradio'
+                else:
+                    for string in substrings:
+                        if string in filename:
+                            isMovie = False
+                            break
+        if isMovie:
+            return "movie"
+        elif xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
+            # Check for tv show title and season to make sure it's really an episode
+            if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
+                return "episode"
+        elif xbmc.getCondVisibility('Player.IsInternetStream'):
+            return 'stream'
+        else:
             return 'unknown'
 
     def getTitle(self):
+        if self.isPlayingAudio():
+            while xbmc.getInfoLabel('MusicPlayer.Title') is None:
+                xbmc.sleep(250)
+            return xbmc.getInfoLabel('MusicPlayer.Title')
+        if self.isPlayingVideo():
+            while xbmc.getInfoLabel('VideoPlayer.Title') is None:
+                xbmc.sleep(250)
+            if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
+                if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
+                    return (xbmc.getInfoLabel('VideoPlayer.TVShowTitle') + '-Season ' +
+                            xbmc.getInfoLabel('VideoPlayer.Season') + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
+            else:
+                return xbmc.getInfoLabel('VideoPlayer.Title')
+
+    def getPlayingFileEx(self):
         try:
-            if __options__['tester']:
-                return 'testing'
-            if self.isPlayingAudio():
-                return xbmc.getInfoLabel('MusicPlayer.Title')
-            if self.isPlayingVideo():
-                if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
-                    if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
-                        return (xbmc.getInfoLabel('VideoPlayer.TVShowTitle') + '-' + xbmc.getInfoLabel('VideoPlayer.Season')
-                               + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
-                else:
-                    return xbmc.getInfoLabel('VideoPlayer.Title')
-        except Exception, e:
-            return 'unknown'
+            fn = self.getPlayingFile()
+        except:
+            fn = 'unknown'
+        if fn is None:
+            fn = 'unknown'
+        return xbmc.translatePath(fn)
 
     def getAspectRatio(self):
-        if __options__['tester']:
-            return 'testing'
-        else:
-            return xbmc.getInfoLabel("VideoPlayer.VideoAspect")
+        try:
+            ar = xbmc.getInfoLabel("VideoPlayer.VideoAspect")
+        except:
+            ar = 'unknown'
+        if ar is None:
+            ar = 'unknown'
+        return ar
 
     def getResoluion(self):
-        if __options__['tester']:
-            return 'testing'
-        else:
-            return xbmc.getInfoLabel("VideoPlayer.VideoResolution")
+        try:
+            vr = xbmc.getInfoLabel("VideoPlayer.VideoResolution")
+        except:
+            vr = 'unknown'
+        if vr is None:
+            vr = 'unknown'
+        return vr
 
     def onPlayBackStarted(self):
-        if not __options__['monitorPlayback']:
+         if not __options__['monitorPlayback']:
+            for i in xrange(1, 40):
+                if not (self.isPlayingAudio() or self.isPlayingVideo()):
+                    if i == 40:
+                        return
+                    else:
+                        xbmc.sleep(250)
             self.onPlayBackStartedEx()
 
     def onPlayBackStartedEx(self):
@@ -272,7 +305,7 @@ class Player(xbmc.Player):
         if __options__['arg_mediatype']:
             runtimeargs.append('type=' + self.playing_type())
         if __options__['arg_filename']:
-            runtimeargs.append('file=' + self.getPlayingFile())
+            runtimeargs.append('file=' + self.getPlayingFileEx())
         if __options__['arg_title']:
             runtimeargs.append('title=' + self.getTitle())
         if self.isPlayingVideo():
@@ -280,10 +313,7 @@ class Player(xbmc.Player):
                 runtimeargs.append('aspectratio=' + self.getAspectRatio())
             if __options__['arg_resolution']:
                 runtimeargs.append('resolution=' + self.getResoluion())
-        try:
-            self.dispatcher.dispatch('onPlaybackStarted', runtimeargs)
-        except Exception, e:
-            pass
+        self.dispatcher.dispatch('onPlaybackStarted', runtimeargs)
 
     def onPlayBackStopped(self):
         if not __options__['monitorPlayback']:
@@ -327,26 +357,18 @@ class Monitor(monitorext.MonitorEx):  # monitorext.MonitorEx
         self.dispatcher.dispatch('onScreensaverDeactivated', [])
 
     def onSettingsChanged(self):
-        self.dispatcher.ddict = None
-        self.dispatcher.ddict = dict()
-        read_settings(self.dispatcher.ddict)
+        Main.load()
 
     def onStereoModeChange(self):
         runtimeargs = []
         if __options__['arg_stereomode']:
-            if __options__['tester']:
-                runtimeargs = ['stereomode=testing']
-            else:
-                runtimeargs = ['stereomode=' + self.getCurrentStereoMode()]
+            runtimeargs = ['stereomode=' + self.getCurrentStereoMode()]
         self.dispatcher.dispatch('onStereoModeChange', runtimeargs)
 
     def onProfileChange(self):
         runtimeargs = []
         if __options__['arg_profilepath']:
-            if __options__['tester']:
-                runtimeargs = ['profilepath=testing']
-            else:
-                runtimeargs = ['profilepath=' + self.getCurrentProfile()]
+            runtimeargs = ['profilepath=' + self.getCurrentProfile()]
         self.dispatcher.dispatch('onProfileChange', runtimeargs)
 
     def onPlaybackStarted(self):
@@ -377,7 +399,8 @@ class Dispatcher():
                 notification(__language__(32051) % (event_id, result[1]))
             else:
                 info('Command for %s executed successfully' % event_id)
-                notification(__language__(32052) % event_id)
+                if not __options__['tester']:
+                    (__language__(32052) % event_id)
             return result
         else:
             return [True, 'No registered command for \'%s\'' % event_id]
@@ -394,6 +417,7 @@ class AbstractWorker():
         self.cmd_str = cmd_str
         self.userargs = userargs
         self.passed = self.check()
+        self.needs_shell = False
 
     @abc.abstractmethod
     def check(self):
@@ -407,15 +431,18 @@ class AbstractWorker():
 
 
 class WorkerScript(AbstractWorker):
-    needs_shell = False
 
     def check(self):
+        tmp = self.cmd_str
         self.cmd_str = []
-        tmp = xbmc.translatePath(self.cmd_str).decode('utf-8')
+        tmp = xbmc.translatePath(tmp).decode('utf-8')
         if xbmcvfs.exists(tmp):
             self.cmd_str.append(tmp)
             self.separate_userargs()
+            self.type = 'script'
+            return True
         else:
+            info('Error - File not found: %s' % tmp)
             return False
 
     def separate_userargs(self):
@@ -434,6 +461,8 @@ class WorkerScript(AbstractWorker):
                 for i in new:
                     ret.append(i)
             self.userargs = ret
+        else:
+            self.userargs = []
 
     def run(self, runtimeargs):
         err = False
@@ -449,7 +478,9 @@ class WorkerScript(AbstractWorker):
         except:
             e = sys.exc_info()[0]
             err = True
-            msg = e.reason + '\n' + traceback.format_exc()
+            if hasattr(e, 'message'):
+                msg = str(e.message)
+            msg = msg + '\n' + traceback.format_exc()
         return [err, msg]
 
 
@@ -461,8 +492,13 @@ class WorkerPy(AbstractWorker):
             fn, ext = os.path.splitext(tmp)
             if ext == '.py':
                 self.cmd_str = tmp
+                self.type = 'python'
                 return True
+            else:
+                info('Error - not a python script: %s' % tmp)
+                return False
         else:
+            info('Error - File not found: %s' % tmp)
             return False
 
     def run(self, runtimeargs):
@@ -479,13 +515,16 @@ class WorkerPy(AbstractWorker):
         except:
             e = sys.exc_info()[0]
             err = True
-            msg = e.reason + '\n' + traceback.format_exc()
+            if hasattr(e, 'message'):
+                msg = str(e.message)
+            msg = msg + '\n' + traceback.format_exc()
         return [err, msg]
 
 
 class WorkerBuiltin(AbstractWorker):
 
     def check(self):
+        self.type = 'built-in'
         return True
 
     def run(self, runtimeargs):
@@ -499,7 +538,9 @@ class WorkerBuiltin(AbstractWorker):
         except:
             e = sys.exc_info()[0]
             err = True
-            msg = e.reason + '\n' + traceback.format_exc()
+            if hasattr(e, 'message'):
+                msg = str(e.message)
+            msg = msg + '\n' + traceback.format_exc()
         return [err, msg]
 
 
@@ -508,8 +549,10 @@ class WorkerHTTP(AbstractWorker):
     def check(self):
         o = urlparse(self.cmd_str)
         if o.scheme != '' and o.netloc != '' and o.path != '':
+            self.type = 'http'
             return True
         else:
+            info('Invalid url: %s' % self.cmd_str)
             return False
 
     def run(self, runtimeargs):
@@ -518,6 +561,7 @@ class WorkerHTTP(AbstractWorker):
         try:
             u = urllib2.urlopen(self.cmd_str, timeout=20)
             result = u.read()
+            del u
             msg = str(result)
         except urllib2.URLError, e:
             err = True
@@ -528,13 +572,16 @@ class WorkerHTTP(AbstractWorker):
         except:
             e = sys.exc_info()[0]
             err = True
-            msg = e.reason + '\n' + traceback.format_exc()
+            if hasattr(e, 'message'):
+                msg = str(e.message)
+            msg = msg + '\n' + traceback.format_exc()
         return [err, msg]
 
 
 class WorkerJson(AbstractWorker):
 
     def check(self):
+        self.type = 'json'
         return True
 
     def run(self, runtimeargs):
@@ -546,7 +593,9 @@ class WorkerJson(AbstractWorker):
         except:
             e = sys.exc_info()[0]
             err = True
-            msg = e.reason + '\n' + traceback.format_exc()
+            if hasattr(e, 'message'):
+                msg = str(e.message)
+            msg = msg + '\n' + traceback.format_exc()
         return [err, msg]
 
 
@@ -556,51 +605,63 @@ class Main():
     player = None
 
     @staticmethod
+    def load():
+        if Main.dispatcher is not None:
+            del Main.dispatcher
+        if Main.mm is not None:
+            del Main.mm
+        if Main.player is not None:
+            del Main.player
+        Main.dispatcher = Dispatcher()
+        read_settings(Main.dispatcher.ddict)
+        Main.mm = Monitor(__options__['monitorStereoMode'], __options__['monitorProfiles'],
+                          __options__['monitorPlayback'])
+        Main.mm.dispatcher = Main.dispatcher
+        Main.player = Player()
+        Main.player.dispatcher = Main.dispatcher
+        Main.mm.player = Main.player
+        if __options__['needs_listener']:
+            Main.mm.Listen(interval=__options__['interval'])
+
+    @staticmethod
     def run():
-        global __options__
+        # global __options__
         try:
             __options__['tester'] = False
             info('Starting %s version %s' % (__scriptname__, __version__))
-
-            dispatcher = Dispatcher()
-            read_settings(dispatcher.ddict)
-            if 'onStartup' in dispatcher.ddict:
-                dispatcher.dispatch('onStartup', [])
-            mm = Monitor(__options__['monitorStereoMode'], __options__['monitorProfiles'],
-                         __options__['monitorPlayback'])
-            mm.dispatcher = dispatcher
-            player = Player()
-            player.dispatcher = dispatcher
-            mm.player = player
+            Main.load()
+            if 'onStartup' in Main.dispatcher.ddict:
+                Main.dispatcher.dispatch('onStartup', [])
             sleep_int = __options__['interval']
-            if __options__['needs_listener']:
-                mm.Listen(interval=sleep_int)
             executed_idle = False
-            idletime = 60 * __options__['idle_time']
+            doidle = (('onIdle' in Main.dispatcher.ddict) is True)
+            if doidle:
+                idletime = 60 * __options__['idle_time']
             while not xbmc.abortRequested:
-                if 'onIdle' in dispatcher.ddict:
+                if doidle:
                     if xbmc.getGlobalIdleTime() > idletime:
                         if not executed_idle:
-                            dispatcher.dispatch('onIdle', [])
+                            Main.dispatcher.dispatch('onIdle', [])
                             executed_idle = True
                     else:
                         executed_idle = False
                 xbmc.sleep(sleep_int)
-            if 'onShutdown' in dispatcher.ddict:
-                dispatcher.dispatch('onShutdown', [])
-            if mm is not None:
-                mm.StopListening()
-                del mm
-            del player
-            del dispatcher
+            if 'onShutdown' in Main.dispatcher.ddict:
+                Main.dispatcher.dispatch('onShutdown', [])
+            if Main.mm is not None:
+                Main.mm.StopListening()
+                del Main.mm
+            del Main.player
+            del Main.dispatcher
             info('Stopped %s' % __scriptname__)
         except Exception, e:
             e = sys.exc_info()[0]
             msg = ''
             if hasattr(e, 'message'):
-                msg += e.message
+                msg = msg + str(e.message)
             msg = msg + '\n' + traceback.format_exc()
-            info('Unhandled Error occured: %s' % msg)
+            info(__language__(32053) % msg)
+            notification(__language__(32053) % msg)
             sys.exit()
 
     def __init__(self):
