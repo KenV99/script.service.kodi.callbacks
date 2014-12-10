@@ -18,8 +18,8 @@
 #
 ##    This script is based on script.randomitems & script.wacthlist & script.xbmc.callbacks
 #    Thanks to their original authors and pilulli
-"""
-debug = False
+
+debug = True
 remote = False
 if debug:
     if remote:
@@ -28,10 +28,10 @@ if debug:
         import pydevd
         pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
     else:
-        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 3.1.3\pycharm-debug-py3k.egg')
+        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.0\pycharm-debug-py3k.egg')
         import pydevd
-        pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True)
-"""
+        pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
+
 
 import os
 from json import loads as jloads
@@ -59,6 +59,12 @@ __author__ = 'KenV99'
 __options__ = dict()
 sys.path.append(__resource__)
 import monitorext
+from gotham2helix import get_installedversion
+ver = get_installedversion()
+if int(ver['major']) > 13:
+    from gotham2helix import helix_abortloop as abortloop
+else:
+    from gotham2helix import gotham_abortloop as abortloop
 
 
 def notification(text, *silence):
@@ -637,7 +643,7 @@ class Main():
             doidle = (('onIdle' in Main.dispatcher.ddict) is True)
             if doidle:
                 idletime = 60 * __options__['idle_time']
-            while not xbmc.abortRequested:
+            while not abortloop(sleep_int, Main.mm):
                 if doidle:
                     if xbmc.getGlobalIdleTime() > idletime:
                         if not executed_idle:
@@ -645,7 +651,7 @@ class Main():
                             executed_idle = True
                     else:
                         executed_idle = False
-                xbmc.sleep(sleep_int)
+                #  xbmc.sleep(sleep_int)
             if 'onShutdown' in Main.dispatcher.ddict:
                 Main.dispatcher.dispatch('onShutdown', [])
             if Main.mm is not None:

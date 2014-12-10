@@ -1,3 +1,4 @@
+0.0.6 Readied for helix
 0.0.5 Localized strings, one bug squash
 0.0.4 Bug fixes
 0.0.3 Bug fixes, Custom Dialog for Testing
