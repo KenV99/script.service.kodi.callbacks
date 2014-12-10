@@ -44,6 +44,7 @@ import subprocess
 import sys
 import abc
 import urllib2
+import httplib
 from urlparse import urlparse
 import socket
 import traceback
@@ -578,15 +579,27 @@ class WorkerHTTP(AbstractWorker):
                     msg = msg + '\n' + (str(e.message))
             del u
             msg = str(result)
+        except urllib2.HTTPError, e:
+            err = True
+            msg = 'HTTPError = ' + str(e.code)
         except urllib2.URLError, e:
             err = True
-            msg = e.reason
+            msg = 'URLError\n' + e.reason
+        except httplib.BadStatusLine, e:
+            err = False
+            info('Http Bad Status Line caught and passed')
+            # pass - returned a status code that is not understood in the library
+        except httplib.HTTPException, e:
+            err = True
+            msg = 'HTTPException'
+            if hasattr(e, 'message'):
+                msg = msg + '\n' + e.message
         except socket.timeout, e:
             err = True
             msg = 'The request timed out, host unreachable'
-        except:
-            e = sys.exc_info()[0]
+        except Exception:
             err = True
+            e = sys.exc_info()[0]
             if hasattr(e, 'message'):
                 msg = str(e.message)
             msg = msg + '\n' + traceback.format_exc()
