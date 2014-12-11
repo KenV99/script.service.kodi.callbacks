@@ -43,6 +43,7 @@ import xbmcvfs
 import subprocess
 import sys
 import abc
+import requests2 as requests
 import urllib2
 import httplib
 from urlparse import urlparse
@@ -567,10 +568,13 @@ class WorkerHTTP(AbstractWorker):
         err = False
         msg = ''
         try:
-            u = urllib2.urlopen(self.cmd_str, timeout=20)
-            info('urlib2 return code: %s' % u.getcode())
+            u = requests.get(self.cmd_str, timeout=20)
+            info('requests return code: %s' % str(u.status_code))
+            # u = urllib2.urlopen(self.cmd_str, timeout=20)
+            # info('urlib2 return code: %s' % u.getcode())
             try:
-                result = u.read()
+                # result = u.read()
+                result = u.text
             except Exception as e:
                 err = True
                 result = ''
@@ -579,6 +583,21 @@ class WorkerHTTP(AbstractWorker):
                     msg = msg + '\n' + (str(e.message))
             del u
             msg = str(result)
+        except requests.ConnectionError:
+            err = True
+            msg = 'Requests Connection Error'
+        except requests.HTTPError:
+            err = True
+            msg = 'Requests HTTPError'
+        except requests.URLRequired:
+            err = True
+            msg = 'Requests URLRequired Error'
+        except requests.Timeout:
+            err = True
+            msg = 'Requests Timeout Error'
+        except requests.RequestException:
+            err = True
+            msg = 'Generic Requests Error'
         except urllib2.HTTPError, e:
             err = True
             msg = 'HTTPError = ' + str(e.code)
