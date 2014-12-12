@@ -423,7 +423,7 @@ class AbstractWorker():
     event_id = ''
 
     def __init__(self, cmd_str, userargs):
-        self.cmd_str = cmd_str
+        self.cmd_str = cmd_str.strip()
         self.userargs = userargs
         self.passed = self.check()
         self.needs_shell = False
