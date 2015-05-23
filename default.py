@@ -29,7 +29,7 @@ if debug:
         import pydevd
         pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
     else:
-        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.0\pycharm-debug-py3k.egg')
+        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.5\pycharm-debug-py3k.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
@@ -312,7 +312,10 @@ class Player(xbmc.Player):
     def onPlayBackStartedEx(self):
         runtimeargs = []
         if __options__['arg_mediatype']:
-            runtimeargs.append('type=' + self.playing_type())
+            t = self.playing_type()
+            if t is None:
+                t = 'unknown'
+            runtimeargs.append('type=' + t)
         if __options__['arg_filename']:
             runtimeargs.append('file=' + self.getPlayingFileEx())
         if __options__['arg_title']:
