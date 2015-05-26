@@ -262,7 +262,7 @@ class Player(xbmc.Player):
             while xbmc.getInfoLabel('MusicPlayer.Title') is None:
                 xbmc.sleep(250)
             return xbmc.getInfoLabel('MusicPlayer.Title')
-        if self.isPlayingVideo():
+        elif self.isPlayingVideo():
             while xbmc.getInfoLabel('VideoPlayer.Title') is None:
                 xbmc.sleep(250)
             if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
@@ -271,6 +271,9 @@ class Player(xbmc.Player):
                             xbmc.getInfoLabel('VideoPlayer.Season') + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
             else:
                 return xbmc.getInfoLabel('VideoPlayer.Title')
+        else:
+            return 'Kodi cannot detect title'
+
 
     def getPlayingFileEx(self):
         try:
@@ -278,7 +281,7 @@ class Player(xbmc.Player):
         except:
             fn = 'unknown'
         if fn is None:
-            fn = 'unknown'
+            fn = 'Kodi returned playing file is none'
         return xbmc.translatePath(fn)
 
     def getAspectRatio(self):
