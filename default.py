@@ -123,9 +123,11 @@ def read_settings(ddict):
     __options__['monitorPlayback'] = False
 
     # Read from settings command related settings and create workers in dictionary structure
-    setlist = ['onPlaybackStarted', 'onPlaybackStopped', 'onPlaybackPaused', 'onPlaybackResumed', 'onDatabaseUpdated',
+    setlist = ['onPlaybackStarted', 'onPlaybackStopped', 'onPlaybackPaused', 'onPlaybackResumed',
                'onScreensaverActivated', 'onScreensaverDeactivated', 'onShutdown', 'onStereoModeChange',
-               'onProfileChange', 'onIdle', 'onStartup']
+               'onProfileChange', 'onIdle', 'onStartup',
+               'onPlayBackSeekChapter', 'onQueueNextItem', 'onCleanStarted', 'onCleanFinished', 'onScanStarted',
+               'onScanFinished', 'onDPMSActivated', 'onDPMSDeactivated']
     for i in setlist:
         setid = (i + '_type').decode('utf-8')
         mtype = _settings.getSetting(setid)
@@ -334,7 +336,6 @@ class Player(xbmc.Player):
         if not __options__['monitorPlayback']:
             self.onPlayBackStoppedEx()
 
-
     def onPlayBackEnded(self):
         self.onPlayBackStopped()
 
@@ -346,6 +347,12 @@ class Player(xbmc.Player):
 
     def onPlayBackResumed(self):
         self.dispatcher.dispatch('onPlaybackResumed', [])
+
+    def onPlayBackSeekChapter(self, chapnum):
+        self.dispatcher.dispatch('onPlayBackSeekChapter', [])
+
+    def onPlayBackQueueNextItem(self):
+        self.dispatcher.dispatch('onPlayBackQueueNextItem', [])
 
 
 class Monitor(monitorext.MonitorEx):  # monitorext.MonitorEx
@@ -363,8 +370,23 @@ class Monitor(monitorext.MonitorEx):  # monitorext.MonitorEx
         """
         monitorext.MonitorEx.__init__(self, monitorStereoMode, monitorProfiles, monitorPlayback)
 
-    def onDatabaseUpdated(self, database):
-        self.dispatcher.dispatch('onDatabaseUpdated', [])
+    def onScanStarted(self, database):
+        self.dispatcher.dispatch('onScanStarted', [])
+
+    def onScanFinished(self, database):
+        self.dispatcher.dispatch('onScanFinished', [])
+
+    def onDPMSActivated(self):
+        self.dispatcher.dispatch('onDPMSActivated', [])
+
+    def onDPMSDeactivated(self):
+        self.dispatcher.dispatch('onDPMSDeactivated', [])
+
+    def onCleanStarted(self, database):
+        self.dispatcher.dispatch('onCleanStarted', [])
+
+    def onCleanFinished(self, database):
+        self.dispatcher.dispatch('onCleanFinished', [])
 
     def onScreensaverActivated(self):
         self.dispatcher.dispatch('onScreensaverActivated', [])

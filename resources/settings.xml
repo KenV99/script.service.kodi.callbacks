@@ -83,16 +83,72 @@
     <setting default="" id="onProfileChange_str.htp" label="32006" type="text" visible="eq(-7,4)" />
     <setting default="" id="onProfileChange_test" label="32009" type="action" action="RunScript($CWD/tester.py, onProfileChange)" visible="!eq(-8,0)" />
 
-    <setting label="32021" type="lsep"/>
-    <setting default="none" id="onDatabaseUpdated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onDatabaseUpdated_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onDatabaseUpdated_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onDatabaseUpdated_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onDatabaseUpdated_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onDatabaseUpdated_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onDatabaseUpdated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onDatabaseUpdated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onDatabaseUpdated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDatabaseUpdated)" visible="!eq(-8,0)" />
+    <setting label="32072" type="lsep"/>
+    <setting default="none" id="onScanStarted_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onScanStarted_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onScanStarted_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onScanStarted_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onScanStarted_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onScanStarted_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onScanStarted_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onScanStarted_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onScanStarted_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScanStarted)" visible="!eq(-8,0)" />
+
+    <setting label="32073" type="lsep"/>
+    <setting default="none" id="onScanFinished_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onScanFinished_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onScanFinished_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onScanFinished_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onScanFinished_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onScanFinished_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onScanFinished_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onScanFinished_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onScanFinished_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScanFinished)" visible="!eq(-8,0)" />
+
+    <setting label="32074" type="lsep"/>
+    <setting default="none" id="onCleanStarted_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onCleanStarted_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onCleanStarted_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onCleanStarted_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onCleanStarted_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onCleanStarted_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onCleanStarted_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onCleanStarted_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onCleanStarted_test" label="32009" type="action" action="RunScript($CWD/tester.py, onCleanStarted)" visible="!eq(-8,0)" />
+
+    <setting label="32075" type="lsep"/>
+    <setting default="none" id="onCleanFinished_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onCleanFinished_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onCleanFinished_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onCleanFinished_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onCleanFinished_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onCleanFinished_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onCleanFinished_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onCleanFinished_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onCleanFinished_test" label="32009" type="action" action="RunScript($CWD/tester.py, onCleanFinished)" visible="!eq(-8,0)" />
+
+    <setting label="32076" type="lsep"/>
+    <setting default="none" id="onDPMSActivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onDPMSActivated_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onDPMSActivated_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onDPMSActivated_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onDPMSActivated_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onDPMSActivated_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onDPMSActivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onDPMSActivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onDPMSActivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDPMSActivated)" visible="!eq(-8,0)" />
+
+    <setting label="32077" type="lsep"/>
+    <setting default="none" id="onDPMSDeactivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onDPMSDeactivated_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onDPMSDeactivated_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onDPMSDeactivated_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onDPMSDeactivated_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onDPMSDeactivated_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onDPMSDeactivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onDPMSDeactivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onDPMSDeactivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDPMSDeactivated)" visible="!eq(-8,0)" />
+
 
   </category>
 
@@ -140,6 +196,29 @@
     <setting default="" id="onPlaybackResumed_str.btn" label="32005" type="text" visible="eq(-6,3)" />
     <setting default="" id="onPlaybackResumed_str.htp" label="32006" type="text" visible="eq(-7,4)" />
     <setting default="" id="onPlaybackResumed_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackResumed)" visible="!eq(-8,0)" />
+
+    <setting label="32070" type="lsep"/>
+    <setting default="none" id="onPlayBackSeekChapter_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onPlayBackSeekChapter_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onPlayBackSeekChapter_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onPlayBackSeekChapter_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onPlayBackSeekChapter_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onPlayBackSeekChapter_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onPlayBackSeekChapter_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onPlayBackSeekChapter_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onPlayBackSeekChapter_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlayBackSeekChapter)" visible="!eq(-8,0)" />
+
+    <setting label="32071" type="lsep"/>
+    <setting default="none" id="onQueueNextItem_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onQueueNextItem_str.scr" label="32003" type="file" visible="eq(-1,1)" />
+    <setting default="" id="onQueueNextItem_arg" label="32007" type="text" visible="eq(-2,1)" />
+    <setting default="true" label="32008" id="onQueueNextItem_shell" visible="eq(-3,1)" type="bool" />
+    <setting default="" id="onQueueNextItem_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
+    <setting default="" id="onQueueNextItem_arg" label="32007" type="text" visible="eq(-5,2)" />
+    <setting default="" id="onQueueNextItem_str.btn" label="32005" type="text" visible="eq(-6,3)" />
+    <setting default="" id="onQueueNextItem_str.htp" label="32006" type="text" visible="eq(-7,4)" />
+    <setting default="" id="onQueueNextItem_test" label="32009" type="action" action="RunScript($CWD/tester.py, onQueueNextItem)" visible="!eq(-8,0)" />
+
   </category>
 
   <category label="32034">

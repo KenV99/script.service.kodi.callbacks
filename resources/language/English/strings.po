@@ -258,3 +258,35 @@ msgstr ""
 msgctxt "#32069"
 msgid "Results"
 msgstr ""
+
+msgctxt "#32070"
+msgid "onPlayBackSeekChapter"
+msgstr ""
+
+msgctxt "#32071"
+msgid "onQueueNextItem"
+msgstr ""
+
+msgctxt "#32072"
+msgid "onScanStarted"
+msgstr ""
+
+msgctxt "#32073"
+msgid "onScanFinished"
+msgstr ""
+
+msgctxt "#32074"
+msgid "onCleanStarted"
+msgstr ""
+
+msgctxt "#32075"
+msgid "onCleanFinished"
+msgstr ""
+
+msgctxt "#32076"
+msgid "onDPMSActivated"
+msgstr ""
+
+msgctxt "#32077"
+msgid "onDPMSDeactivated"
+msgstr ""
