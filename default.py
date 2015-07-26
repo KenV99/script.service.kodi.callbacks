@@ -334,6 +334,7 @@ class Player(xbmc.Player):
         if not __options__['monitorPlayback']:
             self.onPlayBackStoppedEx()
 
+
     def onPlayBackEnded(self):
         self.onPlayBackStopped()
 
