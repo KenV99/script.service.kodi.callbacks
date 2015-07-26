@@ -29,7 +29,7 @@ if debug:
         import pydevd
         pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
     else:
-        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.0\pycharm-debug-py3k.egg')
+        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.5\pycharm-debug-py3k.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
@@ -43,6 +43,7 @@ import xbmcvfs
 import subprocess
 import sys
 import abc
+import requests2 as requests
 import urllib2
 import httplib
 from urlparse import urlparse
@@ -122,9 +123,11 @@ def read_settings(ddict):
     __options__['monitorPlayback'] = False
 
     # Read from settings command related settings and create workers in dictionary structure
-    setlist = ['onPlaybackStarted', 'onPlaybackStopped', 'onPlaybackPaused', 'onPlaybackResumed', 'onDatabaseUpdated',
+    setlist = ['onPlaybackStarted', 'onPlaybackStopped', 'onPlaybackPaused', 'onPlaybackResumed',
                'onScreensaverActivated', 'onScreensaverDeactivated', 'onShutdown', 'onStereoModeChange',
-               'onProfileChange', 'onIdle', 'onStartup']
+               'onProfileChange', 'onIdle', 'onStartup',
+               'onPlayBackSeekChapter', 'onQueueNextItem', 'onCleanStarted', 'onCleanFinished', 'onScanStarted',
+               'onScanFinished', 'onDPMSActivated', 'onDPMSDeactivated']
     for i in setlist:
         setid = (i + '_type').decode('utf-8')
         mtype = _settings.getSetting(setid)
@@ -261,7 +264,7 @@ class Player(xbmc.Player):
             while xbmc.getInfoLabel('MusicPlayer.Title') is None:
                 xbmc.sleep(250)
             return xbmc.getInfoLabel('MusicPlayer.Title')
-        if self.isPlayingVideo():
+        elif self.isPlayingVideo():
             while xbmc.getInfoLabel('VideoPlayer.Title') is None:
                 xbmc.sleep(250)
             if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
@@ -270,6 +273,9 @@ class Player(xbmc.Player):
                             xbmc.getInfoLabel('VideoPlayer.Season') + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
             else:
                 return xbmc.getInfoLabel('VideoPlayer.Title')
+        else:
+            return 'Kodi cannot detect title'
+
 
     def getPlayingFileEx(self):
         try:
@@ -277,7 +283,7 @@ class Player(xbmc.Player):
         except:
             fn = 'unknown'
         if fn is None:
-            fn = 'unknown'
+            fn = 'Kodi returned playing file is none'
         return xbmc.translatePath(fn)
 
     def getAspectRatio(self):
@@ -311,7 +317,10 @@ class Player(xbmc.Player):
     def onPlayBackStartedEx(self):
         runtimeargs = []
         if __options__['arg_mediatype']:
-            runtimeargs.append('type=' + self.playing_type())
+            t = self.playing_type()
+            if t is None:
+                t = 'unknown'
+            runtimeargs.append('type=' + t)
         if __options__['arg_filename']:
             runtimeargs.append('file=' + self.getPlayingFileEx())
         if __options__['arg_title']:
@@ -339,6 +348,12 @@ class Player(xbmc.Player):
     def onPlayBackResumed(self):
         self.dispatcher.dispatch('onPlaybackResumed', [])
 
+    def onPlayBackSeekChapter(self, chapnum):
+        self.dispatcher.dispatch('onPlayBackSeekChapter', [])
+
+    def onPlayBackQueueNextItem(self):
+        self.dispatcher.dispatch('onPlayBackQueueNextItem', [])
+
 
 class Monitor(monitorext.MonitorEx):  # monitorext.MonitorEx
     """
@@ -355,8 +370,23 @@ class Monitor(monitorext.MonitorEx):  # monitorext.MonitorEx
         """
         monitorext.MonitorEx.__init__(self, monitorStereoMode, monitorProfiles, monitorPlayback)
 
-    def onDatabaseUpdated(self, database):
-        self.dispatcher.dispatch('onDatabaseUpdated', [])
+    def onScanStarted(self, database):
+        self.dispatcher.dispatch('onScanStarted', [])
+
+    def onScanFinished(self, database):
+        self.dispatcher.dispatch('onScanFinished', [])
+
+    def onDPMSActivated(self):
+        self.dispatcher.dispatch('onDPMSActivated', [])
+
+    def onDPMSDeactivated(self):
+        self.dispatcher.dispatch('onDPMSDeactivated', [])
+
+    def onCleanStarted(self, database):
+        self.dispatcher.dispatch('onCleanStarted', [])
+
+    def onCleanFinished(self, database):
+        self.dispatcher.dispatch('onCleanFinished', [])
 
     def onScreensaverActivated(self):
         self.dispatcher.dispatch('onScreensaverActivated', [])
@@ -567,10 +597,13 @@ class WorkerHTTP(AbstractWorker):
         err = False
         msg = ''
         try:
-            u = urllib2.urlopen(self.cmd_str, timeout=20)
-            info('urlib2 return code: %s' % u.getcode())
+            u = requests.get(self.cmd_str, timeout=20)
+            info('requests return code: %s' % str(u.status_code))
+            # u = urllib2.urlopen(self.cmd_str, timeout=20)
+            # info('urlib2 return code: %s' % u.getcode())
             try:
-                result = u.read()
+                # result = u.read()
+                result = u.text
             except Exception as e:
                 err = True
                 result = ''
@@ -579,6 +612,21 @@ class WorkerHTTP(AbstractWorker):
                     msg = msg + '\n' + (str(e.message))
             del u
             msg = str(result)
+        except requests.ConnectionError:
+            err = True
+            msg = 'Requests Connection Error'
+        except requests.HTTPError:
+            err = True
+            msg = 'Requests HTTPError'
+        except requests.URLRequired:
+            err = True
+            msg = 'Requests URLRequired Error'
+        except requests.Timeout:
+            err = True
+            msg = 'Requests Timeout Error'
+        except requests.RequestException:
+            err = True
+            msg = 'Generic Requests Error'
         except urllib2.HTTPError, e:
             err = True
             msg = 'HTTPError = ' + str(e.code)
