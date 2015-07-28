@@ -314,7 +314,7 @@ class Player(xbmc.Player):
                         xbmc.sleep(250)
             self.onPlayBackStartedEx()
 
-    def onPlayBackStartedEx(self):
+    def getRuntimeArgs(self):
         runtimeargs = []
         if __options__['arg_mediatype']:
             t = self.playing_type()
@@ -330,6 +330,10 @@ class Player(xbmc.Player):
                 runtimeargs.append('aspectratio=' + self.getAspectRatio())
             if __options__['arg_resolution']:
                 runtimeargs.append('resolution=' + self.getResoluion())
+        return runtimeargs
+
+    def onPlayBackStartedEx(self):
+        runtimeargs = self.getRuntimeArgs()
         self.dispatcher.dispatch('onPlaybackStarted', runtimeargs)
 
     def onPlayBackStopped(self):
@@ -346,7 +350,8 @@ class Player(xbmc.Player):
         self.dispatcher.dispatch('onPlaybackPaused', [])
 
     def onPlayBackResumed(self):
-        self.dispatcher.dispatch('onPlaybackResumed', [])
+        runtimeargs = self.getRuntimeArgs()
+        self.dispatcher.dispatch('onPlaybackResumed', runtimeargs)
 
     def onPlayBackSeekChapter(self, chapnum):
         self.dispatcher.dispatch('onPlayBackSeekChapter', [])

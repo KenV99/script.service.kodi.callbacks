@@ -108,9 +108,9 @@ def simulateruntimeargs(worker):
 
     rtargs = []
     if worker.type == 'script' or worker.type == 'python':
-        if worker.event_id == 'onPlaybackStarted':
+        if worker.event_id in ['onPlaybackStarted', 'onPlaybackResumed']:
             if __options__['arg_mediatype']:
-                rtargs.append('media=unknown')
+                rtargs.append('media=movie')
             if __options__['arg_filename']:
                 rtargs.append('file=\\path\\file name.ext')
             if __options__['arg_title']:
