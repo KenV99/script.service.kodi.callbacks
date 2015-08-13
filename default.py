@@ -43,7 +43,7 @@ import xbmcvfs
 import subprocess
 import sys
 import abc
-import requests2 as requests
+import requests as requests
 import urllib2
 import httplib
 from urlparse import urlparse
