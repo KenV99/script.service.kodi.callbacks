@@ -68,7 +68,7 @@ if int(ver['major']) > 13:
     from gotham2helix import helix_abortloop as abortloop
 else:
     from gotham2helix import gotham_abortloop as abortloop
-
+sysplat = sys.platform
 
 def notification(text, *silence):
     """
@@ -511,20 +511,36 @@ class WorkerScript(AbstractWorker):
         err = False
         msg = ''
         margs = self.cmd_str + runtimeargs + self.userargs
-        try:
-            result = subprocess.check_output(margs, shell=self.needs_shell, stderr=subprocess.STDOUT)
-            if result is not None:
-                msg = result
-        except subprocess.CalledProcessError, e:
-            err = True
-            msg = e.output
-        except:
-            e = sys.exc_info()[0]
-            err = True
-            if hasattr(e, 'message'):
-                msg = str(e.message)
-            msg = msg + '\n' + traceback.format_exc()
-        return [err, msg]
+        if sysplat.startswith('darwin'):
+            try:
+                result = subprocess.call(margs, shell=self.needs_shell, stderr=subprocess.STDOUT)
+                if result is not None:
+                    msg = 'Process call returncode = %s' % str(result)
+            except subprocess.CalledProcessError, e:
+                err = True
+                msg = e.output
+            except:
+                e = sys.exc_info()[0]
+                err = True
+                if hasattr(e, 'message'):
+                    msg = str(e.message)
+                msg = msg + '\n' + traceback.format_exc()
+            return [err, msg]
+        else:
+            try:
+                result = subprocess.check_output(margs, shell=self.needs_shell, stderr=subprocess.STDOUT)
+                if result is not None:
+                    msg = result
+            except subprocess.CalledProcessError, e:
+                err = True
+                msg = e.output
+            except:
+                e = sys.exc_info()[0]
+                err = True
+                if hasattr(e, 'message'):
+                    msg = str(e.message)
+                msg = msg + '\n' + traceback.format_exc()
+            return [err, msg]
 
 
 class WorkerPy(AbstractWorker):
