@@ -49,6 +49,7 @@ import httplib
 from urlparse import urlparse
 import socket
 import traceback
+import stat
 
 __addon__ = xbmcaddon.Addon('script.xbmc.callbacks2')
 __cwd__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode('utf-8')
@@ -480,6 +481,12 @@ class WorkerScript(AbstractWorker):
         self.cmd_str = []
         tmp = xbmc.translatePath(tmp).decode('utf-8')
         if xbmcvfs.exists(tmp):
+            try:
+                mode = os.stat(tmp).st_mode
+                mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+                os.chmod(tmp, mode)
+            except:
+                info('Failed to set execute bit on script: %s' % tmp)
             self.cmd_str.append(tmp)
             self.separate_userargs()
             self.type = 'script'
@@ -509,13 +516,15 @@ class WorkerScript(AbstractWorker):
 
     def run(self, runtimeargs):
         err = False
+        debg = False
         msg = ''
         margs = self.cmd_str + runtimeargs + self.userargs
-        if sysplat.startswith('darwin'):
+        if sysplat.startswith('darwin') or debg:
             try:
-                result = subprocess.call(margs, shell=self.needs_shell, stderr=subprocess.STDOUT)
+                p = subprocess.Popen(margs, stdout=subprocess.PIPE, shell=self.needs_shell, stderr=subprocess.STDOUT)
+                result = p.communicate()[0]
                 if result is not None:
-                    msg = 'Process call returncode = %s' % str(result)
+                    msg = 'Process returned: %s' % str(result)
             except subprocess.CalledProcessError, e:
                 err = True
                 msg = e.output
