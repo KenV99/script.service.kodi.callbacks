@@ -20,6 +20,7 @@
 #    Thanks to their original authors and pilulli
 
 debug = False
+idledebug = False
 remote = False
 if debug:
     import sys
@@ -29,7 +30,7 @@ if debug:
         import pydevd
         pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
     else:
-        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.5\pycharm-debug-py3k.egg')
+        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.5.3\debug-eggs\pycharm-debug-py3k.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
@@ -755,9 +756,14 @@ class Main():
             doidle = (('onIdle' in Main.dispatcher.ddict) is True)
             if doidle:
                 idletime = 60 * __options__['idle_time']
+            else:
+                idletime = 0
             while not abortloop(sleep_int, Main.mm):
+                it = xbmc.getGlobalIdleTime()
+                if idledebug:
+                    info('Kodi idle for %u sec(s): Event in T minus %i s' % (it, -(it-idletime)))
                 if doidle:
-                    if xbmc.getGlobalIdleTime() > idletime:
+                    if it > idletime:
                         if not executed_idle:
                             Main.dispatcher.dispatch('onIdle', [])
                             executed_idle = True

@@ -1,3 +1,4 @@
+0.1.1 Added OSX call routine and idle debugging
 0.1.0 Isengard release
 0.0.6 Readied for helix
 0.0.5 Localized strings, one bug squash
