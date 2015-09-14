@@ -755,15 +755,25 @@ class Main():
             executed_idle = False
             doidle = (('onIdle' in Main.dispatcher.ddict) is True)
             if doidle:
-                idletime = 60 * __options__['idle_time']
+                idletimeThreshold = 60 * __options__['idle_time']
             else:
-                idletime = 0
+                idletimeThreshold = 10e10
+            startidle = 0
+            playeridle = False
             while not abortloop(sleep_int, Main.mm):
-                it = xbmc.getGlobalIdleTime()
+                XBMCit = xbmc.getGlobalIdleTime()
+                if Main.mm.player.isPlaying():
+                    playeridle = False
+                    startidle = XBMCit
+                else:
+                    if playeridle is False:
+                        playeridle = True
+                        startidle = XBMCit
+                myit = XBMCit - startidle
                 if idledebug:
-                    info('Kodi idle for %u sec(s): Event in T minus %i s' % (it, -(it-idletime)))
+                    info('Kodi idle for %u sec(s): Event in T minus %i s' % (myit, -(myit-idletimeThreshold)))
                 if doidle:
-                    if it > idletime:
+                    if myit > idletimeThreshold:
                         if not executed_idle:
                             Main.dispatcher.dispatch('onIdle', [])
                             executed_idle = True
