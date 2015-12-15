@@ -34,7 +34,6 @@ if debug:
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
-
 import os
 from json import loads as jloads
 import xbmc
@@ -762,16 +761,21 @@ class Main():
             playeridle = False
             while not abortloop(sleep_int, Main.mm):
                 XBMCit = xbmc.getGlobalIdleTime()
-                if Main.mm.player.isPlaying():
+                if Main.mm.player.isPlaying():   #Condition 1: Player is playing
                     playeridle = False
                     startidle = XBMCit
                 else:
-                    if playeridle is False:
+                    if playeridle is False:      #Condition 2: Player not playing, start of idle time not set
                         playeridle = True
                         startidle = XBMCit
+                    else:                        #Condition 3: Player not playing, start of idle already set
+                        pass
+
                 myit = XBMCit - startidle
+
                 if idledebug:
                     info('Kodi idle for %u sec(s): Event in T minus %i s' % (myit, -(myit-idletimeThreshold)))
+
                 if doidle:
                     if myit > idletimeThreshold:
                         if not executed_idle:
