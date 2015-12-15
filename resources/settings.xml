@@ -149,6 +149,32 @@
     <setting default="" id="onDPMSDeactivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
     <setting default="" id="onDPMSDeactivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDPMSDeactivated)" visible="!eq(-8,0)" />
 
+    <setting label="32078" type="lsep"/>
+    <setting default="none" id="onLogSimple_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onLogSimple_match" label="32080" type="text" visible="!eq(-1,0)" />
+    <setting default="" id="onLogSimple_nomatch" label="32081" type="text" visible="!eq(-2,0)" />
+    <setting default="" id="onLogSimple_str.scr" label="32003" type="file" visible="eq(-3,1)" />
+    <setting default="" id="onLogSimple_arg" label="32007" type="text" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="onDPMSDeactivated_shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="onLogSimple_str.pyt" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="onLogSimple_arg" label="32007" type="text" visible="eq(-7,2)" />
+    <setting default="" id="onLogSimple_str.btn" label="32005" type="text" visible="eq(-8,3)" />
+    <setting default="" id="onLogSimple_str.htp" label="32006" type="text" visible="eq(-9,4)" />
+    <setting default="" id="onLogSimple_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDPMSDeactivated)" visible="!eq(-10,0)" />
+
+    <setting label="32079" type="lsep"/>
+    <setting default="none" id="onLogRegex_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="" id="onLogRegex_match" label="32082" type="text" visible="!eq(-1,0)" />
+    <setting default="" id="onLogRegex_nomatch" label="32083" type="text" visible="!eq(-2,0)" />
+    <setting default="" id="onLogRegex_str.scr" label="32003" type="file" visible="eq(-3,1)" />
+    <setting default="" id="onLogRegex_arg" label="32007" type="text" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="onLogRegex_shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="onLogRegex_str.pyt" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="onLogRegex_arg" label="32007" type="text" visible="eq(-7,2)" />
+    <setting default="" id="onLogRegex_str.btn" label="32005" type="text" visible="eq(-8,3)" />
+    <setting default="" id="onLogRegex_str.htp" label="32006" type="text" visible="eq(-9,4)" />
+    <setting default="" id="onLogRegex_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDPMSDeactivated)" visible="!eq(-10,0)" />
+
 
   </category>
 

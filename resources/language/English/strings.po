@@ -290,3 +290,27 @@ msgstr ""
 msgctxt "#32077"
 msgid "onDPMSDeactivated"
 msgstr ""
+
+msgctxt "#32078"
+msgid "onLogSimple"
+msgstr ""
+
+msgctxt "#32079"
+msgid "onLogRegex"
+msgstr ""
+
+msgctxt "#32080"
+msgid "string to match"
+msgstr ""
+
+msgctxt "#32081"
+msgid "string to reject if matched"
+msgstr ""
+
+msgctxt "#32082"
+msgid "regex to match"
+msgstr ""
+
+msgctxt "#32083"
+msgid "regex to reject if matched"
+msgstr ""

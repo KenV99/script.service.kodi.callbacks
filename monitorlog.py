@@ -127,7 +127,7 @@ class LogCheckSimple(threading.Thread):
                 if self.match in line:
                     if self.nomatch != '':
                         if (self.nomatch in line) is not True:
-                            self.callback([line,self.param])
+                            self.callback([line, self.param])
                     else:
                         self.callback([line, self.param])
 
@@ -188,15 +188,15 @@ def is_xbmc_debug():
 def printme(params):
     print params[0]
 
-if __name__ == '__main__':
-    lc = LogChecker()
-    lc.add_simple_check('AmbiBox', '', printme, 'AmbiBox!')
-    lc.start()
-    cnt = 0
-    while cnt < 60:
-        sleep(1000)
-        cnt = cnt + 1
-    try:
-        lc.abort()
-    except Exception as e:
-        pass
+# if __name__ == '__main__':
+#     lc = LogChecker()
+#     lc.add_simple_check('AmbiBox', '', printme, 'AmbiBox!')
+#     lc.start()
+#     cnt = 0
+#     while cnt < 60:
+#         sleep(1000)
+#         cnt = cnt + 1
+#     try:
+#         lc.abort()
+#     except Exception as e:
+#         pass

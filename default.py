@@ -19,7 +19,7 @@
 ##    This script is based on script.randomitems & script.wacthlist & script.xbmc.callbacks
 #    Thanks to their original authors and pilulli
 
-debug = False
+debug = True
 idledebug = False
 remote = False
 if debug:
@@ -30,7 +30,7 @@ if debug:
         import pydevd
         pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
     else:
-        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 4.5.3\debug-eggs\pycharm-debug-py3k.egg')
+        sys.path.append(r'C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
@@ -50,6 +50,7 @@ from urlparse import urlparse
 import socket
 import traceback
 import stat
+from monitorlog import LogChecker
 
 __addon__ = xbmcaddon.Addon('script.xbmc.callbacks2')
 __cwd__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode('utf-8')
@@ -70,6 +71,8 @@ if int(ver['major']) > 13:
 else:
     from gotham2helix import gotham_abortloop as abortloop
 sysplat = sys.platform
+
+needs_log_monitor = False
 
 def notification(text, *silence):
     """
@@ -111,7 +114,7 @@ def read_settings(ddict):
     @param ddict: dictionary object from Dispatcher
     @type ddict: dict
     """
-    global __options__
+    global __options__, needs_log_monitor
     _settings = xbmcaddon.Addon("script.xbmc.callbacks2")
 
     # Read in binary options
@@ -128,7 +131,7 @@ def read_settings(ddict):
                'onScreensaverActivated', 'onScreensaverDeactivated', 'onShutdown', 'onStereoModeChange',
                'onProfileChange', 'onIdle', 'onStartup',
                'onPlayBackSeekChapter', 'onQueueNextItem', 'onCleanStarted', 'onCleanFinished', 'onScanStarted',
-               'onScanFinished', 'onDPMSActivated', 'onDPMSDeactivated']
+               'onScanFinished', 'onDPMSActivated', 'onDPMSDeactivated', 'onLogSimple', 'onLogRegex']
     for i in setlist:
         setid = (i + '_type').decode('utf-8')
         mtype = _settings.getSetting(setid)
@@ -169,6 +172,14 @@ def read_settings(ddict):
                     if __options__['user_monitor_playback']:
                         __options__['needs_listener'] = True
                         __options__['monitorPlayback'] = True
+                elif i in ['onLogSimple', 'onLogRegex']:
+                    needs_log_monitor = True
+                    if i == 'onLogSimple':
+                        __options__['onLogSimple_match'] = _settings.getSetting('onLogSimple_match')
+                        __options__['onLogSimple_nomatch'] = _settings.getSetting('onLogSimple_nomatch')
+                    elif i == 'onLogRegex':
+                        __options__['onLogRegex_match'] = _settings.getSetting('onLogRegex_match')
+                        __options__['onLogRegex_nomatch'] = _settings.getSetting('onLogRegex_nomatch')
                 if i == 'onIdle':
                     __options__['idle_time'] = int(_settings.getSetting('idle_time'))
             else:
@@ -721,6 +732,15 @@ class Main():
     dispatcher = None
     mm = None
     player = None
+    lc = None
+
+    @staticmethod
+    def log_dispatch_simple(*args):
+        Main.dispatcher.dispatch('onLogSimple', [])
+
+    @staticmethod
+    def log_dispatch_regex(*args):
+        Main.dispatcher.dispatch('onLogRegex', [])
 
     @staticmethod
     def load():
@@ -730,6 +750,9 @@ class Main():
             del Main.mm
         if Main.player is not None:
             del Main.player
+        if Main.lc is not None:
+            Main.lc.abort()
+            del Main.lc
         Main.dispatcher = Dispatcher()
         read_settings(Main.dispatcher.ddict)
         Main.mm = Monitor(__options__['monitorStereoMode'], __options__['monitorProfiles'],
@@ -740,6 +763,28 @@ class Main():
         Main.mm.player = Main.player
         if __options__['needs_listener']:
             Main.mm.Listen(interval=__options__['interval'])
+        if needs_log_monitor:
+            Main.lc = LogChecker()
+            try:
+                t = __options__['onLogSimple_match']
+            except:
+                pass
+            else:
+                Main.lc.add_simple_check(t, __options__['onLogSimple_nomatch'], Main.log_dispatch_simple, '')
+            try:
+                t = __options__['onLogRegex_match']
+            except:
+                pass
+            else:
+                Main.lc.add_simple_check(t, __options__['onLogRegex_nomatch'], Main.log_dispatch_regex, '')
+        try:
+            Main.lc.start()
+        except:
+            info('LogChecker thread start failed')
+        else:
+            info('LogChecker thread started')
+        pass
+
 
     @staticmethod
     def run():
@@ -789,6 +834,8 @@ class Main():
             if Main.mm is not None:
                 Main.mm.StopListening()
                 del Main.mm
+            if Main.lc is not None:
+                Main.lc.abort()
             del Main.player
             del Main.dispatcher
             info('Stopped %s' % __scriptname__)
