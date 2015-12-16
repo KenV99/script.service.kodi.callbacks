@@ -17,23 +17,13 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-debug = True
-
+import xbmc
 import threading
 from Queue import Queue
 import json
 import re
 
-if not debug:
-    import xbmc
-    logfn = xbmc.translatePath(r'special://home\Kodi.log')
-    def sleep(ms):
-        xmbc.sleep(ms)
-else:
-    logfn = r"C:\Users\Ken User\AppData\Roaming\Kodi\kodi.log"
-    import time
-    def sleep(ms):
-        time.sleep(ms/1000)
+logfn = xbmc.translatePath(r'special://home\Kodi.log')
 
 class LogMonitor(threading.Thread):
     def __init__(self, interval=100):
@@ -57,7 +47,7 @@ class LogMonitor(threading.Thread):
                 for line in lines:
                     self.ouputq.put(line, False)
                 fsize_old = f.tell()
-            sleep(self.interval)
+            xbmc.sleep(self.interval)
 
     def abort(self):
         self.__abort_evt.set()
@@ -92,7 +82,7 @@ class LogChecker(threading.Thread):
                     chk.queue.put(line, False)
                 for chk in self._checks_regex:
                     chk.queue.put(line, False)
-                sleep(self.interval_checker)
+                xbmc.sleep(self.interval_checker)
         for chk in self._checks_simple:
             chk.abort()
         for chk in self._checks_regex:
@@ -170,7 +160,6 @@ class LogCheckRegex(threading.Thread):
     def abort(self):
         self._abort_evt.set()
 
-
 def is_xbmc_debug():
     json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'
                                      ' { "filter":{"section":"system", "category":"debug"} } }')
@@ -187,16 +176,3 @@ def is_xbmc_debug():
 
 def printme(params):
     print params[0]
-
-# if __name__ == '__main__':
-#     lc = LogChecker()
-#     lc.add_simple_check('AmbiBox', '', printme, 'AmbiBox!')
-#     lc.start()
-#     cnt = 0
-#     while cnt < 60:
-#         sleep(1000)
-#         cnt = cnt + 1
-#     try:
-#         lc.abort()
-#     except Exception as e:
-#         pass

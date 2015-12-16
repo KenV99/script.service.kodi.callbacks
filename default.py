@@ -19,18 +19,18 @@
 ##    This script is based on script.randomitems & script.wacthlist & script.xbmc.callbacks
 #    Thanks to their original authors and pilulli
 
-debug = True
+debug = False
 idledebug = False
 remote = False
 if debug:
     import sys
     if remote:
-        sys.path.append(r'C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
-                        r'pycharm-debug.py3k\\')
+        sys.path.append('C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
+                        'pycharm-debug.py3k\\')
         import pydevd
         pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
     else:
-        sys.path.append(r'C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
+        sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
         import pydevd
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
