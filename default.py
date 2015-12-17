@@ -801,13 +801,13 @@ class Main():
             except:
                 pass
             else:
-                Main.lc.add_simple_check(t, __options__['onLogRegex_nomatch'], Main.log_dispatch_regex, '')
-        try:
-            Main.lc.start()
-        except:
-            info('LogChecker thread start failed')
-        else:
-            info('LogChecker thread started')
+                Main.lc.add_re_check(t, __options__['onLogRegex_nomatch'], Main.log_dispatch_regex, '')
+            try:
+                Main.lc.start()
+            except:
+                info('LogChecker thread start failed')
+            else:
+                info('LogChecker thread started')
 
         if needs_window_monitor:
             Main.wm = MonitorWindows(500)

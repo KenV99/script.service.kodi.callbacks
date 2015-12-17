@@ -134,12 +134,12 @@ class LogCheckRegex(threading.Thread):
     def __init__(self, match, nomatch, callback, sendline=True):
         super(LogCheckRegex, self).__init__()
         try:
-            re_match = re.compile(match)
+            re_match = re.compile(match, flags=re.IGNORECASE)
         except Exception as e:
             raise
         if nomatch != '':
             try:
-                re_nomatch = re.compile(nomatch)
+                re_nomatch = re.compile(nomatch, flags=re.IGNORECASE)
             except Exception as e:
                 raise
         else:
