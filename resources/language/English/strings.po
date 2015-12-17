@@ -314,3 +314,23 @@ msgstr ""
 msgctxt "#32083"
 msgid "regex to reject if matched"
 msgstr ""
+
+msgctxt "#32084"
+msgid "Send log line as arg?"
+msgstr ""
+
+msgctxt "#32085"
+msgid "onWindowOpen"
+msgstr ""
+
+msgctxt "#32086"
+msgid "onWindowClose"
+msgstr ""
+
+msgctxt "#32087"
+msgid "window id to watch"
+msgstr ""
+
+msgctxt "#32088"
+msgid "Send window id as arg?"
+msgstr ""

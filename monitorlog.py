@@ -100,12 +100,12 @@ class LogCheck(object):
         self.param = param
 
 class LogCheckSimple(threading.Thread):
-    def __init__(self, match, nomatch, callback, param):
+    def __init__(self, match, nomatch, callback, sendline=True):
         super(LogCheckSimple, self).__init__()
         self.match = match
         self.nomatch = nomatch
         self.callback = callback
-        self.param = param
+        self.sendline = sendline
         self.queue = Queue()
         self._abort_evt = threading.Event()
         self._abort_evt.clear()
@@ -117,15 +117,21 @@ class LogCheckSimple(threading.Thread):
                 if self.match in line:
                     if self.nomatch != '':
                         if (self.nomatch in line) is not True:
-                            self.callback([line, self.param])
+                            if self.sendline:
+                                self.callback(line)
+                            else:
+                                self.callback([])
                     else:
-                        self.callback([line, self.param])
+                        if self.sendline:
+                            self.callback(line)
+                        else:
+                            self.callback([])
 
     def abort(self):
         self._abort_evt.set()
 
 class LogCheckRegex(threading.Thread):
-    def __init__(self, match, nomatch, callback, param):
+    def __init__(self, match, nomatch, callback, sendline=True):
         super(LogCheckRegex, self).__init__()
         try:
             re_match = re.compile(match)
@@ -141,7 +147,7 @@ class LogCheckRegex(threading.Thread):
         self.match = re_match
         self.nomatch = re_nomatch
         self.callback = callback
-        self.param = param
+        self.sendline = sendline
         self.queue = Queue()
         self._abort_evt = threading.Event()
         self._abort_evt.clear()
@@ -153,9 +159,15 @@ class LogCheckRegex(threading.Thread):
                 if self.match.search(line):
                     if self.nomatch is not None:
                         if (self.nomatch.search(line)) is None:
-                            self.callback(self.param)
+                            if self.sendline:
+                                self.callback(line)
+                            else:
+                                self.callback([])
                     else:
-                        self.callback(self.param)
+                        if self.sendline:
+                            self.callback(line)
+                        else:
+                            self.callback([])
 
     def abort(self):
         self._abort_evt.set()

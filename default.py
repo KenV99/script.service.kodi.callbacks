@@ -51,6 +51,7 @@ import socket
 import traceback
 import stat
 from monitorlog import LogChecker
+from monitorwindows import MonitorWindows
 
 __addon__ = xbmcaddon.Addon('script.xbmc.callbacks2')
 __cwd__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode('utf-8')
@@ -73,6 +74,7 @@ else:
 sysplat = sys.platform
 
 needs_log_monitor = False
+needs_window_monitor = False
 
 def notification(text, *silence):
     """
@@ -114,8 +116,10 @@ def read_settings(ddict):
     @param ddict: dictionary object from Dispatcher
     @type ddict: dict
     """
-    global __options__, needs_log_monitor
+    global __options__, needs_log_monitor, needs_window_monitor
     _settings = xbmcaddon.Addon("script.xbmc.callbacks2")
+    needs_log_monitor = False
+    needs_window_monitor = False
 
     # Read in binary options
     setlist = ['user_monitor_playback', 'notifications', 'arg_eventid', 'arg_mediatype', 'arg_filename',
@@ -131,10 +135,12 @@ def read_settings(ddict):
                'onScreensaverActivated', 'onScreensaverDeactivated', 'onShutdown', 'onStereoModeChange',
                'onProfileChange', 'onIdle', 'onStartup',
                'onPlayBackSeekChapter', 'onQueueNextItem', 'onCleanStarted', 'onCleanFinished', 'onScanStarted',
-               'onScanFinished', 'onDPMSActivated', 'onDPMSDeactivated', 'onLogSimple', 'onLogRegex']
+               'onScanFinished', 'onDPMSActivated', 'onDPMSDeactivated', 'onLogSimple', 'onLogRegex',
+               'onWindowOpen', 'onWindowClosed']
     for i in setlist:
         setid = (i + '_type').decode('utf-8')
         mtype = _settings.getSetting(setid)
+
         if mtype != 'none' and mtype != '':
             setid = (i + '_str').decode('utf-8')
             if mtype == 'script':
@@ -177,9 +183,19 @@ def read_settings(ddict):
                     if i == 'onLogSimple':
                         __options__['onLogSimple_match'] = _settings.getSetting('onLogSimple_match')
                         __options__['onLogSimple_nomatch'] = _settings.getSetting('onLogSimple_nomatch')
+                        __options__['onLogSimpleSend'] = _settings.getSetting('onLogSimpleSend') == 'true'
                     elif i == 'onLogRegex':
                         __options__['onLogRegex_match'] = _settings.getSetting('onLogRegex_match')
                         __options__['onLogRegex_nomatch'] = _settings.getSetting('onLogRegex_nomatch')
+                        __options__['onLogRegexSend'] = _settings.getSetting('onLogRegexSend') == 'true'
+                elif i == 'onWindowOpen':
+                    needs_window_monitor = True
+                    __options__['onWindowOpen_id'] = int(_settings.getSetting('onWindowOpen_id'))
+                    __options__['onWindowOpenSend'] = _settings.getSetting('onWindowOpenSend') == 'true'
+                elif i == 'onWindowClose':
+                    needs_window_monitor = True
+                    __options__['onWindowClose_id'] = int(_settings.getSetting('onWindowClose_id'))
+                    __options__['onWindowCloseSend'] = _settings.getSetting('onWindowCloseSend') == 'true'
                 if i == 'onIdle':
                     __options__['idle_time'] = int(_settings.getSetting('idle_time'))
             else:
@@ -733,14 +749,23 @@ class Main():
     mm = None
     player = None
     lc = None
+    wm = None
 
     @staticmethod
-    def log_dispatch_simple(*args):
-        Main.dispatcher.dispatch('onLogSimple', [])
+    def log_dispatch_simple(args):
+        Main.dispatcher.dispatch('onLogSimple', runtimeargs=args)
 
     @staticmethod
-    def log_dispatch_regex(*args):
-        Main.dispatcher.dispatch('onLogRegex', [])
+    def log_dispatch_regex(args):
+        Main.dispatcher.dispatch('onLogRegex', runtimeargs=args)
+
+    @staticmethod
+    def window_open_dispatch(args):
+        Main.dispatcher.dispatch('onWindowOpen', runtimeargs=args)
+
+    @staticmethod
+    def window_close_dispatch(args):
+        Main.dispatcher.dispatch('onWindowClose', runtimeargs=args)
 
     @staticmethod
     def load():
@@ -783,8 +808,27 @@ class Main():
             info('LogChecker thread start failed')
         else:
             info('LogChecker thread started')
-        pass
 
+        if needs_window_monitor:
+            Main.wm = MonitorWindows(500)
+            try:
+                id = __options__['onWindowOpen_id']
+            except:
+                pass
+            else:
+                Main.wm.monitoropen = {id:Main.window_open_dispatch}
+            try:
+                id = __options__['onWindowClose_id']
+            except:
+                pass
+            else:
+                Main.wm.monitorclose = {id:Main.window_close_dispatch}
+            try:
+                Main.wm.start()
+            except Exception as e:
+                info('WindowMonitor thread start failed')
+            else:
+                info('WindowMonitor thread started')
 
     @staticmethod
     def run():
