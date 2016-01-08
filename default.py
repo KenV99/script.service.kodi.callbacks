@@ -19,7 +19,7 @@
 debug = False
 remote = False
 
-from resources.lib.publishers.log import LogPublisher
+from resources.lib.publishers.llog import LogPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
 from resources.lib.publishers.loop import LoopPublisher
