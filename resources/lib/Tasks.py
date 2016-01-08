@@ -428,17 +428,17 @@ class WorkerHTTP(AbstractWorker):
             err = False
             self.log(msg='Http Bad Status Line caught and passed')
             # pass - returned a status code that is not understood in the library
-            if u is not None:
-                try:
-                    result = u.read()
-                    self.log(msg='Successful read after catching BadStatusLine')
-                except Exception as e:
-                    err = True
-                    result = ''
-                    msg = 'Error on url read'
-                    if hasattr(e, 'message'):
-                        msg = msg + '\n' + (str(e.message))
-                del u
+            # if u is not None:
+            #     try:
+            #         result = u.read()
+            #         self.log(msg='Successful read after catching BadStatusLine')
+            #     except Exception as e:
+            #         err = True
+            #         result = ''
+            #         msg = 'Error on url read'
+            #         if hasattr(e, 'message'):
+            #             msg = msg + '\n' + (str(e.message))
+            #     del u
 
         except httplib.HTTPException, e:
             err = True

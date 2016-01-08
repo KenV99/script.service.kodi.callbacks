@@ -19,29 +19,25 @@
 debug = False
 remote = False
 
-from resources.lib.publishers.log import LogPublisher
-from resources.lib.publishers.monitor import MonitorPublisher
-from resources.lib.publishers.player import PlayerPublisher
-from resources.lib.publishers.loop import LoopPublisher
-
 import resources.lib.PubSub_Threaded as PubSub_Threaded
 import resources.lib.Tasks as Tasks
-from resources.lib.Settings import Settings
-from resources.lib.kodilogging import KodiLogger
 import xbmc
 import xbmcaddon
 import xbmcgui
+from resources.lib.Settings import Settings
+from resources.lib.kodilogging import KodiLogger
+from resources.lib.publishers.log import LogPublisher
+from resources.lib.publishers.loop import LoopPublisher
+from resources.lib.publishers.monitor import MonitorPublisher
+from resources.lib.publishers.player import PlayerPublisher
 
-settings = None
-publishers = None
-dispatcher = None
 log = KodiLogger.log
 
 if debug:
     import sys
 
     if remote:
-        sys.path.append('C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
+        sys.path.append('C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\service.kodi.callbacks\\resources\\lib\\'
                         'pycharm-debug.py3k\\')
         import pydevd
 
@@ -81,7 +77,7 @@ def createTaskT(taskSettings, eventSettings, log=xbmc.log):
     userargs = eventSettings['userargs']
     if taskSettings['type'] == 'script':
         cmdstr = taskSettings['scriptfile']
-        taskKwargs = {'needs_shell':taskSettings['shell']}
+        taskKwargs = {'needs_shell': taskSettings['shell']}
         if Tasks.WorkerScript.check(cmdstr, userargs, xlog=log) is True:
             ret = Tasks.WorkerScript
             return cmdstr, ret, taskKwargs
@@ -89,7 +85,7 @@ def createTaskT(taskSettings, eventSettings, log=xbmc.log):
             return None, None, None
     elif taskSettings['type'] == 'python':
         cmdstr = taskSettings['pythondoc']
-        taskKwargs = {'runType':'builtin'}
+        taskKwargs = {'runType': 'builtin'}
         if Tasks.WorkerPy.check(cmdstr, userargs, xlog=log) is True:
             ret = Tasks.WorkerPy
             return cmdstr, ret, taskKwargs
@@ -119,7 +115,7 @@ def returnHandler(taskReturn):
         log(msg=msg)
     else:
         msg = 'ERROR encountered for Task %s, Event %s\nERROR mesage: %s' % (
-        taskReturn.taskId, taskReturn.eventId, taskReturn.msg)
+            taskReturn.taskId, taskReturn.eventId, taskReturn.msg)
         log(loglevel=xbmc.LOGERROR, msg=msg)
 
 
@@ -128,7 +124,8 @@ def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=
     if taskT is not None:
         tm = PubSub_Threaded.TaskManager(taskT, maxrunning=tasksettings['maxrunning'],
                                          refractory_period=tasksettings['refractory'], max_runs=tasksettings['maxruns'],
-                                         cmd_str=cmd_str, userargs=eventSettings['userargs'], taskid=eventSettings['task'], **taskKwargs)
+                                         cmd_str=cmd_str, userargs=eventSettings['userargs'],
+                                         taskid=eventSettings['task'], **taskKwargs)
         tm.returnHandler = retHandler
         subscriber = PubSub_Threaded.Subscriber(logger=KodiLogger)
         subscriber.addTaskManager(tm)
@@ -136,11 +133,10 @@ def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=
 
 
 def start():
-    global settings, dispatcher, publishers, topics
+    # global settings, dispatcher, publishers, topics
     settings = Settings()
     settings.getSettings()
     log(msg='Settings read')
-    debugNotify = False
     publishers = []
     subscribers = []
     topics = []
@@ -158,7 +154,7 @@ def start():
             subscriber.addTopic(topic)
             dispatcher.addSubscriber(subscriber)
             subscribers.append(subscriber)
-            log(msg='Subsriber for event: %s, task: %s created' %(str(topic), task_key))
+            log(msg='Subsriber for event: %s, task: %s created' % (str(topic), task_key))
     if not set(topics).isdisjoint(LoopPublisher.publishes):
         loopPublisher = LoopPublisher(dispatcher, settings.openwindowids(), settings.closewindowids(),
                                       settings.getIdleTimes(), settings.general['LoopFreq'])
@@ -184,12 +180,13 @@ def start():
     log(msg='Dispatcher started')
     for p in publishers:
         p.start()
-    log(msg='Publishers started')
+    log(msg='Publisher(s) started')
+    return dispatcher, publishers
 
 
 def main():
     log(msg='Staring kodi.callbacks ver: %s' % str(xbmcaddon.Addon().getAddonInfo('version')))
-    start()
+    dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
     monitor = xbmc.Monitor()
     log(msg='Entering wait loop')
@@ -218,7 +215,6 @@ def test(key):
     log(msg='Settings for test read')
     evtsettings = settings.events[key]
     topic = settings.topicFromSettingsEvent(key)
-
     task_key = settings.events[key]['task']
     tasksettings = settings.tasks[task_key]
     testlogger = DT.TestLogger()
@@ -230,8 +226,8 @@ def test(key):
         subscriber.addTopic(topic)
         kwargs = events[evtsettings['type']]['expArgs']
         testRH = DT.TestHandler(DT.testMsg(subscriber.taskmanagers[0], tasksettings, kwargs))
-        subscriber.taskmanagers[0].returnHandler=testRH.testReturnHandler
-        #Run test
+        subscriber.taskmanagers[0].returnHandler = testRH.testReturnHandler
+        # Run test
         log(msg='Running test')
         nMessage = PubSub_Threaded.Message(topic=topic, **kwargs)
 

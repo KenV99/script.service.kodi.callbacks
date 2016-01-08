@@ -284,9 +284,9 @@ class Subscriber(object):
         self.taskmanagers.append(tm)
 
     def notify(self, message):
-        # assert isinstance(message, Message)
         for taskmanager in self.taskmanagers:
             try:
+                self.logger.log(self.loglevel, 'Task starting for %s' % message.topic)
                 taskmanager.start(message.topic, **message.kwargs)
             except TaskManagerException_TaskAlreadyRunning as e:
                 self.logger.log(self.loglevel, '%s - %s' % (message.topic, e.message))
@@ -297,4 +297,4 @@ class Subscriber(object):
             except Exception as e:
                 pass
             else:
-                self.logger.log(self.loglevel, 'Task launched for %s' % message.topic)
+                self.logger.log(self.loglevel, 'Task finalized for %s' % message.topic)
