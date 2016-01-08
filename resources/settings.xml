@@ -1,292 +1,794 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <settings>
   <category label="32001">
-    <setting default="false" label="32030" id="user_monitor_playback" type="bool" />
-    <setting default="true" label="32031" id="notifications" type="bool" />
-    <setting default="1000" label="32048" id="interval" type="slider" range="50,250,5000" />
-
-    <setting label="32014" type="lsep"/>
-    <setting default="none" id="onStartup_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onStartup_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onStartup_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onStartup_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onStartup_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onStartup_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onStartup_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onStartup_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onStartup_test" label="32009" type="action" action="RunScript($CWD/tester.py, onStartup)" visible="!eq(-8,0)" />
-
-    <setting label="32015" type="lsep"/>
-    <setting default="none" id="onIdle_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onIdle_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onIdle_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onIdle_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onIdle_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onIdle_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onIdle_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onIdle_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting label="32033" type="slider" id="idle_time" default="10" range="1,1,60" option="int" visible="!eq(-8,0)" />
-    <setting default="" id="onIdle_test" label="32009" type="action" action="RunScript($CWD/tester.py, onIdle)" visible="!eq(-9,0)" />
-
-    <setting label="32016" type="lsep"/>
-    <setting default="none" id="onShutdown_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onShutdown_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onShutdown_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onShutdown_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onShutdown_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onShutdown_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onShutdown_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onShutdown_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onShutdown_test" label="32009" type="action" action="RunScript($CWD/tester.py, onShutdown)" visible="!eq(-8,0)" />
-
-    <setting label="32017" type="lsep"/>
-    <setting default="none" id="onScreensaverActivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onScreensaverActivated_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onScreensaverActivated_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onScreensaverActivated_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onScreensaverActivated_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onScreensaverActivated_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onScreensaverActivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onScreensaverActivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onScreensaverActivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScreensaverActivated)" visible="!eq(-8,0)" />
-
-    <setting label="32018" type="lsep"/>
-    <setting default="none" id="onScreensaverDeactivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onScreensaverDeactivated_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onScreensaverDeactivated_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onScreensaverDeactivated_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onScreensaverDeactivated_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onScreensaverDeactivated_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onScreensaverDeactivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onScreensaverDeactivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onScreensaverDeactivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScreensaverDeactivated)" visible="!eq(-8,0)" />
-
-    <setting label="32019" type="lsep"/>
-    <setting default="none" id="onStereoModeChange_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onStereoModeChange_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onStereoModeChange_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onStereoModeChange_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onStereoModeChange_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onStereoModeChange_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onStereoModeChange_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onStereoModeChange_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onStereoModeChange_test" label="32009" type="action" action="RunScript($CWD/tester.py, onStereoModeChange)" visible="!eq(-8,0)"/>
-
-    <setting label="32020" type="lsep"/>
-    <setting default="none" id="onProfileChange_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onProfileChange_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onProfileChange_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onProfileChange_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onProfileChange_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onProfileChange_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onProfileChange_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onProfileChange_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onProfileChange_test" label="32009" type="action" action="RunScript($CWD/tester.py, onProfileChange)" visible="!eq(-8,0)" />
-
-    <setting label="32072" type="lsep"/>
-    <setting default="none" id="onScanStarted_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onScanStarted_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onScanStarted_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onScanStarted_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onScanStarted_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onScanStarted_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onScanStarted_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onScanStarted_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onScanStarted_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScanStarted)" visible="!eq(-8,0)" />
-
-    <setting label="32073" type="lsep"/>
-    <setting default="none" id="onScanFinished_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onScanFinished_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onScanFinished_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onScanFinished_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onScanFinished_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onScanFinished_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onScanFinished_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onScanFinished_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onScanFinished_test" label="32009" type="action" action="RunScript($CWD/tester.py, onScanFinished)" visible="!eq(-8,0)" />
-
-    <setting label="32074" type="lsep"/>
-    <setting default="none" id="onCleanStarted_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onCleanStarted_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onCleanStarted_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onCleanStarted_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onCleanStarted_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onCleanStarted_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onCleanStarted_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onCleanStarted_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onCleanStarted_test" label="32009" type="action" action="RunScript($CWD/tester.py, onCleanStarted)" visible="!eq(-8,0)" />
-
-    <setting label="32075" type="lsep"/>
-    <setting default="none" id="onCleanFinished_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onCleanFinished_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onCleanFinished_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onCleanFinished_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onCleanFinished_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onCleanFinished_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onCleanFinished_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onCleanFinished_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onCleanFinished_test" label="32009" type="action" action="RunScript($CWD/tester.py, onCleanFinished)" visible="!eq(-8,0)" />
-
-    <setting label="32076" type="lsep"/>
-    <setting default="none" id="onDPMSActivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onDPMSActivated_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onDPMSActivated_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onDPMSActivated_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onDPMSActivated_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onDPMSActivated_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onDPMSActivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onDPMSActivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onDPMSActivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDPMSActivated)" visible="!eq(-8,0)" />
-
-    <setting label="32077" type="lsep"/>
-    <setting default="none" id="onDPMSDeactivated_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onDPMSDeactivated_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onDPMSDeactivated_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onDPMSDeactivated_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onDPMSDeactivated_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onDPMSDeactivated_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onDPMSDeactivated_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onDPMSDeactivated_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onDPMSDeactivated_test" label="32009" type="action" action="RunScript($CWD/tester.py, onDPMSDeactivated)" visible="!eq(-8,0)" />
-
-    <setting label="32078" type="lsep"/>
-    <setting default="none" id="onLogSimple_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onLogSimple_match" label="32080" type="text" visible="!eq(-1,0)" />
-    <setting default="" id="onLogSimple_nomatch" label="32081" type="text" visible="!eq(-2,0)" />
-    <setting default="true" id="onLogSimpleSend" label="32084" type="bool" visible="!eq(-3,0)" />
-    <setting default="" id="onLogSimple_str.scr" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="" id="onLogSimple_arg" label="32007" type="text" visible="eq(-5,1)" />
-    <setting default="true" label="32008" id="onDPMSDeactivated_shell" visible="eq(-6,1)" type="bool" />
-    <setting default="" id="onLogSimple_str.pyt" label="32004" type="file" visible="eq(-7,2)" />
-    <setting default="" id="onLogSimple_arg" label="32007" type="text" visible="eq(-8,2)" />
-    <setting default="" id="onLogSimple_str.btn" label="32005" type="text" visible="eq(-9,3)" />
-    <setting default="" id="onLogSimple_str.htp" label="32006" type="text" visible="eq(-10,4)" />
-    <setting default="" id="onLogSimple_test" label="32009" type="action" action="RunScript($CWD/tester.py, onLogSimple)" visible="!eq(-11,0)" />
-
-    <setting label="32079" type="lsep"/>
-    <setting default="none" id="onLogRegex_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onLogRegex_match" label="32082" type="text" visible="!eq(-1,0)" />
-    <setting default="" id="onLogRegex_nomatch" label="32083" type="text" visible="!eq(-2,0)" />
-    <setting default="true" id="onLogRegexSend" label="32084" type="bool" visible="!eq(-3,0)" />
-    <setting default="" id="onLogRegex_str.scr" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="" id="onLogRegex_arg" label="32007" type="text" visible="eq(-5,1)" />
-    <setting default="true" label="32008" id="onLogRegex_shell" visible="eq(-6,1)" type="bool" />
-    <setting default="" id="onLogRegex_str.pyt" label="32004" type="file" visible="eq(-7,2)" />
-    <setting default="" id="onLogRegex_arg" label="32007" type="text" visible="eq(-8,2)" />
-    <setting default="" id="onLogRegex_str.btn" label="32005" type="text" visible="eq(-9,3)" />
-    <setting default="" id="onLogRegex_str.htp" label="32006" type="text" visible="eq(-10,4)" />
-    <setting default="" id="onLogRegex_test" label="32009" type="action" action="RunScript($CWD/tester.py, onLogRegex)" visible="!eq(-11,0)" />
-
-    <setting label="32085" type="lsep"/>
-    <setting default="none" id="onWindowOpen_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onWindowOpen_id" label="32087" type="text" visible="!eq(-1,0)" />
-    <setting default="true" id="onWindowOpenSend" label="32088" type="bool" visible="!eq(-2,0)" />
-    <setting default="" id="onWindowOpen_str.scr" label="32003" type="file" visible="eq(-3,1)" />
-    <setting default="" id="onWindowOpen_arg" label="32007" type="text" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="onWindowOpen_shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="onWindowOpen_str.pyt" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="onWindowOpen_arg" label="32007" type="text" visible="eq(-7,2)" />
-    <setting default="" id="onWindowOpen_str.btn" label="32005" type="text" visible="eq(-8,3)" />
-    <setting default="" id="onWindowOpen_str.htp" label="32006" type="text" visible="eq(-9,4)" />
-    <setting default="" id="onWindowOpen_test" label="32009" type="action" action="RunScript($CWD/tester.py, onWindowOpen)" visible="!eq(-10,0)" />
-
-    <setting label="32086" type="lsep"/>
-    <setting default="none" id="onWindowClose_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onWindowClose_id" label="32087" type="text" visible="!eq(-1,0)" />
-    <setting default="true" id="onWindowCloseSend" label="32088" type="bool" visible="!eq(-2,0)" />
-    <setting default="" id="onWindowClose_str.scr" label="32003" type="file" visible="eq(-3,1)" />
-    <setting default="" id="onWindowClose_arg" label="32007" type="text" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="onWindowClose_shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="onWindowClose_str.pyt" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="onWindowClose_arg" label="32007" type="text" visible="eq(-7,2)" />
-    <setting default="" id="onWindowClose_str.btn" label="32005" type="text" visible="eq(-8,3)" />
-    <setting default="" id="onWindowClose_str.htp" label="32006" type="text" visible="eq(-9,4)" />
-    <setting default="" id="onWindowClose_test" label="32009" type="action" action="RunScript($CWD/tester.py, onWindowClose)" visible="!eq(-10,0)" />
-
+    <setting label="32101" type="lsep"/>
+    <setting default="none" id="T1.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T1.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T1.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T1.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T1.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T1.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T1.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T1.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T1.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32102" type="lsep"/>
+    <setting default="none" id="T2.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T2.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T2.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T2.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T2.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T2.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T2.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T2.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T2.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32103" type="lsep"/>
+    <setting default="none" id="T3.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T3.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T3.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T3.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T3.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T3.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T3.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T3.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T3.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32104" type="lsep"/>
+    <setting default="none" id="T4.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T4.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T4.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T4.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T4.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T4.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T4.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T4.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T4.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32105" type="lsep"/>
+    <setting default="none" id="T5.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T5.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T5.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T5.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T5.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T5.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T5.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T5.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T5.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32106" type="lsep"/>
+    <setting default="none" id="T6.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T6.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T6.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T6.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T6.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T6.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T6.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T6.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T6.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32107" type="lsep"/>
+    <setting default="none" id="T7.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T7.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T7.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T7.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T7.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T7.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T7.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T7.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T7.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32108" type="lsep"/>
+    <setting default="none" id="T8.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T8.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T8.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T8.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T8.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T8.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T8.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T8.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T8.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32109" type="lsep"/>
+    <setting default="none" id="T9.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T9.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T9.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T9.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T9.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T9.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T9.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T9.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T9.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting label="32110" type="lsep"/>
+    <setting default="none" id="T10.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="-1" id="T10.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
+    <setting default="-1" id="T10.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
+    <setting default="-1" id="T10.refractory" label="32091" type="number" visible="!eq(-3,0)" />
+    <setting default="" id="T10.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
+    <setting default="true" label="32008" id="T10.shell" visible="eq(-5,1)" type="bool" />
+    <setting default="" id="T10.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
+    <setting default="" id="T10.builtin" label="32005" type="text" visible="eq(-7,3)" />
+    <setting default="" id="T10.http" label="32006" type="text" visible="eq(-8,4)" />
   </category>
 
-  <category label="32032">
-    <setting label="32010" type="lsep"/>
-    <setting default="none" id="onPlaybackStarted_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onPlaybackStarted_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onPlaybackStarted_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onPlaybackStarted_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onPlaybackStarted_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onPlaybackStarted_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onPlaybackStarted_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onPlaybackStarted_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackStarted_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackStarted)" visible="!eq(-8,0)"/>
-
-    <setting label="32011" type="lsep"/>
-    <setting default="none" id="onPlaybackStopped_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onPlaybackStopped_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onPlaybackStopped_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onPlaybackStopped_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onPlaybackStopped_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onPlaybackStopped_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onPlaybackStopped_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onPlaybackStopped_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackStopped_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackStopped)" visible="!eq(-8,0)" />
-
-    <setting label="32012" type="lsep"/>
-    <setting default="none" id="onPlaybackPaused_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onPlaybackPaused_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onPlaybackPaused_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onPlaybackPaused_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onPlaybackPaused_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onPlaybackPaused_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onPlaybackPaused_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onPlaybackPaused_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackPaused_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackPaused)" visible="!eq(-8,0)" />
-
-    <setting label="32013" type="lsep"/>
-    <setting default="none" id="onPlaybackResumed_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onPlaybackResumed_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onPlaybackResumed_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onPlaybackResumed_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onPlaybackResumed_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onPlaybackResumed_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onPlaybackResumed_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onPlaybackResumed_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlaybackResumed_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlaybackResumed)" visible="!eq(-8,0)" />
-
-    <setting label="32070" type="lsep"/>
-    <setting default="none" id="onPlayBackSeekChapter_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onPlayBackSeekChapter_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onPlayBackSeekChapter_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onPlayBackSeekChapter_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onPlayBackSeekChapter_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onPlayBackSeekChapter_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onPlayBackSeekChapter_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onPlayBackSeekChapter_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onPlayBackSeekChapter_test" label="32009" type="action" action="RunScript($CWD/tester.py, onPlayBackSeekChapter)" visible="!eq(-8,0)" />
-
-    <setting label="32071" type="lsep"/>
-    <setting default="none" id="onQueueNextItem_type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
-    <setting default="" id="onQueueNextItem_str.scr" label="32003" type="file" visible="eq(-1,1)" />
-    <setting default="" id="onQueueNextItem_arg" label="32007" type="text" visible="eq(-2,1)" />
-    <setting default="true" label="32008" id="onQueueNextItem_shell" visible="eq(-3,1)" type="bool" />
-    <setting default="" id="onQueueNextItem_str.pyt" label="32004" type="file" visible="eq(-4,2)" />
-    <setting default="" id="onQueueNextItem_arg" label="32007" type="text" visible="eq(-5,2)" />
-    <setting default="" id="onQueueNextItem_str.btn" label="32005" type="text" visible="eq(-6,3)" />
-    <setting default="" id="onQueueNextItem_str.htp" label="32006" type="text" visible="eq(-7,4)" />
-    <setting default="" id="onQueueNextItem_test" label="32009" type="action" action="RunScript($CWD/tester.py, onQueueNextItem)" visible="!eq(-8,0)" />
-
+  <category label="32092">
+    <setting label="32111" type="lsep" />
+    <setting default="None" id="E1.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E1.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E1.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E1.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E1.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E1.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E1.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E1.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E1.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E1.test" label="32009" type="action" action="RunScript($CWD/default.py, E1)" visible="!eq(-66,0)" />
+    <setting label="32112" type="lsep" />
+    <setting default="None" id="E2.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E2.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E2.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E2.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E2.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E2.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E2.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E2.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E2.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E2.test" label="32009" type="action" action="RunScript($CWD/default.py, E2)" visible="!eq(-66,0)" />
+    <setting label="32113" type="lsep" />
+    <setting default="None" id="E3.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E3.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E3.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E3.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E3.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E3.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E3.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E3.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E3.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E3.test" label="32009" type="action" action="RunScript($CWD/default.py, E3)" visible="!eq(-66,0)" />
+    <setting label="32114" type="lsep" />
+    <setting default="None" id="E4.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E4.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E4.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E4.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E4.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E4.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E4.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E4.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E4.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E4.test" label="32009" type="action" action="RunScript($CWD/default.py, E4)" visible="!eq(-66,0)" />
+    <setting label="32115" type="lsep" />
+    <setting default="None" id="E5.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E5.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E5.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E5.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E5.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E5.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E5.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E5.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E5.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E5.test" label="32009" type="action" action="RunScript($CWD/default.py, E5)" visible="!eq(-66,0)" />
+    <setting label="32116" type="lsep" />
+    <setting default="None" id="E6.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E6.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E6.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E6.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E6.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E6.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E6.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E6.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E6.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E6.test" label="32009" type="action" action="RunScript($CWD/default.py, E6)" visible="!eq(-66,0)" />
+    <setting label="32117" type="lsep" />
+    <setting default="None" id="E7.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E7.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E7.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E7.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E7.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E7.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E7.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E7.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E7.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E7.test" label="32009" type="action" action="RunScript($CWD/default.py, E7)" visible="!eq(-66,0)" />
+    <setting label="32118" type="lsep" />
+    <setting default="None" id="E8.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E8.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E8.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E8.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E8.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E8.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E8.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E8.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E8.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E8.test" label="32009" type="action" action="RunScript($CWD/default.py, E8)" visible="!eq(-66,0)" />
+    <setting label="32119" type="lsep" />
+    <setting default="None" id="E9.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E9.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E9.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E9.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E9.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E9.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E9.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E9.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E9.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E9.test" label="32009" type="action" action="RunScript($CWD/default.py, E9)" visible="!eq(-66,0)" />
+    <setting label="32120" type="lsep" />
+    <setting default="None" id="E10.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E10.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
+    <setting default="60" id="E10.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
+    <setting label="" type="lsep" visible="eq(-4,on Idle [secs])" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-5,on Playback Speed Changed)" />
+    <setting label="%sp=speed" type="lsep" visible="eq(-6,on Playback Speed Changed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-7,on Playback Started)" />
+    <setting label="%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName" type="lsep" visible="eq(-8,on Playback Started)" />
+    <setting label="%rs=resolution" type="lsep" visible="eq(-9,on Playback Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-10,on Screensaver Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-11,on Screensaver Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="%ch=chapter" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
+    <setting default="0" id="E10.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
+    <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
+    <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
+    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
+    <setting default="" id="E10.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
+    <setting default="" id="E10.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
+    <setting default="" id="E10.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
+    <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
+    <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
+    <setting default="0" id="E10.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
+    <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
+    <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting default="" id="E10.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
+    <setting default="" id="E10.test" label="32009" type="action" action="RunScript($CWD/default.py, E10)" visible="!eq(-66,0)" />
   </category>
-
-  <category label="32034">
-    <setting label="32035" type="lsep" />
-    <setting label="32036" type="lsep" />
-    <setting label="32040" id="arg_eventid" default="false" type="bool" />
-    <setting label="32037" type="lsep" />
-    <setting label="32041" id="arg_mediatype" default="false" type="bool" />
-    <setting label="32042" id="arg_filename" default="false" type="bool" />
-    <setting label="32045" id="arg_title" default="false" type="bool" />
-    <setting label="32046" id="arg_aspectratio" default="false" type="bool" />
-    <setting label="32047" id="arg_resolution" default="false" type="bool" />
-    <setting label="32038" type="lsep" />
-    <setting label="32043" id="arg_profilepath" default="false" type="bool" />
-    <setting label="32039" type="lsep" />
-    <setting label="32044" id="arg_stereomode" default="false" type="bool" />
+  <category label="General">
+    <setting default="false" id="Notify" label="Display Notifications when Tasks Run?" type="bool" />
+    <setting default="500" id="LoopFreq" label="Loop Pooling Frequency (ms)" type="number" />
+    <setting default="500" id="LogFreq" label="Log Polling Frequency (ms)" type="number" />
+    <setting default="100" id="TaskFreq" label="Task Polling Frequency (ms)" type="number" />
   </category>
 </settings>

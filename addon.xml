@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.xbmc.callbacks2" name="xbmc.callbacks2" version="0.1.2" provider-name="KenV99">
+<addon id="service.kodi.callbacks" name="kodi.callbacks" version="0.9.0" provider-name="KenV99">
   <requires>
-    <import addon="xbmc.python" version="2.14.0"/>
+    <import addon="xbmc.python" version="2.19.0"/>
     <import addon="xbmc.addon" version="12.0.0"/>
     <import addon="script.module.requests" version="2.3.0"/>
   </requires>
@@ -9,16 +9,16 @@
     <provides>executable</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en"></summary>
+    <summary lang="en">Callbacks for kodi</summary>
     <description lang="en">Provides user definable actions for specific events within XBMC
     </description>
     <disclaimer lang="en">For bugs, requests or general questions visit the XBMC forums.</disclaimer>
     <platform>all</platform>
-    <source>https://github.com/KenV99/service.xbmc.callbacks2</source>
+    <source>https://github.com/KenV99/service.kodi.callbacks</source>
     <website></website>
     <forum>http://forum.xbmc.org/showthread.php?tid=151011</forum>
     <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-	<language></language>
+	<language>en</language>
 	<email></email>
   </extension>
 </addon>

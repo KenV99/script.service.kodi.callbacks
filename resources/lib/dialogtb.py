@@ -45,6 +45,7 @@ class MessageDialog(xbmcgui.WindowXMLDialog):
     MESSAGE_TEXT = 105
 
     def __init__(self, *args, **kwargs):
+        super(MessageDialog, self).__init__(*args, **kwargs)
         self.msg = ''
         self.title = ''
 

@@ -22,6 +22,7 @@ import time
 
 import PubSub_Threaded
 
+
 class MockPublisher(PubSub_Threaded.Publisher, threading.Thread):
     def __init__(self, dispatcher, topic, interval=1):
         PubSub_Threaded.Publisher.__init__(self, dispatcher)

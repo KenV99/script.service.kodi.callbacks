@@ -23,11 +23,71 @@
 #
 ######################################################################
 
-import xbmcgui
 import sys
-mdialog = xbmcgui.Dialog()
-aa = sys.argv
-msg = ''
-for i in aa:
-    msg = msg + i + '\n'
-result = mdialog.ok('Test', msg)
+
+
+
+def stripquotes(st):
+    if st.startswith('"') and st.endswith('"'):
+        return st[1:-1].strip()
+    else:
+        return st.strip()
+
+def showNotification(args, kwargs):
+    # Note that using execfile will not allow for module level imports!
+    try:
+        import xbmcgui
+    except:
+        pass
+    else:
+        mdialog = xbmcgui.Dialog()
+        argmsg = ", ".join(args)
+        kwargmsg = []
+        for key in kwargs.keys():
+            kwargmsg.append('%s:%s' % (key, kwargs[key]))
+        result = mdialog.ok('Test', 'args: %s\nkwargs:: %s' % (argmsg, ', '.join(kwargmsg)))
+
+def processargs(args, kwargs):
+    nargs = []
+    if isinstance(args, str):
+        kwargs = {}
+        args = args.split(' ')
+        nargs = []
+        for i, arg in enumerate(args):
+            if ":" in arg:
+                tmp = arg.split(":", 1)
+                try:
+                    key = tmp[0]
+                    val = tmp[1]
+                    val2 = stripquotes(val)
+                    kwargs[key] = val2
+                except Exception as e:
+                    pass
+            else:
+                nargs.append(stripquotes(arg))
+    if kwargs is None:
+        kwargs = {}
+    return nargs, kwargs
+
+def run(args=None, kwargs=None):
+    loc = locals()
+    gl = globals()
+    args, kwargs = processargs(args, kwargs)
+    showNotification(args, kwargs)
+
+if __name__ == '__main__' or __name__ == 'Tasks':
+    xargs = []
+    kwargs = {}
+    if __name__ == '__main__':
+        sysargv = sys.argv
+    else:
+        sysargv = locals()['args'].strip().split(' ')
+    for i, xarg in enumerate(sysargv):
+        if ":" in xarg:
+            key, entry = xarg.split(':', 1)
+            kwargs[key] = stripquotes(entry)
+        else:
+            xargs.append(stripquotes(xarg))
+    run(xargs, kwargs)
+
+

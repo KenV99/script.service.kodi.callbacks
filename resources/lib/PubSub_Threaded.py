@@ -50,6 +50,17 @@ class PrintLogger(BaseLogger):
         if loglevel >= BaseLogger.selfloglevel:
             print msg
 
+class TaskReturn(object):
+    def __init__(self, iserror=False, msg=''):
+        self.iserror = iserror
+        self.msg = msg
+        self.taskId = None
+        self.eventId = None
+
+
+def DummyReturnHandler(*args, **kwargs):
+    pass
+
 
 class DummyLogger(BaseLogger):
     @staticmethod
@@ -163,11 +174,14 @@ class Task(threading.Thread):
 
     def __init__(self):
         super(Task, self).__init__()
-        self.kwargs = ()
+        self.kwargs = {}
+        self.userargs = []
         self.topic = None
+        self.returnQ = Queue.Queue()
 
-    def t_start(self, topic, **kwargs):
+    def t_start(self, topic, *args, **kwargs):
         try:
+            self.userargs = args
             self.kwargs = kwargs
             self.topic = topic
         except:
@@ -177,10 +191,12 @@ class Task(threading.Thread):
     @abc.abstractmethod
     def run(self):
         pass
+        ret = TaskReturn()
+        self.returnQ.put(ret)
 
 
 class TaskManager(object):
-    def __init__(self, task, maxrunning=1, refractory_period=None, max_runs=-1):
+    def __init__(self, task, maxrunning=1, refractory_period=None, max_runs=-1, **taskKwargs):
         self.task = task
         self.maxrunning = maxrunning
         self.refractory_period = refractory_period
@@ -188,11 +204,18 @@ class TaskManager(object):
         self.most_recent_task_time = time.time()
         self.max_runs = max_runs
         self.run_count = 0
+        self.taskKwargs = taskKwargs
+        self.returnHandler = DummyReturnHandler
 
     def start(self, topic, **kwargs):
+        taskReturn = TaskReturn(iserror=True)
+        taskReturn.eventId = str(topic)
+        taskReturn.taskId = ''
         if self.max_runs > 0:
             if self.run_count >= self.max_runs:
-                raise TaskManagerException_TaskCountExceeded
+                taskReturn.msg = TaskManagerException_TaskCountExceeded.message
+                self.returnHandler(taskReturn)
+                return
         if self.maxrunning > 0:
             count = 0
             for i, t in enumerate(self.run_tasks):
@@ -203,20 +226,30 @@ class TaskManager(object):
                     del t
                     del self.run_tasks[i]
             if count >= self.maxrunning:
-                raise TaskManagerException_TaskAlreadyRunning
-        if self.refractory_period is not None:
+                taskReturn.msg = TaskManagerException_TaskAlreadyRunning.message
+                self.returnHandler(taskReturn)
+                return
+        if self.refractory_period > 0:
             tnow = time.time()
             if tnow - self.most_recent_task_time < self.refractory_period:
-                raise TaskManagerException_TaskInRefractoryPeriod
+                taskReturn.msg = TaskManagerException_TaskInRefractoryPeriod.message
+                self.returnHandler(taskReturn)
+                return
             else:
                 self.most_recent_task_time = tnow
 
         # Launch the task
         self.run_count += 1
+
         t = self.task()
-        t.t_start(topic, **kwargs)
+        t.t_start(topic, self.taskKwargs, **kwargs)
         if self.maxrunning > 0:
             self.run_tasks.append(t)
+        while t.returnQ.empty():
+            pass
+        taskReturn = t.returnQ.get_nowait()
+        assert isinstance(taskReturn, TaskReturn)
+        self.returnHandler(taskReturn)
 
 
 class TaskManagerException_TaskCountExceeded(Exception):

@@ -19,9 +19,10 @@
 
 import xbmc
 import threading
-from Queue import Queue
-import json
+from Queue import Queue, Empty
 import re
+from resources.lib.PubSub_Threaded import Publisher, Topic, Message
+from resources.lib.events import Events
 
 logfn = xbmc.translatePath(r'special://home\Kodi.log')
 
@@ -52,9 +53,11 @@ class LogMonitor(threading.Thread):
     def abort(self):
         self.__abort_evt.set()
 
-class LogChecker(threading.Thread):
-    def __init__(self, interval_checker=100, interval_monitor=100):
-        super(LogChecker, self).__init__()
+class LogPublisher(threading.Thread, Publisher):
+    publishes = Events.Log.keys()
+    def __init__(self, dispatcher, interval_checker=100, interval_monitor=100):
+        Publisher.__init__(self, dispatcher)
+        threading.Thread.__init__(self)
         self._checks_simple = []
         self._checks_regex = []
         self.__abort_evt = threading.Event()
@@ -62,11 +65,19 @@ class LogChecker(threading.Thread):
         self.interval_checker = interval_checker
         self.interval_monitor = interval_monitor
 
-    def add_simple_check(self, match, nomatch, callback, param):
-        self._checks_simple.append(LogCheckSimple(match, nomatch, callback, param))
+    def add_simple_checks(self, simpleList):
+        for chk in simpleList:
+            self.add_simple_check(chk[0], chk[1])
 
-    def add_re_check(self, match, nomatch, callback, param):
-        self._checks_regex.append(LogCheckRegex(match, nomatch, callback, param))
+    def add_regex_checks(self, regexList):
+        for chk in regexList:
+            self.add_re_check(chk[0], chk[1])
+
+    def add_simple_check(self, match, nomatch):
+        self._checks_simple.append(LogCheckSimple(match, nomatch, self.publish))
+
+    def add_re_check(self, match, nomatch):
+        self._checks_regex.append(LogCheckRegex(match, nomatch, self.publish))
 
     def run(self):
         lm = LogMonitor(interval=self.interval_monitor)
@@ -77,7 +88,10 @@ class LogChecker(threading.Thread):
             chk.start()
         while not self.__abort_evt.is_set():
             while not lm.ouputq.empty():
-                line = lm.ouputq.get_nowait()
+                try:
+                    line = lm.ouputq.get_nowait()
+                except Empty:
+                    continue
                 for chk in self._checks_simple:
                     chk.queue.put(line, False)
                 for chk in self._checks_regex:
@@ -100,38 +114,37 @@ class LogCheck(object):
         self.param = param
 
 class LogCheckSimple(threading.Thread):
-    def __init__(self, match, nomatch, callback, sendline=True):
+    def __init__(self, match, nomatch, publish):
         super(LogCheckSimple, self).__init__()
         self.match = match
         self.nomatch = nomatch
-        self.callback = callback
-        self.sendline = sendline
+        self.publish = publish
         self.queue = Queue()
         self._abort_evt = threading.Event()
         self._abort_evt.clear()
+        self.topic = Topic('onLogSimple')
 
     def run(self):
         while not self._abort_evt.is_set():
             while not self.queue.empty():
-                line = self.queue.get_nowait()
+                try:
+                    line = self.queue.get_nowait()
+                except Empty:
+                    continue
                 if self.match in line:
                     if self.nomatch != '':
                         if (self.nomatch in line) is not True:
-                            if self.sendline:
-                                self.callback(line)
-                            else:
-                                self.callback([])
+                            msg = Message(self.topic, line=line)
+                            self.publish(msg)
                     else:
-                        if self.sendline:
-                            self.callback(line)
-                        else:
-                            self.callback([])
+                        msg = Message(self.topic, line=line)
+                        self.publish(msg)
 
     def abort(self):
         self._abort_evt.set()
 
 class LogCheckRegex(threading.Thread):
-    def __init__(self, match, nomatch, callback, sendline=True):
+    def __init__(self, match, nomatch, publish):
         super(LogCheckRegex, self).__init__()
         try:
             re_match = re.compile(match, flags=re.IGNORECASE)
@@ -146,45 +159,27 @@ class LogCheckRegex(threading.Thread):
             re_nomatch = None
         self.match = re_match
         self.nomatch = re_nomatch
-        self.callback = callback
-        self.sendline = sendline
+        self.publish = publish
         self.queue = Queue()
         self._abort_evt = threading.Event()
         self._abort_evt.clear()
+        self.topic = Topic('onLogRegex')
 
     def run(self):
         while not self._abort_evt.is_set():
             while not self.queue.empty():
-                line = self.queue.get_nowait()
+                try:
+                    line = self.queue.get_nowait()
+                except Empty:
+                    continue
                 if self.match.search(line):
                     if self.nomatch is not None:
                         if (self.nomatch.search(line)) is None:
-                            if self.sendline:
-                                self.callback(line)
-                            else:
-                                self.callback([])
+                            msg = Message(self.topic, line=line)
+                            self.publish(msg)
                     else:
-                        if self.sendline:
-                            self.callback(line)
-                        else:
-                            self.callback([])
+                        msg = Message(self.topic, line=line)
+                        self.publish(msg)
 
     def abort(self):
         self._abort_evt.set()
-
-def is_xbmc_debug():
-    json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'
-                                     ' { "filter":{"section":"system", "category":"debug"} } }')
-    json_query = unicode(json_query, 'utf-8', errors='ignore')
-    json_response = json.loads(json_query)
-
-    if json_response.has_key('result') and json_response['result'].has_key('settings') and json_response['result']['settings'] is not None:
-        for item in json_response['result']['settings']:
-            if item["id"] == "debug.showloginfo":
-                if item["value"] is True:
-                    return True
-                else:
-                    return False
-
-def printme(params):
-    print params[0]
