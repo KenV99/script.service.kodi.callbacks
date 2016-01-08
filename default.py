@@ -32,8 +32,6 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 
-
-
 settings = None
 publishers = None
 dispatcher = None
@@ -73,7 +71,6 @@ class MainMonitor(xbmc.Monitor):
         self.dispatcher = dispatcher
 
     def onSettingsChanged(self):
-        # TODO: Need to restructure start and main to allow restarts
         for p in self.publishers:
             p.abort()
         self.dispatcher.abort()
@@ -87,7 +84,6 @@ def createTaskT(taskSettings, eventSettings, log=xbmc.log):
         taskKwargs = {'needs_shell':taskSettings['shell']}
         if Tasks.WorkerScript.check(cmdstr, userargs, xlog=log) is True:
             ret = Tasks.WorkerScript
-            ret.eventSettings = eventSettings
             return cmdstr, ret, taskKwargs
         else:
             return None, None, None
@@ -96,20 +92,17 @@ def createTaskT(taskSettings, eventSettings, log=xbmc.log):
         taskKwargs = {'runType':'builtin'}
         if Tasks.WorkerPy.check(cmdstr, userargs, xlog=log) is True:
             ret = Tasks.WorkerPy
-            ret.eventSettings = eventSettings
             return cmdstr, ret, taskKwargs
         else:
             return None, None, None
     elif taskSettings['type'] == 'builtin':
         cmdstr = taskSettings['builtin']
         ret = Tasks.WorkerBuiltin
-        ret.eventSettings = eventSettings
         return cmdstr, ret, {}
     elif taskSettings['type'] == 'http':
         cmdstr = taskSettings['http']
         if Tasks.WorkerHTTP.check(cmdstr, userargs, xlog=log) is True:
             ret = Tasks.WorkerHTTP
-            ret.eventSettings = eventSettings
             return cmdstr, ret, {}
         else:
             return None, None, None
@@ -166,13 +159,6 @@ def start():
             dispatcher.addSubscriber(subscriber)
             subscribers.append(subscriber)
             log(msg='Subsriber for event: %s, task: %s created' %(str(topic), task_key))
-        # if debugNotify:
-        #     tasksettings = NotificationTask
-        #     tm = PubSub_Threaded.TaskManager(tasksettings)
-        #     subscriber = PubSub_Threaded.Subscriber()
-        #     subscriber.addTaskManager(tm)
-        #     subscriber.addTopic(topic)
-        #     dispatcher.addSubscriber(subscriber)
     if not set(topics).isdisjoint(LoopPublisher.publishes):
         loopPublisher = LoopPublisher(dispatcher, settings.openwindowids(), settings.closewindowids(),
                                       settings.getIdleTimes(), settings.general['LoopFreq'])

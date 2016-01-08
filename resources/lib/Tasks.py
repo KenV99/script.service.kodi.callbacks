@@ -76,27 +76,59 @@ class AbstractWorker(threading.Thread):
         self.cmd_str = ''
         self.userargs = ''
         self.log = logger
-        self.runtimeargs = ''
+        self.runtimeargs = []
         self.taskKwargs = {}
         self.topic = None
         self.type = ''
         self.taskId = ''
-        # self.eventSettings = None
         self.returnQ = Queue.Queue()
         self.delimitregex = re.compile(r'\s+,\s+|,\s+|\s+')
+
+    # def processUserargs(self, kwargs):
+    #     if self.userargs == '':
+    #         return []
+    #     try:
+    #         needs_shell = self.taskKwargs['needs_shell']
+    #     except:
+    #         needs_shell = False
+    #     ret = self.userargs
+    #     ret = ret.replace(r'%%', '{@literal%@}')
+    #     if (self.type == 'script' and needs_shell is False) or self.type == 'python' or self.type == 'builtin':
+    #         tmp = self.delimitregex.sub(r'{@originaldelim@}', ret)
+    #         ret = tmp
+    #     try:
+    #         varArgs = events.Player[self.topic.topic]['varArgs']
+    #     except:
+    #         pass
+    #     else:
+    #         for key in varArgs.keys():
+    #             try:
+    #                 kw = kwargs[varArgs[key]]
+    #                 kw = kw.replace(" ", '%__')
+    #                 ret = ret.replace(key, kw)
+    #             except:
+    #                 pass
+    #     ret = ret.replace('@#$^&', r'%')
+    #     if self.type == 'script' and needs_shell is False:
+    #         ret = ret.replace('%__', " ")
+    #         ret = ret.replace('{@literal%@}', '%')
+    #         ret = ret.split('{@originaldelim@}')
+    #     elif self.type == 'python' or self.type == 'builtin':
+    #         ret = ret.replace('%__', " ")
+    #         ret = ret.replace('{@literal%@}', '%')
+    #         ret = ' %s' % ret.replace('{@originaldelim@}', ',')
+    #     elif self.type == 'http':
+    #         ret = ret.replace('%__', " ")
+    #         ret = ret.replace('{@literal%@}', '%')
+    #     return ret
 
     def processUserargs(self, kwargs):
         if self.userargs == '':
             return []
-        try:
-            needs_shell = self.taskKwargs['needs_shell']
-        except:
-            needs_shell = False
         ret = self.userargs
         ret = ret.replace(r'%%', '{@literal%@}')
-        if (self.type == 'script' and needs_shell is False) or self.type == 'python' or self.type == 'builtin':
-            tmp = self.delimitregex.sub(r'{@originaldelim@}', ret)
-            ret = tmp
+        tmp = self.delimitregex.sub(r'{@originaldelim@}', ret)
+        ret = tmp
         try:
             varArgs = events.Player[self.topic.topic]['varArgs']
         except:
@@ -109,18 +141,9 @@ class AbstractWorker(threading.Thread):
                     ret = ret.replace(key, kw)
                 except:
                     pass
-        ret = ret.replace('@#$^&', r'%')
-        if self.type == 'script' and needs_shell is False:
-            ret = ret.replace('%__', " ")
-            ret = ret.replace('{@literal%@}', '%')
-            ret = ret.split('{@originaldelim@}')
-        elif self.type == 'python' or self.type == 'builtin':
-            ret = ret.replace('%__', " ")
-            ret = ret.replace('{@literal%@}', '%')
-            ret = ' %s' % ret.replace('{@originaldelim@}', ',')
-        elif self.type == 'http':
-            ret = ret.replace('%__', " ")
-            ret = ret.replace('{@literal%@}', '%')
+        ret = ret.replace('%__', " ")
+        ret = ret.replace('{@literal%@}', r'%')
+        ret = ret.split('{@originaldelim@}')
         return ret
 
     @staticmethod
@@ -159,7 +182,6 @@ class WorkerScript(AbstractWorker):
     def check(cmd_str, userargs, xlog=KodiLogger.log):
 
         tmp = cmd_str
-        cmd_str = []
         tmp = xbmc.translatePath(tmp).decode('utf-8')
         if xbmcvfs.exists(tmp):
             try:
@@ -173,36 +195,18 @@ class WorkerScript(AbstractWorker):
             xlog(msg='Error - File not found: %s' % tmp)
             return False
 
-    # def separate_args(self, args):
-    #     if len(args) > 0:
-    #         ret = []
-    #         new = str(args).split(' ')
-    #         tst = ''
-    #         for i in new:
-    #             tst = tst + i + ' '
-    #             if os.path.isfile(tst):
-    #                 tst.rstrip()
-    #                 ret.append(tst)
-    #             elif len(ret) > 1:
-    #                 ret.append(i)
-    #         if len(ret) == 0:
-    #             for i in new:
-    #                 ret.append(i)
-    #         return ret
-    #     else:
-    #         return []
-
     def run(self):
         try:
             needs_shell = self.taskKwargs['needs_shell']
         except:
             needs_shell = False
         args = self.runtimeargs
-        assert isinstance(args, list)
+        args.insert(0, self.cmd_str)
+        if needs_shell:
+            args = ' '.join(args)
         err = False
         debg = False
         msg = ''
-        args.insert(0, self.cmd_str)
         if sysplat.startswith('darwin') or debg:
             try:
                 p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
@@ -268,11 +272,12 @@ class WorkerPy(AbstractWorker):
         result = None
         #TODO: implement options
         try:
-            if len(args) > 1:
+            if len(self.runtimeargs) > 0:
                 if run_type == 'builtin':
+                    args = ' %s' % ' '.join(args)
                     result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (self.cmd_str, args))
                 elif run_type == 'execfile':
-                    sys.argv = args.split(' ').insert(0, '')
+                    sys.argv = args
                     result = execfile(self.cmd_str)
                 elif run_type == 'import':
                     import os
@@ -286,14 +291,23 @@ class WorkerPy(AbstractWorker):
                         result = module.run(args)
                     finally:
                         sys.path[:] = path
-
             else:
                 if run_type == 'builtin':
                     result = xbmc.executebuiltin('XBMC.RunScript(%s)' % self.cmd_str)
                 elif run_type == 'execfile':
-                    result = None
+                    result = execfile(self.cmd_str)
                 elif run_type == 'import':
-                    result = None
+                    import os
+                    directory, module_name = os.path.split(self.cmd_str)
+                    module_name = os.path.splitext(module_name)[0]
+
+                    path = list(sys.path)
+                    sys.path.insert(0, directory)
+                    try:
+                        module = __import__(module_name)
+                        result = module.run(args)
+                    finally:
+                        sys.path[:] = path
             if result is not None:
                 msg = result
                 if result != '':
@@ -320,9 +334,9 @@ class WorkerBuiltin(AbstractWorker):
     def run(self):
         err = False
         msg = ''
-        args = self.userargs
+        args = ' %s' % ' '.join(self.runtimeargs)
         try:
-            if len(args) > 1:
+            if len(self.runtimeargs) > 0:
                 result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (self.cmd_str, args))
             else:
                 result = xbmc.executebuiltin('XBMC.RunScript(%s)' % self.cmd_str)
@@ -343,6 +357,7 @@ class WorkerHTTP(AbstractWorker):
     def __init__(self):
         super(WorkerHTTP, self).__init__()
         self.type = 'http'
+        self.runtimeargs = ''
 
     @staticmethod
     def check(cmd_str, userargs=None, xlog=KodiLogger.log):
@@ -353,16 +368,33 @@ class WorkerHTTP(AbstractWorker):
             xlog(msg='Invalid url: %s' % cmd_str)
             return False
 
+    def processUserargs(self, kwargs):
+        if self.userargs == '':
+            return []
+        ret = self.userargs
+        ret = ret.replace(r'%%', '{@literal%@}')
+        try:
+            varArgs = events.Player[self.topic.topic]['varArgs']
+        except:
+            pass
+        else:
+            for key in varArgs.keys():
+                try:
+                    kw = kwargs[varArgs[key]]
+                    kw = kw.replace(" ", '%__')
+                    ret = ret.replace(key, kw)
+                except:
+                    pass
+        ret = ret.replace('%__', " ")
+        ret = ret.replace('{@literal%@}', r'%')
+        return ret
+
     def run(self):
         err = False
         msg = ''
         try:
             u = requests.get(self.cmd_str+self.runtimeargs, timeout=20)
-            # log('requests return code: %s' % str(u.status_code))
-            # u = urllib2.urlopen(self.cmd_str, timeout=20)
-            # info('urlib2 return code: %s' % u.getcode())
             try:
-                # result = u.read()
                 result = u.text
             except Exception as e:
                 err = True
