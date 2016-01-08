@@ -19,6 +19,7 @@
 debug = False
 remote = False
 
+import threading
 import resources.lib.PubSub_Threaded as PubSub_Threaded
 import resources.lib.Tasks as Tasks
 import xbmc
@@ -48,16 +49,16 @@ if debug:
 
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
-
-class NotificationTask(PubSub_Threaded.Task):
-    def __init__(self):
-        super(NotificationTask, self).__init__()
-
-    def run(self):
-        msg = 'Task received: %s: %s' % (str(self.topic), str(self.kwargs))
-        log(msg='@@@@@ xbmc.callbacks2 %s' % msg)
-        dialog = xbmcgui.Dialog()
-        dialog.notification('xbmc.callabacks2', msg, xbmcgui.NOTIFICATION_INFO, 5000)
+#
+# class NotificationTask(PubSub_Threaded.Task):
+#     def __init__(self):
+#         super(NotificationTask, self).__init__()
+#
+#     def run(self):
+#         msg = 'Task received: %s: %s' % (str(self.topic), str(self.kwargs))
+#         log(msg='@@@@@ xbmc.callbacks2 %s' % msg)
+#         dialog = xbmcgui.Dialog()
+#         dialog.notification('xbmc.callabacks2', msg, xbmcgui.NOTIFICATION_INFO, 5000)
 
 
 class MainMonitor(xbmc.Monitor):
@@ -67,6 +68,7 @@ class MainMonitor(xbmc.Monitor):
         self.dispatcher = dispatcher
 
     def onSettingsChanged(self):
+        log(msg='Settings change detected - attempting to restart')
         for p in self.publishers:
             p.abort()
         self.dispatcher.abort()
@@ -179,7 +181,10 @@ def start():
     dispatcher.start()
     log(msg='Dispatcher started')
     for p in publishers:
-        p.start()
+        try:
+            p.start()
+        except Exception as e:
+            raise
     log(msg='Publisher(s) started')
     return dispatcher, publishers
 
@@ -188,7 +193,7 @@ def main():
     log(msg='Staring kodi.callbacks ver: %s' % str(xbmcaddon.Addon().getAddonInfo('version')))
     dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
-    monitor = xbmc.Monitor()
+    monitor = MainMonitor(publishers, dispatcher)
     log(msg='Entering wait loop')
     monitor.waitForAbort()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown')))
@@ -196,9 +201,22 @@ def main():
     for p in publishers:
         try:
             p.abort()
-        except:
-            pass
+        except Exception as e:
+            log(msg='Error aborting: %s - Error: %s' % (str(p), str(e)))
     dispatcher.abort()
+    xbmc.sleep(1000)
+    main_thread = threading.current_thread()
+    log(msg='Enumerating threads to kill others than main (%i)' % main_thread.ident)
+    for t in threading.enumerate():
+        if t is not main_thread:
+            log(msg='Attempting to kill thread: %i: %s' % (t.ident, t.name))
+            xbmc.sleep(25)
+            try:
+                t.exit()
+            except:
+                log(msg='Error killing thread')
+            else:
+                xbmc.log(msg='Thread killed succesfully')
     log(msg='Shutdown complete')
 
 

@@ -28,7 +28,7 @@ logfn = xbmc.translatePath(r'special://home\Kodi.log')
 
 class LogMonitor(threading.Thread):
     def __init__(self, interval=100):
-        super(LogMonitor, self).__init__()
+        super(LogMonitor, self).__init__(name='LogMonitor')
         self.logfn = logfn
         self.__abort_evt = threading.Event()
         self.__abort_evt.clear()
@@ -57,11 +57,11 @@ class LogPublisher(threading.Thread, Publisher):
     publishes = Events.Log.keys()
     def __init__(self, dispatcher, interval_checker=100, interval_monitor=100):
         Publisher.__init__(self, dispatcher)
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, name='LogPublisher')
         self._checks_simple = []
         self._checks_regex = []
-        self.__abort_evt = threading.Event()
-        self.__abort_evt.clear()
+        self.abort_evt = threading.Event()
+        self.abort_evt.clear()
         self.interval_checker = interval_checker
         self.interval_monitor = interval_monitor
 
@@ -86,7 +86,7 @@ class LogPublisher(threading.Thread, Publisher):
             chk.start()
         for chk in self._checks_regex:
             chk.start()
-        while not self.__abort_evt.is_set():
+        while not self.abort_evt.is_set():
             while not lm.ouputq.empty():
                 try:
                     line = lm.ouputq.get_nowait()
@@ -96,7 +96,9 @@ class LogPublisher(threading.Thread, Publisher):
                     chk.queue.put(line, False)
                 for chk in self._checks_regex:
                     chk.queue.put(line, False)
-                xbmc.sleep(self.interval_checker)
+                if self.abort_evt.is_set():
+                    continue
+            xbmc.sleep(self.interval_checker)
         for chk in self._checks_simple:
             chk.abort()
         for chk in self._checks_regex:
@@ -104,7 +106,7 @@ class LogPublisher(threading.Thread, Publisher):
         lm.abort()
 
     def abort(self):
-        self.__abort_evt.set()
+        self.abort_evt.set()
 
 class LogCheck(object):
     def __init__(self, match, nomatch, callback, param):
@@ -115,7 +117,7 @@ class LogCheck(object):
 
 class LogCheckSimple(threading.Thread):
     def __init__(self, match, nomatch, publish):
-        super(LogCheckSimple, self).__init__()
+        super(LogCheckSimple, self).__init__(name='LogCheckSimple')
         self.match = match
         self.nomatch = nomatch
         self.publish = publish
@@ -145,7 +147,7 @@ class LogCheckSimple(threading.Thread):
 
 class LogCheckRegex(threading.Thread):
     def __init__(self, match, nomatch, publish):
-        super(LogCheckRegex, self).__init__()
+        super(LogCheckRegex, self).__init__(name='LogCheckRegex')
         try:
             re_match = re.compile(match, flags=re.IGNORECASE)
         except Exception as e:

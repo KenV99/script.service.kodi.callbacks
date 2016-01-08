@@ -59,7 +59,7 @@ class LoopPublisher(Publisher, threading.Thread):
     publishes = Events().CustomLoop.keys()
     def __init__(self, dispatcher, owids, cwids, idleT=None, interval=500):
         Publisher.__init__(self, dispatcher)
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, name='LoopPublisher')
         self.interval = interval
         self.abort_evt = threading.Event()
         self.abort_evt.clear()

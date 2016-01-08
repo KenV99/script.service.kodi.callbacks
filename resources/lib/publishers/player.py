@@ -25,7 +25,7 @@ class PlayerPublisher(Publisher, threading.Thread):
     publishes = Events.Player.keys()
     def __init__(self, dispatcher):
         Publisher.__init__(self, dispatcher)
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self, name='PlayerPublisher')
         self.dispatcher = dispatcher
         self.publishes = Events.Player.keys()
         self._abortevt = threading.Event()

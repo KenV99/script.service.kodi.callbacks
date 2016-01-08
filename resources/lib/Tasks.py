@@ -72,7 +72,7 @@ class AbstractWorker(threading.Thread):
     event_id = ''
 
     def __init__(self, logger=KodiLogger.log):
-        super(AbstractWorker, self).__init__()
+        super(AbstractWorker, self).__init__(name='Worker')
         self.cmd_str = ''
         self.userargs = ''
         self.log = logger

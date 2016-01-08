@@ -181,7 +181,7 @@ class Settings(object):
         return ret
 
     def getLogRegexes(self):
-        evts = self.getEventsByType('onLogSimple')
+        evts = self.getEventsByType('onLogRegex')
         ret = []
         for evt in evts:
             ret.append([evt['matchIf'], evt['rejectIf']])

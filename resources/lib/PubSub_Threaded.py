@@ -116,7 +116,7 @@ class Message(object):
 
 class Dispatcher(threading.Thread):
     def __init__(self, interval=0.1, sleepfxn=time.sleep):
-        super(Dispatcher, self).__init__()
+        super(Dispatcher, self).__init__(name='Dispatcher')
         self._message_q = Queue.Queue()
         self._abort_evt = threading.Event()
         self._abort_evt.clear()
