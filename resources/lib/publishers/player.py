@@ -53,6 +53,8 @@ class Player(xbmc.Player):
         super(Player, self).__init__()
         self.publish = None
         self.playingFile = ''
+        self.playingTitle = ''
+        self.playingType = ''
         self.totalTime = -1
         self.playingTime = 0
 
@@ -146,8 +148,10 @@ class Player(xbmc.Player):
             self.totalTime = self.getTotalTime()
         except:
             self.totalTime = -1
+        self.playingType = self.playingType
+        self.playingTitle = self.getTitle()
         topic = Topic('onPlayBackStarted')
-        kwargs = {'mediaType':self.playing_type(), 'fileName':self.getPlayingFileX(), 'title':self.getTitle(), 'aspectRatio':self.getAspectRatio(), 'resolution':self.getResoluion()}
+        kwargs = {'mediaType':self.playingType, 'fileName':self.playingFile, 'title':self.playingTitle, 'aspectRatio':self.getAspectRatio(), 'resolution':self.getResoluion()}
         self.publish(Message(topic, **kwargs))
 
     def onPlayBackEnded(self):
@@ -158,8 +162,13 @@ class Player(xbmc.Player):
             pp = int(100 * tp/tt)
         except Exception as e:
             pp=-1
-        kwargs = {'fileName':self.playingFile, 'percentPlayed':str(pp)}
+        kwargs = {'mediaType':self.playingType, 'fileName':self.playingFile, 'title':self.playingTitle, 'percentPlayed':str(pp)}
         self.publish(Message(topic, **kwargs))
+        self.playingTitle = ''
+        self.playingFile = ''
+        self.playingType = ''
+        self.totalTime = -1.0
+        self.playingTime = 0.0
 
     def onPlayBackStopped(self):
         self.onPlayBackEnded()

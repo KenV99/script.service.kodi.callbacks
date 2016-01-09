@@ -30,9 +30,10 @@ class Events(object):
         'onPlayBackEnded':{
             'text':'on Playback Ended',
             'reqInfo':[],
-            'optArgs':['fileName', 'percentPlayed'],
-            'varArgs':{'%fn':'fileName', '%pp':'percentPlayed'},
-            'expArgs':{'fileName':'G:\\movies\\Star Wars - Episode IV\\movie.mkv', 'percentPlayed':'26'}
+            'optArgs':['mediaType', 'fileName', 'title', 'percentPlayed'],
+            'varArgs':{'%mt':'mediaType', '%fn':'fileName', '%ti':'title', '%pp':'percentPlayed'},
+            'expArgs':{'mediaType':'movie', 'fileName':'G:\\movies\\Star Wars - Episode IV\\movie.mkv',
+                       'title':'Star Wars Episode IV - A New Hope', 'percentPlayed':'26'}
         },
         'onPlayBackPaused':{
             'text':'on Playback Paused',

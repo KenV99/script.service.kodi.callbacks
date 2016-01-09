@@ -42,6 +42,11 @@ sysplat = sys.platform
 from resources.lib.events import Events
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.PubSub_Threaded import TaskReturn
+import xbmcgui
+
+def notify(msg):
+    dialog = xbmcgui.Dialog()
+    dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
 
 events = Events()
 
@@ -71,7 +76,7 @@ class AbstractWorker(threading.Thread):
     __metaclass__ = abc.ABCMeta
     event_id = ''
 
-    def __init__(self, logger=KodiLogger.log):
+    def __init__(self, logger=KodiLogger.log, notify = False):
         super(AbstractWorker, self).__init__(name='Worker')
         self.cmd_str = ''
         self.userargs = ''
@@ -196,6 +201,8 @@ class WorkerScript(AbstractWorker):
             return False
 
     def run(self):
+        if self.taskKwargs['notify'] is True:
+            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
         try:
             needs_shell = self.taskKwargs['needs_shell']
         except:
@@ -262,6 +269,8 @@ class WorkerPy(AbstractWorker):
             return False
 
     def run(self):
+        if self.taskKwargs['notify'] is True:
+            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
         err = False
         msg = ''
         args = self.runtimeargs
@@ -332,6 +341,8 @@ class WorkerBuiltin(AbstractWorker):
         pass
 
     def run(self):
+        if self.taskKwargs['notify'] is True:
+            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
         err = False
         msg = ''
         args = ' %s' % ' '.join(self.runtimeargs)
@@ -390,6 +401,8 @@ class WorkerHTTP(AbstractWorker):
         return ret
 
     def run(self):
+        if self.taskKwargs['notify'] is True:
+            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
         err = False
         msg = ''
         try:

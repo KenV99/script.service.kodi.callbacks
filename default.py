@@ -61,7 +61,7 @@ class NotificationTask(PubSub_Threaded.Task):
         msg = 'Task received: %s: %s' % (str(self.topic), str(self.kwargs))
         log(msg= msg)
         dialog = xbmcgui.Dialog()
-        dialog.notification('Kodi Callabacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
+        dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
 
 
 class MainMonitor(xbmc.Monitor):
@@ -156,6 +156,7 @@ def start():
         subscriber = createSubscriber(tasksettings, evtsettings)
         if subscriber is not None:
             subscriber.addTopic(topic)
+            subscriber.taskmanagers[0].taskKwargs['notify'] = settings.general['Notify']
             dispatcher.addSubscriber(subscriber)
             subscribers.append(subscriber)
             log(msg='Subsriber for event: %s, task: %s created' % (str(topic), task_key))

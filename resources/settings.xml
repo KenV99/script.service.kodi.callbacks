@@ -137,7 +137,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -205,7 +205,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -273,7 +273,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -341,7 +341,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -409,7 +409,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -477,7 +477,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -545,7 +545,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -613,7 +613,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -681,7 +681,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
@@ -749,7 +749,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
     <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
