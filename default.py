@@ -18,6 +18,7 @@
 #
 debug = False
 remote = False
+testdebug = False
 
 import threading
 import resources.lib.PubSub_Threaded as PubSub_Threaded
@@ -33,6 +34,8 @@ from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
 
 log = KodiLogger.log
+dispatcher = None
+publishers = None
 
 if debug:
     import sys
@@ -49,29 +52,28 @@ if debug:
 
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
-#
-# class NotificationTask(PubSub_Threaded.Task):
-#     def __init__(self):
-#         super(NotificationTask, self).__init__()
-#
-#     def run(self):
-#         msg = 'Task received: %s: %s' % (str(self.topic), str(self.kwargs))
-#         log(msg='@@@@@ xbmc.callbacks2 %s' % msg)
-#         dialog = xbmcgui.Dialog()
-#         dialog.notification('xbmc.callabacks2', msg, xbmcgui.NOTIFICATION_INFO, 5000)
+
+class NotificationTask(PubSub_Threaded.Task):
+    def __init__(self):
+        super(NotificationTask, self).__init__()
+
+    def run(self):
+        msg = 'Task received: %s: %s' % (str(self.topic), str(self.kwargs))
+        log(msg= msg)
+        dialog = xbmcgui.Dialog()
+        dialog.notification('Kodi Callabacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
 
 
 class MainMonitor(xbmc.Monitor):
-    def __init__(self, publishers, dispatcher):
+    def __init__(self):
         super(MainMonitor, self).__init__()
-        self.publishers = publishers
-        self.dispatcher = dispatcher
 
     def onSettingsChanged(self):
+        global dispatcher, publishers
         log(msg='Settings change detected - attempting to restart')
-        for p in self.publishers:
-            p.abort()
-        self.dispatcher.abort()
+        for p in publishers:
+            p.abort(0.525)
+        dispatcher.abort(0.25)
         start()
 
 
@@ -135,7 +137,7 @@ def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=
 
 
 def start():
-    # global settings, dispatcher, publishers, topics
+    global dispatcher, publishers
     settings = Settings()
     settings.getSettings()
     log(msg='Settings read')
@@ -190,12 +192,15 @@ def start():
 
 
 def main():
+    global dispatcher, publishers
     log(msg='Staring kodi.callbacks ver: %s' % str(xbmcaddon.Addon().getAddonInfo('version')))
     dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
-    monitor = MainMonitor(publishers, dispatcher)
+    monitor = MainMonitor()
     log(msg='Entering wait loop')
     monitor.waitForAbort()
+
+    # Shutdown tasks
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown')))
     log(msg='Shutdown started')
     for p in publishers:
@@ -205,25 +210,28 @@ def main():
             log(msg='Error aborting: %s - Error: %s' % (str(p), str(e)))
     dispatcher.abort()
     xbmc.sleep(1000)
-    main_thread = threading.current_thread()
-    log(msg='Enumerating threads to kill others than main (%i)' % main_thread.ident)
-    for t in threading.enumerate():
-        if t is not main_thread:
-            log(msg='Attempting to kill thread: %i: %s' % (t.ident, t.name))
-            xbmc.sleep(25)
-            try:
-                t.exit()
-            except:
-                log(msg='Error killing thread')
-            else:
-                xbmc.log(msg='Thread killed succesfully')
+    if len(threading.enumerate()) > 1:
+        main_thread = threading.current_thread()
+        log(msg='Enumerating threads to kill others than main (%i)' % main_thread.ident)
+        for t in threading.enumerate():
+            if t is not main_thread:
+                log(msg='Attempting to kill thread: %i: %s' % (t.ident, t.name))
+                xbmc.sleep(25)
+                try:
+                    t.abort(0.525)
+                except:
+                    log(msg='Error killing thread')
+                else:
+                    if not t.is_alive():
+                        log(msg='Thread killed succesfully')
     log(msg='Shutdown complete')
 
 
 def test(key):
-    # sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
-    # import pydevd
-    # pydevd.settrace('localhost', port=51235, stdoutToServer=True, stderrToServer=True, suspend=False)
+    if testdebug is True:
+        sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
+        import pydevd
+        pydevd.settrace('localhost', port=51235, stdoutToServer=True, stderrToServer=True, suspend=False)
     import resources.lib.tests.DirectTsting as DT
     from resources.lib.events import Events
     log(msg='Running Test for Event: %s' % key)

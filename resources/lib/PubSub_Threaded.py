@@ -156,9 +156,11 @@ class Dispatcher(threading.Thread):
             self.sleepfxn(self.interval)
         self.running = False
 
-    def abort(self):
+    def abort(self, timeout=0):
         if self.running:
             self._abort_evt.set()
+            if timeout > 0:
+                self.join(timeout)
 
 
 class Publisher(object):
@@ -218,12 +220,12 @@ class TaskManager(object):
                 return
         if self.maxrunning > 0:
             count = 0
-            for i, t in enumerate(self.run_tasks):
-                assert isinstance(t, threading.Thread)
-                if t.is_alive():
+            for i, task in enumerate(self.run_tasks):
+                assert isinstance(task, threading.Thread)
+                if task.is_alive():
                     count += 1
                 else:
-                    del t
+                    del task
                     del self.run_tasks[i]
             if count >= self.maxrunning:
                 taskReturn.msg = TaskManagerException_TaskAlreadyRunning.message
@@ -241,13 +243,13 @@ class TaskManager(object):
         # Launch the task
         self.run_count += 1
 
-        t = self.task()
-        t.t_start(topic, self.taskKwargs, **kwargs)
+        task = self.task()
+        task.t_start(topic, self.taskKwargs, **kwargs)
         if self.maxrunning > 0:
-            self.run_tasks.append(t)
-        while t.returnQ.empty():
+            self.run_tasks.append(task)
+        while task.returnQ.empty():
             pass
-        taskReturn = t.returnQ.get_nowait()
+        taskReturn = task.returnQ.get_nowait()
         assert isinstance(taskReturn, TaskReturn)
         self.returnHandler(taskReturn)
 

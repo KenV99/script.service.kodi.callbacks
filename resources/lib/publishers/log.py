@@ -50,8 +50,12 @@ class LogMonitor(threading.Thread):
                 fsize_old = f.tell()
             xbmc.sleep(self.interval)
 
-    def abort(self):
+    def abort(self, timeout=0):
         self.__abort_evt.set()
+        if timeout > 0:
+            self.join(timeout)
+            if self.is_alive():
+                xbmc.log(msg='Could not stop LogMonitor T:%i' % self.ident)
 
 class LogPublisher(threading.Thread, Publisher):
     publishes = Events.Log.keys()
@@ -105,8 +109,12 @@ class LogPublisher(threading.Thread, Publisher):
             chk.abort()
         lm.abort()
 
-    def abort(self):
+    def abort(self, timeout=0):
         self.abort_evt.set()
+        if timeout > 0:
+            self.join(timeout)
+            if self.is_alive():
+                xbmc.log(msg='Could not stop LogPublisher T:%i' % self.ident)
 
 class LogCheck(object):
     def __init__(self, match, nomatch, callback, param):
@@ -142,8 +150,12 @@ class LogCheckSimple(threading.Thread):
                         msg = Message(self.topic, line=line)
                         self.publish(msg)
 
-    def abort(self):
+    def abort(self, timeout=0):
         self._abort_evt.set()
+        if timeout > 0:
+            self.join(timeout)
+            if self.is_alive():
+                xbmc.log(msg='Could not stop LogCheckSimple T:%i' % self.ident)
 
 class LogCheckRegex(threading.Thread):
     def __init__(self, match, nomatch, publish):
@@ -183,5 +195,9 @@ class LogCheckRegex(threading.Thread):
                         msg = Message(self.topic, line=line)
                         self.publish(msg)
 
-    def abort(self):
+    def abort(self, timeout=0):
         self._abort_evt.set()
+        if timeout > 0:
+            self.join(timeout)
+            if self.is_alive():
+                xbmc.log(msg='Could not stop LogCheckRegex T:%i' % self.ident)

@@ -139,5 +139,9 @@ class LoopPublisher(Publisher, threading.Thread):
             else:
                 it[2] = False
 
-    def abort(self):
+    def abort(self, timeout=0):
         self.abort_evt.set()
+        if timeout > 0:
+            self.join(timeout)
+            if self.is_alive():
+                xbmc.log(msg='Could not stop LoopPublisher T:%i' % self.ident)

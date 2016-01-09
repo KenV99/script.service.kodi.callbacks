@@ -41,8 +41,12 @@ class PlayerPublisher(Publisher, threading.Thread):
             xbmc.sleep(500)
         del player
 
-    def abort(self):
+    def abort(self, timeout=0):
         self._abortevt.set()
+        if timeout > 0:
+            self.join(timeout)
+            if self.is_alive():
+                xbmc.log(msg='Could not stop PlayerPublisher T:%i' % self.ident)
 
 class Player(xbmc.Player):
     def __init__(self):

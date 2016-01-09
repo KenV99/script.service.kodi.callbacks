@@ -44,8 +44,12 @@ class MonitorPublisher(Publisher, threading.Thread):
             xbmc.sleep(500)
         del monitor
 
-    def abort(self):
+    def abort(self, timeout=0):
         self._abortevt.set()
+        if timeout > 0:
+            self.join(timeout)
+            if self.is_alive():
+                xbmc.log(msg='Could not stop MonitorPublisher T:%i' % self.ident)
 
 class _Monitor(xbmc.Monitor):
     def __init__(self):
