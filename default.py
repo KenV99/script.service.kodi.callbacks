@@ -159,7 +159,9 @@ def start():
             subscriber.taskmanagers[0].taskKwargs['notify'] = settings.general['Notify']
             dispatcher.addSubscriber(subscriber)
             subscribers.append(subscriber)
-            log(msg='Subsriber for event: %s, task: %s created' % (str(topic), task_key))
+            log(msg='Subscriber for event: %s, task: %s created' % (str(topic), task_key))
+        else:
+            log(msg='Subscriber for event: %s, task: %s NOT created due to errors' % (str(topic), task_key))
     if not set(topics).isdisjoint(LoopPublisher.publishes):
         loopPublisher = LoopPublisher(dispatcher, settings.openwindowids(), settings.closewindowids(),
                                       settings.getIdleTimes(), settings.general['LoopFreq'])
