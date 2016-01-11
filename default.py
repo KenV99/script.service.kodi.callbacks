@@ -22,7 +22,7 @@ testdebug = False
 
 import threading
 import resources.lib.PubSub_Threaded as PubSub_Threaded
-import resources.lib.Tasks as Tasks
+from resources.lib import taskdict
 import xbmc
 import xbmcaddon
 import xbmcgui
@@ -78,36 +78,12 @@ class MainMonitor(xbmc.Monitor):
 
 
 def createTaskT(taskSettings, eventSettings, log=xbmc.log):
-    userargs = eventSettings['userargs']
-    if taskSettings['type'] == 'script':
-        cmdstr = taskSettings['scriptfile']
-        taskKwargs = {'needs_shell': taskSettings['shell']}
-        if Tasks.WorkerScript.check(cmdstr, userargs, xlog=log) is True:
-            ret = Tasks.WorkerScript
-            return cmdstr, ret, taskKwargs
-        else:
-            return None, None, None
-    elif taskSettings['type'] == 'python':
-        cmdstr = taskSettings['pythondoc']
-        taskKwargs = {'runType': 'builtin'}
-        if Tasks.WorkerPy.check(cmdstr, userargs, xlog=log) is True:
-            ret = Tasks.WorkerPy
-            return cmdstr, ret, taskKwargs
-        else:
-            return None, None, None
-    elif taskSettings['type'] == 'builtin':
-        cmdstr = taskSettings['builtin']
-        ret = Tasks.WorkerBuiltin
-        return cmdstr, ret, {}
-    elif taskSettings['type'] == 'http':
-        cmdstr = taskSettings['http']
-        if Tasks.WorkerHTTP.check(cmdstr, userargs, xlog=log) is True:
-            ret = Tasks.WorkerHTTP
-            return cmdstr, ret, {}
-        else:
-            return None, None, None
+    mytask = taskdict[taskSettings['type']]['class']
+    taskKwargs = taskSettings
+    if mytask.validate(taskKwargs, xlog=log) is True:
+        return mytask, taskKwargs
     else:
-        return None, None, None
+        return None, None
 
 
 def returnHandler(taskReturn):
@@ -124,12 +100,10 @@ def returnHandler(taskReturn):
 
 
 def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=xbmc.log):
-    cmd_str, taskT, taskKwargs = createTaskT(tasksettings, eventSettings, log)
+    taskT, taskKwargs = createTaskT(tasksettings, eventSettings, log)
     if taskT is not None:
-        tm = PubSub_Threaded.TaskManager(taskT, maxrunning=tasksettings['maxrunning'],
-                                         refractory_period=tasksettings['refractory'], max_runs=tasksettings['maxruns'],
-                                         cmd_str=cmd_str, userargs=eventSettings['userargs'],
-                                         taskid=eventSettings['task'], **taskKwargs)
+        tm = PubSub_Threaded.TaskManager(taskT, taskid=eventSettings['task'], userargs=eventSettings['userargs'],
+                                         **taskKwargs)
         tm.returnHandler = retHandler
         subscriber = PubSub_Threaded.Subscriber(logger=KodiLogger)
         subscriber.addTaskManager(tm)
@@ -161,7 +135,8 @@ def start():
             subscribers.append(subscriber)
             log(msg='Subscriber for event: %s, task: %s created' % (str(topic), task_key))
         else:
-            log(msg='Subscriber for event: %s, task: %s NOT created due to errors' % (str(topic), task_key))
+            log(loglevel=xbmc.LOGERROR, msg='Subscriber for event: %s, task: %s NOT created due to errors' % (str(topic), task_key))
+
     if not set(topics).isdisjoint(LoopPublisher.publishes):
         loopPublisher = LoopPublisher(dispatcher, settings.openwindowids(), settings.closewindowids(),
                                       settings.getIdleTimes(), settings.general['LoopFreq'])
@@ -262,7 +237,7 @@ def test(key):
 
         subscriber.notify(nMessage)
     else:
-        log(msg='Test subscriber creation failed')
+        log(msg='Test subscriber creation failed due to errors')
         msgList = testlogger.retrieveLogAsList()
         import resources.lib.dialogtb as dialogtb
         dialogtb.show_textbox('Error', msgList)

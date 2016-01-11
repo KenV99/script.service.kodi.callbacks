@@ -2,105 +2,115 @@
 <settings>
   <category label="32001">
     <setting label="32101" type="lsep"/>
-    <setting default="none" id="T1.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T1.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T1.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T1.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T1.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T1.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T1.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T1.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T1.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T1.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T1.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T1.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T1.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T1.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T1.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T1.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32102" type="lsep"/>
-    <setting default="none" id="T2.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T2.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T2.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T2.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T2.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T2.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T2.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T2.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T2.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T2.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T2.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T2.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T2.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T2.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T2.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T2.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32103" type="lsep"/>
-    <setting default="none" id="T3.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T3.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T3.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T3.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T3.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T3.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T3.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T3.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T3.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T3.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T3.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T3.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T3.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T3.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T3.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T3.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32104" type="lsep"/>
-    <setting default="none" id="T4.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T4.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T4.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T4.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T4.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T4.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T4.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T4.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T4.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T4.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T4.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T4.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T4.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T4.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T4.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T4.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32105" type="lsep"/>
-    <setting default="none" id="T5.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T5.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T5.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T5.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T5.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T5.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T5.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T5.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T5.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T5.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T5.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T5.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T5.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T5.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T5.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T5.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32106" type="lsep"/>
-    <setting default="none" id="T6.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T6.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T6.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T6.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T6.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T6.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T6.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T6.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T6.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T6.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T6.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T6.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T6.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T6.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T6.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T6.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32107" type="lsep"/>
-    <setting default="none" id="T7.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T7.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T7.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T7.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T7.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T7.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T7.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T7.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T7.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T7.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T7.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T7.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T7.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T7.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T7.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T7.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32108" type="lsep"/>
-    <setting default="none" id="T8.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T8.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T8.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T8.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T8.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T8.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T8.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T8.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T8.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T8.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T8.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T8.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T8.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T8.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T8.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T8.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32109" type="lsep"/>
-    <setting default="none" id="T9.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T9.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T9.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T9.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T9.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T9.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T9.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T9.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T9.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T9.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T9.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T9.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T9.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T9.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T9.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T9.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
     <setting label="32110" type="lsep"/>
-    <setting default="none" id="T10.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />
+    <setting default="none" id="T10.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T10.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
     <setting default="-1" id="T10.maxruns" label="32090" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T10.refractory" label="32091" type="number" visible="!eq(-3,0)" />
-    <setting default="" id="T10.scriptfile" label="32003" type="file" visible="eq(-4,1)" />
-    <setting default="true" label="32008" id="T10.shell" visible="eq(-5,1)" type="bool" />
-    <setting default="" id="T10.pythondoc" label="32004" type="file" visible="eq(-6,2)" />
-    <setting default="" id="T10.builtin" label="32005" type="text" visible="eq(-7,3)" />
-    <setting default="" id="T10.http" label="32006" type="text" visible="eq(-8,4)" />
+    <setting default="" id="T10.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
+    <setting default="" id="T10.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
+    <setting default="" id="T10.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
+    <setting default="false" id="T10.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
+    <setting default="" id="T10.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
+    <setting default="false" id="T10.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
   </category>
 
   <category label="32092">

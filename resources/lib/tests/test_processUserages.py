@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-import Tasks
+import tasks
 from PubSub_Threaded import Topic
 from events import Events
 
@@ -26,7 +26,7 @@ evt = events.Player[topic]
 kwargs = evt['expArgs']
 userargs = '"%fn" pp:%pp'
 
-workers = [Tasks.WorkerPy, Tasks.WorkerScript, Tasks.WorkerBuiltin, Tasks.WorkerHTTP]
+workers = [tasks.WorkerPy, tasks.WorkerScript, tasks.WorkerBuiltin, tasks.WorkerHTTP]
 for worker in workers:
     w = worker('cmd', userargs)
     w.topic = Topic(topic)

@@ -198,13 +198,13 @@ class Task(threading.Thread):
 
 
 class TaskManager(object):
-    def __init__(self, task, maxrunning=1, refractory_period=None, max_runs=-1, **taskKwargs):
+    def __init__(self, task, maxrunning=1, refractory=None, maxruns=-1, **taskKwargs):
         self.task = task
         self.maxrunning = maxrunning
-        self.refractory_period = refractory_period
+        self.refractory_period = refractory
         self.run_tasks = []
         self.most_recent_task_time = time.time()
-        self.max_runs = max_runs
+        self.max_runs = maxruns
         self.run_count = 0
         self.taskKwargs = taskKwargs
         self.returnHandler = DummyReturnHandler

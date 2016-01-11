@@ -17,6 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 from resources.lib.events import Events
+from resources.lib  import taskdict
 
 allevts = Events().AllEvents
 output = []
@@ -41,17 +42,25 @@ output.append('  <category label="32001">\n')
 for i in xrange(1,11):
     prefix = "T%s" % str(i)
     output.append('    <setting label="%s" type="lsep"/>\n'% str(32100 + i))
-    output.append('    <setting default="none" id="%s.type" label="32002" type="labelenum" values="none|script|python|builtin|http" />\n' % prefix)
+    idx = len(output)
+    taskchoices = ['none']
+    for key in sorted(taskdict.keys()):
+        taskchoices.append(key)
+    taskchoices = "|".join(taskchoices)
+    output.append('    <setting default="none" id="%s.type" label="32002" type="labelenum" values="%s" />\n' % (prefix, taskchoices))
     output.append('    <setting default="-1" id="%s.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />\n' % prefix)
     output.append('    <setting default="-1" id="%s.maxruns" label="32090" type="number" visible="!eq(-2,0)" />\n' % prefix)
     output.append('    <setting default="-1" id="%s.refractory" label="32091" type="number" visible="!eq(-3,0)" />\n' % prefix)
-    output.append('    <setting default="" id="%s.scriptfile" label="32003" type="file" visible="eq(-4,1)" />\n' % prefix)
-    output.append('    <setting default="true" label="32008" id="%s.shell" visible="eq(-5,1)" type="bool" />\n' % prefix)
-    output.append('    <setting default="" id="%s.pythondoc" label="32004" type="file" visible="eq(-6,2)" />\n' % prefix)
-    output.append('    <setting default="" id="%s.builtin" label="32005" type="text" visible="eq(-7,3)" />\n' % prefix)
-    output.append('    <setting default="" id="%s.http" label="32006" type="text" visible="eq(-8,4)" />\n' % prefix)
+    for i1, key in enumerate(sorted(taskdict.keys())):
+        for var in taskdict[key]['variables']:
+            varset = var['settings']
+            output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' %
+                          (varset['default'], prefix, var['id'], varset['label'], varset['type'], getoffset(idx,output),i1+1))
+
 output.append('  </category>\n\n')
+
 output.append('  <category label="32092">\n')
+
 for i in xrange(1,11):
     prefix = 'E%s' % str(i)
     output.append(ssp + 'label="' + str(32110 + i) + '" type="lsep" />\n')

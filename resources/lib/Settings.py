@@ -20,6 +20,7 @@ import xbmcaddon
 from resources.lib.PubSub_Threaded import Topic
 from resources.lib.events import Events
 from resources.lib.kodilogging import log
+from resources.lib import taskdict
 try:
     addonid = xbmcaddon.Addon().id
 except:
@@ -27,7 +28,7 @@ except:
 
 def get(settingid, var_type):
     t = xbmcaddon.Addon(addonid).getSetting(settingid)
-    if var_type == 'text':
+    if var_type == 'text' or var_type == 'file':
         return t
     elif var_type == 'int':
         try:
@@ -46,12 +47,8 @@ def get(settingid, var_type):
 
 class Settings(object):
     allevents = Events().AllEvents
-    taskSuffixes = {'general':[['type', 'text'], ['maxrunning', 'int'], ['maxruns','int'], ['refractory', 'int']],
-                    'script':[['scriptfile','text'], ['shell','bool']],
-                    'python':[['pythondoc','text']],
-                    'builtin':[['builtin','text']],
-                    'http':[['http','text']]
-                    }
+    taskSuffixes = {'general':[['maxrunning', 'int'], ['maxruns','int'], ['refractory', 'int']],
+                     }
     eventsReverseLookup = None
 
     def __init__(self):
@@ -78,13 +75,18 @@ class Settings(object):
 
     def getTaskSetting(self, pid):
         tsk = {}
-        for suff in Settings.taskSuffixes['general']:
-            tsk[suff[0]] = get('%s.%s' % (pid,suff[0]), suff[1])
-        if tsk['type'] == 'none':
+        tasktype = get('%s.type' % pid, 'text')
+        if tasktype == 'none':
             return None
-        for suff in Settings.taskSuffixes[tsk['type']]:
-            tsk[suff[0]] = get('%s.%s' % (pid,suff[0]), suff[1])
-        return tsk
+        else:
+            tsk['type'] = tasktype
+            for suff in Settings.taskSuffixes['general']:
+                tsk[suff[0]] = get('%s.%s' % (pid,suff[0]), suff[1])
+             # for suff in Settings.taskSuffixes[tsk['type']]:
+            #     tsk[suff[0]] = get('%s.%s' % (pid,suff[0]), suff[1])
+            for var in taskdict[tasktype]['variables']:
+                tsk[var['id']] = get('%s.%s' % (pid, var['id']), var['settings']['type'])
+            return tsk
 
     def getEventSettings(self):
         for i in xrange(1,11):

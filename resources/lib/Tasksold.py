@@ -38,17 +38,18 @@ import traceback
 import stat
 import xbmc
 import xbmcvfs
+import xbmcgui
 sysplat = sys.platform
 from resources.lib.events import Events
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.PubSub_Threaded import TaskReturn
-import xbmcgui
+
+
+events = Events()
 
 def notify(msg):
     dialog = xbmcgui.Dialog()
     dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
-
-events = Events()
 
 # def dictToString(mydict):
 #     string = []
