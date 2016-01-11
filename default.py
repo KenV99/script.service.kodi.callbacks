@@ -214,12 +214,18 @@ def main():
 
 
 def test(key):
+    global log
+    log = KodiLogger.log
     import resources.lib.tests.direct_test as direct_test
     from resources.lib.events import Events
     log(msg='Running Test for Event: %s' % key)
     events = Events().AllEvents
     settings = Settings()
     settings.getSettings()
+    if settings.general['elevate_loglevel'] is True:
+        KodiLogger.setLogLevel(xbmc.LOGNOTICE)
+    else:
+        KodiLogger.setLogLevel(xbmc.LOGDEBUG)
     log(msg='Settings for test read')
     evtsettings = settings.events[key]
     topic = settings.topicFromSettingsEvent(key)

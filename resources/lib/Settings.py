@@ -17,7 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 import xbmcaddon
-from resources.lib.PubSub_Threaded import Topic
+from resources.lib.pubsub import Topic
 from resources.lib.events import Events
 from resources.lib.kodilogging import log
 from resources.lib import taskdict
@@ -82,8 +82,6 @@ class Settings(object):
             tsk['type'] = tasktype
             for suff in Settings.taskSuffixes['general']:
                 tsk[suff[0]] = get('%s.%s' % (pid,suff[0]), suff[1])
-             # for suff in Settings.taskSuffixes[tsk['type']]:
-            #     tsk[suff[0]] = get('%s.%s' % (pid,suff[0]), suff[1])
             for var in taskdict[tasktype]['variables']:
                 tsk[var['id']] = get('%s.%s' % (pid, var['id']), var['settings']['type'])
             return tsk
@@ -108,11 +106,6 @@ class Settings(object):
         for ri in Settings.allevents[et]['reqInfo']:
             evt[ri[0]] = get('%s.%s' % (pid,ri[0]), ri[1])
         evt['userargs'] = get('%s.userargs' % pid, 'text')
-
-        # for oa in Settings.allevents[et]['optArgs']:
-        #     evt[oa] = get('%s.%s' % (pid, oa),'bool')
-        # evt['eventId'] = get('%s.eventId' % pid, 'bool')
-        # evt['taskId'] = get('%s.taskId' % pid, 'bool')
         return evt
 
     def getTestEventSettings(self, taskId):
@@ -130,6 +123,7 @@ class Settings(object):
         self.general['Notify'] = get('Notify','bool')
         for p in polls:
             self.general[p] = get(p,'int')
+        self.general['elevate_loglevel'] = get('loglevel', 'bool')
 
     def openwindowids(self):
         ret = []
