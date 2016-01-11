@@ -77,11 +77,13 @@ class MainMonitor(xbmc.Monitor):
         start()
 
 
-def createTaskT(taskSettings, eventSettings):
+def createTaskT(taskSettings, eventSettings, xlog):
     global log
+    if xlog is None:
+        xlog = log
     mytask = taskdict[taskSettings['type']]['class']
     taskKwargs = taskSettings
-    if mytask.validate(taskKwargs, xlog=log) is True:
+    if mytask.validate(taskKwargs, xlog=xlog) is True:
         return mytask, taskKwargs
     else:
         return None, None
@@ -100,8 +102,8 @@ def returnHandler(taskReturn):
         log(loglevel=xbmc.LOGERROR, msg=msg)
 
 
-def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler):
-    taskT, taskKwargs = createTaskT(tasksettings, eventSettings)
+def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=None):
+    taskT, taskKwargs = createTaskT(tasksettings, eventSettings, log)
     if taskT is not None:
         tm = PubSub_Threaded.TaskManager(taskT, taskid=eventSettings['task'], userargs=eventSettings['userargs'],
                                          **taskKwargs)
