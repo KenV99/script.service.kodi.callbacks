@@ -181,7 +181,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E1.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E1.test" label="32009" type="action" action="RunScript($CWD/default.py, E1)" visible="!eq(-66,0)" />
+    <setting default="" id="E1.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E1)" visible="!eq(-66,0)" />
     <setting label="32112" type="lsep" />
     <setting default="None" id="E2.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E2.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -249,7 +249,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E2.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E2.test" label="32009" type="action" action="RunScript($CWD/default.py, E2)" visible="!eq(-66,0)" />
+    <setting default="" id="E2.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E2)" visible="!eq(-66,0)" />
     <setting label="32113" type="lsep" />
     <setting default="None" id="E3.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E3.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -317,7 +317,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E3.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E3.test" label="32009" type="action" action="RunScript($CWD/default.py, E3)" visible="!eq(-66,0)" />
+    <setting default="" id="E3.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E3)" visible="!eq(-66,0)" />
     <setting label="32114" type="lsep" />
     <setting default="None" id="E4.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E4.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -385,7 +385,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E4.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E4.test" label="32009" type="action" action="RunScript($CWD/default.py, E4)" visible="!eq(-66,0)" />
+    <setting default="" id="E4.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E4)" visible="!eq(-66,0)" />
     <setting label="32115" type="lsep" />
     <setting default="None" id="E5.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E5.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -453,7 +453,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E5.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E5.test" label="32009" type="action" action="RunScript($CWD/default.py, E5)" visible="!eq(-66,0)" />
+    <setting default="" id="E5.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E5)" visible="!eq(-66,0)" />
     <setting label="32116" type="lsep" />
     <setting default="None" id="E6.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E6.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -521,7 +521,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E6.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E6.test" label="32009" type="action" action="RunScript($CWD/default.py, E6)" visible="!eq(-66,0)" />
+    <setting default="" id="E6.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E6)" visible="!eq(-66,0)" />
     <setting label="32117" type="lsep" />
     <setting default="None" id="E7.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E7.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -589,7 +589,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E7.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E7.test" label="32009" type="action" action="RunScript($CWD/default.py, E7)" visible="!eq(-66,0)" />
+    <setting default="" id="E7.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E7)" visible="!eq(-66,0)" />
     <setting label="32118" type="lsep" />
     <setting default="None" id="E8.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E8.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -657,7 +657,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E8.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E8.test" label="32009" type="action" action="RunScript($CWD/default.py, E8)" visible="!eq(-66,0)" />
+    <setting default="" id="E8.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E8)" visible="!eq(-66,0)" />
     <setting label="32119" type="lsep" />
     <setting default="None" id="E9.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E9.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -725,7 +725,7 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E9.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E9.test" label="32009" type="action" action="RunScript($CWD/default.py, E9)" visible="!eq(-66,0)" />
+    <setting default="" id="E9.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E9)" visible="!eq(-66,0)" />
     <setting label="32120" type="lsep" />
     <setting default="None" id="E10.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E10.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
@@ -793,12 +793,14 @@
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
     <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting default="" id="E10.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E10.test" label="32009" type="action" action="RunScript($CWD/default.py, E10)" visible="!eq(-66,0)" />
+    <setting default="" id="E10.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E10)" visible="!eq(-66,0)" />
   </category>
   <category label="General">
     <setting default="false" id="Notify" label="Display Notifications when Tasks Run?" type="bool" />
     <setting default="500" id="LoopFreq" label="Loop Pooling Frequency (ms)" type="number" />
     <setting default="500" id="LogFreq" label="Log Polling Frequency (ms)" type="number" />
     <setting default="100" id="TaskFreq" label="Task Polling Frequency (ms)" type="number" />
+    <setting default="false" id="loglevel" label="Show debugging info in normal log?" type="bool" />
+    <setting id="regen" label="Regenerate settings.xml" type="action" action="RunScript(service.kodi.callbacks, regen)" />
   </category>
 </settings>

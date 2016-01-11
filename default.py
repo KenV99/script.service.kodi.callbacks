@@ -18,7 +18,7 @@
 #
 debug = False
 remote = False
-testdebug = False
+testdebug = True
 
 import threading
 import resources.lib.PubSub_Threaded as PubSub_Threaded
@@ -206,10 +206,6 @@ def main():
 
 
 def test(key):
-    if testdebug is True:
-        sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
-        import pydevd
-        pydevd.settrace('localhost', port=51235, stdoutToServer=True, stderrToServer=True, suspend=False)
     import resources.lib.tests.DirectTsting as DT
     from resources.lib.events import Events
     log(msg='Running Test for Event: %s' % key)
@@ -228,26 +224,37 @@ def test(key):
     if subscriber is not None:
         log(msg='Test subscriber created successfully')
         subscriber.addTopic(topic)
+        subscriber.taskmanagers[0].taskKwargs['notify'] = settings.general['Notify']
         kwargs = events[evtsettings['type']]['expArgs']
         testRH = DT.TestHandler(DT.testMsg(subscriber.taskmanagers[0], tasksettings, kwargs))
         subscriber.taskmanagers[0].returnHandler = testRH.testReturnHandler
         # Run test
         log(msg='Running test')
         nMessage = PubSub_Threaded.Message(topic=topic, **kwargs)
-
-        subscriber.notify(nMessage)
+        try:
+            subscriber.notify(nMessage)
+        except Exception as e:
+            pass
     else:
         log(msg='Test subscriber creation failed due to errors')
         msgList = testlogger.retrieveLogAsList()
         import resources.lib.dialogtb as dialogtb
         dialogtb.show_textbox('Error', msgList)
 
-    xbmc.sleep(10000)
+    xbmc.sleep(100000)
 
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        eventId = sys.argv[1]
-        test(eventId)
+        if testdebug is True:
+            sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
+            import pydevd
+            pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
+        if sys.argv[1] == 'regen':
+            from resources.lib.xml_gen import generate_settingsxml
+            generate_settingsxml()
+        else:
+            eventId = sys.argv[1]
+            test(eventId)
     else:
         main()

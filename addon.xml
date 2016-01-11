@@ -8,6 +8,9 @@
   <extension point="xbmc.service" library="default.py" start="startup">
     <provides>executable</provides>
   </extension>
+  <extension point="xbmc.python.script" library="default.py">
+    <provides>executable</provides>
+  </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Callbacks for kodi</summary>
     <description lang="en">Provides user definable actions for specific events within Kodi

@@ -21,15 +21,8 @@ from resources.lib.PubSub_Threaded import TaskReturn
 
 def testMsg(taskManager, taskSettings, kwargs):
     msg = ['Testing for task type: %s' % taskSettings['type']]
-    msg.append('Command: %s' % taskManager.taskKwargs['cmd_str'])
-    if taskSettings['type']=='script':
-        if taskManager.taskKwargs['needs_shell']:
-            msg.append('Executing in shell')
-        else:
-            msg.append('Not executing in shell')
-
-    msg.append('User arg sring: %s' % taskManager.taskKwargs['userargs'])
-    msg.append('Kwargs: %s' % str(kwargs))
+    msg.append('Settings: %s' % str(taskManager.taskKwargs))
+    msg.append('Runtime kwargs: %s' % str(kwargs))
     return msg
 
 class TestHandler(object):
