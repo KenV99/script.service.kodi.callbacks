@@ -17,7 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-from resources.lib.PubSub_Threaded import TaskReturn
+from resources.lib.pubsub import TaskReturn
 
 def testMsg(taskManager, taskSettings, kwargs):
     msg = ['Testing for task type: %s' % taskSettings['type']]

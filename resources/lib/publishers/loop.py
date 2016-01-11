@@ -24,7 +24,7 @@ from json import loads as jloads
 
 import xbmc
 import xbmcgui
-from resources.lib.PubSub_Threaded import Publisher, Message, Topic
+from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
 
 

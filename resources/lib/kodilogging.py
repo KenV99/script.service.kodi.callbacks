@@ -26,14 +26,16 @@ def log(loglevel=xbmc.LOGNOTICE, msg=''):
 
 class KodiLogger(object):
 
-    selfloglevel = xbmc.LOGNOTICE
+    selfloglevel = xbmc.LOGDEBUG
 
     @staticmethod
     def setLogLevel(arg):
         KodiLogger.selfloglevel = arg
 
     @staticmethod
-    def log(loglevel=xbmc.LOGNOTICE, msg=''):
+    def log(loglevel=None, msg=''):
+        if loglevel is None:
+            loglevel = KodiLogger.selfloglevel
         if isinstance(msg, str):
             msg = msg.decode("utf-8")
         message = u"$$$ [%s] - %s" % ('kodi.callbacks', msg)

@@ -18,22 +18,22 @@
 #
 debug = False
 remote = False
-testdebug = True
+testdebug = False
 
 import threading
-import resources.lib.PubSub_Threaded as PubSub_Threaded
+import resources.lib.pubsub as PubSub_Threaded
 from resources.lib import taskdict
 import xbmc
 import xbmcaddon
 import xbmcgui
-from resources.lib.Settings import Settings
+from resources.lib.settings import Settings
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.publishers.log import LogPublisher
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
 
-log = KodiLogger.log
+log = None
 dispatcher = None
 publishers = None
 
@@ -69,7 +69,7 @@ class MainMonitor(xbmc.Monitor):
         super(MainMonitor, self).__init__()
 
     def onSettingsChanged(self):
-        global dispatcher, publishers
+        global dispatcher, publishers, log
         log(msg='Settings change detected - attempting to restart')
         for p in publishers:
             p.abort(0.525)
@@ -77,7 +77,8 @@ class MainMonitor(xbmc.Monitor):
         start()
 
 
-def createTaskT(taskSettings, eventSettings, log=xbmc.log):
+def createTaskT(taskSettings, eventSettings):
+    global log
     mytask = taskdict[taskSettings['type']]['class']
     taskKwargs = taskSettings
     if mytask.validate(taskKwargs, xlog=log) is True:
@@ -99,8 +100,8 @@ def returnHandler(taskReturn):
         log(loglevel=xbmc.LOGERROR, msg=msg)
 
 
-def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=xbmc.log):
-    taskT, taskKwargs = createTaskT(tasksettings, eventSettings, log)
+def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler):
+    taskT, taskKwargs = createTaskT(tasksettings, eventSettings)
     if taskT is not None:
         tm = PubSub_Threaded.TaskManager(taskT, taskid=eventSettings['task'], userargs=eventSettings['userargs'],
                                          **taskKwargs)
@@ -111,9 +112,14 @@ def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=
 
 
 def start():
-    global dispatcher, publishers
+    global dispatcher, publishers, log
     settings = Settings()
     settings.getSettings()
+    if settings.general['elevate_loglevel'] is True:
+        KodiLogger.setLogLevel(xbmc.LOGNOTICE)
+    else:
+        KodiLogger.setLogLevel(xbmc.LOGDEBUG)
+    log = KodiLogger.log
     log(msg='Settings read')
     publishers = []
     subscribers = []
@@ -171,7 +177,7 @@ def start():
 
 def main():
     global dispatcher, publishers
-    log(msg='Staring kodi.callbacks ver: %s' % str(xbmcaddon.Addon().getAddonInfo('version')))
+    xbmc.log(msg='$$$ [kodi.callbacks] Staring kodi.callbacks ver: %s' % str(xbmcaddon.Addon().getAddonInfo('version')), level=xbmc.LOGNOTICE)
     dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
     monitor = MainMonitor()
@@ -206,7 +212,7 @@ def main():
 
 
 def test(key):
-    import resources.lib.tests.DirectTsting as DT
+    import resources.lib.tests.direct_test as direct_test
     from resources.lib.events import Events
     log(msg='Running Test for Event: %s' % key)
     events = Events().AllEvents
@@ -217,7 +223,7 @@ def test(key):
     topic = settings.topicFromSettingsEvent(key)
     task_key = settings.events[key]['task']
     tasksettings = settings.tasks[task_key]
-    testlogger = DT.TestLogger()
+    testlogger = direct_test.TestLogger()
     testlog = testlogger.log
     log(msg='Creating subscriber for test')
     subscriber = createSubscriber(tasksettings, evtsettings, log=testlog)
@@ -226,7 +232,7 @@ def test(key):
         subscriber.addTopic(topic)
         subscriber.taskmanagers[0].taskKwargs['notify'] = settings.general['Notify']
         kwargs = events[evtsettings['type']]['expArgs']
-        testRH = DT.TestHandler(DT.testMsg(subscriber.taskmanagers[0], tasksettings, kwargs))
+        testRH = direct_test.TestHandler(direct_test.testMsg(subscriber.taskmanagers[0], tasksettings, kwargs))
         subscriber.taskmanagers[0].returnHandler = testRH.testReturnHandler
         # Run test
         log(msg='Running test')

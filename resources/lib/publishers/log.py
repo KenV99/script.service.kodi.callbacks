@@ -21,7 +21,7 @@ import xbmc
 import threading
 from Queue import Queue, Empty
 import re
-from resources.lib.PubSub_Threaded import Publisher, Topic, Message
+from resources.lib.pubsub import Publisher, Topic, Message
 from resources.lib.events import Events
 
 logfn = xbmc.translatePath(r'special://home\Kodi.log')

@@ -17,7 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 import tasks
-from PubSub_Threaded import Topic
+from pubsub import Topic
 from events import Events
 
 events = Events()

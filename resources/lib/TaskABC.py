@@ -22,7 +22,7 @@ import Queue
 import abc
 import re
 from resources.lib.kodilogging import KodiLogger
-from resources.lib.PubSub_Threaded import TaskReturn
+from resources.lib.pubsub import TaskReturn
 from resources.lib.events import Events
 import xbmcgui
 

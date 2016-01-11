@@ -20,12 +20,12 @@
 import threading
 import time
 
-import PubSub_Threaded
+import pubsub
 
 
-class MockPublisher(PubSub_Threaded.Publisher, threading.Thread):
+class MockPublisher(pubsub.Publisher, threading.Thread):
     def __init__(self, dispatcher, topic, interval=1):
-        PubSub_Threaded.Publisher.__init__(self, dispatcher)
+        pubsub.Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self)
         self.interval = interval
         self.abort_evt = threading.Event()
@@ -35,31 +35,31 @@ class MockPublisher(PubSub_Threaded.Publisher, threading.Thread):
         count = 1
         while not self.abort_evt.is_set():
             time.sleep(self.interval)
-            msg = PubSub_Threaded.Message(self.topic, count=count)
+            msg = pubsub.Message(self.topic, count=count)
             self.publish(msg)
             count += 1
 
 
-class PrintTask(PubSub_Threaded.Task):
+class PrintTask(pubsub.Task):
     def run(self):
         print 'Message Received %s: %s' % (self.topic.topic, str(self.kwargs))
 
 
 if __name__ == '__main__':
-    dispatch = PubSub_Threaded.Dispatcher()
+    dispatch = pubsub.Dispatcher()
     topics = [['test_topic1', 1], ['test_topic2', 2], ['test_topic3', 3]]
     subs = []
     pubs = []
     for t in topics:
         try:
             task = PrintTask  # NOTE: Not an instance
-            tm = PubSub_Threaded.TaskManager(task, max_runs=3)
-            subscriber = PubSub_Threaded.Subscriber()
+            tm = pubsub.TaskManager(task, max_runs=3)
+            subscriber = pubsub.Subscriber()
             subscriber.addTaskManager(tm)
-            subscriber.addTopic(PubSub_Threaded.Topic(t[0]))
+            subscriber.addTopic(pubsub.Topic(t[0]))
             dispatch.addSubscriber(subscriber)
             subs.append(subscriber)
-            pub = MockPublisher(dispatch, PubSub_Threaded.Topic(t[0]), interval=t[1])
+            pub = MockPublisher(dispatch, pubsub.Topic(t[0]), interval=t[1])
             pubs.append(pub)
         except Exception as e:
             pass

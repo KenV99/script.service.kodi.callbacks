@@ -18,7 +18,7 @@
 #
 import threading
 import xbmc
-from resources.lib.PubSub_Threaded import Publisher, Topic, Message
+from resources.lib.pubsub import Publisher, Topic, Message
 from resources.lib.events import Events
 
 class PlayerPublisher(Publisher, threading.Thread):

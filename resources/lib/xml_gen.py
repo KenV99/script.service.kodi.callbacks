@@ -19,7 +19,6 @@
 from resources.lib.events import Events
 from resources.lib  import taskdict
 import xbmc
-import xbmcaddon
 
 def generate_settingsxml():
     allevts = Events().AllEvents
