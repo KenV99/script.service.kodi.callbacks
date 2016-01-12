@@ -74,6 +74,7 @@ class AbstractTask(threading.Thread):
                 except:
                     pass
         ret = ret.replace('%__', " ")
+        ret = ret.replace('%_', ",")
         ret = ret.replace('{@literal%@}', r'%')
         ret = ret.split('{@originaldelim@}')
         return ret
