@@ -57,14 +57,20 @@ def getProfileString():
 
 class LoopPublisher(Publisher, threading.Thread):
     publishes = Events().CustomLoop.keys()
-    def __init__(self, dispatcher, owids, cwids, idleT=None, interval=500):
+    def __init__(self, dispatcher, owids=None, cwids=None, idleT=None, interval=500):
         Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self, name='LoopPublisher')
         self.interval = interval
         self.abort_evt = threading.Event()
         self.abort_evt.clear()
-        self.openwindowids = owids
-        self.closewindowsids = cwids
+        if owids is None:
+            self.openwindowids = []
+        else:
+            self.openwindowids = owids
+        if cwids is None:
+            self.closewindowsids = []
+        else:
+            self.closewindowsids = cwids
         self.player = xbmc.Player()
         if idleT is not None:
             if len(idleT) > 0:
