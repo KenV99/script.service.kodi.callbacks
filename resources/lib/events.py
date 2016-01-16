@@ -154,14 +154,14 @@ class Events(object):
             'text':'on Window Opened',
             'reqInfo':[('windowIdO', 'int', 0)],
             'optArgs':['windowId'],
-            'varArgs':{'wi':'windowId'},
+            'varArgs':{'%wi':'windowId'},
             'expArgs':{'windowId':'10000'}
         },
         'onWindowClose':{
             'text':'on Window Closed',
             'reqInfo':[('windowIdC','int', 0)],
             'optArgs':['windowId'],
-            'varArgs':{'wi':'windowId'},
+            'varArgs':{'%wi':'windowId'},
             'expArgs':{'windowId':'10000'}
         },
         'onIdle':{
@@ -187,14 +187,14 @@ class Events(object):
             'text':'on Log Simple',
             'reqInfo':[('matchIf','text', '') , ('rejectIf','text', '')],
             'optArgs':['logLine'],
-            'varArgs':{'ll':'logLine'},
+            'varArgs':{'%ll':'logLine'},
             'expArgs':{'logLine':'16:10:31 T:13092  NOTICE:  fps: 23.976024, pwidth: 1916, pheight: 796, dwidth: 1916, dheight: 796'}
         },
         'onLogRegex':{
             'text':'on Log Regex',
             'reqInfo':[('matchIf','text', '') , ('rejectIf','text', '')],
             'optArgs':['logLine'],
-            'varArgs':{'ll':'logLine'},
+            'varArgs':{'%ll':'logLine'},
             'expArgs':{'logLine':'16:10:31 T:13092  NOTICE:  fps: 23.976024, pwidth: 1916, pheight: 796, dwidth: 1916, dheight: 796'}
         }
     }
@@ -203,7 +203,7 @@ class Events(object):
             'text':'on File System Change',
             'reqInfo':[('folder','folder', ''), ('patterns', 'text', ''), ('ignore_patterns', 'text', ''),('ignore_directories', 'text', ''),('recursive','bool', '')],
             'optArgs':['path', 'event'],
-            'varArgs':{'pa':'path', 'ev':'event'},
+            'varArgs':{'%pa':'path', '%ev':'event'},
             'expArgs':{'path':'C:\\Users\\User\\text.txt', 'event':'deleted' }
         },
     }

@@ -70,8 +70,7 @@ class AbstractTask(threading.Thread):
                 try:
                     kw = kwargs[varArgs[key]]
                     kw = kw.replace(" ", '%__')
-                    t = '%%%s' % key
-                    ret = ret.replace(t, kw)
+                    ret = ret.replace(key, kw)
                 except:
                     pass
         ret = ret.replace('%__', " ")

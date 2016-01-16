@@ -248,7 +248,10 @@ def test(key):
         log(msg='Test subscriber created successfully')
         subscriber.addTopic(topic)
         subscriber.taskmanagers[0].taskKwargs['notify'] = settings.general['Notify']
-        kwargs = events[evtsettings['type']]['expArgs']
+        try:
+            kwargs = events[evtsettings['type']]['expArgs']
+        except KeyError:
+            kwargs = {}
         testRH = direct_test.TestHandler(direct_test.testMsg(subscriber.taskmanagers[0], tasksettings, kwargs))
         subscriber.taskmanagers[0].returnHandler = testRH.testReturnHandler
         # Run test
@@ -272,7 +275,7 @@ def test(key):
         import resources.lib.dialogtb as dialogtb
         dialogtb.show_textbox('Error', msgList)
 
-    xbmc.sleep(30000)
+    xbmc.sleep(2000)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
