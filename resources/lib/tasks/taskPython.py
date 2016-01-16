@@ -74,7 +74,6 @@ class TaskPython(AbstractTask):
         except:
             useImport = False
         result = None
-        #TODO: implement options
         try:
             if len(self.runtimeargs) > 0:
                 if useImport is False:

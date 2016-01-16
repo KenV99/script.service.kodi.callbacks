@@ -110,10 +110,10 @@ class LoopPublisher(Publisher, threading.Thread):
 
             newwindowid = xbmcgui.getCurrentWindowId()
             if newwindowid != lastwindowid:
-                if lastwindowid in self.closewindowsids:
-                    self.publish(Message(Topic('onWindowClose', str(lastwindowid)), windowId=str(lastwindowid)))
+                if lastwindowid in self.closewindowsids.keys():
+                    self.publish(Message(Topic('onWindowClose', self.closewindowsids[lastwindowid])))
                 if newwindowid in self.openwindowids:
-                    self.publish(Message(Topic('onWindowOpen', str(newwindowid)), windowId=str(newwindowid)))
+                    self.publish(Message(Topic('onWindowOpen', self.openwindowids[newwindowid])))
                 lastwindowid = newwindowid
 
             if firstloop:

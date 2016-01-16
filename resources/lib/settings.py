@@ -21,6 +21,7 @@ from resources.lib.pubsub import Topic
 from resources.lib.events import Events
 from resources.lib.kodilogging import log
 from resources.lib import taskdict
+from resources.lib.events import requires_subtopic
 try:
     addonid = xbmcaddon.Addon().id
 except:
@@ -28,7 +29,7 @@ except:
 
 def get(settingid, var_type):
     t = xbmcaddon.Addon(addonid).getSetting(settingid)
-    if var_type == 'text' or var_type == 'file':
+    if var_type == 'text' or var_type == 'file' or var_type == 'folder':
         return t
     elif var_type == 'int':
         try:
@@ -125,20 +126,20 @@ class Settings(object):
             self.general[p] = get(p,'int')
         self.general['elevate_loglevel'] = get('loglevel', 'bool')
 
-    def openwindowids(self):
-        ret = []
+    def getOpenwindowids(self):
+        ret = {}
         for evtkey in self.events.keys():
             evt = self.events[evtkey]
             if evt['type'] == 'onWindowOpen':
-                ret.append(evt['windowIdO'])
+                ret[evt['windowIdO']] = evt['eventId']
         return ret
 
-    def closewindowids(self):
-        ret = []
+    def getClosewindowids(self):
+        ret = {}
         for evtkey in self.events.keys():
             evt = self.events[evtkey]
             if evt['type'] == 'onWindowClose':
-                ret.append(evt['windowIdC'])
+                ret[evt['windowIdC']] = evt['eventId']
         return ret
 
     def getEventsByType(self, eventType):
@@ -173,25 +174,23 @@ class Settings(object):
         evts = self.getEventsByType('onLogSimple')
         ret = []
         for evt in evts:
-            ret.append([evt['matchIf'], evt['rejectIf']])
+            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['eventId']})
         return ret
 
     def getLogRegexes(self):
         evts = self.getEventsByType('onLogRegex')
         ret = []
         for evt in evts:
-            ret.append([evt['matchIf'], evt['rejectIf']])
+            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['eventId']})
         return ret
+
+    def getWatchdogSettings(self):
+        evts = self.getEventsByType('onFileSystemChange')
+        return evts
 
     def topicFromSettingsEvent(self, key):
         top = self.events[key]['type']
-        if top == 'onIdle':
-            return Topic(top, key)
-        elif top == 'onWindowOpen':
-            return Topic(top, str(self.events[key]['windowIdO']))
-        elif top == 'onWindowClose':
-            return Topic(top, str(self.events[key]['windowIdC']))
-        elif top == 'onNotification':
+        if top in requires_subtopic():
             return Topic(top, key)
         else:
             return Topic(top)

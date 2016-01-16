@@ -71,17 +71,17 @@ class LogPublisher(threading.Thread, Publisher):
 
     def add_simple_checks(self, simpleList):
         for chk in simpleList:
-            self.add_simple_check(chk[0], chk[1])
+            self.add_simple_check(chk['matchIf'], chk['rejectIf'], chk['eventId'])
 
     def add_regex_checks(self, regexList):
         for chk in regexList:
-            self.add_re_check(chk[0], chk[1])
+            self.add_re_check(chk['matchIf'], chk['rejectIf'], chk['eventId'])
 
-    def add_simple_check(self, match, nomatch):
-        self._checks_simple.append(LogCheckSimple(match, nomatch, self.publish))
+    def add_simple_check(self, match, nomatch, subtopic):
+        self._checks_simple.append(LogCheckSimple(match, nomatch, subtopic, self.publish))
 
-    def add_re_check(self, match, nomatch):
-        self._checks_regex.append(LogCheckRegex(match, nomatch, self.publish))
+    def add_re_check(self, match, nomatch, subtopic):
+        self._checks_regex.append(LogCheckRegex(match, nomatch, subtopic, self.publish))
 
     def run(self):
         lm = LogMonitor(interval=self.interval_monitor)
@@ -124,7 +124,7 @@ class LogCheck(object):
         self.param = param
 
 class LogCheckSimple(threading.Thread):
-    def __init__(self, match, nomatch, publish):
+    def __init__(self, match, nomatch, publish, subtopic):
         super(LogCheckSimple, self).__init__(name='LogCheckSimple')
         self.match = match
         self.nomatch = nomatch
@@ -132,7 +132,7 @@ class LogCheckSimple(threading.Thread):
         self.queue = Queue()
         self._abort_evt = threading.Event()
         self._abort_evt.clear()
-        self.topic = Topic('onLogSimple')
+        self.topic = Topic('onLogSimple', subtopic)
 
     def run(self):
         while not self._abort_evt.is_set():
@@ -158,7 +158,7 @@ class LogCheckSimple(threading.Thread):
                 xbmc.log(msg='Could not stop LogCheckSimple T:%i' % self.ident)
 
 class LogCheckRegex(threading.Thread):
-    def __init__(self, match, nomatch, publish):
+    def __init__(self, match, nomatch, publish, subtopic):
         super(LogCheckRegex, self).__init__(name='LogCheckRegex')
         try:
             re_match = re.compile(match, flags=re.IGNORECASE)
@@ -177,7 +177,7 @@ class LogCheckRegex(threading.Thread):
         self.queue = Queue()
         self._abort_evt = threading.Event()
         self._abort_evt.clear()
-        self.topic = Topic('onLogRegex')
+        self.topic = Topic('onLogRegex', subtopic)
 
     def run(self):
         while not self._abort_evt.is_set():

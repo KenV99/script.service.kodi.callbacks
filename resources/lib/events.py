@@ -17,6 +17,10 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
+def requires_subtopic():
+    return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'onWindowOpen', 'onWindowClose', 'onNotification']
+
+
 class Events(object):
     Player = {
         'onPlayBackStarted':{
@@ -192,9 +196,17 @@ class Events(object):
             'optArgs':['logLine'],
             'varArgs':{'ll':'logLine'},
             'expArgs':{'logLine':'16:10:31 T:13092  NOTICE:  fps: 23.976024, pwidth: 1916, pheight: 796, dwidth: 1916, dheight: 796'}
+        }
+    }
+    Watchdog = {
+        'onFileSystemChange':{
+            'text':'on File System Change',
+            'reqInfo':[('folder','folder', ''), ('patterns', 'text', ''), ('ignore_patterns', 'text', ''),('ignore_directories', 'text', ''),('recursive','bool', '')],
+            'optArgs':['path', 'event'],
+            'varArgs':{'pa':'path', 'ev':'event'},
+            'expArgs':{'path':'C:\\Users\\User\\text.txt', 'event':'deleted' }
         },
     }
-
 
     def __init__(self):
         self.AllEvents = self._AllEvents()
@@ -209,7 +221,7 @@ class Events(object):
 
     @staticmethod
     def _AllEvents():
-        return Events.mergedicts(Events.Player, Events.Monitor, Events.CustomLoop, Events.Basic, Events.Log)
+        return Events.mergedicts(Events.Player, Events.Monitor, Events.CustomLoop, Events.Basic, Events.Log, Events.Watchdog)
 
     @staticmethod
     def _AllEventsSimple():

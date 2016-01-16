@@ -77,16 +77,6 @@ class _Monitor(xbmc.Monitor):
         kwargs = {}
         self.publish(Message(topic, **kwargs))
 
-    # def onDatabaseScanStarted(self, database):
-    #     topic = Topic('onDatabaseScanStarted')
-    #     kwargs = {}
-    #     self.publish(Message(topic, **kwargs))
-    #
-    # def onDatabaseUpdated(self, database):
-    #     topic = Topic('onDatabaseUpdated')
-    #     kwargs = {}
-    #     self.publish(Message(topic, **kwargs))
-
     def onNotification(self, sender, method, data):
         for criterion in self.jsoncriteria:
             if criterion['sender'] == sender and criterion['method'] == method and criterion['data'] == data:

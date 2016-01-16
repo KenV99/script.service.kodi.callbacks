@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-debug = False
+debug = True
 remote = False
 testdebug = False
 
@@ -32,6 +32,7 @@ from resources.lib.publishers.log import LogPublisher
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
+from resources.lib.publishers.watchdog import WatchdogPublisher
 
 log = None
 dispatcher = None
@@ -130,10 +131,10 @@ def start():
     log(msg='Dispatcher initialized')
 
     for key in settings.events.keys():
+        task_key = settings.events[key]['task']
         evtsettings = settings.events[key]
         topic = settings.topicFromSettingsEvent(key)
         topics.append(topic.topic)
-        task_key = settings.events[key]['task']
         tasksettings = settings.tasks[task_key]
         subscriber = createSubscriber(tasksettings, evtsettings)
         if subscriber is not None:
@@ -146,7 +147,7 @@ def start():
             log(loglevel=xbmc.LOGERROR, msg='Subscriber for event: %s, task: %s NOT created due to errors' % (str(topic), task_key))
 
     if not set(topics).isdisjoint(LoopPublisher.publishes):
-        loopPublisher = LoopPublisher(dispatcher, settings.openwindowids(), settings.closewindowids(),
+        loopPublisher = LoopPublisher(dispatcher, settings.getOpenwindowids(), settings.getClosewindowids(),
                                       settings.getIdleTimes(), settings.general['LoopFreq'])
         publishers.append(loopPublisher)
         log(msg='Loop Publisher initialized')
@@ -165,6 +166,10 @@ def start():
         logPublisher.add_regex_checks(settings.getLogRegexes())
         publishers.append(logPublisher)
         log(msg='Log Publisher initialized')
+    if not set(topics).isdisjoint(WatchdogPublisher.publishes):
+        watchdogPublisher = WatchdogPublisher(dispatcher, settings.getWatchdogSettings())
+        publishers.append(watchdogPublisher)
+        log(msg='Watchdog Publisher initialized')
 
     dispatcher.start()
     log(msg='Dispatcher started')
@@ -255,7 +260,19 @@ def test(key):
         import resources.lib.dialogtb as dialogtb
         dialogtb.show_textbox('Error', msgList)
 
-    xbmc.sleep(100000)
+    xbmc.sleep(60000)
+
+
+
+def testwatchdog():
+    settings = Settings()
+    settings.getSettings()
+    from resources.lib.publishers.watchdog import WatchdogPublisher
+    dispatcher = PubSub_Threaded.Dispatcher(sleepfxn=xbmc.sleep)
+    pub = WatchdogPublisher(dispatcher, watchdogSettings=settings.getWatchdogSettings())
+    task = NotificationTask()
+
+
 
 
 if __name__ == '__main__':

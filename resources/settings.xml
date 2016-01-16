@@ -115,7 +115,7 @@
 
   <category label="32092">
     <setting label="32111" type="lsep" />
-    <setting default="None" id="E1.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E1.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E1.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E1.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -146,44 +146,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E1.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E1.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E1.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E1.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E1.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E1.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E1)" visible="!eq(-66,0)" />
+    <setting default="" id="E1.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E1.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E1.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E1.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E1.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E1.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E1.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E1.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E1.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E1.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E1.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E1)" visible="!eq(-73,0)" />
     <setting label="32112" type="lsep" />
-    <setting default="None" id="E2.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E2.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E2.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E2.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -214,44 +221,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E2.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E2.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E2.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E2.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E2.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E2.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E2)" visible="!eq(-66,0)" />
+    <setting default="" id="E2.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E2.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E2.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E2.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E2.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E2.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E2.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E2.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E2.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E2.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E2.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E2)" visible="!eq(-73,0)" />
     <setting label="32113" type="lsep" />
-    <setting default="None" id="E3.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E3.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E3.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E3.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -282,44 +296,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E3.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E3.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E3.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E3.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E3.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E3.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E3)" visible="!eq(-66,0)" />
+    <setting default="" id="E3.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E3.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E3.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E3.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E3.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E3.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E3.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E3.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E3.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E3.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E3.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E3)" visible="!eq(-73,0)" />
     <setting label="32114" type="lsep" />
-    <setting default="None" id="E4.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E4.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E4.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E4.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -350,44 +371,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E4.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E4.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E4.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E4.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E4.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E4.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E4)" visible="!eq(-66,0)" />
+    <setting default="" id="E4.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E4.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E4.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E4.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E4.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E4.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E4.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E4.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E4.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E4.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E4.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E4)" visible="!eq(-73,0)" />
     <setting label="32115" type="lsep" />
-    <setting default="None" id="E5.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E5.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E5.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E5.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -418,44 +446,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E5.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E5.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E5.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E5.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E5.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E5.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E5)" visible="!eq(-66,0)" />
+    <setting default="" id="E5.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E5.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E5.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E5.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E5.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E5.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E5.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E5.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E5.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E5.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E5.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E5)" visible="!eq(-73,0)" />
     <setting label="32116" type="lsep" />
-    <setting default="None" id="E6.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E6.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E6.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E6.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -486,44 +521,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E6.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E6.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E6.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E6.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E6.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E6.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E6)" visible="!eq(-66,0)" />
+    <setting default="" id="E6.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E6.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E6.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E6.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E6.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E6.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E6.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E6.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E6.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E6.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E6.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E6)" visible="!eq(-73,0)" />
     <setting label="32117" type="lsep" />
-    <setting default="None" id="E7.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E7.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E7.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E7.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -554,44 +596,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E7.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E7.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E7.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E7.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E7.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E7.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E7)" visible="!eq(-66,0)" />
+    <setting default="" id="E7.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E7.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E7.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E7.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E7.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E7.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E7.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E7.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E7.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E7.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E7.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E7)" visible="!eq(-73,0)" />
     <setting label="32118" type="lsep" />
-    <setting default="None" id="E8.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E8.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E8.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E8.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -622,44 +671,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E8.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E8.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E8.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E8.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E8.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E8.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E8)" visible="!eq(-66,0)" />
+    <setting default="" id="E8.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E8.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E8.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E8.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E8.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E8.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E8.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E8.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E8.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E8.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E8.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E8)" visible="!eq(-73,0)" />
     <setting label="32119" type="lsep" />
-    <setting default="None" id="E9.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E9.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E9.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E9.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -690,44 +746,51 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E9.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E9.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E9.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E9.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E9.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E9.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E9)" visible="!eq(-66,0)" />
+    <setting default="" id="E9.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E9.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E9.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E9.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E9.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E9.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E9.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E9.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E9.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E9.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E9.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E9)" visible="!eq(-73,0)" />
     <setting label="32120" type="lsep" />
-    <setting default="None" id="E10.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="None" id="E10.type" label="32002" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E10.task" label="32095" type="select" visible="!eq(-1,None)" values="Task 1|Task 2|Task 3|Task 4|Task 5|Task 6|Task 7|Task 8|Task 9|Task 10" />
     <setting default="60" id="E10.idleTime" label="idleTime" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-3,on Idle [secs])" />
@@ -758,42 +821,49 @@
     <setting label="%li=library" type="lsep" visible="eq(-28,on Scan Started)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-29,on Profile Change)" />
     <setting label="%pp=profilePath" type="lsep" visible="eq(-30,on Profile Change)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-31,on Playback Ended)" />
-    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-32,on Playback Ended)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-33,on Queue Next Item)" />
-    <setting label="" type="lsep" visible="eq(-34,on Queue Next Item)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-35,on Clean Started)" />
-    <setting label="%li=library" type="lsep" visible="eq(-36,on Clean Started)" />
-    <setting default="" id="E10.sender" label="sender" type="text" visible="eq(-37,on JSON Notification)" />
-    <setting default="" id="E10.method" label="method" type="text" visible="eq(-38,on JSON Notification)" />
-    <setting default="" id="E10.data" label="data" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on JSON Notification)" />
-    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-41,on JSON Notification)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Stereoscopic Mode Change )" />
-    <setting label="%sm=stereoMode" type="lsep" visible="eq(-43,on Stereoscopic Mode Change )" />
-    <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-44,on Log Regex)" />
-    <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-45,on Log Regex)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-46,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-47,on Log Regex)" />
-    <setting default="0" id="E10.windowIdC" label="windowIdC" type="number" visible="eq(-48,on Window Closed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-50,on Window Closed)" />
-    <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Simple)" />
-    <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Simple)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-55,on Startup)" />
-    <setting label="" type="lsep" visible="eq(-56,on Startup)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-57,on Playback Resumed)" />
-    <setting label="" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="" type="lsep" visible="eq(-60,on DPMS Activated)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="%li=library" type="lsep" visible="eq(-62,on Scan Finished)" />
-    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting label="%ti=time" type="lsep" visible="eq(-64,on Playback Paused)" />
-    <setting default="" id="E10.userargs" label="Var subbed arg string" type="text" visible="!eq(-65,None)" />
-    <setting default="" id="E10.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E10)" visible="!eq(-66,0)" />
+    <setting default="" id="E10.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
+    <setting default="" id="E10.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
+    <setting default="" id="E10.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
+    <setting default="" id="E10.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
+    <setting default="" id="E10.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
+    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
+    <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
+    <setting label="" type="lsep" visible="eq(-41,on Queue Next Item)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-42,on Clean Started)" />
+    <setting label="%li=library" type="lsep" visible="eq(-43,on Clean Started)" />
+    <setting default="" id="E10.sender" label="sender" type="text" visible="eq(-44,on JSON Notification)" />
+    <setting default="" id="E10.method" label="method" type="text" visible="eq(-45,on JSON Notification)" />
+    <setting default="" id="E10.data" label="data" type="text" visible="eq(-46,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-47,on JSON Notification)" />
+    <setting label="%me=method,%se=sender,%da=data" type="lsep" visible="eq(-48,on JSON Notification)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-49,on Stereoscopic Mode Change )" />
+    <setting label="%sm=stereoMode" type="lsep" visible="eq(-50,on Stereoscopic Mode Change )" />
+    <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
+    <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting default="0" id="E10.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
+    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
+    <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
+    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
+    <setting label="" type="lsep" visible="eq(-63,on Startup)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
+    <setting label="" type="lsep" visible="eq(-65,on Playback Resumed)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-66,on DPMS Activated)" />
+    <setting label="" type="lsep" visible="eq(-67,on DPMS Activated)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-68,on Scan Finished)" />
+    <setting label="%li=library" type="lsep" visible="eq(-69,on Scan Finished)" />
+    <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-70,on Playback Paused)" />
+    <setting label="%ti=time" type="lsep" visible="eq(-71,on Playback Paused)" />
+    <setting default="" id="E10.userargs" label="Var subbed arg string" type="text" visible="!eq(-72,None)" />
+    <setting default="" id="E10.test" label="32009" type="action" action="RunScript(service.kodi.callbacks, E10)" visible="!eq(-73,0)" />
   </category>
   <category label="General">
     <setting default="false" id="Notify" label="Display Notifications when Tasks Run?" type="bool" />

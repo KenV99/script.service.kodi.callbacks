@@ -62,7 +62,7 @@ class AbstractTask(threading.Thread):
         tmp = self.delimitregex.sub(r'{@originaldelim@}', ret)
         ret = tmp
         try:
-            varArgs = events.Player[self.topic.topic]['varArgs']
+            varArgs = events.AllEvents[self.topic.topic]['varArgs']
         except:
             pass
         else:
@@ -70,7 +70,8 @@ class AbstractTask(threading.Thread):
                 try:
                     kw = kwargs[varArgs[key]]
                     kw = kw.replace(" ", '%__')
-                    ret = ret.replace(key, kw)
+                    t = '%%%s' % key
+                    ret = ret.replace(t, kw)
                 except:
                     pass
         ret = ret.replace('%__', " ")

@@ -20,7 +20,7 @@ from resources.lib.events import Events
 from resources.lib  import taskdict
 import xbmc
 
-def generate_settingsxml():
+def generate_settingsxml(fn=None):
     allevts = Events().AllEvents
     output = []
     ssp = '    <setting '
@@ -106,8 +106,8 @@ def generate_settingsxml():
     output.append('  </category>\n')
     output.append('</settings>')
     output = "".join(output)
-
-    fn = xbmc.translatePath(r'special://home/addons/service.kodi.callbacks/resources/settings.xml')
+    if fn is None:
+        fn = xbmc.translatePath(r'special://home/addons/service.kodi.callbacks/resources/settings.xml')
 
     try:
         with open(fn, mode='w') as f:
@@ -117,4 +117,4 @@ def generate_settingsxml():
     xbmc.log('service.kodi.callbacks settings rewritten')
 
 if __name__ == '__main__':
-    generate_settingsxml()
+    generate_settingsxml(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\settings.xml')
