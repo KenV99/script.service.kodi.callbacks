@@ -32,7 +32,10 @@ from resources.lib.publishers.log import LogPublisher
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
-from resources.lib.publishers.watchdog import WatchdogPublisher
+try:
+    from resources.lib.publishers.watchdog import WatchdogPublisher
+except:
+    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
 
 log = None
 dispatcher = None
@@ -146,27 +149,27 @@ def start():
         else:
             log(loglevel=xbmc.LOGERROR, msg='Subscriber for event: %s, task: %s NOT created due to errors' % (str(topic), task_key))
 
-    if not set(topics).isdisjoint(LoopPublisher.publishes):
+    if not set(topics).isdisjoint(LoopPublisher.publishes) or debug is True:
         loopPublisher = LoopPublisher(dispatcher, settings.getOpenwindowids(), settings.getClosewindowids(),
                                       settings.getIdleTimes(), settings.general['LoopFreq'])
         publishers.append(loopPublisher)
         log(msg='Loop Publisher initialized')
-    if not set(topics).isdisjoint(PlayerPublisher.publishes):
+    if not set(topics).isdisjoint(PlayerPublisher.publishes)or debug is True:
         playerPublisher = PlayerPublisher(dispatcher)
         publishers.append(playerPublisher)
         log(msg='Player Publisher initialized')
-    if not set(topics).isdisjoint(MonitorPublisher.publishes):
+    if not set(topics).isdisjoint(MonitorPublisher.publishes)or debug is True:
         monitorPublisher = MonitorPublisher(dispatcher)
         monitorPublisher.jsoncriteria = settings.getJsonNotifications()
         publishers.append(monitorPublisher)
         log(msg='Monitor Publisher initialized')
-    if not set(topics).isdisjoint(LogPublisher.publishes):
+    if not set(topics).isdisjoint(LogPublisher.publishes)or debug is True:
         logPublisher = LogPublisher(dispatcher, settings.general['LogFreq'])
         logPublisher.add_simple_checks(settings.getLogSimples())
         logPublisher.add_regex_checks(settings.getLogRegexes())
         publishers.append(logPublisher)
         log(msg='Log Publisher initialized')
-    if not set(topics).isdisjoint(WatchdogPublisher.publishes):
+    if not set(topics).isdisjoint(WatchdogPublisher.publishes)or debug is True:
         watchdogPublisher = WatchdogPublisher(dispatcher, settings.getWatchdogSettings())
         publishers.append(watchdogPublisher)
         log(msg='Watchdog Publisher initialized')
@@ -223,6 +226,7 @@ def test(key):
     log = KodiLogger.log
     import resources.lib.tests.direct_test as direct_test
     from resources.lib.events import Events
+    import traceback
     log(msg='Running Test for Event: %s' % key)
     events = Events().AllEvents
     settings = Settings()
@@ -252,28 +256,23 @@ def test(key):
         nMessage = PubSub_Threaded.Message(topic=topic, **kwargs)
         try:
             subscriber.notify(nMessage)
-        except Exception as e:
-            pass
+        except:
+            msg = 'Unspecified error during testing'
+            e = sys.exc_info()[0]
+            if hasattr(e, 'message'):
+                msg = str(e.message)
+            msg = msg + '\n' + traceback.format_exc()
+            log(msg=msg)
+            msgList = msg.split('\n')
+            import resources.lib.dialogtb as dialogtb
+            dialogtb.show_textbox('Error', msgList)
     else:
         log(msg='Test subscriber creation failed due to errors')
         msgList = testlogger.retrieveLogAsList()
         import resources.lib.dialogtb as dialogtb
         dialogtb.show_textbox('Error', msgList)
 
-    xbmc.sleep(60000)
-
-
-
-def testwatchdog():
-    settings = Settings()
-    settings.getSettings()
-    from resources.lib.publishers.watchdog import WatchdogPublisher
-    dispatcher = PubSub_Threaded.Dispatcher(sleepfxn=xbmc.sleep)
-    pub = WatchdogPublisher(dispatcher, watchdogSettings=settings.getWatchdogSettings())
-    task = NotificationTask()
-
-
-
+    xbmc.sleep(30000)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
