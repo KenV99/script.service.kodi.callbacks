@@ -1,9 +1,2 @@
-0.1.2 Changed idle to start only if player not playing
-0.1.1 Added OSX call routine and idle debugging
-0.1.0 Isengard release
-0.0.6 Readied for helix
-0.0.5 Localized strings, one bug squash
-0.0.4 Bug fixes
-0.0.3 Bug fixes, Custom Dialog for Testing
-0.0.2 Reloads MonitorEx and listener with Settings Change, Added wait code for long latency PlayBack Starts
-0.0.1 Initial alpha
+0.9.1 Bug fixes, file watchdog added
+0.9.0 Initial version
