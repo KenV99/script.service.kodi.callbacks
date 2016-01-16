@@ -36,6 +36,23 @@ class TaskHttp(AbstractTask):
                 'label':'HTTP string (without parameters)',
                 'type':'text'
             }
+        },
+        {
+            'id':'user',
+            'settings':{
+                'default':'',
+                'label':'user for Basic Auth (optional)',
+                'type':'text'
+            }
+        },
+        {
+            'id':'pass',
+            'settings':{
+                'default':'',
+                'label':'password for Basic Auth (optional)',
+                'type':'text',
+                'option':'hidden'
+            }
         }
     ]
 
@@ -79,7 +96,10 @@ class TaskHttp(AbstractTask):
         err = False
         msg = ''
         try:
-            u = requests.get(self.taskKwargs['http']+self.runtimeargs, timeout=20)
+            if self.taskKwargs['user'] != '' and self.taskKwargs['pass'] != '':
+                u = requests.get(self.taskKwargs['http']+self.runtimeargs, auth=(self.taskKwargs['user'], self.taskKwargs['pass']), timeout=20)
+            else:
+                u = requests.get(self.taskKwargs['http']+self.runtimeargs, timeout=20)
             try:
                 result = u.text
             except Exception as e:

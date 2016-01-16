@@ -56,11 +56,16 @@ def generate_settingsxml(fn=None):
         for i1, key in enumerate(sorted(taskdict.keys())):
             for var in taskdict[key]['variables']:
                 varset = var['settings']
-                output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' %
-                              (varset['default'], prefix, var['id'], varset['label'], varset['type'], getoffset(idx,output),i1+1))
+                try:
+                    option = varset['option']
+                except KeyError:
+                    output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' %
+                                  (varset['default'], prefix, var['id'], varset['label'], varset['type'], getoffset(idx,output), i1+1))
+                else:
+                    output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" option="%s" visible="eq(%s,%s)" />\n' %
+                                  (varset['default'], prefix, var['id'], varset['label'], varset['type'], option, getoffset(idx,output), i1+1))
 
     output.append('  </category>\n\n')
-
     output.append('  <category label="32092">\n')
 
     for i in xrange(1,11):

@@ -8,10 +8,12 @@
     <setting default="-1" id="T1.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T1.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T1.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T1.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T1.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T1.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T1.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T1.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T1.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T1.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T1.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T1.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T1.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32102" type="lsep"/>
     <setting default="none" id="T2.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T2.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -19,10 +21,12 @@
     <setting default="-1" id="T2.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T2.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T2.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T2.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T2.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T2.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T2.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T2.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T2.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T2.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T2.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T2.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T2.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32103" type="lsep"/>
     <setting default="none" id="T3.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T3.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -30,10 +34,12 @@
     <setting default="-1" id="T3.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T3.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T3.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T3.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T3.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T3.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T3.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T3.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T3.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T3.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T3.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T3.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T3.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32104" type="lsep"/>
     <setting default="none" id="T4.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T4.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -41,10 +47,12 @@
     <setting default="-1" id="T4.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T4.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T4.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T4.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T4.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T4.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T4.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T4.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T4.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T4.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T4.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T4.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T4.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32105" type="lsep"/>
     <setting default="none" id="T5.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T5.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -52,10 +60,12 @@
     <setting default="-1" id="T5.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T5.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T5.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T5.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T5.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T5.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T5.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T5.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T5.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T5.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T5.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T5.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T5.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32106" type="lsep"/>
     <setting default="none" id="T6.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T6.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -63,10 +73,12 @@
     <setting default="-1" id="T6.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T6.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T6.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T6.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T6.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T6.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T6.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T6.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T6.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T6.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T6.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T6.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T6.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32107" type="lsep"/>
     <setting default="none" id="T7.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T7.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -74,10 +86,12 @@
     <setting default="-1" id="T7.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T7.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T7.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T7.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T7.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T7.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T7.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T7.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T7.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T7.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T7.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T7.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T7.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32108" type="lsep"/>
     <setting default="none" id="T8.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T8.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -85,10 +99,12 @@
     <setting default="-1" id="T8.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T8.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T8.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T8.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T8.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T8.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T8.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T8.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T8.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T8.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T8.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T8.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T8.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32109" type="lsep"/>
     <setting default="none" id="T9.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T9.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -96,10 +112,12 @@
     <setting default="-1" id="T9.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T9.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T9.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T9.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T9.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T9.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T9.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T9.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T9.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T9.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T9.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T9.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T9.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
     <setting label="32110" type="lsep"/>
     <setting default="none" id="T10.type" label="32002" type="labelenum" values="none|builtin|http|python|script" />
     <setting default="-1" id="T10.maxrunning" label="32089" type="number" visible="!eq(-1,0)" />
@@ -107,10 +125,12 @@
     <setting default="-1" id="T10.refractory" label="32091" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T10.builtin" label="Kodi Builtin Function" type="text" visible="eq(-4,1)" />
     <setting default="" id="T10.http" label="HTTP string (without parameters)" type="text" visible="eq(-5,2)" />
-    <setting default="" id="T10.pythonfile" label="Python file" type="file" visible="eq(-6,3)" />
-    <setting default="false" id="T10.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-7,3)" />
-    <setting default="" id="T10.scriptfile" label="Script executable file" type="file" visible="eq(-8,4)" />
-    <setting default="false" id="T10.use_shell" label="Requires shell?" type="bool" visible="eq(-9,4)" />
+    <setting default="" id="T10.user" label="user for Basic Auth (optional)" type="text" visible="eq(-6,2)" />
+    <setting default="" id="T10.pass" label="password for Basic Auth (optional)" type="text" option="hidden" visible="eq(-7,2)" />
+    <setting default="" id="T10.pythonfile" label="Python file" type="file" visible="eq(-8,3)" />
+    <setting default="false" id="T10.import" label="Import and call run() (default=no)?" type="bool" visible="eq(-9,3)" />
+    <setting default="" id="T10.scriptfile" label="Script executable file" type="file" visible="eq(-10,4)" />
+    <setting default="false" id="T10.use_shell" label="Requires shell?" type="bool" visible="eq(-11,4)" />
   </category>
 
   <category label="32092">
@@ -139,7 +159,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E1.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -152,7 +172,7 @@
     <setting default="" id="E1.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E1.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -169,14 +189,14 @@
     <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E1.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E1.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E1.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -214,7 +234,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E2.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -227,7 +247,7 @@
     <setting default="" id="E2.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E2.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -244,14 +264,14 @@
     <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E2.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E2.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E2.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -289,7 +309,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E3.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -302,7 +322,7 @@
     <setting default="" id="E3.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E3.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -319,14 +339,14 @@
     <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E3.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E3.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E3.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -364,7 +384,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E4.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -377,7 +397,7 @@
     <setting default="" id="E4.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E4.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -394,14 +414,14 @@
     <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E4.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E4.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E4.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -439,7 +459,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E5.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -452,7 +472,7 @@
     <setting default="" id="E5.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E5.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -469,14 +489,14 @@
     <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E5.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E5.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E5.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -514,7 +534,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E6.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -527,7 +547,7 @@
     <setting default="" id="E6.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E6.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -544,14 +564,14 @@
     <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E6.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E6.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E6.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -589,7 +609,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E7.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -602,7 +622,7 @@
     <setting default="" id="E7.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E7.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -619,14 +639,14 @@
     <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E7.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E7.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E7.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -664,7 +684,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E8.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -677,7 +697,7 @@
     <setting default="" id="E8.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E8.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -694,14 +714,14 @@
     <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E8.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E8.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E8.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -739,7 +759,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E9.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -752,7 +772,7 @@
     <setting default="" id="E9.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E9.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -769,14 +789,14 @@
     <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E9.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E9.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E9.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
@@ -814,7 +834,7 @@
     <setting label="" type="lsep" visible="eq(-21,on Screensaver Activated)" />
     <setting default="0" id="E10.windowIdO" label="windowIdO" type="number" visible="eq(-22,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-23,on Window Opened)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-24,on Window Opened)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-25,on DPMS Deactivated)" />
     <setting label="" type="lsep" visible="eq(-26,on DPMS Deactivated)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-27,on Scan Started)" />
@@ -827,7 +847,7 @@
     <setting default="" id="E10.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E10.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="pa=path,ev=event" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -844,14 +864,14 @@
     <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-51,on Log Regex)" />
     <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-52,on Log Regex)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-53,on Log Regex)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-54,on Log Regex)" />
     <setting default="0" id="E10.windowIdC" label="windowIdC" type="number" visible="eq(-55,on Window Closed)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-56,on Window Closed)" />
-    <setting label="wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
+    <setting label="%wi=windowId" type="lsep" visible="eq(-57,on Window Closed)" />
     <setting default="" id="E10.matchIf" label="matchIf" type="text" visible="eq(-58,on Log Simple)" />
     <setting default="" id="E10.rejectIf" label="rejectIf" type="text" visible="eq(-59,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-60,on Log Simple)" />
-    <setting label="ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
+    <setting label="%ll=logLine" type="lsep" visible="eq(-61,on Log Simple)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-62,on Startup)" />
     <setting label="" type="lsep" visible="eq(-63,on Startup)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-64,on Playback Resumed)" />
