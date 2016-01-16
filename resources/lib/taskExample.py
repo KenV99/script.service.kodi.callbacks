@@ -22,7 +22,7 @@ from resources.lib.taskABC import AbstractTask, KodiLogger, notify
 
 class TaskBuiltin(AbstractTask):
     '''
-    Your task MUST aubclass AbstractTask. If it doesn't, it will not be accessible.
+    Your task MUST subclass AbstractTask. If it doesn't, it will not be accessible.
     The following two parameters are REQUIRED with the same structure as shown.
     'Varaibles' will be prompted for from the Settings screen.
     If you have no variables, then you probably do not need to be writing a custom task.
