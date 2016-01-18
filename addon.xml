@@ -4,7 +4,6 @@
     <import addon="xbmc.python" version="2.19.0"/>
     <import addon="xbmc.addon" version="12.0.0"/>
     <import addon="script.module.requests" version="2.3.0"/>
-    <import addon="service.watchdog" version="0.9.7"/>
   </requires>
   <extension point="xbmc.service" library="default.py" start="startup">
     <provides>executable</provides>
@@ -14,7 +13,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Callbacks for kodi</summary>
-    <description lang="en">Provides user definable actions for specific events within Kodi
+    <description lang="en">Provides user definable actions for specific events within Kodi. Credit to Yesudeep Mangalapilly (gorakhargosh on github) and contributors for watchdog and pathtools modules.
     </description>
     <disclaimer lang="en">For bugs, requests or general questions visit the Kodi forums.</disclaimer>
     <platform>all</platform>

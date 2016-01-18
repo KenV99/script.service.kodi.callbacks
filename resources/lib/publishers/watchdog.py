@@ -24,13 +24,15 @@ import xbmcaddon
 from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
 
-libs = os.path.join(xbmcaddon.Addon('service.watchdog').getAddonInfo('path'), 'lib', 'watchdog')
+libs = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib')
+
+if libs[:3] == 'ser':
+    libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\' + libs
 sys.path.append(libs)
-libs = os.path.join(xbmcaddon.Addon('service.watchdog').getAddonInfo('path'), 'lib')
-sys.path.append(libs)
+
 try:
-    from observers import Observer
-    from events import PatternMatchingEventHandler
+    from resources.lib.watchdog.observers import Observer
+    from resources.lib.watchdog.events import PatternMatchingEventHandler
 except Exception as e:
     pass
 

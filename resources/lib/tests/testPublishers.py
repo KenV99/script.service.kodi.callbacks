@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-#     Copyright (C) 2015 KenV99
+#     Copyright (C) 2014 KenV99
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,20 +16,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-import tasks
-from pubsub import Topic
-from events import Events
+from resources.lib.publishers.log import LogPublisher
+from resources.lib.publishers.loop import LoopPublisher
+from resources.lib.publishers.monitor import MonitorPublisher
+from resources.lib.publishers.player import PlayerPublisher
+from resources.lib.publishers.watchdog import WatchdogPublisher
+from resources.lib.pubsub import Dispatcher
 
-events = Events()
-topic = 'onPlayBackEnded'
-evt = events.Player[topic]
-kwargs = evt['expArgs']
-userargs = '"%fn" pp:%pp'
+from resources.lib.tests.stubs import *
+from flexmock import flexmock
 
-workers = [tasks.WorkerPy, tasks.WorkerScript, tasks.WorkerBuiltin, tasks.WorkerHTTP]
-for worker in workers:
-    w = worker('cmd', userargs)
-    w.topic = Topic(topic)
-    ret = w.processUserargs(kwargs)
-    print ret
+def printlog(msg, loglevel=0):
+    print msg
+
+flexmock(xbmc, log=printlog)
 

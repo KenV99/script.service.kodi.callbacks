@@ -32,10 +32,7 @@ from resources.lib.publishers.log import LogPublisher
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
-try:
-    from resources.lib.publishers.watchdog import WatchdogPublisher
-except:
-    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
+
 
 log = None
 dispatcher = None
@@ -56,6 +53,10 @@ if debug:
 
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
+try:
+    from resources.lib.publishers.watchdog import WatchdogPublisher
+except:
+    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
 
 class NotificationTask(PubSub_Threaded.Task):
     def __init__(self):

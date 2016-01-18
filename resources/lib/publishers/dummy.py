@@ -25,3 +25,6 @@ class WatchdogPublisherDummy(Publisher):
 
     def __init__(self, dispatcher, watchdogSettings):
         super(WatchdogPublisherDummy, self).__init__(dispatcher)
+
+    def start(self):
+        pass
