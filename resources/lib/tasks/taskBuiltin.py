@@ -50,9 +50,9 @@ class TaskBuiltin(AbstractTask):
         args = ' %s' % ' '.join(self.runtimeargs)
         try:
             if len(self.runtimeargs) > 0:
-                result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (self.taskKwargs['builtin'], args))
+                result = xbmc.executebuiltin('%s, %s' % (self.taskKwargs['builtin'], args))
             else:
-                result = xbmc.executebuiltin('XBMC.RunScript(%s)' % self.taskKwargs['builtin'])
+                result = xbmc.executebuiltin('%s' % self.taskKwargs['builtin'])
             if result is not None:
                 msg = result
                 if result != '':
