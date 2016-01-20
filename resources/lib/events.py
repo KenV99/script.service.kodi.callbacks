@@ -203,7 +203,7 @@ class Events(object):
             'text':'on File System Change',
             'reqInfo':[('folder','folder', ''), ('patterns', 'text', ''), ('ignore_patterns', 'text', ''),('ignore_directories', 'text', ''),('recursive','bool', '')],
             'optArgs':['path', 'event'],
-            'varArgs':{'%pa':'path', '%ev':'event'},
+            'varArgs':{'%pa':'path', '%{ev':'event'},
             'expArgs':{'path':'C:\\Users\\User\\text.txt', 'event':'deleted' }
         },
     }

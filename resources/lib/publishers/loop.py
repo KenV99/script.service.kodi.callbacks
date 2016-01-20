@@ -64,11 +64,11 @@ class LoopPublisher(Publisher, threading.Thread):
         self.abort_evt = threading.Event()
         self.abort_evt.clear()
         if owids is None:
-            self.openwindowids = []
+            self.openwindowids = {}
         else:
             self.openwindowids = owids
         if cwids is None:
-            self.closewindowsids = []
+            self.closewindowsids = {}
         else:
             self.closewindowsids = cwids
         self.player = xbmc.Player()

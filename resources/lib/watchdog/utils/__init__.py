@@ -33,8 +33,16 @@ Classes
 import os
 import sys
 import threading
-import watchdog.utils.platform
-from watchdog.utils.compat import Event
+try:
+    import watchdog.utils.platform
+    from watchdog.utils import platform
+except:
+    from resources.lib.watchdog.utils import platform
+try:
+    from watchdog.utils.compat import Event
+except:
+    from resources.lib.watchdog.utils.compat import Event
+
 from collections import namedtuple
 
 

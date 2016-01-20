@@ -124,7 +124,7 @@ class LogCheck(object):
         self.param = param
 
 class LogCheckSimple(threading.Thread):
-    def __init__(self, match, nomatch, publish, subtopic):
+    def __init__(self, match, nomatch, subtopic, publish):
         super(LogCheckSimple, self).__init__(name='LogCheckSimple')
         self.match = match
         self.nomatch = nomatch
@@ -158,7 +158,7 @@ class LogCheckSimple(threading.Thread):
                 xbmc.log(msg='Could not stop LogCheckSimple T:%i' % self.ident)
 
 class LogCheckRegex(threading.Thread):
-    def __init__(self, match, nomatch, publish, subtopic):
+    def __init__(self, match, nomatch, subtopic, publish):
         super(LogCheckRegex, self).__init__(name='LogCheckRegex')
         try:
             re_match = re.compile(match, flags=re.IGNORECASE)
