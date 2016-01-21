@@ -425,17 +425,3 @@ class testLog(object):
         for topic in self.topics:
             assert topic in msgtopics
 
-if __name__ == '__main__':
-    test = testWatchdog()
-    tests = [testWatchdog.testWatchdogPublisherCreate, testWatchdog.testWatchdogPublisherDelete, testWatchdog.testWatchdogPublisherModify]
-    for t in tests:
-        try:
-            test.setup()
-            t(test)
-            test.teardown()
-        except AssertionError:
-            print 'Test %s Failed' % str(t)
-        except Exception as e:
-            raise
-        else:
-            print 'Test %s Passed' % str(t)

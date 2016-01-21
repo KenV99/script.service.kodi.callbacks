@@ -19,6 +19,7 @@
 debug = False
 remote = False
 testdebug = False
+testTasks = False
 
 import threading
 import resources.lib.pubsub as PubSub_Threaded
@@ -290,5 +291,9 @@ if __name__ == '__main__':
         else:
             eventId = sys.argv[1]
             test(eventId)
+    elif testTasks:
+        from resources.lib.tests.testTasks import testTasks
+        tt = testTasks()
+        tt.runTests()
     else:
         main()

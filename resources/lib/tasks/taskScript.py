@@ -58,7 +58,7 @@ class TaskScript(AbstractTask):
 
         tmp = taskKwargs['scriptfile']
         tmp = xbmc.translatePath(tmp).decode('utf-8')
-        if xbmcvfs.exists(tmp):
+        if xbmcvfs.exists(tmp) or os.path.exists(tmp):
             try:
                 mode = os.stat(tmp).st_mode
                 mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
@@ -78,7 +78,8 @@ class TaskScript(AbstractTask):
         except:
             needs_shell = False
         args = self.runtimeargs
-        args.insert(0, self.taskKwargs['scriptfile'])
+        basedir, fn = os.path.split(self.taskKwargs['scriptfile'])
+        args.insert(0, fn)
         if needs_shell:
             args = ' '.join(args)
         err = False
@@ -86,6 +87,7 @@ class TaskScript(AbstractTask):
         msg = ''
         if sysplat.startswith('darwin') or debg:
             try:
+                os.chdir(basedir)
                 p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
@@ -104,6 +106,7 @@ class TaskScript(AbstractTask):
             self.threadReturn(err, msg)
         else:
             try:
+                os.chdir(basedir)
                 result = subprocess.check_output(args, shell=needs_shell, stderr=subprocess.STDOUT)
                 if result is not None:
                     msg = result
