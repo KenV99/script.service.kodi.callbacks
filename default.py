@@ -288,6 +288,13 @@ if __name__ == '__main__':
         if sys.argv[1] == 'regen':
             from resources.lib.xml_gen import generate_settingsxml
             generate_settingsxml()
+        elif sys.argv[1] == 'test':
+            from resources.lib.tests.testTasks import testTasks
+            tt = testTasks()
+            tt.runTests()
+            dialog = xbmcgui.Dialog()
+            msg = 'Native Task Testing Complete - see log for results'
+            dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
         else:
             eventId = sys.argv[1]
             test(eventId)
@@ -295,5 +302,6 @@ if __name__ == '__main__':
         from resources.lib.tests.testTasks import testTasks
         tt = testTasks()
         tt.runTests()
+
     else:
         main()

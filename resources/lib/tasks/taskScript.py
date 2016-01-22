@@ -64,7 +64,8 @@ class TaskScript(AbstractTask):
                 mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
                 os.chmod(tmp, mode)
             except:
-                xlog(msg='Failed to set execute bit on script: %s' % tmp)
+                if sysplat.startswith('win') is False:
+                    xlog(msg='Failed to set execute bit on script: %s' % tmp)
             return True
         else:
             xlog(msg='Error - File not found: %s' % tmp)
@@ -79,6 +80,7 @@ class TaskScript(AbstractTask):
             needs_shell = False
         args = self.runtimeargs
         basedir, fn = os.path.split(self.taskKwargs['scriptfile'])
+        cwd = os.getcwd()
         args.insert(0, fn)
         if needs_shell:
             args = ' '.join(args)
@@ -103,6 +105,8 @@ class TaskScript(AbstractTask):
                 if hasattr(e, 'message'):
                     msg = str(e.message)
                 msg = msg + '\n' + traceback.format_exc()
+            finally:
+                os.chdir(cwd)
             self.threadReturn(err, msg)
         else:
             try:
@@ -119,4 +123,6 @@ class TaskScript(AbstractTask):
                 if hasattr(e, 'message'):
                     msg = str(e.message)
                 msg = msg + '\n' + traceback.format_exc()
+            finally:
+                os.chdir(cwd)
             self.threadReturn(err, msg)

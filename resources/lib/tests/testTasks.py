@@ -20,13 +20,30 @@ import os
 import sys
 import Queue
 import time
+import traceback
+import json
 from resources.lib import taskdict
 from resources.lib.pubsub import Topic, TaskManager
 from resources.lib.events import Events
 from resources.lib.kodilogging import log
-import xbmc
+import xbmc, xbmcaddon
 events = Events().AllEvents
 
+testdir = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
+
+def is_xbmc_debug():
+    json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'
+                                     ' { "filter":{"section":"system", "category":"debug"} } }')
+    json_query = unicode(json_query, 'utf-8', errors='ignore')
+    json_response = json.loads(json_query)
+
+    if json_response.has_key('result') and json_response['result'].has_key('settings') and json_response['result']['settings'] is not None:
+        for item in json_response['result']['settings']:
+            if item["id"] == "debug.showloginfo":
+                if item["value"] is True:
+                    return True
+                else:
+                    return False
 
 
 
@@ -35,53 +52,57 @@ class testTasks(object):
         self.task = None
         self.q = Queue.Queue()
 
-    def setup(self):
-        pass
-
-    def teardown(self):
-        pass
-
     def testHttp(self):
         self.task = taskdict['http']['class']
-        taskKwargs = {'http':'http://localhost:9091/jsonrpc', 'user':'kpv', 'pass':'hippo', 'type':'http', 'notify':False}
+        taskKwargs = {'http':'http://localhost:9091/jsonrpc', 'user':'', 'pass':'', 'type':'http', 'notify':False}
         userargs = '?request={"jsonrpc": "2.0", "id": 1, "method":"Application.Setmute", "params":{"mute":"toggle"}}'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
         tm.returnHandler = self.returnHandler
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
-        tr = self.q.get(timeout=1)
-        assert tr.msg == '{"id":1,"jsonrpc":"2.0","result":false}'
-
+        try:
+            tr = self.q.get(timeout=1)
+        except Queue.Empty:
+            raise Queue.Empty('testHttp never returned')
+        else:
+            tm.start(topic, **runKwargs)  # Toggle Mute again
+        if tr.iserror is True:
+            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
+        if tr.msg.startswith('{"id":1,"jsonrpc":"2.0","result":') is False:
+            raise AssertionError('Http test failed')
 
     def returnHandler(self, taskReturn):
         self.q.put_nowait(taskReturn)
 
-
     def testBuiltin(self):
+        start_debug = is_xbmc_debug()
         self.task = taskdict['builtin']['class']
-        taskKwargs = {'builtin':'ActivateWindow(10004)', 'type':'builtin', 'notify':False}
+        taskKwargs = {'builtin':'ToggleDebug', 'type':'builtin', 'notify':False}
         userargs = ''
         tm = TaskManager(self.task,1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
         topic = Topic('onPlayBackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
         time.sleep(1)
-        import xbmcgui
-        cwid = xbmcgui.getCurrentWindowId()
-        xbmc.executebuiltin('ActivateWindow(10000)')
-        if cwid != 10004:
+        debug = is_xbmc_debug()
+        tm.start(topic, **runKwargs)
+        if debug == start_debug:
             raise AssertionError('Builtin test failed')
 
 
     def testScriptNoShell(self):
         self.task = taskdict['script']['class']
-        outfile = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\tests\scriptoutput.txt'
+        outfile = os.path.join(testdir, 'scriptoutput.txt')
         try:
             os.remove(outfile)
         except:
             pass
-        taskKwargs = {'scriptfile':r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\tests\tstScript.bat',
+        if sys.platform.startswith('win'):
+            testfile = 'tstScript.bat'
+        else:
+            testfile = 'tstScript.sh'
+        taskKwargs = {'scriptfile':os.path.join(testdir, testfile),
                       'use_shell':False, 'type':'script', 'notify':False}
         userargs = 'abc def:ghi'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
@@ -90,7 +111,8 @@ class testTasks(object):
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
-        assert tr.iserror is False
+        if tr.iserror is True:
+            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
         try:
             with open(outfile, 'r') as f:
                 retArgs = f.readline()
@@ -105,12 +127,16 @@ class testTasks(object):
 
     def testScriptShell(self):
         self.task = taskdict['script']['class']
-        outfile = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\tests\scriptoutput.txt'
+        outfile = os.path.join(testdir, 'scriptoutput.txt')
         try:
             os.remove(outfile)
         except:
             pass
-        taskKwargs = {'scriptfile':r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\tests\tstScript.bat',
+        if sys.platform.startswith('win'):
+            testfile = 'tstScript.bat'
+        else:
+            testfile = 'tstScript.sh'
+        taskKwargs = {'scriptfile':os.path.join(testdir, testfile),
                       'use_shell':True, 'type':'script', 'notify':False}
         userargs = 'abc def:ghi'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
@@ -119,7 +145,8 @@ class testTasks(object):
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
-        assert tr.iserror is False
+        if tr.iserror is True:
+            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
         try:
             with open(outfile, 'r') as f:
                 retArgs = f.readline()
@@ -135,7 +162,7 @@ class testTasks(object):
 
     def testPythonImport(self):
         self.task = taskdict['python']['class']
-        taskKwargs = {'pythonfile':r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\tests\tstPythonGlobal.py',
+        taskKwargs = {'pythonfile':os.path.join(testdir,'tstPythonGlobal.py'),
                       'import':True, 'type':'python', 'notify':False}
         userargs = 'abc def:ghi'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
@@ -144,7 +171,8 @@ class testTasks(object):
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
-        assert tr.iserror is False
+        if tr.iserror is True:
+            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
         try:
             retArgs = sys.modules['__builtin__'].__dict__['testReturn']
         except KeyError:
@@ -159,7 +187,7 @@ class testTasks(object):
 
     def testPythonExternal(self):
         self.task = taskdict['python']['class']
-        taskKwargs = {'pythonfile':r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\tests\tstPythonGlobal.py',
+        taskKwargs = {'pythonfile':os.path.join(testdir, 'tstPythonGlobal.py'),
                       'import':True, 'type':'python', 'notify':False}
         userargs = 'jkl mno:pqr'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
@@ -168,13 +196,12 @@ class testTasks(object):
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
-        assert tr.iserror is False
+        if tr.iserror is True:
+            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
         try:
             retArgs = sys.modules['__builtin__'].__dict__['testReturn']
         except KeyError:
             retArgs = sys.modules['builtins'].__dict__['testReturn']
-        except:
-            raise
         finally:
             try:
                 sys.modules['__builtin__'].__dict__.pop('testReturn', None)
@@ -187,12 +214,19 @@ class testTasks(object):
         tests = [self.testHttp, self.testBuiltin, self.testScriptNoShell, self.testScriptShell, self.testPythonExternal,
                  self.testPythonImport]
         for test in tests:
-            self.setup()
+            testname = test.__name__
             try:
                 test()
             except AssertionError as e:
                 log(msg='Error: %s' % e.message)
             except Exception as e:
-                raise
+                msg = 'Error testing %s\n' % testname
+                e = sys.exc_info()[0]
+                if hasattr(e, 'message'):
+                    msg += str(e.message)
+                else:
+                    msg += str(e)
+                msg = msg + '\n' + traceback.format_exc()
+                log(loglevel=xbmc.LOGERROR, msg=msg)
             else:
-                log(msg='Test passed for task %s' % str(test.__name__))
+                log(msg='Test passed for task %s' % str(testname))

@@ -37,7 +37,6 @@ flexmock(xbmc, log=printlog)
 def sleep(xtime):
     time.sleep(xtime/1000.0)
 
-
 class testSubscriber(Subscriber):
     def __init__(self):
         super(testSubscriber, self).__init__()

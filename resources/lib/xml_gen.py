@@ -18,7 +18,9 @@
 #
 from resources.lib.events import Events
 from resources.lib  import taskdict
-import xbmc
+from resources.lib.kodilogging import log
+import xbmcaddon
+import os
 
 def generate_settingsxml(fn=None):
     allevts = Events().AllEvents
@@ -108,18 +110,21 @@ def generate_settingsxml(fn=None):
     output.append('    <setting default="100" id="TaskFreq" label="Task Polling Frequency (ms)" type="number" />\n')
     output.append('    <setting default="false" id="loglevel" label="Show debugging info in normal log?" type="bool" />\n')
     output.append('    <setting id="regen" label="Regenerate settings.xml" type="action" action="RunScript(service.kodi.callbacks, regen)" />\n')
+    output.append('    <setting id="test" label="Test addon native tasks (see log for output)" type="action" action="RunScript(service.kodi.callbacks, test)" />\n')
     output.append('  </category>\n')
     output.append('</settings>')
     output = "".join(output)
     if fn is None:
-        fn = xbmc.translatePath(r'special://home/addons/service.kodi.callbacks/resources/settings.xml')
-
+        try:
+            fn = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
+        except:
+            pass
     try:
         with open(fn, mode='w') as f:
             f.writelines(output)
     except Exception as e:
         raise
-    xbmc.log('service.kodi.callbacks settings rewritten')
+    log('Settings.xml rewritten')
 
 if __name__ == '__main__':
     generate_settingsxml(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\settings.xml')

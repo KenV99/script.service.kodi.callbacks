@@ -172,7 +172,7 @@
     <setting default="" id="E1.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E1.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -247,7 +247,7 @@
     <setting default="" id="E2.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E2.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -322,7 +322,7 @@
     <setting default="" id="E3.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E3.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -397,7 +397,7 @@
     <setting default="" id="E4.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E4.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -472,7 +472,7 @@
     <setting default="" id="E5.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E5.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -547,7 +547,7 @@
     <setting default="" id="E6.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E6.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -622,7 +622,7 @@
     <setting default="" id="E7.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E7.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -697,7 +697,7 @@
     <setting default="" id="E8.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E8.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -772,7 +772,7 @@
     <setting default="" id="E9.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E9.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -847,7 +847,7 @@
     <setting default="" id="E10.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
     <setting default="" id="E10.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
-    <setting label="%ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
+    <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
     <setting label="%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName" type="lsep" visible="eq(-39,on Playback Ended)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-40,on Queue Next Item)" />
@@ -892,5 +892,6 @@
     <setting default="100" id="TaskFreq" label="Task Polling Frequency (ms)" type="number" />
     <setting default="false" id="loglevel" label="Show debugging info in normal log?" type="bool" />
     <setting id="regen" label="Regenerate settings.xml" type="action" action="RunScript(service.kodi.callbacks, regen)" />
+    <setting id="test" label="Test addon native tasks (see log for output)" type="action" action="RunScript(service.kodi.callbacks, test)" />
   </category>
 </settings>
