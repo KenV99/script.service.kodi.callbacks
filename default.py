@@ -21,6 +21,7 @@ remote = False
 testdebug = False
 testTasks = False
 
+import os
 import threading
 import resources.lib.pubsub as PubSub_Threaded
 from resources.lib import taskdict
@@ -194,10 +195,13 @@ def main():
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
     monitor = MainMonitor()
     log(msg='Entering wait loop')
+    # xbmc.sleep(2000)
+    # dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown'), pid=os.getpid()))
     monitor.waitForAbort()
 
     # Shutdown tasks
-    dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown')))
+    dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown'), pid=os.getpid()))
+    xbmc.sleep(500)
     log(msg='Shutdown started')
     for p in publishers:
         try:

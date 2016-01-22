@@ -68,10 +68,10 @@ class AbstractTask(threading.Thread):
         else:
             for key in varArgs.keys():
                 try:
-                    kw = kwargs[varArgs[key]]
+                    kw = str(kwargs[varArgs[key]])
                     kw = kw.replace(" ", '%__')
                     ret = ret.replace(key, kw)
-                except:
+                except Exception as e:
                     pass
         ret = ret.replace('%__', " ")
         ret = ret.replace('%_', ",")

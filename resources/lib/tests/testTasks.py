@@ -103,7 +103,7 @@ class testTasks(object):
         else:
             testfile = 'tstScript.sh'
         taskKwargs = {'scriptfile':os.path.join(testdir, testfile),
-                      'use_shell':False, 'type':'script', 'notify':False}
+                      'use_shell':False, 'type':'script', 'waitForCompletion': True, 'notify':False}
         userargs = 'abc def:ghi'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
         tm.returnHandler = self.returnHandler
@@ -137,7 +137,7 @@ class testTasks(object):
         else:
             testfile = 'tstScript.sh'
         taskKwargs = {'scriptfile':os.path.join(testdir, testfile),
-                      'use_shell':True, 'type':'script', 'notify':False}
+                      'use_shell':True, 'type':'script', 'waitForCompletion': True, 'notify':False}
         userargs = 'abc def:ghi'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
         tm.returnHandler = self.returnHandler

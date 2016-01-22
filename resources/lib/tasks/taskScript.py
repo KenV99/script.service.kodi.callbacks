@@ -46,6 +46,14 @@ class TaskScript(AbstractTask):
                 'label':'Requires shell?',
                 'type':'bool'
             }
+        },
+        {
+            'id':'waitForCompletion',
+            'settings':{
+                'default':'true',
+                'label':'Wait for script to complete?',
+                'type':'bool'
+            }
         }
     ]
 
@@ -78,6 +86,10 @@ class TaskScript(AbstractTask):
             needs_shell = self.taskKwargs['use_shell']
         except:
             needs_shell = False
+        try:
+            wait = self.taskKwargs['waitForCompletion']
+        except:
+            wait = True
         args = self.runtimeargs
         basedir, fn = os.path.split(self.taskKwargs['scriptfile'])
         cwd = os.getcwd()
@@ -87,42 +99,43 @@ class TaskScript(AbstractTask):
         err = False
         debg = False
         msg = ''
-        if sysplat.startswith('darwin') or debg:
-            try:
-                os.chdir(basedir)
-                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
+        # if sysplat.startswith('darwin') or debg:
+        try:
+            os.chdir(basedir)
+            p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
+            if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
                     msg = 'Process returned data: %s' % str(stdoutdata)
                 if stderrdata is not None:
                     msg += 'Process returned error: %s' % str(stdoutdata)
-            except subprocess.CalledProcessError, e:
-                err = True
-                msg = e.output
-            except:
-                e = sys.exc_info()[0]
-                err = True
-                if hasattr(e, 'message'):
-                    msg = str(e.message)
-                msg = msg + '\n' + traceback.format_exc()
-            finally:
-                os.chdir(cwd)
-            self.threadReturn(err, msg)
-        else:
-            try:
-                os.chdir(basedir)
-                result = subprocess.check_output(args, shell=needs_shell, stderr=subprocess.STDOUT)
-                if result is not None:
-                    msg = result
-            except subprocess.CalledProcessError, e:
-                err = True
-                msg = e.output
-            except:
-                e = sys.exc_info()[0]
-                err = True
-                if hasattr(e, 'message'):
-                    msg = str(e.message)
-                msg = msg + '\n' + traceback.format_exc()
-            finally:
-                os.chdir(cwd)
-            self.threadReturn(err, msg)
+        except subprocess.CalledProcessError, e:
+            err = True
+            msg = e.output
+        except:
+            e = sys.exc_info()[0]
+            err = True
+            if hasattr(e, 'message'):
+                msg = str(e.message)
+            msg = msg + '\n' + traceback.format_exc()
+        finally:
+            os.chdir(cwd)
+        self.threadReturn(err, msg)
+        # else:
+        #     try:
+        #         os.chdir(basedir)
+        #         result = subprocess.check_output(args, shell=needs_shell, stderr=subprocess.STDOUT)
+        #         if result is not None:
+        #             msg = result
+        #     except subprocess.CalledProcessError, e:
+        #         err = True
+        #         msg = e.output
+        #     except:
+        #         e = sys.exc_info()[0]
+        #         err = True
+        #         if hasattr(e, 'message'):
+        #             msg = str(e.message)
+        #         msg = msg + '\n' + traceback.format_exc()
+        #     finally:
+        #         os.chdir(cwd)
+        #     self.threadReturn(err, msg)

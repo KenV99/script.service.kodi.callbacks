@@ -179,7 +179,9 @@ class Events(object):
         'onShutdown':{
             'text':'on Shutdown',
             'reqInfo':[],
-            'optArgs':[]
+            'optArgs':['pid'],
+            'varArgs':{'%pi':'pid'},
+            'expArgs':{'pid':'10000'}
         }
     }
     Log = {
