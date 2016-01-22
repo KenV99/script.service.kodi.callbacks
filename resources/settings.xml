@@ -169,8 +169,8 @@
     <setting default="" id="E1.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E1.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E1.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E1.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E1.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E1.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E1.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -244,8 +244,8 @@
     <setting default="" id="E2.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E2.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E2.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E2.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E2.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E2.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E2.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -319,8 +319,8 @@
     <setting default="" id="E3.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E3.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E3.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E3.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E3.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E3.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E3.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -394,8 +394,8 @@
     <setting default="" id="E4.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E4.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E4.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E4.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E4.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E4.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E4.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -469,8 +469,8 @@
     <setting default="" id="E5.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E5.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E5.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E5.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E5.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E5.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E5.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -544,8 +544,8 @@
     <setting default="" id="E6.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E6.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E6.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E6.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E6.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E6.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E6.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -619,8 +619,8 @@
     <setting default="" id="E7.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E7.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E7.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E7.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E7.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E7.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E7.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -694,8 +694,8 @@
     <setting default="" id="E8.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E8.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E8.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E8.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E8.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E8.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E8.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -769,8 +769,8 @@
     <setting default="" id="E9.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E9.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E9.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E9.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E9.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E9.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E9.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />
@@ -844,8 +844,8 @@
     <setting default="" id="E10.folder" label="folder" type="folder" visible="eq(-31,on File System Change)" />
     <setting default="" id="E10.patterns" label="patterns" type="text" visible="eq(-32,on File System Change)" />
     <setting default="" id="E10.ignore_patterns" label="ignore_patterns" type="text" visible="eq(-33,on File System Change)" />
-    <setting default="" id="E10.ignore_directories" label="ignore_directories" type="text" visible="eq(-34,on File System Change)" />
-    <setting default="" id="E10.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
+    <setting default="false" id="E10.ignore_directories" label="ignore_directories" type="bool" visible="eq(-34,on File System Change)" />
+    <setting default="false" id="E10.recursive" label="recursive" type="bool" visible="eq(-35,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-36,on File System Change)" />
     <setting label="%{ev=event,%pa=path" type="lsep" visible="eq(-37,on File System Change)" />
     <setting label="Hint - variables can be subbed (%%=%): " type="lsep" visible="eq(-38,on Playback Ended)" />

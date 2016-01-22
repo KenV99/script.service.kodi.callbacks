@@ -63,8 +63,8 @@ class WatchdogPublisher(Publisher):
     def initialize(self):
         for setting in self.watchdogSettings:
             try:
-                eh = EventHandler(patterns=setting['patterns'], ignore_patterns=setting['ignore_patterns'].split(','),
-                                ignore_directories=setting['ignore_directories'].split(','),
+                eh = EventHandler(patterns=setting['patterns'].split(','), ignore_patterns=setting['ignore_patterns'].split(','),
+                                ignore_directories=setting['ignore_directories'],
                                 topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
                 self.event_handlers.append(eh)
                 observer = Observer()
