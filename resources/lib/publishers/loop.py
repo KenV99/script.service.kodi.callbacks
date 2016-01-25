@@ -26,6 +26,9 @@ import xbmc
 import xbmcgui
 from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
 
 
 def getStereoscopicMode():
@@ -57,7 +60,7 @@ def getProfileString():
 
 class LoopPublisher(Publisher, threading.Thread):
     publishes = Events().CustomLoop.keys()
-    def __init__(self, dispatcher, owids=None, cwids=None, idleT=None, interval=500):
+    def __init__(self, dispatcher, owids=None, cwids=None, idleT=None, afterIdle=None, interval=500):
         Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self, name='LoopPublisher')
         self.interval = interval
@@ -82,8 +85,25 @@ class LoopPublisher(Publisher, threading.Thread):
                     # time, key, executed
                     self.idleTs.append([idleT[key], key, False])
             else:
+                self.idleTs = []
                 self.doidle = False
         else:
+            self.idleTs = []
+            self.doidle = False
+        if afterIdle is not None:
+            if len(afterIdle) > 0:
+                self.doidle = True
+                self.afterIdles = []
+                self._startidle = 0
+                self._playeridle = False
+                for i, key in enumerate(afterIdle.keys()):
+                    # time, key, triggered
+                    self.afterIdles.append([afterIdle[key], key, False])
+            else:
+                self.doidle = False
+                self.afterIdles = []
+        else:
+            self.afterIdles = []
             self.doidle = False
         self.publishes = Events().CustomLoop.keys()
 
@@ -143,6 +163,14 @@ class LoopPublisher(Publisher, threading.Thread):
                     self.publish(msg)
                     it[2] = True
             else:
+                it[2] = False
+        for it in self.afterIdles:
+            if myit > it[0]:
+                    it[2] = True
+            else:
+                if it[2] is True:
+                    msg = Message(Topic('afterIdle', it[1]))
+                    self.publish(msg)
                 it[2] = False
 
     def abort(self, timeout=0):

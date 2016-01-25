@@ -23,6 +23,9 @@ from Queue import Queue, Empty
 import re
 from resources.lib.pubsub import Publisher, Topic, Message
 from resources.lib.events import Events
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
 
 logfn = xbmc.translatePath(r'special://home\Kodi.log')
 

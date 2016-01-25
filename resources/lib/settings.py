@@ -23,7 +23,7 @@ from resources.lib.kodilogging import log
 from resources.lib import taskdict
 from resources.lib.events import requires_subtopic
 try:
-    addonid = xbmcaddon.Addon().id
+    addonid = xbmcaddon.Addon().getAddonInfo('id')
 except:
     addonid = 'service.kodi.callbacks'
 
@@ -102,7 +102,7 @@ class Settings(object):
         else:
             et = Settings.eventsReverseLookup[et]
             evt['type'] = et
-        tsk = get('%s.task' % pid,'text')
+        tsk = get('%s.task' % pid, 'text')
         evt['task'] = 'T%s' % int(tsk[5:])
         for ri in Settings.allevents[et]['reqInfo']:
             evt[ri[0]] = get('%s.%s' % (pid,ri[0]), ri[1])
@@ -156,6 +156,13 @@ class Settings(object):
         ret = {}
         for evt in idleEvts:
             ret[evt['key']] = int(evt['idleTime'])
+        return ret
+
+    def getAfterIdleTimes(self):
+        idleEvts = self.getEventsByType('afterIdle')
+        ret = {}
+        for evt in idleEvts:
+            ret[evt['key']] = int(evt['afterIdleTime'])
         return ret
 
     def getJsonNotifications(self):

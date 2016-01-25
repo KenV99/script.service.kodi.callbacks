@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-debug = False
+debug = True
 remote = False
 testdebug = False
 testTasks = False
@@ -157,7 +157,7 @@ def start():
 
     if not set(topics).isdisjoint(LoopPublisher.publishes) or debug is True:
         loopPublisher = LoopPublisher(dispatcher, settings.getOpenwindowids(), settings.getClosewindowids(),
-                                      settings.getIdleTimes(), settings.general['LoopFreq'])
+                                      settings.getIdleTimes(), settings.getAfterIdleTimes(), settings.general['LoopFreq'])
         publishers.append(loopPublisher)
         log(msg=_('Loop Publisher initialized'))
     if not set(topics).isdisjoint(PlayerPublisher.publishes)or debug is True:

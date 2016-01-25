@@ -23,7 +23,7 @@ _ = kodipo.getLocalizedStringId
 
 
 def requires_subtopic():
-    return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'onWindowOpen', 'onWindowClose', 'onNotification']
+    return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'afterIdle', 'onWindowOpen', 'onWindowClose', 'onNotification']
 
 
 class Events(object):
@@ -172,6 +172,11 @@ class Events(object):
         'onIdle':{
             'text':'on Idle [secs]',
             'reqInfo':[('idleTime','int', '60')],
+            'optArgs':[]
+        },
+        'afterIdle':{
+            'text':'on Resume After Idle [secs]',
+            'reqInfo':[('afterIdleTime','int', '60')],
             'optArgs':[]
         }
     }

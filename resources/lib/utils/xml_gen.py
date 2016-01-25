@@ -69,7 +69,7 @@ def generate_settingsxml(fn=None):
         ltaskchoices = "|".join(ltaskchoices)
         output.append('    <setting default="none" id="%s.type" label="%s" type="labelenum" lvalues="%s" />\n' % (prefix, _('Task'), ltaskchoices))
         output.append('    <setting default="-1" id="%s.maxrunning" label="%s" type="number" visible="!eq(-1,0)" />\n' % (prefix, _('Max num of this task running simultaneously (-1=no limit)')))
-        output.append('    <setting default="-1" id="%s.maxruns" label="%s" />\n' % (prefix, _('Max num of times this task runs (-1=no limit)')))
+        output.append('    <setting default="-1" id="%s.maxruns" label="%s" type="number" visible="!eq(-2,0)" />\n' % (prefix, _('Max num of times this task runs (-1=no limit)')))
         output.append('    <setting default="-1" id="%s.refractory" label="%s" type="number" visible="!eq(-3,0)" />\n' % (prefix, _('Refractory period in secs (-1=none)')))
         for i1, key in enumerate(sorted(taskdict.keys())):
             for var in taskdict[key]['variables']:
@@ -93,7 +93,7 @@ def generate_settingsxml(fn=None):
         output.append(ssp + 'label="%s" type="lsep" />\n' % str(startnum + i))
         idx = len(output)
         output.append(ssp + 'default="None" id="%s.type" label="%s" type="select" values="%s" />\n' % (prefix, _('Type'), evts))
-        output.append(ssp + 'default="Task 1" id="%s.task" label="%s" type="select" visible="!eq(%s,None)" lvalues="%s" />\n' %(prefix, _('Task'), getoffset(idx,output),tasks))
+        output.append(ssp + 'default="Task 1" id="%s.task" label="%s" type="labelenum" visible="!eq(%s,None)" lvalues="%s" />\n' %(prefix, _('Task'), getoffset(idx,output),tasks))
         for evtkey in allevts.keys():
             evt = allevts[evtkey]
             for req in evt['reqInfo']:

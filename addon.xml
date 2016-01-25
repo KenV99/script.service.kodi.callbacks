@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="service.kodi.callbacks" name="Kodi Callbacks" version="0.9.3" provider-name="KenV99">
+<addon id="service.kodi.callbacks" name="Kodi Callbacks" version="0.9.4" provider-name="KenV99">
   <requires>
     <import addon="xbmc.python" version="2.19.0"/>
     <import addon="xbmc.addon" version="12.0.0"/>
@@ -18,9 +18,9 @@
     <disclaimer lang="en">For bugs, requests or general questions visit the Kodi forums.</disclaimer>
     <platform>all</platform>
     <source>https://github.com/KenV99/service.kodi.callbacks</source>
-    <website></website>
+    <website>http://kodi.wiki/view/Add-on:Kodi_Callbacks</website>
     <forum>http://forum.kodi.tv/showthread.php?tid=256170</forum>
-    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, June 2007</license>
 	<language>en</language>
 	<email></email>
   </extension>

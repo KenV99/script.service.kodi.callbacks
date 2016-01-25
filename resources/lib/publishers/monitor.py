@@ -20,6 +20,9 @@ import threading
 import xbmc
 from resources.lib.pubsub import Publisher, Topic, Message
 from resources.lib.events import Events
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
 
 class MonitorPublisher(Publisher, threading.Thread):
     publishes = Events().Monitor.keys()

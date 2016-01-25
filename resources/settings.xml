@@ -4,7 +4,7 @@
     <setting label="32001" type="lsep"/>
     <setting default="none" id="T1.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T1.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T1.maxruns" label="32059" />
+    <setting default="-1" id="T1.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T1.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T1.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T1.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -18,7 +18,7 @@
     <setting label="32002" type="lsep"/>
     <setting default="none" id="T2.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T2.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T2.maxruns" label="32059" />
+    <setting default="-1" id="T2.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T2.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T2.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T2.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -32,7 +32,7 @@
     <setting label="32003" type="lsep"/>
     <setting default="none" id="T3.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T3.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T3.maxruns" label="32059" />
+    <setting default="-1" id="T3.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T3.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T3.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T3.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -46,7 +46,7 @@
     <setting label="32004" type="lsep"/>
     <setting default="none" id="T4.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T4.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T4.maxruns" label="32059" />
+    <setting default="-1" id="T4.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T4.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T4.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T4.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -60,7 +60,7 @@
     <setting label="32005" type="lsep"/>
     <setting default="none" id="T5.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T5.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T5.maxruns" label="32059" />
+    <setting default="-1" id="T5.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T5.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T5.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T5.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -74,7 +74,7 @@
     <setting label="32006" type="lsep"/>
     <setting default="none" id="T6.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T6.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T6.maxruns" label="32059" />
+    <setting default="-1" id="T6.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T6.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T6.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T6.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -88,7 +88,7 @@
     <setting label="32007" type="lsep"/>
     <setting default="none" id="T7.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T7.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T7.maxruns" label="32059" />
+    <setting default="-1" id="T7.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T7.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T7.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T7.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -102,7 +102,7 @@
     <setting label="32008" type="lsep"/>
     <setting default="none" id="T8.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T8.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T8.maxruns" label="32059" />
+    <setting default="-1" id="T8.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T8.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T8.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T8.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -116,7 +116,7 @@
     <setting label="32009" type="lsep"/>
     <setting default="none" id="T9.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T9.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T9.maxruns" label="32059" />
+    <setting default="-1" id="T9.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T9.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T9.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T9.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -130,7 +130,7 @@
     <setting label="32010" type="lsep"/>
     <setting default="none" id="T10.type" label="32057" type="labelenum" lvalues="32129|32130|32131|32132|32133" />
     <setting default="-1" id="T10.maxrunning" label="32058" type="number" visible="!eq(-1,0)" />
-    <setting default="-1" id="T10.maxruns" label="32059" />
+    <setting default="-1" id="T10.maxruns" label="32059" type="number" visible="!eq(-2,0)" />
     <setting default="-1" id="T10.refractory" label="32060" type="number" visible="!eq(-3,0)" />
     <setting default="" id="T10.builtin" label="32075" type="text" visible="eq(-4,1)" />
     <setting default="" id="T10.http" label="32077" type="text" visible="eq(-5,2)" />
@@ -145,8 +145,8 @@
 
   <category label="32061">
     <setting label="32011" type="lsep" />
-    <setting default="None" id="E1.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E1.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E1.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E1.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E1.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -155,65 +155,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E1.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E1.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E1.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E1.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E1.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E1.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E1.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E1.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E1.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E1.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E1.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E1.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E1.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E1.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E1.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E1.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E1)" visible="!eq(-65,0)" />
+    <setting default="60" id="E1.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E1.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E1.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E1.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E1.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E1.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E1.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E1.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E1.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E1.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E1.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E1.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E1.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E1.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E1.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E1.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E1.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E1)" visible="!eq(-67,0)" />
     <setting label="32012" type="lsep" />
-    <setting default="None" id="E2.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E2.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E2.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E2.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E2.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -222,65 +224,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E2.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E2.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E2.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E2.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E2.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E2.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E2.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E2.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E2.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E2.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E2.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E2.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E2.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E2.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E2.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E2.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E2)" visible="!eq(-65,0)" />
+    <setting default="60" id="E2.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E2.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E2.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E2.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E2.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E2.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E2.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E2.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E2.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E2.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E2.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E2.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E2.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E2.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E2.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E2.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E2.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E2)" visible="!eq(-67,0)" />
     <setting label="32013" type="lsep" />
-    <setting default="None" id="E3.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E3.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E3.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E3.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E3.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -289,65 +293,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E3.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E3.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E3.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E3.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E3.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E3.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E3.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E3.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E3.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E3.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E3.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E3.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E3.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E3.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E3.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E3.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E3)" visible="!eq(-65,0)" />
+    <setting default="60" id="E3.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E3.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E3.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E3.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E3.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E3.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E3.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E3.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E3.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E3.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E3.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E3.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E3.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E3.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E3.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E3.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E3.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E3)" visible="!eq(-67,0)" />
     <setting label="32014" type="lsep" />
-    <setting default="None" id="E4.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E4.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E4.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E4.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E4.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -356,65 +362,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E4.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E4.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E4.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E4.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E4.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E4.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E4.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E4.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E4.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E4.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E4.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E4.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E4.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E4.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E4.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E4.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E4)" visible="!eq(-65,0)" />
+    <setting default="60" id="E4.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E4.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E4.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E4.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E4.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E4.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E4.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E4.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E4.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E4.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E4.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E4.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E4.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E4.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E4.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E4.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E4.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E4)" visible="!eq(-67,0)" />
     <setting label="32015" type="lsep" />
-    <setting default="None" id="E5.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E5.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E5.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E5.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E5.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -423,65 +431,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E5.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E5.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E5.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E5.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E5.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E5.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E5.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E5.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E5.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E5.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E5.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E5.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E5.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E5.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E5.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E5.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E5)" visible="!eq(-65,0)" />
+    <setting default="60" id="E5.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E5.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E5.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E5.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E5.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E5.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E5.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E5.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E5.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E5.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E5.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E5.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E5.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E5.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E5.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E5.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E5.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E5)" visible="!eq(-67,0)" />
     <setting label="32016" type="lsep" />
-    <setting default="None" id="E6.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E6.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E6.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E6.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E6.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -490,65 +500,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E6.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E6.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E6.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E6.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E6.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E6.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E6.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E6.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E6.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E6.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E6.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E6.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E6.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E6.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E6.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E6.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E6)" visible="!eq(-65,0)" />
+    <setting default="60" id="E6.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E6.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E6.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E6.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E6.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E6.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E6.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E6.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E6.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E6.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E6.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E6.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E6.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E6.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E6.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E6.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E6.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E6)" visible="!eq(-67,0)" />
     <setting label="32017" type="lsep" />
-    <setting default="None" id="E7.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E7.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E7.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E7.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E7.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -557,65 +569,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E7.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E7.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E7.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E7.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E7.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E7.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E7.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E7.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E7.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E7.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E7.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E7.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E7.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E7.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E7.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E7.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E7)" visible="!eq(-65,0)" />
+    <setting default="60" id="E7.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E7.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E7.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E7.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E7.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E7.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E7.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E7.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E7.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E7.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E7.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E7.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E7.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E7.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E7.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E7.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E7.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E7)" visible="!eq(-67,0)" />
     <setting label="32018" type="lsep" />
-    <setting default="None" id="E8.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E8.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E8.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E8.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E8.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -624,65 +638,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E8.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E8.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E8.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E8.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E8.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E8.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E8.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E8.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E8.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E8.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E8.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E8.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E8.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E8.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E8.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E8.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E8)" visible="!eq(-65,0)" />
+    <setting default="60" id="E8.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E8.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E8.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E8.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E8.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E8.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E8.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E8.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E8.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E8.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E8.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E8.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E8.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E8.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E8.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E8.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E8.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E8)" visible="!eq(-67,0)" />
     <setting label="32019" type="lsep" />
-    <setting default="None" id="E9.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E9.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E9.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E9.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E9.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -691,65 +707,67 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E9.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E9.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E9.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E9.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E9.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E9.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E9.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E9.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E9.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E9.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E9.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E9.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E9.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E9.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E9.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E9.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E9)" visible="!eq(-65,0)" />
+    <setting default="60" id="E9.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E9.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E9.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E9.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E9.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E9.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E9.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E9.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E9.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E9.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E9.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E9.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E9.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E9.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E9.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E9.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E9.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E9)" visible="!eq(-67,0)" />
     <setting label="32020" type="lsep" />
-    <setting default="None" id="E10.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
-    <setting default="Task 1" id="E10.task" label="32057" type="select" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
+    <setting default="None" id="E10.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
+    <setting default="Task 1" id="E10.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
     <setting default="60" id="E10.idleTime" label="32107" type="number" visible="eq(-2,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-3,on Idle [secs])" />
     <setting label="32063" type="lsep" visible="eq(-4,on Playback Speed Changed)" />
@@ -758,62 +776,64 @@
     <setting label="32116" type="lsep" visible="eq(-7,on Playback Started)" />
     <setting label="32117" type="lsep" visible="eq(-8,on Playback Started)" />
     <setting label="32063" type="lsep" visible="eq(-9,on Screensaver Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-10,on Playback Seek)" />
-    <setting label="32118" type="lsep" visible="eq(-11,on Playback Seek)" />
-    <setting label="32063" type="lsep" visible="eq(-12,on Shutdown)" />
-    <setting label="32119" type="lsep" visible="eq(-13,on Shutdown)" />
-    <setting label="32063" type="lsep" visible="eq(-14,on Playback Seek Chapter)" />
-    <setting label="32120" type="lsep" visible="eq(-15,on Playback Seek Chapter)" />
-    <setting label="32063" type="lsep" visible="eq(-16,on Clean Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-17,on Clean Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-18,on Screensaver Activated)" />
-    <setting default="0" id="E10.windowIdO" label="32105" type="number" visible="eq(-19,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-20,on Window Opened)" />
-    <setting label="32122" type="lsep" visible="eq(-21,on Window Opened)" />
-    <setting label="32063" type="lsep" visible="eq(-22,on DPMS Deactivated)" />
-    <setting label="32063" type="lsep" visible="eq(-23,on Scan Started)" />
-    <setting label="32121" type="lsep" visible="eq(-24,on Scan Started)" />
-    <setting label="32063" type="lsep" visible="eq(-25,on Profile Change)" />
-    <setting label="32123" type="lsep" visible="eq(-26,on Profile Change)" />
-    <setting default="" id="E10.folder" label="32110" type="folder" visible="eq(-27,on File System Change)" />
-    <setting default="" id="E10.patterns" label="32111" type="text" visible="eq(-28,on File System Change)" />
-    <setting default="" id="E10.ignore_patterns" label="32112" type="text" visible="eq(-29,on File System Change)" />
-    <setting default="false" id="E10.ignore_directories" label="32113" type="bool" visible="eq(-30,on File System Change)" />
-    <setting default="false" id="E10.recursive" label="32114" type="bool" visible="eq(-31,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-32,on File System Change)" />
-    <setting label="32124" type="lsep" visible="eq(-33,on File System Change)" />
-    <setting label="32063" type="lsep" visible="eq(-34,on Playback Ended)" />
-    <setting label="32125" type="lsep" visible="eq(-35,on Playback Ended)" />
-    <setting label="32063" type="lsep" visible="eq(-36,on Queue Next Item)" />
-    <setting label="32063" type="lsep" visible="eq(-37,on Clean Started)" />
-    <setting label="32121" type="lsep" visible="eq(-38,on Clean Started)" />
-    <setting default="" id="E10.sender" label="32102" type="text" visible="eq(-39,on JSON Notification)" />
-    <setting default="" id="E10.method" label="32103" type="text" visible="eq(-40,on JSON Notification)" />
-    <setting default="" id="E10.data" label="32104" type="text" visible="eq(-41,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-42,on JSON Notification)" />
-    <setting label="32126" type="lsep" visible="eq(-43,on JSON Notification)" />
-    <setting label="32063" type="lsep" visible="eq(-44,on Stereoscopic Mode Change )" />
-    <setting label="32127" type="lsep" visible="eq(-45,on Stereoscopic Mode Change )" />
-    <setting default="" id="E10.matchIf" label="32108" type="text" visible="eq(-46,on Log Regex)" />
-    <setting default="" id="E10.rejectIf" label="32109" type="text" visible="eq(-47,on Log Regex)" />
-    <setting label="32063" type="lsep" visible="eq(-48,on Log Regex)" />
-    <setting label="32128" type="lsep" visible="eq(-49,on Log Regex)" />
-    <setting default="0" id="E10.windowIdC" label="32106" type="number" visible="eq(-50,on Window Closed)" />
-    <setting label="32063" type="lsep" visible="eq(-51,on Window Closed)" />
-    <setting label="32122" type="lsep" visible="eq(-52,on Window Closed)" />
-    <setting default="" id="E10.matchIf" label="32108" type="text" visible="eq(-53,on Log Simple)" />
-    <setting default="" id="E10.rejectIf" label="32109" type="text" visible="eq(-54,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-55,on Log Simple)" />
-    <setting label="32128" type="lsep" visible="eq(-56,on Log Simple)" />
-    <setting label="32063" type="lsep" visible="eq(-57,on Startup)" />
-    <setting label="32063" type="lsep" visible="eq(-58,on Playback Resumed)" />
-    <setting label="32063" type="lsep" visible="eq(-59,on DPMS Activated)" />
-    <setting label="32063" type="lsep" visible="eq(-60,on Scan Finished)" />
-    <setting label="32121" type="lsep" visible="eq(-61,on Scan Finished)" />
-    <setting label="32063" type="lsep" visible="eq(-62,on Playback Paused)" />
-    <setting label="32118" type="lsep" visible="eq(-63,on Playback Paused)" />
-    <setting default="" id="E10.userargs" label="32064" type="text" visible="!eq(-64,None)" />
-    <setting default="" id="E10.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E10)" visible="!eq(-65,0)" />
+    <setting default="60" id="E10.afterIdleTime" label="32162" type="number" visible="eq(-10,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-11,on Resume After Idle [secs])" />
+    <setting label="32063" type="lsep" visible="eq(-12,on Playback Seek)" />
+    <setting label="32118" type="lsep" visible="eq(-13,on Playback Seek)" />
+    <setting label="32063" type="lsep" visible="eq(-14,on Shutdown)" />
+    <setting label="32119" type="lsep" visible="eq(-15,on Shutdown)" />
+    <setting label="32063" type="lsep" visible="eq(-16,on Playback Seek Chapter)" />
+    <setting label="32120" type="lsep" visible="eq(-17,on Playback Seek Chapter)" />
+    <setting label="32063" type="lsep" visible="eq(-18,on Clean Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-19,on Clean Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-20,on Screensaver Activated)" />
+    <setting default="0" id="E10.windowIdO" label="32105" type="number" visible="eq(-21,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-22,on Window Opened)" />
+    <setting label="32122" type="lsep" visible="eq(-23,on Window Opened)" />
+    <setting label="32063" type="lsep" visible="eq(-24,on DPMS Deactivated)" />
+    <setting label="32063" type="lsep" visible="eq(-25,on Scan Started)" />
+    <setting label="32121" type="lsep" visible="eq(-26,on Scan Started)" />
+    <setting label="32063" type="lsep" visible="eq(-27,on Profile Change)" />
+    <setting label="32123" type="lsep" visible="eq(-28,on Profile Change)" />
+    <setting default="" id="E10.folder" label="32110" type="folder" visible="eq(-29,on File System Change)" />
+    <setting default="" id="E10.patterns" label="32111" type="text" visible="eq(-30,on File System Change)" />
+    <setting default="" id="E10.ignore_patterns" label="32112" type="text" visible="eq(-31,on File System Change)" />
+    <setting default="false" id="E10.ignore_directories" label="32113" type="bool" visible="eq(-32,on File System Change)" />
+    <setting default="false" id="E10.recursive" label="32114" type="bool" visible="eq(-33,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-34,on File System Change)" />
+    <setting label="32124" type="lsep" visible="eq(-35,on File System Change)" />
+    <setting label="32063" type="lsep" visible="eq(-36,on Playback Ended)" />
+    <setting label="32125" type="lsep" visible="eq(-37,on Playback Ended)" />
+    <setting label="32063" type="lsep" visible="eq(-38,on Queue Next Item)" />
+    <setting label="32063" type="lsep" visible="eq(-39,on Clean Started)" />
+    <setting label="32121" type="lsep" visible="eq(-40,on Clean Started)" />
+    <setting default="" id="E10.sender" label="32102" type="text" visible="eq(-41,on JSON Notification)" />
+    <setting default="" id="E10.method" label="32103" type="text" visible="eq(-42,on JSON Notification)" />
+    <setting default="" id="E10.data" label="32104" type="text" visible="eq(-43,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-44,on JSON Notification)" />
+    <setting label="32126" type="lsep" visible="eq(-45,on JSON Notification)" />
+    <setting label="32063" type="lsep" visible="eq(-46,on Stereoscopic Mode Change )" />
+    <setting label="32127" type="lsep" visible="eq(-47,on Stereoscopic Mode Change )" />
+    <setting default="" id="E10.matchIf" label="32108" type="text" visible="eq(-48,on Log Regex)" />
+    <setting default="" id="E10.rejectIf" label="32109" type="text" visible="eq(-49,on Log Regex)" />
+    <setting label="32063" type="lsep" visible="eq(-50,on Log Regex)" />
+    <setting label="32128" type="lsep" visible="eq(-51,on Log Regex)" />
+    <setting default="0" id="E10.windowIdC" label="32106" type="number" visible="eq(-52,on Window Closed)" />
+    <setting label="32063" type="lsep" visible="eq(-53,on Window Closed)" />
+    <setting label="32122" type="lsep" visible="eq(-54,on Window Closed)" />
+    <setting default="" id="E10.matchIf" label="32108" type="text" visible="eq(-55,on Log Simple)" />
+    <setting default="" id="E10.rejectIf" label="32109" type="text" visible="eq(-56,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-57,on Log Simple)" />
+    <setting label="32128" type="lsep" visible="eq(-58,on Log Simple)" />
+    <setting label="32063" type="lsep" visible="eq(-59,on Startup)" />
+    <setting label="32063" type="lsep" visible="eq(-60,on Playback Resumed)" />
+    <setting label="32063" type="lsep" visible="eq(-61,on DPMS Activated)" />
+    <setting label="32063" type="lsep" visible="eq(-62,on Scan Finished)" />
+    <setting label="32121" type="lsep" visible="eq(-63,on Scan Finished)" />
+    <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
+    <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
+    <setting default="" id="E10.userargs" label="32064" type="text" visible="!eq(-66,None)" />
+    <setting default="" id="E10.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E10)" visible="!eq(-67,0)" />
   </category>
   <category label="32066">
     <setting default="false" id="Notify" label="32067" type="bool" />
