@@ -1,6 +1,6 @@
 # XBMC Media Center language file
-# Addon Name: script.xbmc.callbacks2
-# Addon id: script.xbmc.callbacks2
+# Addon Name: Kodi Callbacks
+# Addon id: service.kodi.callbacks
 # Addon Provider: KenV99
 msgid ""
 msgstr ""
@@ -10,435 +10,651 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n""Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#Add-on messages id=32001 to 32069
+#Add-on messages id=32001 to 32161
 
 msgctxt "#32001"
-msgid "Tasks"
-msgstr ""
-
-msgctxt "#32101"
 msgid "Task 1"
 msgstr ""
 
-msgctxt "#32102"
+msgctxt "#32002"
 msgid "Task 2"
 msgstr ""
 
-msgctxt "#32103"
+msgctxt "#32003"
 msgid "Task 3"
 msgstr ""
 
-msgctxt "#32104"
+msgctxt "#32004"
 msgid "Task 4"
 msgstr ""
 
-msgctxt "#32105"
+msgctxt "#32005"
 msgid "Task 5"
 msgstr ""
 
-msgctxt "#32106"
+msgctxt "#32006"
 msgid "Task 6"
 msgstr ""
 
-msgctxt "#32107"
+msgctxt "#32007"
 msgid "Task 7"
 msgstr ""
 
-msgctxt "#32108"
+msgctxt "#32008"
 msgid "Task 8"
 msgstr ""
 
-msgctxt "#32109"
+msgctxt "#32009"
 msgid "Task 9"
 msgstr ""
 
-msgctxt "#32110"
+msgctxt "#32010"
 msgid "Task 10"
 msgstr ""
 
-msgctxt "#32111"
+msgctxt "#32011"
 msgid "Event 1"
 msgstr ""
 
-msgctxt "#32112"
+msgctxt "#32012"
 msgid "Event 2"
 msgstr ""
 
-msgctxt "#32113"
+msgctxt "#32013"
 msgid "Event 3"
 msgstr ""
 
-msgctxt "#32114"
+msgctxt "#32014"
 msgid "Event 4"
 msgstr ""
 
-msgctxt "#32115"
+msgctxt "#32015"
 msgid "Event 5"
 msgstr ""
 
-msgctxt "#32116"
+msgctxt "#32016"
 msgid "Event 6"
 msgstr ""
 
-msgctxt "#32117"
+msgctxt "#32017"
 msgid "Event 7"
 msgstr ""
 
-msgctxt "#32118"
+msgctxt "#32018"
 msgid "Event 8"
 msgstr ""
 
-msgctxt "#32119"
+msgctxt "#32019"
 msgid "Event 9"
 msgstr ""
 
-msgctxt "#32120"
+msgctxt "#32020"
 msgid "Event 10"
 msgstr ""
 
-msgctxt "#32002"
-msgid "Type"
-msgstr ""
-
-msgctxt "#32003"
-msgid "Script Executable"
-msgstr ""
-
-msgctxt "#32004"
-msgid "Python Document"
-msgstr ""
-
-msgctxt "#32005"
-msgid "XBMC Builtin"
-msgstr ""
-
-msgctxt "#32006"
-msgid "HTTP String"
-msgstr ""
-
-msgctxt "#32007"
-msgid "user args before kwargs"
-msgstr ""
-
-msgctxt "#32008"
-msgid "requires shell?"
-msgstr ""
-
-msgctxt "#32009"
-msgid "Test Command (click OK to save changes first)"
-msgstr ""
-
-msgctxt "#32010"
-msgid "on Playback Started"
-msgstr ""
-
-msgctxt "#32011"
-msgid "on Playback Stopped"
-msgstr ""
-
-msgctxt "#32012"
-msgid "on Playback Paused"
-msgstr ""
-
-msgctxt "#32013"
-msgid "on Playback Resumed"
-msgstr ""
-
-msgctxt "#32014"
-msgid "on Startup"
-msgstr ""
-
-msgctxt "#32015"
-msgid "on Idle"
-msgstr ""
-
-msgctxt "#32016"
-msgid "on Shutdown"
-msgstr ""
-
-msgctxt "#32017"
-msgid "on Screensaver Activated"
-msgstr ""
-
-msgctxt "#32018"
-msgid "on Screensaver Deactivated"
-msgstr ""
-
-msgctxt "#32019"
-msgid "on Stereoscopic Mode Change (3D mode)"
-msgstr ""
-
-msgctxt "#32020"
-msgid "on User Profile Change"
-msgstr ""
-
 msgctxt "#32021"
-msgid "on Library Database Updated"
+msgid "Task received: %s: %s"
+msgstr ""
+
+msgctxt "#32022"
+msgid "Kodi Callbacks"
+msgstr ""
+
+msgctxt "#32023"
+msgid "Settings change detected - attempting to restart"
+msgstr ""
+
+msgctxt "#32024"
+msgid "Command for Task %s, Event %s completed succesfully!"
+msgstr ""
+
+msgctxt "#32025"
+msgid "\nThe following message was returned: %s"
+msgstr ""
+
+msgctxt "#32026"
+msgid "ERROR encountered for Task %s, Event %s\nERROR mesage: %s"
+msgstr ""
+
+msgctxt "#32027"
+msgid "Settings read"
+msgstr ""
+
+msgctxt "#32028"
+msgid "Dispatcher initialized"
+msgstr ""
+
+msgctxt "#32029"
+msgid "Subscriber for event: %s, task: %s created"
 msgstr ""
 
 msgctxt "#32030"
-msgid "Monitor playback start/stop on external players? (Needed for ext players Gotham 13.1-2)"
+msgid "Subscriber for event: %s, task: %s NOT created due to errors"
 msgstr ""
 
 msgctxt "#32031"
-msgid "Show Notifications?"
+msgid "Loop Publisher initialized"
 msgstr ""
 
 msgctxt "#32032"
-msgid "Playback"
+msgid "Player Publisher initialized"
 msgstr ""
 
 msgctxt "#32033"
-msgid "Idle Time in Minutes"
+msgid "Monitor Publisher initialized"
 msgstr ""
 
 msgctxt "#32034"
-msgid "Parameters"
+msgid "Log Publisher initialized"
 msgstr ""
 
 msgctxt "#32035"
-msgid "PARAMETERS TO PASS TO SCRIPTS OR PYTHON"
+msgid "Watchdog Publisher initialized"
 msgstr ""
 
 msgctxt "#32036"
-msgid "For All Events"
+msgid "Dispatcher started"
 msgstr ""
 
 msgctxt "#32037"
-msgid "For Playback Started"
+msgid "Publisher(s) started"
 msgstr ""
 
 msgctxt "#32038"
-msgid "For Profile Changed"
+msgid "$$$ [kodi.callbacks] Staring kodi.callbacks ver: %s"
 msgstr ""
 
 msgctxt "#32039"
-msgid "For Stereo Mode Changed"
+msgid "Entering wait loop"
 msgstr ""
 
 msgctxt "#32040"
-msgid "Event ID"
+msgid "Shutdown started"
 msgstr ""
 
 msgctxt "#32041"
-msgid "Media type {music:movie:episode:liveTV:recordedTV:PVR radio:stream:unknown}"
+msgid "Error aborting: %s - Error: %s"
 msgstr ""
 
 msgctxt "#32042"
-msgid "File path plus filename"
+msgid "Enumerating threads to kill others than main (%i)"
 msgstr ""
 
 msgctxt "#32043"
-msgid "Path for Profile"
+msgid "Attempting to kill thread: %i: %s"
 msgstr ""
 
 msgctxt "#32044"
-msgid "Current Stereo Mode"
+msgid "Error killing thread"
 msgstr ""
 
 msgctxt "#32045"
-msgid "Title"
+msgid "Thread killed succesfully"
 msgstr ""
 
 msgctxt "#32046"
-msgid "Aspect Ratio"
+msgid "Running Test for Event: %s"
 msgstr ""
 
 msgctxt "#32047"
-msgid "Resolution"
+msgid "Settings for test read"
 msgstr ""
 
 msgctxt "#32048"
-msgid "Polling Frequency (msec)"
+msgid "Creating subscriber for test"
 msgstr ""
 
 msgctxt "#32049"
-msgid "Error"
+msgid "Test subscriber created successfully"
 msgstr ""
 
 msgctxt "#32050"
-msgid "Command not valid"
+msgid "Running test"
 msgstr ""
 
 msgctxt "#32051"
-msgid "Command for %s resulted in ERROR: %s"
+msgid "Unspecified error during testing"
 msgstr ""
 
 msgctxt "#32052"
-msgid "Command for %s executed successfully"
+msgid "Test subscriber creation failed due to errors"
 msgstr ""
 
 msgctxt "#32053"
-msgid "Terminating on unhandled Error: %s"
+msgid "Native Task Testing Complete - see log for results"
 msgstr ""
 
 msgctxt "#32054"
-msgid "Testing for event: %s\n"
+msgid "Task not run because task count exceeded"
 msgstr ""
 
 msgctxt "#32055"
-msgid "Command type: %s\n"
+msgid "Task not run because task already running"
 msgstr ""
 
 msgctxt "#32056"
-msgid "Command: %s\n"
+msgid "Tasks"
 msgstr ""
 
 msgctxt "#32057"
-msgid "Runtime args: %s"
+msgid "Task"
 msgstr ""
 
 msgctxt "#32058"
-msgid "Runtime arg: %s"
-msgstr ""
-
-msgctxt "#32059"
-msgid "Runtime args: None"
-msgstr ""
-
-msgctxt "#32060"
-msgid "User args: %s"
-msgstr ""
-
-msgctxt "#32061"
-msgid "User arg: %s"
-msgstr ""
-
-msgctxt "#32062"
-msgid "User args: None"
-msgstr ""
-
-msgctxt "#32063"
-msgid "Error Encountered"
-msgstr ""
-
-msgctxt "#32064"
-msgid "Error message: %s"
-msgstr ""
-
-msgctxt "#32065"
-msgid "No further error info available"
-msgstr ""
-
-msgctxt "#32066"
-msgid "Command completed without error detection"
-msgstr ""
-
-msgctxt "#32067"
-msgid "Command output: %s"
-msgstr ""
-
-msgctxt "#32068"
-msgid "Command did not produce output"
-msgstr ""
-
-msgctxt "#32069"
-msgid "Results"
-msgstr ""
-
-msgctxt "#32070"
-msgid "onPlayBackSeekChapter"
-msgstr ""
-
-msgctxt "#32071"
-msgid "onQueueNextItem"
-msgstr ""
-
-msgctxt "#32072"
-msgid "onScanStarted"
-msgstr ""
-
-msgctxt "#32073"
-msgid "onScanFinished"
-msgstr ""
-
-msgctxt "#32074"
-msgid "onCleanStarted"
-msgstr ""
-
-msgctxt "#32075"
-msgid "onCleanFinished"
-msgstr ""
-
-msgctxt "#32076"
-msgid "onDPMSActivated"
-msgstr ""
-
-msgctxt "#32077"
-msgid "onDPMSDeactivated"
-msgstr ""
-
-msgctxt "#32078"
-msgid "onLogSimple"
-msgstr ""
-
-msgctxt "#32079"
-msgid "onLogRegex"
-msgstr ""
-
-msgctxt "#32080"
-msgid "string to match"
-msgstr ""
-
-msgctxt "#32081"
-msgid "string to reject if matched"
-msgstr ""
-
-msgctxt "#32082"
-msgid "regex to match"
-msgstr ""
-
-msgctxt "#32083"
-msgid "regex to reject if matched"
-msgstr ""
-
-msgctxt "#32084"
-msgid "Send log line as arg?"
-msgstr ""
-
-msgctxt "#32085"
-msgid "onWindowOpen"
-msgstr ""
-
-msgctxt "#32086"
-msgid "onWindowClose"
-msgstr ""
-
-msgctxt "#32087"
-msgid "window id to watch"
-msgstr ""
-
-msgctxt "#32088"
-msgid "Send window id as arg?"
-msgstr ""
-
-msgctxt "#32089"
 msgid "Max num of this task running simultaneously (-1=no limit)"
 msgstr ""
 
-msgctxt "#32090"
+msgctxt "#32059"
 msgid "Max num of times this task runs (-1=no limit)"
 msgstr ""
 
-msgctxt "#32091"
+msgctxt "#32060"
 msgid "Refractory period in secs (-1=none)"
 msgstr ""
 
-msgctxt "#32092"
+msgctxt "#32061"
 msgid "Events"
 msgstr ""
 
+msgctxt "#32062"
+msgid "Type"
+msgstr ""
+
+msgctxt "#32063"
+msgid "Hint - variables can be subbed (%%=%, _%=space, _%%=,): "
+msgstr ""
+
+msgctxt "#32064"
+msgid "Var subbed arg string"
+msgstr ""
+
+msgctxt "#32065"
+msgid "Test Command (click OK to save changes first)"
+msgstr ""
+
+msgctxt "#32066"
+msgid "General"
+msgstr ""
+
+msgctxt "#32067"
+msgid "Display Notifications when Tasks Run?"
+msgstr ""
+
+msgctxt "#32068"
+msgid "Loop Pooling Frequency (ms)"
+msgstr ""
+
+msgctxt "#32069"
+msgid "Log Polling Frequency (ms)"
+msgstr ""
+
+msgctxt "#32070"
+msgid "Task Polling Frequency (ms)"
+msgstr ""
+
+msgctxt "#32071"
+msgid "Show debugging info in normal log?"
+msgstr ""
+
+msgctxt "#32072"
+msgid "Regenerate settings.xml"
+msgstr ""
+
+msgctxt "#32073"
+msgid "Test addon native tasks (see log for output)"
+msgstr ""
+
+msgctxt "#32074"
+msgid "Settings.xml rewritten"
+msgstr ""
+
+msgctxt "#32075"
+msgid "Kodi Builtin Function"
+msgstr ""
+
+msgctxt "#32076"
+msgid "Task %s launching for event: %s"
+msgstr ""
+
+msgctxt "#32077"
+msgid "HTTP string (without parameters)"
+msgstr ""
+
+msgctxt "#32078"
+msgid "user for Basic Auth (optional)"
+msgstr ""
+
+msgctxt "#32079"
+msgid "password for Basic Auth (optional)"
+msgstr ""
+
+msgctxt "#32080"
+msgid "Invalid url: %s"
+msgstr ""
+
+msgctxt "#32081"
+msgid "Error on url read"
+msgstr ""
+
+msgctxt "#32082"
+msgid "Requests Connection Error"
+msgstr ""
+
+msgctxt "#32083"
+msgid "Requests HTTPError"
+msgstr ""
+
+msgctxt "#32084"
+msgid "Requests URLRequired Error"
+msgstr ""
+
+msgctxt "#32085"
+msgid "Requests Timeout Error"
+msgstr ""
+
+msgctxt "#32086"
+msgid "Generic Requests Error"
+msgstr ""
+
+msgctxt "#32087"
+msgid "HTTPError = "
+msgstr ""
+
+msgctxt "#32088"
+msgid "URLError\n"
+msgstr ""
+
+msgctxt "#32089"
+msgid "Http Bad Status Line caught and passed"
+msgstr ""
+
+msgctxt "#32090"
+msgid "HTTPException"
+msgstr ""
+
+msgctxt "#32091"
+msgid "The request timed out, host unreachable"
+msgstr ""
+
+msgctxt "#32092"
+msgid "Python file"
+msgstr ""
+
 msgctxt "#32093"
-msgid "Event"
+msgid "Import and call run() (default=no)?"
 msgstr ""
 
 msgctxt "#32094"
-msgid "None"
+msgid "Error - not a python script: %s"
 msgstr ""
 
 msgctxt "#32095"
-msgid "Task"
+msgid "Error - File not found: %s"
 msgstr ""
+
+msgctxt "#32096"
+msgid "Script executable file"
+msgstr ""
+
+msgctxt "#32097"
+msgid "Requires shell?"
+msgstr ""
+
+msgctxt "#32098"
+msgid "Wait for script to complete?"
+msgstr ""
+
+msgctxt "#32099"
+msgid "Failed to set execute bit on script: %s"
+msgstr ""
+
+msgctxt "#32100"
+msgid "Process returned data: %s\n"
+msgstr ""
+
+msgctxt "#32101"
+msgid "Process returned error: %s"
+msgstr ""
+
+msgctxt "#32102"
+msgid "sender"
+msgstr ""
+
+msgctxt "#32103"
+msgid "method"
+msgstr ""
+
+msgctxt "#32104"
+msgid "data"
+msgstr ""
+
+msgctxt "#32105"
+msgid "windowIdO"
+msgstr ""
+
+msgctxt "#32106"
+msgid "windowIdC"
+msgstr ""
+
+msgctxt "#32107"
+msgid "idleTime"
+msgstr ""
+
+msgctxt "#32108"
+msgid "matchIf"
+msgstr ""
+
+msgctxt "#32109"
+msgid "rejectIf"
+msgstr ""
+
+msgctxt "#32110"
+msgid "folder"
+msgstr ""
+
+msgctxt "#32111"
+msgid "patterns"
+msgstr ""
+
+msgctxt "#32112"
+msgid "ignore_patterns"
+msgstr ""
+
+msgctxt "#32113"
+msgid "ignore_directories"
+msgstr ""
+
+msgctxt "#32114"
+msgid "recursive"
+msgstr ""
+
+msgctxt "#32115"
+msgid "%sp=speed"
+msgstr ""
+
+msgctxt "#32116"
+msgid "%ar=aspectRatio,%mt=mediaType,%ti=title,%fn=fileName"
+msgstr ""
+
+msgctxt "#32117"
+msgid "%rs=resolution"
+msgstr ""
+
+msgctxt "#32118"
+msgid "%ti=time"
+msgstr ""
+
+msgctxt "#32119"
+msgid "%pi=pid"
+msgstr ""
+
+msgctxt "#32120"
+msgid "%ch=chapter"
+msgstr ""
+
+msgctxt "#32121"
+msgid "%li=library"
+msgstr ""
+
+msgctxt "#32122"
+msgid "%wi=windowId"
+msgstr ""
+
+msgctxt "#32123"
+msgid "%pp=profilePath"
+msgstr ""
+
+msgctxt "#32124"
+msgid "%ev=event,%pa=path"
+msgstr ""
+
+msgctxt "#32125"
+msgid "%mt=mediaType,%ti=title,%pp=percentPlayed,%fn=fileName"
+msgstr ""
+
+msgctxt "#32126"
+msgid "%me=method,%se=sender,%da=data"
+msgstr ""
+
+msgctxt "#32127"
+msgid "%sm=stereoMode"
+msgstr ""
+
+msgctxt "#32128"
+msgid "%ll=logLine"
+msgstr ""
+
+msgctxt "#32129"
+msgid "none"
+msgstr ""
+
+msgctxt "#32130"
+msgid "builtin"
+msgstr ""
+
+msgctxt "#32131"
+msgid "http"
+msgstr ""
+
+msgctxt "#32132"
+msgid "python"
+msgstr ""
+
+msgctxt "#32133"
+msgid "script"
+msgstr ""
+
+msgctxt "#32134"
+msgid "Task not run because task is in refractory period"
+msgstr ""
+
+msgctxt "#32135"
+msgid "Task starting for %s"
+msgstr ""
+
+msgctxt "#32136"
+msgid "Task finalized for %s"
+msgstr ""
+
+msgctxt "#32137"
+msgid "Could not stop LogMonitor T:%i"
+msgstr ""
+
+msgctxt "#32138"
+msgid "Could not stop LogPublisher T:%i"
+msgstr ""
+
+msgctxt "#32139"
+msgid "Could not stop LogCheckSimple T:%i"
+msgstr ""
+
+msgctxt "#32140"
+msgid "Could not stop LogCheckRegex T:%i"
+msgstr ""
+
+msgctxt "#32141"
+msgid "Could not stop LoopPublisher T:%i"
+msgstr ""
+
+msgctxt "#32142"
+msgid "Could not stop MonitorPublisher T:%i"
+msgstr ""
+
+msgctxt "#32143"
+msgid "Could not stop PlayerPublisher T:%i"
+msgstr ""
+
+msgctxt "#32144"
+msgid "Testing for task type: %s"
+msgstr ""
+
+msgctxt "#32145"
+msgid "Settings: %s"
+msgstr ""
+
+msgctxt "#32146"
+msgid "Runtime kwargs: %s"
+msgstr ""
+
+msgctxt "#32147"
+msgid "The following message was returned: %s"
+msgstr ""
+
+msgctxt "#32148"
+msgid "testHttp returned with an error: %s"
+msgstr ""
+
+msgctxt "#32149"
+msgid "Http test failed"
+msgstr ""
+
+msgctxt "#32150"
+msgid "Builtin test failed"
+msgstr ""
+
+msgctxt "#32151"
+msgid "testScriptNoShell returned with an error: %s"
+msgstr ""
+
+msgctxt "#32152"
+msgid "Script without shell test failed"
+msgstr ""
+
+msgctxt "#32153"
+msgid "testScriptShell returned with an error: %s"
+msgstr ""
+
+msgctxt "#32154"
+msgid "Script with shell test failed"
+msgstr ""
+
+msgctxt "#32155"
+msgid "testPythonImport returned with an error: %s"
+msgstr ""
+
+msgctxt "#32156"
+msgid "Python import test failed"
+msgstr ""
+
+msgctxt "#32157"
+msgid "testPythonExternal returned with an error: %s"
+msgstr ""
+
+msgctxt "#32158"
+msgid "Python external test failed"
+msgstr ""
+
+msgctxt "#32159"
+msgid "Error: %s"
+msgstr ""
+
+msgctxt "#32160"
+msgid "Error testing %s\n"
+msgstr ""
+
+msgctxt "#32161"
+msgid "Test passed for task %s"
+msgstr ""
+

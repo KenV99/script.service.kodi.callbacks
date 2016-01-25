@@ -17,6 +17,11 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedStringId
+
+
 def requires_subtopic():
     return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'onWindowOpen', 'onWindowClose', 'onNotification']
 
@@ -205,7 +210,7 @@ class Events(object):
             'text':'on File System Change',
             'reqInfo':[('folder','folder', ''), ('patterns', 'text', ''), ('ignore_patterns', 'text', ''),('ignore_directories', 'bool', 'false'),('recursive','bool', 'false')],
             'optArgs':['path', 'event'],
-            'varArgs':{'%pa':'path', '%{ev':'event'},
+            'varArgs':{'%pa':'path', '%ev':'event'},
             'expArgs':{'path':'C:\\Users\\User\\text.txt', 'event':'deleted' }
         },
     }

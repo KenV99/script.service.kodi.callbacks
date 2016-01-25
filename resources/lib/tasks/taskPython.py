@@ -23,6 +23,10 @@ import traceback
 import xbmc
 import xbmcvfs
 from resources.lib.taskABC import AbstractTask, KodiLogger, notify
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+__ = kodipo.getLocalizedStringId
 
 
 class TaskPython(AbstractTask):
@@ -32,7 +36,7 @@ class TaskPython(AbstractTask):
             'id':'pythonfile',
             'settings':{
                 'default':'',
-                'label':'Python file',
+                'label':__('Python file'),
                 'type':'file'
             }
         },
@@ -40,7 +44,7 @@ class TaskPython(AbstractTask):
             'id':'import',
             'settings':{
                 'default':'false',
-                'label':'Import and call run() (default=no)?',
+                'label':__('Import and call run() (default=no)?'),
                 'type':'bool'
             }
         }
@@ -57,15 +61,15 @@ class TaskPython(AbstractTask):
             if ext == '.py':
                 return True
             else:
-                xlog(msg='Error - not a python script: %s' % tmp)
+                xlog(msg=_('Error - not a python script: %s') % tmp)
                 return False
         else:
-            xlog(msg='Error - File not found: %s' % tmp)
+            xlog(msg=_('Error - File not found: %s') % tmp)
             return False
 
     def run(self):
         if self.taskKwargs['notify'] is True:
-            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
+            notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         err = False
         msg = ''
         args = self.runtimeargs

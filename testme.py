@@ -65,6 +65,8 @@ def processargs(args, kwargs):
                     pass
             else:
                 nargs.append(stripquotes(arg))
+    elif isinstance(args, list):
+        nargs = args
     if kwargs is None:
         kwargs = {}
     return nargs, kwargs
@@ -79,7 +81,7 @@ if __name__ == '__main__' or __name__ == 'Tasks':
     xargs = []
     kwargs = {}
     if __name__ == '__main__':
-        sysargv = sys.argv
+        sysargv = sys.argv[1:]
     else:
         sysargv = locals()['args'].strip().split(' ')
     for i, xarg in enumerate(sysargv):

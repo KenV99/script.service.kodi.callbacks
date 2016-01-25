@@ -150,4 +150,4 @@ class LoopPublisher(Publisher, threading.Thread):
         if timeout > 0:
             self.join(timeout)
             if self.is_alive():
-                xbmc.log(msg='Could not stop LoopPublisher T:%i' % self.ident)
+                xbmc.log(msg=_('Could not stop LoopPublisher T:%i') % self.ident)

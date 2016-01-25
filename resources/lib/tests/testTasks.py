@@ -27,6 +27,9 @@ from resources.lib.pubsub import Topic, TaskManager
 from resources.lib.events import Events
 from resources.lib.kodilogging import log
 import xbmc, xbmcaddon
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
 events = Events().AllEvents
 
 testdir = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
@@ -68,9 +71,9 @@ class testTasks(object):
         else:
             tm.start(topic, **runKwargs)  # Toggle Mute again
         if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
+            log(loglevel=xbmc.LOGERROR, msg=_('testHttp returned with an error: %s') % tr.msg)
         if tr.msg.startswith('{"id":1,"jsonrpc":"2.0","result":') is False:
-            raise AssertionError('Http test failed')
+            raise AssertionError(_('Http test failed'))
 
     def returnHandler(self, taskReturn):
         self.q.put_nowait(taskReturn)
@@ -88,7 +91,7 @@ class testTasks(object):
         debug = is_xbmc_debug()
         tm.start(topic, **runKwargs)
         if debug == start_debug:
-            raise AssertionError('Builtin test failed')
+            raise AssertionError(_('Builtin test failed'))
 
 
     def testScriptNoShell(self):
@@ -112,7 +115,7 @@ class testTasks(object):
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
         if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
+            log(loglevel=xbmc.LOGERROR, msg=_('testScriptNoShell returned with an error: %s') % tr.msg)
         try:
             with open(outfile, 'r') as f:
                 retArgs = f.readline()
@@ -123,7 +126,7 @@ class testTasks(object):
         except:
             pass
         if retArgs.strip('\n') != userargs:
-            raise AssertionError('Script without shell test failed')
+            raise AssertionError(_('Script without shell test failed'))
 
     def testScriptShell(self):
         self.task = taskdict['script']['class']
@@ -146,7 +149,7 @@ class testTasks(object):
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
         if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
+            log(loglevel=xbmc.LOGERROR, msg=_('testScriptShell returned with an error: %s') % tr.msg)
         try:
             with open(outfile, 'r') as f:
                 retArgs = f.readline()
@@ -157,7 +160,7 @@ class testTasks(object):
         except:
             pass
         if retArgs.strip('\n') != userargs:
-            raise AssertionError('Script with shell test failed')
+            raise AssertionError(_('Script with shell test failed'))
 
 
     def testPythonImport(self):
@@ -172,7 +175,7 @@ class testTasks(object):
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
         if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
+            log(loglevel=xbmc.LOGERROR, msg=_('testPythonImport returned with an error: %s') % tr.msg)
         try:
             retArgs = sys.modules['__builtin__'].__dict__['testReturn']
         except KeyError:
@@ -183,7 +186,7 @@ class testTasks(object):
             except KeyError:
                 sys.modules['builtins'].__dict__.pop('testReturn', None)
         if ' '.join(retArgs[0]) != userargs:
-            raise AssertionError('Python import test failed')
+            raise AssertionError(_('Python import test failed'))
 
     def testPythonExternal(self):
         self.task = taskdict['python']['class']
@@ -197,7 +200,7 @@ class testTasks(object):
         tm.start(topic, **runKwargs)
         tr = self.q.get(timeout=1)
         if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg='testHttp returned with an error: %s' % tr.msg)
+            log(loglevel=xbmc.LOGERROR, msg=_('testPythonExternal returned with an error: %s') % tr.msg)
         try:
             retArgs = sys.modules['__builtin__'].__dict__['testReturn']
         except KeyError:
@@ -208,7 +211,7 @@ class testTasks(object):
             except KeyError:
                 sys.modules['builtins'].__dict__.pop('testReturn', None)
         if ' '.join(retArgs[0]) != userargs:
-            raise AssertionError('Python external test failed')
+            raise AssertionError(_('Python external test failed'))
 
     def runTests(self):
         tests = [self.testHttp, self.testBuiltin, self.testScriptNoShell, self.testScriptShell, self.testPythonExternal,
@@ -218,9 +221,9 @@ class testTasks(object):
             try:
                 test()
             except AssertionError as e:
-                log(msg='Error: %s' % e.message)
+                log(msg=_('Error: %s') % e.message)
             except Exception as e:
-                msg = 'Error testing %s\n' % testname
+                msg = _('Error testing %s\n') % testname
                 e = sys.exc_info()[0]
                 if hasattr(e, 'message'):
                     msg += str(e.message)
@@ -229,4 +232,4 @@ class testTasks(object):
                 msg = msg + '\n' + traceback.format_exc()
                 log(loglevel=xbmc.LOGERROR, msg=msg)
             else:
-                log(msg='Test passed for task %s' % str(testname))
+                log(msg=_('Test passed for task %s') % str(testname))

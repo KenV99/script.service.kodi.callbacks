@@ -55,7 +55,7 @@ class LogMonitor(threading.Thread):
         if timeout > 0:
             self.join(timeout)
             if self.is_alive():
-                xbmc.log(msg='Could not stop LogMonitor T:%i' % self.ident)
+                xbmc.log(msg=_('Could not stop LogMonitor T:%i') % self.ident)
 
 class LogPublisher(threading.Thread, Publisher):
     publishes = Events.Log.keys()
@@ -114,7 +114,7 @@ class LogPublisher(threading.Thread, Publisher):
         if timeout > 0:
             self.join(timeout)
             if self.is_alive():
-                xbmc.log(msg='Could not stop LogPublisher T:%i' % self.ident)
+                xbmc.log(msg=_('Could not stop LogPublisher T:%i') % self.ident)
 
 class LogCheck(object):
     def __init__(self, match, nomatch, callback, param):
@@ -155,7 +155,7 @@ class LogCheckSimple(threading.Thread):
         if timeout > 0:
             self.join(timeout)
             if self.is_alive():
-                xbmc.log(msg='Could not stop LogCheckSimple T:%i' % self.ident)
+                xbmc.log(msg=_('Could not stop LogCheckSimple T:%i') % self.ident)
 
 class LogCheckRegex(threading.Thread):
     def __init__(self, match, nomatch, subtopic, publish):
@@ -200,4 +200,4 @@ class LogCheckRegex(threading.Thread):
         if timeout > 0:
             self.join(timeout)
             if self.is_alive():
-                xbmc.log(msg='Could not stop LogCheckRegex T:%i' % self.ident)
+                xbmc.log(msg=_('Could not stop LogCheckRegex T:%i') % self.ident)

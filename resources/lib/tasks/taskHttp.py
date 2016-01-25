@@ -25,6 +25,10 @@ import httplib
 from urlparse import urlparse
 import socket
 from resources.lib.taskABC import AbstractTask, KodiLogger, notify, events
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+__ = kodipo.getLocalizedStringId
 
 class TaskHttp(AbstractTask):
     tasktype = 'http'
@@ -33,7 +37,7 @@ class TaskHttp(AbstractTask):
             'id':'http',
             'settings':{
                 'default':'',
-                'label':'HTTP string (without parameters)',
+                'label':__('HTTP string (without parameters)'),
                 'type':'text'
             }
         },
@@ -41,7 +45,7 @@ class TaskHttp(AbstractTask):
             'id':'user',
             'settings':{
                 'default':'',
-                'label':'user for Basic Auth (optional)',
+                'label':__('user for Basic Auth (optional)'),
                 'type':'text'
             }
         },
@@ -49,7 +53,7 @@ class TaskHttp(AbstractTask):
             'id':'pass',
             'settings':{
                 'default':'',
-                'label':'password for Basic Auth (optional)',
+                'label':__('password for Basic Auth (optional)'),
                 'type':'text',
                 'option':'hidden'
             }
@@ -66,7 +70,7 @@ class TaskHttp(AbstractTask):
         if o.scheme != '' and o.netloc != '':
             return True
         else:
-            xlog(msg='Invalid url: %s' % taskKwargs['http'])
+            xlog(msg=_('Invalid url: %s') % taskKwargs['http'])
             return False
 
     def processUserargs(self, kwargs):
@@ -92,7 +96,7 @@ class TaskHttp(AbstractTask):
 
     def run(self):
         if self.taskKwargs['notify'] is True:
-            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
+            notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         err = False
         msg = ''
         try:
@@ -105,43 +109,43 @@ class TaskHttp(AbstractTask):
             except Exception as e:
                 err = True
                 result = ''
-                msg = 'Error on url read'
+                msg = _('Error on url read')
                 if hasattr(e, 'message'):
                     msg = msg + '\n' + (str(e.message))
             msg = str(result)
         except requests.ConnectionError:
             err = True
-            msg = 'Requests Connection Error'
+            msg = _('Requests Connection Error')
         except requests.HTTPError:
             err = True
-            msg = 'Requests HTTPError'
+            msg = _('Requests HTTPError')
         except requests.URLRequired:
             err = True
-            msg = 'Requests URLRequired Error'
+            msg = _('Requests URLRequired Error')
         except requests.Timeout:
             err = True
-            msg = 'Requests Timeout Error'
+            msg = _('Requests Timeout Error')
         except requests.RequestException:
             err = True
-            msg = 'Generic Requests Error'
+            msg = _('Generic Requests Error')
         except urllib2.HTTPError, e:
             err = True
-            msg = 'HTTPError = ' + str(e.code)
+            msg = _('HTTPError = ') + str(e.code)
         except urllib2.URLError, e:
             err = True
-            msg = 'URLError\n' + e.reason
+            msg = _('URLError\n') + e.reason
         except httplib.BadStatusLine, e:
             err = False
-            self.log(msg='Http Bad Status Line caught and passed')
+            self.log(msg=_('Http Bad Status Line caught and passed'))
 
         except httplib.HTTPException, e:
             err = True
-            msg = 'HTTPException'
+            msg = _('HTTPException')
             if hasattr(e, 'message'):
                 msg = msg + '\n' + e.message
         except socket.timeout, e:
             err = True
-            msg = 'The request timed out, host unreachable'
+            msg = _('The request timed out, host unreachable')
         except Exception:
             err = True
             e = sys.exc_info()[0]

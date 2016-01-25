@@ -21,6 +21,10 @@ import sys
 import traceback
 import xbmc
 from resources.lib.taskABC import AbstractTask, KodiLogger, notify
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+__ = kodipo.getLocalizedStringId
 
 class TaskBuiltin(AbstractTask):
     tasktype = 'builtin'
@@ -29,7 +33,7 @@ class TaskBuiltin(AbstractTask):
             'id':'builtin',
             'settings':{
                 'default':'',
-                'label':'Kodi Builtin Function',
+                'label':__('Kodi Builtin Function'),
                 'type':'text'
             }
         },
@@ -44,7 +48,7 @@ class TaskBuiltin(AbstractTask):
 
     def run(self):
         if self.taskKwargs['notify'] is True:
-            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
+            notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         err = False
         msg = ''
         args = ' %s' % ' '.join(self.runtimeargs)

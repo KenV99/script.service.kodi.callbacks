@@ -46,7 +46,7 @@ class PlayerPublisher(Publisher, threading.Thread):
         if timeout > 0:
             self.join(timeout)
             if self.is_alive():
-                xbmc.log(msg='Could not stop PlayerPublisher T:%i' % self.ident)
+                xbmc.log(msg=_('Could not stop PlayerPublisher T:%i') % self.ident)
 
 class Player(xbmc.Player):
     def __init__(self):

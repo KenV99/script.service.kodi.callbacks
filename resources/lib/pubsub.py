@@ -22,6 +22,9 @@ import abc
 import copy
 import threading
 import time
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
 
 LOGLEVEL_CRITICAL = 50
 LOGLEVEL_ERROR = 40
@@ -256,18 +259,18 @@ class TaskManager(object):
 
 class TaskManagerException_TaskCountExceeded(Exception):
     def __init__(self):
-        super(TaskManagerException_TaskCountExceeded, self).__init__('Task not run because task count exceeded')
+        super(TaskManagerException_TaskCountExceeded, self).__init__(_('Task not run because task count exceeded'))
 
 
 class TaskManagerException_TaskAlreadyRunning(Exception):
     def __init__(self):
-        super(TaskManagerException_TaskAlreadyRunning, self).__init__('Task not run because task already running')
+        super(TaskManagerException_TaskAlreadyRunning, self).__init__(_('Task not run because task already running'))
 
 
 class TaskManagerException_TaskInRefractoryPeriod(Exception):
     def __init__(self):
         super(TaskManagerException_TaskInRefractoryPeriod, self).__init__(
-                'Task not run because task is in refractory period')
+                _('Task not run because task is in refractory period'))
 
 
 class Subscriber(object):
@@ -288,7 +291,7 @@ class Subscriber(object):
     def notify(self, message):
         for taskmanager in self.taskmanagers:
             try:
-                self.logger.log(self.loglevel, 'Task starting for %s' % message.topic)
+                self.logger.log(self.loglevel, _('Task starting for %s') % message.topic)
                 taskmanager.start(message.topic, **message.kwargs)
             except TaskManagerException_TaskAlreadyRunning as e:
                 self.logger.log(self.loglevel, '%s - %s' % (message.topic, e.message))
@@ -299,4 +302,4 @@ class Subscriber(object):
             except Exception as e:
                 pass
             else:
-                self.logger.log(self.loglevel, 'Task finalized for %s' % message.topic)
+                self.logger.log(self.loglevel, _('Task finalized for %s') % message.topic)

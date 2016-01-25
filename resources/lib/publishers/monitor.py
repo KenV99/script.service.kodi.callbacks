@@ -49,7 +49,7 @@ class MonitorPublisher(Publisher, threading.Thread):
         if timeout > 0:
             self.join(timeout)
             if self.is_alive():
-                xbmc.log(msg='Could not stop MonitorPublisher T:%i' % self.ident)
+                xbmc.log(msg=_('Could not stop MonitorPublisher T:%i') % self.ident)
 
 class _Monitor(xbmc.Monitor):
     def __init__(self):

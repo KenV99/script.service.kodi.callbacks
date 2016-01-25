@@ -25,6 +25,10 @@ import traceback
 from resources.lib.taskABC import AbstractTask, notify, KodiLogger
 import xbmc
 import xbmcvfs
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+__ = kodipo.getLocalizedStringId
 
 sysplat = sys.platform
 
@@ -35,7 +39,7 @@ class TaskScript(AbstractTask):
             'id':'scriptfile',
             'settings':{
                 'default':'',
-                'label':'Script executable file',
+                'label':__('Script executable file'),
                 'type':'file'
             }
         },
@@ -43,7 +47,7 @@ class TaskScript(AbstractTask):
             'id':'use_shell',
             'settings':{
                 'default':'false',
-                'label':'Requires shell?',
+                'label':__('Requires shell?'),
                 'type':'bool'
             }
         },
@@ -51,7 +55,7 @@ class TaskScript(AbstractTask):
             'id':'waitForCompletion',
             'settings':{
                 'default':'true',
-                'label':'Wait for script to complete?',
+                'label':__('Wait for script to complete?'),
                 'type':'bool'
             }
         }
@@ -73,15 +77,15 @@ class TaskScript(AbstractTask):
                 os.chmod(tmp, mode)
             except:
                 if sysplat.startswith('win') is False:
-                    xlog(msg='Failed to set execute bit on script: %s' % tmp)
+                    xlog(msg=_('Failed to set execute bit on script: %s') % tmp)
             return True
         else:
-            xlog(msg='Error - File not found: %s' % tmp)
+            xlog(msg=_('Error - File not found: %s') % tmp)
             return False
 
     def run(self):
         if self.taskKwargs['notify'] is True:
-            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
+            notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         try:
             needs_shell = self.taskKwargs['use_shell']
         except:
@@ -99,16 +103,15 @@ class TaskScript(AbstractTask):
         err = False
         debg = False
         msg = ''
-        # if sysplat.startswith('darwin') or debg:
         try:
             os.chdir(basedir)
             p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
             if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
-                    msg = 'Process returned data: %s' % str(stdoutdata)
+                    msg = _('Process returned data: %s\n') % str(stdoutdata)
                 if stderrdata is not None:
-                    msg += 'Process returned error: %s' % str(stdoutdata)
+                    msg += _('Process returned error: %s') % str(stdoutdata)
         except subprocess.CalledProcessError, e:
             err = True
             msg = e.output
@@ -121,21 +124,4 @@ class TaskScript(AbstractTask):
         finally:
             os.chdir(cwd)
         self.threadReturn(err, msg)
-        # else:
-        #     try:
-        #         os.chdir(basedir)
-        #         result = subprocess.check_output(args, shell=needs_shell, stderr=subprocess.STDOUT)
-        #         if result is not None:
-        #             msg = result
-        #     except subprocess.CalledProcessError, e:
-        #         err = True
-        #         msg = e.output
-        #     except:
-        #         e = sys.exc_info()[0]
-        #         err = True
-        #         if hasattr(e, 'message'):
-        #             msg = str(e.message)
-        #         msg = msg + '\n' + traceback.format_exc()
-        #     finally:
-        #         os.chdir(cwd)
-        #     self.threadReturn(err, msg)
+

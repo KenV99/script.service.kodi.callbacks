@@ -18,11 +18,14 @@
 #
 
 from resources.lib.pubsub import TaskReturn
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
 
 def testMsg(taskManager, taskSettings, kwargs):
-    msg = ['Testing for task type: %s' % taskSettings['type']]
-    msg.append('Settings: %s' % str(taskManager.taskKwargs))
-    msg.append('Runtime kwargs: %s' % str(kwargs))
+    msg = [_('Testing for task type: %s') % taskSettings['type']]
+    msg.append(_('Settings: %s') % str(taskManager.taskKwargs))
+    msg.append(_('Runtime kwargs: %s') % str(kwargs))
     return msg
 
 class TestHandler(object):
@@ -36,11 +39,11 @@ class TestHandler(object):
         assert isinstance(taskReturn, TaskReturn)
         from resources.lib.dialogtb import show_textbox
         if taskReturn.iserror is False:
-            TestHandler.testMessage.append('Command for Task %s, Event %s completed succesfully!' % (taskReturn.taskId, taskReturn.eventId))
+            TestHandler.testMessage.append(_('Command for Task %s, Event %s completed succesfully!') % (taskReturn.taskId, taskReturn.eventId))
             if taskReturn.msg != '':
-                TestHandler.testMessage.append('The following message was returned: %s' % taskReturn.msg)
+                TestHandler.testMessage.append(_('The following message was returned: %s') % taskReturn.msg)
         else:
-            TestHandler.testMessage.append('ERROR encountered for Task %s, Event %s\nERROR mesage: %s' % (taskReturn.taskId, taskReturn.eventId, taskReturn.msg))
+            TestHandler.testMessage.append(_('ERROR encountered for Task %s, Event %s\nERROR mesage: %s') % (taskReturn.taskId, taskReturn.eventId, taskReturn.msg))
         show_textbox('Test Results', TestHandler.testMessage)
 
 class TestLogger(object):
