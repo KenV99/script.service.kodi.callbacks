@@ -77,22 +77,18 @@ class LoopPublisher(Publisher, threading.Thread):
         self.player = xbmc.Player()
         if idleT is not None:
             if len(idleT) > 0:
-                self.doidle = True
                 self.idleTs = []
                 self._startidle = 0
                 self._playeridle = False
-                for i, key in enumerate(idleT.keys()):
+                for key in idleT.keys():
                     # time, key, executed
                     self.idleTs.append([idleT[key], key, False])
             else:
                 self.idleTs = []
-                self.doidle = False
         else:
             self.idleTs = []
-            self.doidle = False
         if afterIdle is not None:
             if len(afterIdle) > 0:
-                self.doidle = True
                 self.afterIdles = []
                 self._startidle = 0
                 self._playeridle = False
@@ -100,11 +96,14 @@ class LoopPublisher(Publisher, threading.Thread):
                     # time, key, triggered
                     self.afterIdles.append([afterIdle[key], key, False])
             else:
-                self.doidle = False
                 self.afterIdles = []
         else:
             self.afterIdles = []
+        if len(self.idleTs) > 0 or len(self.afterIdles) > 0:
+            self.doidle = True
+        else:
             self.doidle = False
+
         self.publishes = Events().CustomLoop.keys()
 
     def run(self):
@@ -151,27 +150,27 @@ class LoopPublisher(Publisher, threading.Thread):
         if self.player.isPlaying():
             self._playeridle = False
             self._startidle = XBMCit
-        else:
-            if self._playeridle is False:
+        else: # player is not playing
+            if self._playeridle is False: # if the first pass with player idle, start timing here
                 self._playeridle = True
                 self._startidle = XBMCit
-        myit = XBMCit - self._startidle
+        myit = XBMCit - self._startidle # amount of time idle and not playing
         for it in self.idleTs:
-            if myit > it[0]:
-                if not it[2]:
+            if myit > it[0]: # if time exceeded idle timer
+                if it[2] is False: # idle task has NOT been executed
                     msg = Message(Topic('onIdle', it[1]))
                     self.publish(msg)
                     it[2] = True
-            else:
-                it[2] = False
+            else: # if time has not exceeded timer
+                it[2] = False # reset task executed flag
         for it in self.afterIdles:
-            if myit > it[0]:
-                    it[2] = True
-            else:
-                if it[2] is True:
+            if myit > it[0]: # time has exceeded timer
+                    it[2] = True # set flag that task needs to be executed when exiting idle
+            else: # time has not exceeded idle timer
+                if it[2] is True: # if flag to execute has been set
                     msg = Message(Topic('afterIdle', it[1]))
                     self.publish(msg)
-                it[2] = False
+                it[2] = False # reset flag to execute
 
     def abort(self, timeout=0):
         self.abort_evt.set()
