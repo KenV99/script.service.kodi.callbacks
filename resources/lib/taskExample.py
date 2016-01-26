@@ -19,8 +19,12 @@
 import sys
 import traceback
 from resources.lib.taskABC import AbstractTask, KodiLogger, notify
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+__ = kodipo.getLocalizedStringId
 
-class TaskBuiltin(AbstractTask):
+class TaskCustom(AbstractTask):
     '''
     Your task MUST subclass AbstractTask. If it doesn't, it will not be accessible.
     The following two parameters are REQUIRED with the same structure as shown.
@@ -36,7 +40,7 @@ class TaskBuiltin(AbstractTask):
             'id':'mycustomvariable1',
             'settings':{
                 'default':'',
-                'label':'My Custom Task Variable 1',
+                'label':__('My Custom Task Variable 1', update=True),  # Surround label for settings with localization function
                 'type':'text'
             }
         },
@@ -44,7 +48,7 @@ class TaskBuiltin(AbstractTask):
             'id':'mycustomvariable2',
             'settings':{
                 'default':'false',
-                'label':'My Custom Task Variable 2',
+                'label':__('My Custom Task Variable 2', update=True), # Surround label for settings with localization function
                 'type':'bool'
             }
         },
@@ -53,7 +57,7 @@ class TaskBuiltin(AbstractTask):
     def __init__(self):
         '''Do not request any other variables via __init__. Nothing else will be provided and an exception will be raised.
         The following super call is REQUIRED.'''
-        super(TaskBuiltin, self).__init__()
+        super(TaskCustom, self).__init__()
         # Put anything else here you may need, but note that validate is a staticmethod and cannot access 'self'.
 
     @staticmethod
@@ -72,7 +76,12 @@ class TaskBuiltin(AbstractTask):
         on the screen. Usage:
         xlog(msg='My message')
         Return True if validating passed. False if it didn't. If there is nothing to validate, just return True.
+
+        ** If you generate any log messages here, surround them with the _(  , update=True) localization function.
+        This will cause the po file to be updated with your strings.
+        See below. During direct testing from the settings page, these log messages will be displayed on the screen
         '''
+        xlog(msg=_('My Custom Task passed validation', update=True))
 
         return True
 
@@ -83,9 +92,13 @@ class TaskBuiltin(AbstractTask):
         stop the code here and look at that variable. Or try logging it as a string, if interested.
         self.runtimeargs contains the variable substituted event string.
         Information is passed out via the err and msg variables.
+
+        ** If you generate any log messages here, surround them with the _(  , update=True) localization function.
+        This will cause the po file to be updated with your strings.
+        See below. During direct testing from the settings page, these log messages will be displayed on the screen
         '''
         if self.taskKwargs['notify'] is True:
-            notify('Task %s launching for event: %s' % (self.taskId, str(self.topic)))
+            notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         err = False  # Change this to True if an error is encountered
         msg = '' # Accumulate error or non-error information that needs to be returned in this string
         args = self.runtimeargs  # This contains a list derived from the variable subsituted event string

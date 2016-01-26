@@ -65,19 +65,29 @@ class KodiPo(object):
         self.podict = PoDict()
         self.podict.read_from_file(self.pofn)
 
-    def getLocalizedString(self, strToId):
-        idFound, id = self.podict.has_msgid(strToId)
+    def getLocalizedString(self, strToId, update=False):
+        idFound, strid = self.podict.has_msgid(strToId)
         if idFound:
-            return xbmcaddon.Addon().getLocalizedString(int(id))
+            return xbmcaddon.Addon().getLocalizedString(int(strid))
         else:
-            return 'strToId'
+            if update is True:
+                self.updatePo(strid, strToId)
+        return strToId
 
-    def getLocalizedStringId(self, strToId):
-        idFound, id = self.podict.has_msgid(strToId)
+    def getLocalizedStringId(self, strToId, update=False):
+        idFound, strid = self.podict.has_msgid(strToId)
         if idFound:
-            return id
+            return strid
         else:
-            return 'String not found'
+            if update is True:
+                self.updatePo(strid, strToId)
+                return strid
+            else:
+                return 'String not found'
+
+    def updatePo(self, strid, txt):
+        self.podict.addentry(strid, txt)
+        self.podict.write_to_file(self.pofn)
 
 class PoDict():
 
@@ -197,238 +207,6 @@ class PoDict():
         return ret
 
 
-def examinefile(pyin, pyout):
-    global podict
-
-    def match_fix(singmatch, dblmatch):
-        matches = []
-        dblchk = []
-        if len(singmatch) > 0 and len(dblmatch) == 0:
-            return singmatch
-        elif len(dblmatch) > 0 and len(singmatch) == 0:
-            return dblmatch
-        elif len(dblmatch) == 0 and len(singmatch) == 0:
-            return []
-        else:
-            for match1 in singmatch:
-                for match2 in dblmatch:
-                    if match1 == match2:
-                        dblchk.append(match1)
-                    elif match1 in match2:
-                        match_append_chk(match2, matches)
-                    elif match2 in match1:
-                        match_append_chk(match1, matches)
-                    else:
-                        match_append_chk(match1, matches)
-                        match_append_chk(match2, matches)
-            matches2 = matches
-            for match1 in dblchk:
-                for match2 in matches:
-                    if match1 in match2:
-                        if len(match1) > len(match2):
-                            matches2.append(match1)
-            return matches2
-
-    def match_append_chk(match, matches):
-        if not (match in matches):
-            matches.append(match)
-
-    try:
-        found_langfxn = False
-        uses_langfxn = False
-        match_btwn_singq = re.compile(r"'([^'\\]*(?:\\.[^'\\]*)*)'")
-        match_btwn_dblq = re.compile(r'"([^"\\]*(?:\\.[^"\\]*)*)"')
-        # match_both_quotes = re.compile(r'(?P<sing>[\']([^\'\\]*(?:\\.[^\'\\]*)*)[\'])|(?P<dbl>"([^"\\]*(?:\\.[^"\\]*)*)")')
-        match_tag_examine = re.compile(r'# @@')
-        match_tag_comment = re.compile(r'\# @.+')
-        match_localized_txt = re.compile('__language__\(.+?\)')
-        match_langfxn = re.compile('__language__.+?\.getLocalizedString')
-        counter = 0
-        triplequoteflag = False
-        for line in pyin:
-            counter += 1
-            x = line.strip()
-            if x[0:1] == "#" or x == '':
-                pyout.write(line)
-                continue
-            if x == r'"""':
-                pyout.write(line)
-                if not triplequoteflag:
-                    triplequoteflag = True
-                else:
-                    triplequoteflag = False
-                continue
-            if triplequoteflag:
-                pyout.write(line)
-                continue
-            newline = line
-            term = ''
-            if match_langfxn.search(line) is not None:
-                found_langfxn = True
-            if match_tag_examine.search(line) is not None:
-                singmatch = match_btwn_singq.findall(line)
-                dblmatch = match_btwn_dblq.findall(line)
-                matches = match_fix(singmatch, dblmatch)
-                if len(matches) > 0:
-                    uses_langfxn = True
-                    for match in matches:
-                        res = podict.has_msgid(match)
-                        if res[0]:
-                            outnum = res[1]
-                            podict.chkdict[res[1]] = True
-                        else:
-                            outnum = res[1]
-                            podict.addentry(outnum, match)
-                            podict.chkdict[res[1]] = True
-                        repl = '__language__(%s)' % outnum
-                        if match in singmatch:
-                            y = match_btwn_singq.sub(repl, newline, 1)
-                        else:
-                            y = match_btwn_dblq.sub(repl, newline, 1)
-                        newline = y
-                        x = newline.find('# @')
-                        if x > 1:
-                            newline = newline[0:x]
-                            newline += '\n'
-                        if option_add_commented_string_when_localizing:
-                            term += '[%s] ' % match
-                else:
-                    report_py.append('Tagged but no string found at line %s in %s' % (counter, pyin.name))
-            matches = match_localized_txt.findall(line)
-            if len(matches) > 0:
-                uses_langfxn = True
-                for match in matches:
-                    str_msgctxt = match[13:18]
-                    p = podict.has_msgctxt(str_msgctxt)
-                    if p[0]:
-                        term += '[' + p[1] + '] '
-                        podict.chkdict[str_msgctxt] = True
-                    else:
-                        report_py.append('Localized string #%s not found in po file at line %s in %s'
-                                         % (str_msgctxt, counter, pyin.name))
-                if option_add_commented_string_when_localizing:
-                    if match_tag_comment.search(newline):
-                        term = '# @' + term
-                        newline2 = newline[0:newline.find('# @')].rstrip() + '  ' + term + '\n'
-                        newline = newline2
-                    else:
-                        newline = newline[0:int(len(newline)-1)].rstrip()
-                        newline += '  # @' + term + '\n'
-                pyout.write(newline)
-            else:
-                if term != '':
-                    newline = newline[0:int(len(newline)-1)].rstrip()
-                    newline += '  # @' + term + '\n'
-                pyout.write(newline)
-        if (not found_langfxn) and uses_langfxn:
-            report_py.append('Language localization function not found in: %s' % pyin.name)
-        pyout.close()
-        pyin.close()
-    except Exception, e:
-        l = traceback.format_exc()
-        pass
-
-
-def examine_xml(xmlin, xmlout):
-    """
-    @param xmlin:
-    @param xmlout:
-    @return:
-    """
-    findlocalized_label = re.compile(r'label=\"\d{5}?\"')
-    findlocalized_lvalues = re.compile(r'lvalues=\"(\d+(\|)*)+\"')
-    findnonlocalized_label = re.compile(r'label="[^"\\]*(?:\\.[^"\\]*)*"')
-    findnonlocalized_lvalues = re.compile(r'lvalues="([^"\\]*(?:\\.[^"\\]*)*)"')
-    findcomment = re.compile(r'<!--.+?-->')
-    counter = 0
-    for line in xmlin:
-        counter += 1
-        term = ''
-        newline = line
-        lbmatchesl = findlocalized_label.search(line)
-        if lbmatchesl:
-            match = lbmatchesl.group()
-            if type(match) is str:
-                msgctxt = re.search(r'\d{5}?', match).group()
-                res = podict.has_msgctxt(msgctxt)
-                if res[0]:
-                    podict.chkdict[msgctxt] = True
-                    term += '[%s]' % res[1]
-                else:
-                    report_xml.append('Localized string #%s not found in xml file at line %s in %s'
-                                      % (msgctxt, counter, xmlin.name))
-        lbmatchesnl = findnonlocalized_label.search(line)
-        if lbmatchesnl:
-            skip = False
-            match = lbmatchesnl.group()
-            if lbmatchesl is not None:
-                if match in lbmatchesl.group():
-                    skip = True
-            if not skip:
-                tmp = re.search(r'"[^"\\]*(?:\\.[^"\\]*)*"', match).group()
-                msgid = tmp[1:len(tmp)-1]
-                res = podict.has_msgid(msgid)
-                if res[0]:
-                    outnum = res[1]
-                    podict.chkdict[res[1]] = True
-                else:
-                    outnum = res[1]
-                    podict.addentry(outnum, msgid)
-                    podict.chkdict[res[1]] = True
-                repl = 'label="%s"' % outnum
-                newline = re.sub(re.escape(match), repl, line)
-                term += '[%s]' % msgid
-        lvmatchesl = findlocalized_lvalues.search(line)
-        if lvmatchesl:
-            match = lvmatchesl.group()
-            tmp = re.search(r'\"(\d+(\|)*)+\"', match).group()
-            tmp = tmp[1:len(tmp)-1]
-            parsed = tmp.split('|')
-            for msgctxt in parsed:
-                res = podict.has_msgctxt(msgctxt)
-                if res[0]:
-                    podict.chkdict[msgctxt] = True
-                    term += '[%s]' % res[1]
-                else:
-                    report_xml.append('Localized string #%s not found in xml file at line %s in %s'
-                                      % (msgctxt, counter, xmlin.name))
-        lvmatchesnl = findnonlocalized_lvalues.search(line)
-        if lvmatchesnl:
-            match = lvmatchesnl.group()
-            tmp = re.search(r'"[^"\\]*(?:\\.[^"\\]*)*"', match).group()
-            tmp = tmp[1:len(tmp)-1]
-            execute = True
-            if lvmatchesl:
-                if tmp in lvmatchesl.group():
-                    execute = False
-            if execute:
-                parsed = tmp.split('|')
-                for msgid in parsed:
-                    outnum = []
-                    res = podict.has_msgid(msgid)
-                    if res[0]:
-                        outnum.append(res[1])
-                        podict.chkdict[res[1]] = True
-                    else:
-                        outnum.append(res[1])
-                        podict.addentry(res[1], msgid)
-                        podict.chkdict[res[1]] = True
-                    repl = res[1]
-                    x = re.sub(re.escape(msgid), repl, newline)
-                    newline = x
-                    term += '[%s]' % msgid
-
-        if comment_xml and term != '':
-            term = '<!--%s-->' % term
-            matchescom = findcomment.findall(line)
-            if len(matchescom) > 0:
-                match = matchescom[len(matchescom)-1]
-                x = re.sub(re.escape(match), term, newline)
-            else:
-                x = newline[0:len(newline)-1] + term + '\n'
-            newline = x
-        xmlout.write(newline)
-
 class UpdatePo(object):
 
     def __init__(self, root_directory_to_scan, current_working_English_strings_po, exclude_directories=None, exclude_files=None):
@@ -480,91 +258,5 @@ class UpdatePo(object):
             if found is False:
                 self.podict.addentry(strid, s)
         self.podict.write_to_file(self.current_working_English_strings_po)
-        pass
-        pass
 
 
-
-
-def main():
-
-    global podict
-    podict = PoDict()
-    podict.read_from_file(current_working_English_strings_po)
-
-    output_root_dir = os.path.join(root_directory_to_scan, 'localized')
-    if not os.path.exists(output_root_dir):
-        os.makedirs(output_root_dir)
-    output_po_dir = os.path.join(output_root_dir, 'resources', 'language', 'English')
-    if not os.path.exists(output_po_dir):
-        os.makedirs(output_po_dir)
-    outputfnpofull = os.path.join(output_po_dir, 'strings.po')
-    if os.path.exists(outputfnpofull):
-        os.remove(outputfnpofull)
-
-    if process_xml:
-        xmloutfullfn = os.path.join(__cwd__, 'localized', 'resources', 'settings.xml')
-        xmlin = open(settings_xml, 'r')
-        xmlout = open(xmloutfullfn, 'w')
-        examine_xml(xmlin, xmlout)
-        xmlout.close()
-        xmlin.close()
-
-    files_to_scan = []
-    exclusions = []
-    for direct in exclude_directories:
-        for root, dirname, filenames in os.walk(os.path.join(root_directory_to_scan, direct)):
-            for filename in filenames:
-                exclusions.append(os.path.join(root, filename))
-    for root, dirnames, filenames in os.walk(root_directory_to_scan):
-        for filename in fnmatch.filter(filenames, '*.py'):
-            x = os.path.relpath(root, root_directory_to_scan)
-            if os.path.split(filename)[1] in exclude_files:
-                continue
-            elif os.path.join(root, filename) in exclusions:
-                continue
-            else:
-                if x != '.':
-                    outpath = os.path.join(output_root_dir, x)
-                    if not os.path.exists(outpath):
-                        os.makedirs(outpath)
-                else:
-                    outpath = output_root_dir
-                files_to_scan.append([os.path.join(root, filename), os.path.join(outpath, filename)])
-
-    for mfile in files_to_scan:
-
-        inputfnfull = mfile[0]
-        outputfnpyfull = mfile[1]
-        if os.path.exists(outputfnpyfull):
-            os.remove(outputfnpyfull)
-        pyin = open(inputfnfull, 'r')
-        pyout = open(outputfnpyfull, 'w')
-        try:
-            examinefile(pyin, pyout)
-        except Exception, e:
-            l = traceback.format_exc()
-            pass
-        pyout.close()
-        pyin.close()
-    podict.write_to_file(outputfnpofull)
-    report = 'Settings.xml report:\n    '
-    sreport = '\n    '.join(report_xml)
-    if sreport == '':
-        sreport = 'All settings were able to be localized with no errors\n'
-    report += sreport + '\n\n' + 'Python files report:\n    '
-    preport = '\n    '.join(report_py)
-    if preport == '':
-        preport = 'All python files were localized with no errors\n'
-    report += preport + '\n\n' + 'English strings.po report:\n    '
-    poreport = podict.createreport()
-    if poreport == '':
-        poreport = 'Strings.po file scanned with no errors\n'
-    report += poreport
-    reportfn = os.path.join(__cwd__, "localized", 'report.txt')
-    fo = open(reportfn, 'w')
-    fo.write(report)
-    fo.close()
-
-if __name__ == '__main__':
-    main()
