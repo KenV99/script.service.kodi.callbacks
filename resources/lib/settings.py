@@ -34,7 +34,7 @@ def get(settingid, var_type):
     elif var_type == 'int':
         try:
             return int(t)
-        except:
+        except TypeError:
             log(msg='TYPE ERROR for variable %s. Expected int got "%s"' % (settingid, t))
             return 0
     elif var_type == 'bool':

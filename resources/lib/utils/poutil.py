@@ -20,8 +20,6 @@ import os
 import fnmatch
 import re
 import operator
-import traceback
-import xbmc
 import xbmcaddon
 
 __cwd__ = xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path')
@@ -89,7 +87,7 @@ class KodiPo(object):
         self.podict.addentry(strid, txt)
         self.podict.write_to_file(self.pofn)
 
-class PoDict():
+class PoDict(object):
 
     def __init__(self):
         self.dict_msgctxt = dict()
@@ -246,7 +244,7 @@ class UpdatePo(object):
                 lines = ''.join(f.readlines())
             try:
                 finds = re.findall(r"_\('(.+?)'\)", lines)
-            except Exception as e:
+            except re.error:
                 finds = []
             lstrings += finds
         return lstrings

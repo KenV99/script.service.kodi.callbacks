@@ -37,8 +37,8 @@ sys.path.append(libs)
 try:
     from resources.lib.watchdog.observers import Observer
     from resources.lib.watchdog.events import PatternMatchingEventHandler
-except Exception as e:
-    pass
+except ImportError as e:
+    raise
 
 class EventHandler(PatternMatchingEventHandler):
     def __init__(self, patterns, ignore_patterns, ignore_directories, topic, publish):
@@ -62,16 +62,14 @@ class WatchdogPublisher(Publisher):
 
     def initialize(self):
         for setting in self.watchdogSettings:
-            try:
-                eh = EventHandler(patterns=setting['patterns'].split(','), ignore_patterns=setting['ignore_patterns'].split(','),
-                                ignore_directories=setting['ignore_directories'],
-                                topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
-                self.event_handlers.append(eh)
-                observer = Observer()
-                observer.schedule(eh, setting['folder'], recursive=setting['recursive'])
-                self.observers.append(observer)
-            except Exception as e:
-                pass
+            eh = EventHandler(patterns=setting['patterns'].split(','), ignore_patterns=setting['ignore_patterns'].split(','),
+                            ignore_directories=setting['ignore_directories'],
+                            topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
+            self.event_handlers.append(eh)
+            observer = Observer()
+            observer.schedule(eh, setting['folder'], recursive=setting['recursive'])
+            self.observers.append(observer)
+
 
     def start(self):
         for item in self.observers:

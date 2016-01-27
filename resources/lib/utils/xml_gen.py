@@ -104,7 +104,7 @@ def generate_settingsxml(fn=None):
             output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (_('Hint - variables can be subbed (%%=%, _%=space, _%%=,): '), getoffset(idx,output), evt['text']))
             try:
                 vargs = evt['varArgs']
-            except:
+            except KeyError:
                 vargs = {}
             vs = ''
             for key in vargs.keys():
@@ -146,15 +146,10 @@ def generate_settingsxml(fn=None):
     output.append('</settings>')
     output = "".join(output)
     if fn is None:
-        try:
-            fn = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
-        except:
-            raise Exception
-    try:
+        fn = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
         with open(fn, mode='w') as f:
             f.writelines(output)
-    except Exception as e:
-        raise
+
     if podirty is True:
         podict.write_to_file(pofile)
     log(_('Settings.xml rewritten'))

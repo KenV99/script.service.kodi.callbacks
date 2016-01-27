@@ -37,7 +37,7 @@ def showNotification(args, kwargs):
     # Note that using execfile will not allow for module level imports!
     try:
         import xbmcgui
-    except:
+    except ImportError:
         pass
     else:
         mdialog = xbmcgui.Dialog()
@@ -61,7 +61,7 @@ def processargs(args, kwargs):
                     val = tmp[1]
                     val2 = stripquotes(val)
                     kwargs[key] = val2
-                except Exception as e:
+                except (KeyError, LookupError):
                     pass
             else:
                 nargs.append(stripquotes(arg))

@@ -185,12 +185,10 @@ class Task(threading.Thread):
         self.returnQ = Queue.Queue()
 
     def t_start(self, topic, *args, **kwargs):
-        try:
-            self.userargs = args
-            self.kwargs = kwargs
-            self.topic = topic
-        except:
-            pass
+
+        self.userargs = args
+        self.kwargs = kwargs
+        self.topic = topic
         self.start()
 
     @abc.abstractmethod
@@ -300,6 +298,6 @@ class Subscriber(object):
             except TaskManagerException_TaskCountExceeded as e:
                 self.logger.log(self.loglevel, '%s - %s' % (message.topic, e.message))
             except Exception as e:
-                pass
+                raise e
             else:
                 self.logger.log(self.loglevel, _('Task finalized for %s') % message.topic)

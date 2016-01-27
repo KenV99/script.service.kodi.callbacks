@@ -75,9 +75,8 @@ class TaskPython(AbstractTask):
         args = self.runtimeargs
         try:
             useImport = self.taskKwargs['import']
-        except:
+        except KeyError:
             useImport = False
-        result = None
         try:
             if len(self.runtimeargs) > 0:
                 if useImport is False:
@@ -114,7 +113,7 @@ class TaskPython(AbstractTask):
                 msg = result
                 if result != '':
                     err = True
-        except:
+        except Exception:
             e = sys.exc_info()[0]
             err = True
             if hasattr(e, 'message'):

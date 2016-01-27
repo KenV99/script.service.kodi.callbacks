@@ -80,7 +80,7 @@ class TaskHttp(AbstractTask):
         ret = ret.replace(r'%%', '{@literal%@}')
         try:
             varArgs = events.Player[self.topic.topic]['varArgs']
-        except:
+        except KeyError:
             pass
         else:
             for key in varArgs.keys():
@@ -88,7 +88,7 @@ class TaskHttp(AbstractTask):
                     kw = kwargs[varArgs[key]]
                     kw = kw.replace(" ", '%__')
                     ret = ret.replace(key, kw)
-                except:
+                except KeyError:
                     pass
         ret = ret.replace('%__', " ")
         ret = ret.replace('{@literal%@}', r'%')
@@ -134,7 +134,7 @@ class TaskHttp(AbstractTask):
         except urllib2.URLError, e:
             err = True
             msg = _('URLError\n') + e.reason
-        except httplib.BadStatusLine, e:
+        except httplib.BadStatusLine:
             err = False
             self.log(msg=_('Http Bad Status Line caught and passed'))
 
@@ -143,7 +143,7 @@ class TaskHttp(AbstractTask):
             msg = _('HTTPException')
             if hasattr(e, 'message'):
                 msg = msg + '\n' + e.message
-        except socket.timeout, e:
+        except socket.timeout:
             err = True
             msg = _('The request timed out, host unreachable')
         except Exception:

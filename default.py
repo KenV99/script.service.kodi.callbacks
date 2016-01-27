@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-debug = False
+debug = True
 remote = False
 testdebug = False
 testTasks = False
@@ -60,7 +60,7 @@ if debug:
 
 try:
     from resources.lib.publishers.watchdog import WatchdogPublisher
-except:
+except ImportError:
     from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
 
 class NotificationTask(PubSub_Threaded.Task):
@@ -87,7 +87,7 @@ class MainMonitor(xbmc.Monitor):
         start()
 
 
-def createTaskT(taskSettings, eventSettings, xlog):
+def createTaskT(taskSettings, xlog):
     global log
     if xlog is None:
         xlog = log
@@ -113,7 +113,7 @@ def returnHandler(taskReturn):
 
 
 def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=None):
-    taskT, taskKwargs = createTaskT(tasksettings, eventSettings, log)
+    taskT, taskKwargs = createTaskT(tasksettings, log)
     if taskT is not None:
         tm = PubSub_Threaded.TaskManager(taskT, taskid=eventSettings['task'], userargs=eventSettings['userargs'],
                                          **taskKwargs)
@@ -185,7 +185,7 @@ def start():
     for p in publishers:
         try:
             p.start()
-        except Exception as e:
+        except threading.ThreadError:
             raise
     log(msg=_('Publisher(s) started'))
     return dispatcher, publishers
@@ -209,7 +209,7 @@ def main():
     for p in publishers:
         try:
             p.abort()
-        except Exception as e:
+        except threading.ThreadError as e:
             log(msg=_('Error aborting: %s - Error: %s') % (str(p), str(e)))
     dispatcher.abort()
     xbmc.sleep(1000)
@@ -222,7 +222,7 @@ def main():
                 xbmc.sleep(25)
                 try:
                     t.abort(0.525)
-                except:
+                except threading.ThreadError:
                     log(msg=_('Error killing thread'))
                 else:
                     if not t.is_alive():
@@ -268,7 +268,7 @@ def test(key):
         nMessage = PubSub_Threaded.Message(topic=topic, **kwargs)
         try:
             subscriber.notify(nMessage)
-        except:
+        except Exception:
             msg = _('Unspecified error during testing')
             e = sys.exc_info()[0]
             if hasattr(e, 'message'):

@@ -75,7 +75,7 @@ class TaskScript(AbstractTask):
                 mode = os.stat(tmp).st_mode
                 mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
                 os.chmod(tmp, mode)
-            except:
+            except OSError:
                 if sysplat.startswith('win') is False:
                     xlog(msg=_('Failed to set execute bit on script: %s') % tmp)
             return True
@@ -88,11 +88,11 @@ class TaskScript(AbstractTask):
             notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         try:
             needs_shell = self.taskKwargs['use_shell']
-        except:
+        except KeyError:
             needs_shell = False
         try:
             wait = self.taskKwargs['waitForCompletion']
-        except:
+        except KeyError:
             wait = True
         args = self.runtimeargs
         basedir, fn = os.path.split(self.taskKwargs['scriptfile'])
@@ -101,7 +101,6 @@ class TaskScript(AbstractTask):
         if needs_shell:
             args = ' '.join(args)
         err = False
-        debg = False
         msg = ''
         try:
             os.chdir(basedir)

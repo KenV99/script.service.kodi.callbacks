@@ -163,7 +163,7 @@ class Player(xbmc.Player):
             tt = self.totalTime
             tp = self.playingTime
             pp = int(100 * tp/tt)
-        except Exception as e:
+        except Exception:
             pp=-1
         kwargs = {'mediaType':self.playingType, 'fileName':self.playingFile, 'title':self.playingTitle, 'percentPlayed':str(pp)}
         self.publish(Message(topic, **kwargs))

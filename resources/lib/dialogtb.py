@@ -31,7 +31,6 @@ if debug:
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True)
 """
 
-import sys
 import xbmc
 import xbmcgui
 import xbmcaddon
@@ -57,7 +56,7 @@ class MessageDialog(xbmcgui.WindowXMLDialog):
         self.getControl(self.MESSAGE_TITLE).setLabel(self.title)
         try:
             self.getControl(self.MESSAGE_TEXT).setText(self.msg)
-        except Exception, e:
+        except Exception:
             pass
 
     def onAction(self, action):

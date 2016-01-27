@@ -63,7 +63,7 @@ class AbstractTask(threading.Thread):
         ret = tmp
         try:
             varArgs = events.AllEvents[self.topic.topic]['varArgs']
-        except:
+        except KeyError:
             pass
         else:
             for key in varArgs.keys():
@@ -71,7 +71,7 @@ class AbstractTask(threading.Thread):
                     kw = str(kwargs[varArgs[key]])
                     kw = kw.replace(" ", '%__')
                     ret = ret.replace(key, kw)
-                except Exception as e:
+                except KeyError:
                     pass
         ret = ret.replace('%__', " ")
         ret = ret.replace('%_', ",")

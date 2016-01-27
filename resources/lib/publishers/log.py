@@ -165,12 +165,12 @@ class LogCheckRegex(threading.Thread):
         super(LogCheckRegex, self).__init__(name='LogCheckRegex')
         try:
             re_match = re.compile(match, flags=re.IGNORECASE)
-        except Exception as e:
+        except re.error:
             raise
         if nomatch != '':
             try:
                 re_nomatch = re.compile(nomatch, flags=re.IGNORECASE)
-            except Exception as e:
+            except re.error:
                 raise
         else:
             re_nomatch = None
