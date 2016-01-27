@@ -81,7 +81,6 @@ def show_textbox(title, msg):
     elif xt is list:
         tmsg = []
         for i in msg:
-            x = len(i)
             omsg = textwrap.wrap(i, width=62, break_long_words=True)
             l1 = []
             for i1 in omsg:

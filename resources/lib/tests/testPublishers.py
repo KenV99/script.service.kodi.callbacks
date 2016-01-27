@@ -25,7 +25,7 @@ from resources.lib.publishers.watchdog import WatchdogPublisher
 from resources.lib.pubsub import Dispatcher, Subscriber, Message, Topic
 from resources.lib.tests.stubs import *
 from flexmock import flexmock
-from Queue import Queue
+import Queue
 import threading
 import time
 
@@ -40,7 +40,7 @@ def sleep(xtime):
 class testSubscriber(Subscriber):
     def __init__(self):
         super(testSubscriber, self).__init__()
-        self.testq = Queue()
+        self.testq = Queue.Queue()
 
     def notify(self, message):
         self.testq.put(message)
@@ -164,7 +164,7 @@ class testLoop(object):
         git = self.getGlobalIdleTime()
         if git <2:
             return 10000
-        elif git >=2 and git<4:
+        elif git >= 2 and git < 4:
             return 10001
         else:
             return 10002
@@ -209,7 +209,7 @@ class testLoop(object):
             while self.subscriber.testq.empty() is False:
                 message = self.subscriber.testq.get(timeout=0.5)
                 messages.append(message)
-        except Exception as e:
+        except Queue.Empty:
             messages = []
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
@@ -231,7 +231,7 @@ class testLoop(object):
             while self.subscriber.testq.empty() is False:
                 message = self.subscriber.testq.get(timeout=0.5)
                 messages.append(message)
-        except Exception as e:
+        except Queue.Empty:
             messages = []
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
@@ -252,7 +252,7 @@ class testLoop(object):
             while self.subscriber.testq.empty() is False:
                 message = self.subscriber.testq.get(timeout=0.5)
                 messages.append(message)
-        except Exception as e:
+        except Queue.Empty:
             messages = []
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
@@ -273,7 +273,7 @@ class testLoop(object):
             while self.subscriber.testq.empty() is False:
                 message = self.subscriber.testq.get(timeout=0.5)
                 messages.append(message)
-        except Exception as e:
+        except Queue.Empty:
             messages = []
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
@@ -294,7 +294,7 @@ class testLoop(object):
             while self.subscriber.testq.empty() is False:
                 message = self.subscriber.testq.get(timeout=0.5)
                 messages.append(message)
-        except Exception as e:
+        except Queue.Empty:
             messages = []
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
@@ -357,7 +357,7 @@ class testLog(object):
         self.publisher.add_simple_checks(settings)
         try:
             os.remove(testLog.fn)
-        except:
+        except OSError:
             pass
         finally:
             with open(testLog.fn, 'w') as f:
@@ -374,14 +374,14 @@ class testLog(object):
         time.sleep(2)
         try:
             os.remove(testLog.fn)
-        except:
+        except OSError:
             pass
         messages = []
         try:
             while self.subscriber.testq.empty() is False:
                 message = self.subscriber.testq.get(timeout=0.5)
                 messages.append(message)
-        except Exception as e:
+        except Queue.Empty:
             messages = []
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
@@ -394,7 +394,7 @@ class testLog(object):
         self.publisher.add_regex_checks(settings)
         try:
             os.remove(testLog.fn)
-        except:
+        except OSError:
             pass
         finally:
             with open(testLog.fn, 'w') as f:
@@ -411,14 +411,14 @@ class testLog(object):
         time.sleep(2)
         try:
             os.remove(testLog.fn)
-        except Exception as e:
+        except OSError:
             pass
         messages = []
         try:
             while self.subscriber.testq.empty() is False:
                 message = self.subscriber.testq.get(timeout=0.5)
                 messages.append(message)
-        except Exception as e:
+        except Queue.Empty:
             messages = []
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:

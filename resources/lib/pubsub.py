@@ -43,7 +43,7 @@ class BaseLogger(object):
 
     @staticmethod
     @abc.abstractmethod
-    def log(*args):
+    def log(loglevel=None, msg=None):
         pass
 
 
@@ -193,7 +193,6 @@ class Task(threading.Thread):
 
     @abc.abstractmethod
     def run(self):
-        pass
         ret = TaskReturn()
         self.returnQ.put(ret)
 

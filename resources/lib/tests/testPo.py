@@ -31,9 +31,9 @@ class mockaddon(object):
     def getAddonInfo(self, y):
         return r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks'
 
-    def getLocalizedString(self, id):
-        assert isinstance(id, int)
-        found, ret = self.podict.has_msgctxt(str(id))
+    def getLocalizedString(self, strid):
+        assert isinstance(strid, int)
+        found, ret = self.podict.has_msgctxt(str(strid))
         if found:
             return ret
         else:
@@ -68,7 +68,6 @@ def testPoFileUpdate():
         if found is False:
             up.podict.addentry(strid, t)
     up.updateStringsPo()
-    pass
-    pass
+
 
 

@@ -92,7 +92,7 @@ class LoopPublisher(Publisher, threading.Thread):
                 self.afterIdles = []
                 self._startidle = 0
                 self._playeridle = False
-                for i, key in enumerate(afterIdle.keys()):
+                for key in afterIdle.keys():
                     # time, key, triggered
                     self.afterIdles.append([afterIdle[key], key, False])
             else:

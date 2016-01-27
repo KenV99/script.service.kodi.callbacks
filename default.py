@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-debug = True
+debug = False
 remote = False
 testdebug = False
 testTasks = False
@@ -79,7 +79,7 @@ class MainMonitor(xbmc.Monitor):
         super(MainMonitor, self).__init__()
 
     def onSettingsChanged(self):
-        global dispatcher, publishers, log
+        global publishers, log
         log(msg=_('Settings change detected - attempting to restart'))
         for p in publishers:
             p.abort(0.525)
@@ -88,7 +88,6 @@ class MainMonitor(xbmc.Monitor):
 
 
 def createTaskT(taskSettings, xlog):
-    global log
     if xlog is None:
         xlog = log
     mytask = taskdict[taskSettings['type']]['class']
@@ -112,8 +111,8 @@ def returnHandler(taskReturn):
         log(loglevel=xbmc.LOGERROR, msg=msg)
 
 
-def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, log=None):
-    taskT, taskKwargs = createTaskT(tasksettings, log)
+def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, xlog=None):
+    taskT, taskKwargs = createTaskT(tasksettings, xlog)
     if taskT is not None:
         tm = PubSub_Threaded.TaskManager(taskT, taskid=eventSettings['task'], userargs=eventSettings['userargs'],
                                          **taskKwargs)
@@ -252,7 +251,7 @@ def test(key):
     testlogger = direct_test.TestLogger()
     testlog = testlogger.log
     log(msg=_('Creating subscriber for test'))
-    subscriber = createSubscriber(tasksettings, evtsettings, log=testlog)
+    subscriber = createSubscriber(tasksettings, evtsettings, xlog=testlog)
     if subscriber is not None:
         log(msg=_('Test subscriber created successfully'))
         subscriber.addTopic(topic)

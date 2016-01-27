@@ -51,9 +51,8 @@ class TestLogger(object):
         self._log = []
 
     def log(self, loglevel=1, msg=''):
-        try:
-            msg_list = msg.split('\n')
-        except:
+        msg_list = msg.split('\n')
+        if not isinstance(msg_list, list):
             msg_list = [msg]
         self._log.extend(msg_list)
 

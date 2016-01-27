@@ -36,5 +36,5 @@ for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
                             tasktypes.append(cls.tasktype)
                         except:
                             raise Exception('Error loading class for %s' % cls.tasktype)
-        except:
+        except TypeError:
             pass

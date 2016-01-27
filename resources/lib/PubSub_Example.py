@@ -51,18 +51,17 @@ if __name__ == '__main__':
     subs = []
     pubs = []
     for t in topics:
-        try:
-            task = PrintTask  # NOTE: Not an instance
-            tm = pubsub.TaskManager(task, max_runs=3)
-            subscriber = pubsub.Subscriber()
-            subscriber.addTaskManager(tm)
-            subscriber.addTopic(pubsub.Topic(t[0]))
-            dispatch.addSubscriber(subscriber)
-            subs.append(subscriber)
-            pub = MockPublisher(dispatch, pubsub.Topic(t[0]), interval=t[1])
-            pubs.append(pub)
-        except Exception as e:
-            pass
+
+        task = PrintTask  # NOTE: Not an instance
+        tm = pubsub.TaskManager(task, max_runs=3)
+        subscriber = pubsub.Subscriber()
+        subscriber.addTaskManager(tm)
+        subscriber.addTopic(pubsub.Topic(t[0]))
+        dispatch.addSubscriber(subscriber)
+        subs.append(subscriber)
+        pub = MockPublisher(dispatch, pubsub.Topic(t[0]), interval=t[1])
+        pubs.append(pub)
+
     dispatch.start()
     for pub in pubs:
         pub.start()

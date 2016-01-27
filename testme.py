@@ -45,7 +45,7 @@ def showNotification(args, kwargs):
         kwargmsg = []
         for key in kwargs.keys():
             kwargmsg.append('%s:%s' % (key, kwargs[key]))
-        result = mdialog.ok('Test', 'args: %s\nkwargs:: %s' % (argmsg, ', '.join(kwargmsg)))
+        mdialog.ok('Test', 'args: %s\nkwargs:: %s' % (argmsg, ', '.join(kwargmsg)))
 
 def processargs(args, kwargs):
     nargs = []
@@ -53,7 +53,7 @@ def processargs(args, kwargs):
         kwargs = {}
         args = args.split(' ')
         nargs = []
-        for i, arg in enumerate(args):
+        for arg in args:
             if ":" in arg:
                 tmp = arg.split(":", 1)
                 try:
@@ -72,8 +72,6 @@ def processargs(args, kwargs):
     return nargs, kwargs
 
 def run(args=None, kwargs=None):
-    loc = locals()
-    gl = globals()
     args, kwargs = processargs(args, kwargs)
     showNotification(args, kwargs)
 

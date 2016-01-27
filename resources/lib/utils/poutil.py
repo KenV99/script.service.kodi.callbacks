@@ -239,8 +239,8 @@ class UpdatePo(object):
     def scanFilesForStrings(self):
         files = self.getFileList()
         lstrings = []
-        for file in files:
-            with open(file, 'r') as f:
+        for myfile in files:
+            with open(myfile, 'r') as f:
                 lines = ''.join(f.readlines())
             try:
                 finds = re.findall(r"_\('(.+?)'\)", lines)

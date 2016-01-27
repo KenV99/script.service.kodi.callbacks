@@ -83,7 +83,6 @@ class TaskPython(AbstractTask):
                     args = ' %s' % ' '.join(args)
                     result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (self.taskKwargs['pythonfile'], args))
                 else:
-                    import os
                     directory, module_name = os.path.split(self.taskKwargs['pythonfile'])
                     module_name = os.path.splitext(module_name)[0]
 
@@ -98,7 +97,6 @@ class TaskPython(AbstractTask):
                 if useImport is False:
                     result = xbmc.executebuiltin('XBMC.RunScript(%s)' % self.taskKwargs['pythonfile'])
                 else:
-                    import os
                     directory, module_name = os.path.split(self.taskKwargs['pythonfile'])
                     module_name = os.path.splitext(module_name)[0]
 
