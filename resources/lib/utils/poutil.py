@@ -22,53 +22,40 @@ import re
 import operator
 import xbmcaddon
 
-__cwd__ = xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path')
-
-###############  OPTIONS  ###########################
-root_directory_to_scan = __cwd__  # put whichever directory you want here
-settings_xml = os.path.join(__cwd__, 'resources', 'settings.xml')
-process_xml = False
-comment_xml = False
-exclude_files = ['poxbmc.py']
-exclude_directories = ['localized']  # use 'subdir\\subberdir' to designate deeper
-output_directory = os.path.join(__cwd__, 'localized')
-current_working_English_strings_po = os.path.join(__cwd__, r'resources\language\English\strings.po')  # set to None
-#  is there isn't one
-option_add_commented_string_when_localizing = False
-# option_verbose_report = True
-
-# tag lines to look for quoted strings with '# @@' (only the part within the quotes)
-# triple quoted multiline strings are NOT supported
-# please ensure double quotes within strings are properly escaped with \"
-# WARNING: all files in output_directory will be overwritted!
-
-# String ID range:
-# strings 30000 thru 30999 reserved for plugins and plugin settings
-# strings 31000 thru 31999 reserved for skins
-# strings 32000 thru 32999 reserved for scripts
-# strings 33000 thru 33999 reserved for common strings used in add-ons
-
-#####################################################
-podict = None
-report_v = []
-report_py = []
-report_xml = []
-
 class KodiPo(object):
 
+    _instance = None
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super(KodiPo, cls).__new__(cls)
+            KodiPo.cls_init(cls)
+        return cls._instance
+
+    @staticmethod
+    def cls_init(cls):
+        try:
+            isStub = xbmcaddon.isStub
+        except:
+            isStub = False
+        if isStub is False:
+            cls.pofn =  os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), r'resources\language\English\strings.po')
+        else:
+            cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po'
+        cls.podict = PoDict()
+        cls.podict.read_from_file(cls.pofn)
+        cls.updateAlways = False
+
+
     def __init__(self):
-        self.pofn =  os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), r'resources\language\English\strings.po')
-        if self.pofn[0] != 'C':
-            self.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po'
-        self.podict = PoDict()
-        self.podict.read_from_file(self.pofn)
+        pass
 
     def getLocalizedString(self, strToId, update=False):
+        strToId = strToId.replace('\n', '\\n')
         idFound, strid = self.podict.has_msgid(strToId)
         if idFound:
             return xbmcaddon.Addon().getLocalizedString(int(strid))
         else:
-            if update is True:
+            if update is True or self.updateAlways is True:
                 self.updatePo(strid, strToId)
         return strToId
 
@@ -77,7 +64,7 @@ class KodiPo(object):
         if idFound:
             return strid
         else:
-            if update is True:
+            if update is True or self.updateAlways is True:
                 self.updatePo(strid, strToId)
                 return strid
             else:
@@ -88,13 +75,16 @@ class KodiPo(object):
         self.podict.write_to_file(self.pofn)
 
 class PoDict(object):
+    _instance = None
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super(PoDict, cls).__new__(cls)
+        return cls._instance
 
     def __init__(self):
         self.dict_msgctxt = dict()
         self.dict_msgid = dict()
         self.chkdict = dict()
-        # self.mdict_msgctxt = dict()
-        # self.mdict_msgid = dict()
 
     def get_new_key(self):
         if len(self.dict_msgctxt) > 0:
@@ -144,20 +134,25 @@ class PoDict(object):
                 i += 1
 
     def write_to_file(self, url):
+        self._write_to_file(self.dict_msgctxt, url)
+
+    @staticmethod
+    def _write_to_file(dict_msgctxt, url):
         fo = open(url, 'w')
-        self.write_po_header(fo)
-        str_max = max(self.dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
-        str_min = min(self.dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
+        PoDict.write_po_header(fo)
+        str_max = max(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
+        str_min = min(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
         fo.write('#Add-on messages id=%s to %s\n\n' % (str_min, str_max))
         last = int(str_min) - 1
-        for str_msgctxt in sorted(self.dict_msgctxt):
+        for str_msgctxt in sorted(dict_msgctxt):
             if int(str_msgctxt) != last + 1:
                 fo.write('#empty strings from id %s to %s\n\n' % (str(last + 1), str(int(str_msgctxt) - 1)))
-            self.write_to_po(fo, str_msgctxt, self.format_string_forpo(self.dict_msgctxt[str_msgctxt]))
+            PoDict.write_to_po(fo, str_msgctxt, PoDict.format_string_forpo(dict_msgctxt[str_msgctxt]))
             last = int(str_msgctxt)
         fo.close()
 
-    def format_string_forpo(self, mstr):
+    @staticmethod
+    def format_string_forpo(mstr):
         out = ''
         for (i, x) in enumerate(mstr):
             if i == 1 and x == r'"':
@@ -168,7 +163,8 @@ class PoDict(object):
                 out += x
         return out
 
-    def write_po_header(self, fo):
+    @staticmethod
+    def write_po_header(fo):
         fo.write('# XBMC Media Center language file\n')
         fo.write('# Addon Name: Kodi Callbacks\n')
         fo.write('# Addon id: service.kodi.callbacks\n')
@@ -184,7 +180,8 @@ class PoDict(object):
         fo.write('"Language: en\\n"')
         fo.write('"Plural-Forms: nplurals=2; plural=(n != 1);\\n"\n\n')
 
-    def write_to_po(self, fileobject, int_num, str_msg):
+    @staticmethod
+    def write_to_po(fileobject, int_num, str_msg):
         w = r'"#' + str(int_num) + r'"'
         fileobject.write('msgctxt ' + w + '\n')
         fileobject.write('msgid ' + r'"' + str_msg + r'"' + '\n')
@@ -236,7 +233,7 @@ class UpdatePo(object):
                     files_to_scan.append(os.path.join(root, filename))
         return files_to_scan
 
-    def scanFilesForStrings(self):
+    def scanPyFilesForStrings(self):
         files = self.getFileList()
         lstrings = []
         for myfile in files:
@@ -250,7 +247,7 @@ class UpdatePo(object):
         return lstrings
 
     def updateStringsPo(self):
-        lstrings = self.scanFilesForStrings()
+        lstrings = self.scanPyFilesForStrings()
         for s in lstrings:
             found, strid = self.podict.has_msgid(s)
             if found is False:

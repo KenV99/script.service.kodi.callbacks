@@ -119,11 +119,11 @@ class testTasks(object):
         try:
             with open(outfile, 'r') as f:
                 retArgs = f.readline()
-        except Exception as e:
+        except OSError:
             retArgs = ''
         try:
             os.remove(outfile)
-        except:
+        except OSError:
             pass
         if retArgs.strip('\n') != userargs:
             raise AssertionError(_('Script without shell test failed'))
@@ -157,7 +157,7 @@ class testTasks(object):
             retArgs = ''
         try:
             os.remove(outfile)
-        except:
+        except OSError:
             pass
         if retArgs.strip('\n') != userargs:
             raise AssertionError(_('Script with shell test failed'))

@@ -16,32 +16,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-debug = False
-remote = False
-testdebug = False
-testTasks = False
 
-import os
-import threading
-
-import resources.lib.pubsub as PubSub_Threaded
-import xbmc
-import xbmcaddon
-import xbmcgui
-from resources.lib import taskdict
-from resources.lib.kodilogging import KodiLogger
-from resources.lib.publishers.log import LogPublisher
-from resources.lib.publishers.loop import LoopPublisher
-from resources.lib.publishers.monitor import MonitorPublisher
-from resources.lib.publishers.player import PlayerPublisher
-from resources.lib.settings import Settings
-from resources.lib.utils.poutil import KodiPo
-kodipo = KodiPo()
-_ = kodipo.getLocalizedString
-
-log = None
-dispatcher = None
-publishers = None
+debug = False  # TODO: check
+remote = False  # TODO: check
+testdebug = False  # TODO: check
+testTasks = False  # TODO: check
 
 if debug:
     import sys
@@ -58,10 +37,42 @@ if debug:
 
         pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
+import os
+import threading
+
+import resources.lib.pubsub as PubSub_Threaded
+import xbmc
+import xbmcaddon
+import xbmcgui
+from resources.lib import taskdict
+from resources.lib.kodilogging import KodiLogger
+from resources.lib.publishers.log import LogPublisher
+from resources.lib.publishers.loop import LoopPublisher
+from resources.lib.publishers.monitor import MonitorPublisher
+from resources.lib.publishers.player import PlayerPublisher
+from resources.lib.settings import Settings
+from resources.lib.utils.poutil import KodiPo
+
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+
+try:
+    __version__ = xbmcaddon.Addon().getAddonInfo('version')
+except:
+    try:
+        __version__ = xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('version')
+    except:
+        __version__ = 'ERROR getting version'
+
+log = None
+dispatcher = None
+publishers = None
+
 try:
     from resources.lib.publishers.watchdog import WatchdogPublisher
 except ImportError:
     from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
+
 
 class NotificationTask(PubSub_Threaded.Task):
     def __init__(self):
@@ -69,7 +80,7 @@ class NotificationTask(PubSub_Threaded.Task):
 
     def run(self):
         msg = _('Task received: %s: %s') % (str(self.topic), str(self.kwargs))
-        log(msg= msg)
+        log(msg=msg)
         dialog = xbmcgui.Dialog()
         dialog.notification(_('Kodi Callbacks'), msg, xbmcgui.NOTIFICATION_INFO, 5000)
 
@@ -152,29 +163,31 @@ def start():
             subscribers.append(subscriber)
             log(msg=_('Subscriber for event: %s, task: %s created') % (str(topic), task_key))
         else:
-            log(loglevel=xbmc.LOGERROR, msg=_('Subscriber for event: %s, task: %s NOT created due to errors') % (str(topic), task_key))
+            log(loglevel=xbmc.LOGERROR,
+                msg=_('Subscriber for event: %s, task: %s NOT created due to errors') % (str(topic), task_key))
 
     if not set(topics).isdisjoint(LoopPublisher.publishes) or debug is True:
         loopPublisher = LoopPublisher(dispatcher, settings.getOpenwindowids(), settings.getClosewindowids(),
-                                      settings.getIdleTimes(), settings.getAfterIdleTimes(), settings.general['LoopFreq'])
+                                      settings.getIdleTimes(), settings.getAfterIdleTimes(),
+                                      settings.general['LoopFreq'])
         publishers.append(loopPublisher)
         log(msg=_('Loop Publisher initialized'))
-    if not set(topics).isdisjoint(PlayerPublisher.publishes)or debug is True:
+    if not set(topics).isdisjoint(PlayerPublisher.publishes) or debug is True:
         playerPublisher = PlayerPublisher(dispatcher)
         publishers.append(playerPublisher)
         log(msg=_('Player Publisher initialized'))
-    if not set(topics).isdisjoint(MonitorPublisher.publishes)or debug is True:
+    if not set(topics).isdisjoint(MonitorPublisher.publishes) or debug is True:
         monitorPublisher = MonitorPublisher(dispatcher)
         monitorPublisher.jsoncriteria = settings.getJsonNotifications()
         publishers.append(monitorPublisher)
         log(msg=_('Monitor Publisher initialized'))
-    if not set(topics).isdisjoint(LogPublisher.publishes)or debug is True:
+    if not set(topics).isdisjoint(LogPublisher.publishes) or debug is True:
         logPublisher = LogPublisher(dispatcher, settings.general['LogFreq'])
         logPublisher.add_simple_checks(settings.getLogSimples())
         logPublisher.add_regex_checks(settings.getLogRegexes())
         publishers.append(logPublisher)
         log(msg=_('Log Publisher initialized'))
-    if not set(topics).isdisjoint(WatchdogPublisher.publishes)or debug is True:
+    if not set(topics).isdisjoint(WatchdogPublisher.publishes) or debug is True:
         watchdogPublisher = WatchdogPublisher(dispatcher, settings.getWatchdogSettings())
         publishers.append(watchdogPublisher)
         log(msg=_('Watchdog Publisher initialized'))
@@ -192,13 +205,11 @@ def start():
 
 def main():
     global dispatcher, publishers
-    xbmc.log(msg=_('$$$ [kodi.callbacks] Staring kodi.callbacks ver: %s') % str(xbmcaddon.Addon().getAddonInfo('version')), level=xbmc.LOGNOTICE)
+    xbmc.log(msg=_('$$$ [kodi.callbacks] Staring kodi.callbacks ver: %s') % str(__version__), level=xbmc.LOGNOTICE)
     dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
     monitor = MainMonitor()
     log(msg=_('Entering wait loop'))
-    # xbmc.sleep(2000)
-    # dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown'), pid=os.getpid()))
     monitor.waitForAbort()
 
     # Shutdown tasks
@@ -285,17 +296,21 @@ def test(key):
 
     xbmc.sleep(2000)
 
+
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         if testdebug is True:
             sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
             import pydevd
+
             pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
         if sys.argv[1] == 'regen':
             from resources.lib.utils.xml_gen import generate_settingsxml
+
             generate_settingsxml()
         elif sys.argv[1] == 'test':
             from resources.lib.tests.testTasks import testTasks
+
             tt = testTasks()
             tt.runTests()
             dialog = xbmcgui.Dialog()
@@ -306,8 +321,8 @@ if __name__ == '__main__':
             test(eventId)
     elif testTasks:
         from resources.lib.tests.testTasks import testTasks
+
         tt = testTasks()
         tt.runTests()
-
     else:
         main()
