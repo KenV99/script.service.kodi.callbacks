@@ -18,32 +18,28 @@
 #
 
 debug = False  # TODO: check
-remote = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 
-if debug:
-    import sys
-
-    if remote:
-        sys.path.append('C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\service.kodi.callbacks\\resources\\lib\\'
-                        'pycharm-debug.py3k\\')
-        import pydevd
-
-        pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
-    else:
-        sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
-        import pydevd
-
-        pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
-
 import os
-import threading
 
-import resources.lib.pubsub as PubSub_Threaded
+if debug:
+    debugegg = 'C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg'
+    if os.path.exists(debugegg):
+        import sys
+        sys.path.append(debugegg)
+        try:
+            import pydevd
+        except ImportError:
+            pass
+        else:
+            pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
+
+import threading
 import xbmc
 import xbmcaddon
 import xbmcgui
+import resources.lib.pubsub as PubSub_Threaded
 from resources.lib import taskdict
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.publishers.log import LogPublisher
@@ -51,10 +47,17 @@ from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
 from resources.lib.settings import Settings
+try:
+    from resources.lib.publishers.watchdog import WatchdogPublisher
+except ImportError:
+    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
 from resources.lib.utils.poutil import KodiPo
 
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
+log = None
+dispatcher = None
+publishers = None
 
 try:
     __version__ = xbmcaddon.Addon().getAddonInfo('version')
@@ -63,15 +66,6 @@ except:
         __version__ = xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('version')
     except:
         __version__ = 'ERROR getting version'
-
-log = None
-dispatcher = None
-publishers = None
-
-try:
-    from resources.lib.publishers.watchdog import WatchdogPublisher
-except ImportError:
-    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
 
 
 class NotificationTask(PubSub_Threaded.Task):
