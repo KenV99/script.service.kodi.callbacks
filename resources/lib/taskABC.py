@@ -21,6 +21,7 @@ import threading
 import Queue
 import abc
 import re
+import copy
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.pubsub import TaskReturn
 from resources.lib.events import Events
@@ -39,6 +40,7 @@ class AbstractTask(threading.Thread):
     """
     __metaclass__ = abc.ABCMeta
     tasktype = 'abstract'
+    lock = threading.RLock()
 
     def __init__(self, logger=KodiLogger.log):
         super(AbstractTask, self).__init__(name='Worker')
@@ -57,7 +59,7 @@ class AbstractTask(threading.Thread):
     def processUserargs(self, kwargs):
         if self.userargs == '':
             return []
-        ret = self.userargs
+        ret = copy.copy(self.userargs)
         ret = ret.replace(r'%%', '{@literal%@}')
         tmp = self.delimitregex.sub(r'{@originaldelim@}', ret)
         ret = tmp
@@ -85,11 +87,12 @@ class AbstractTask(threading.Thread):
         pass
 
     def t_start(self, topic, taskKwargs, **kwargs):
-        self.topic = topic
-        self.taskKwargs = taskKwargs
-        self.userargs = taskKwargs['userargs']
-        self.taskId = taskKwargs['taskid']
-        self.runtimeargs = self.processUserargs(kwargs)
+        with AbstractTask.lock:
+            self.topic = topic
+            self.taskKwargs = taskKwargs
+            self.userargs = taskKwargs['userargs']
+            self.taskId = taskKwargs['taskid']
+            self.runtimeargs = self.processUserargs(kwargs)
         self.start()
 
     @abc.abstractmethod

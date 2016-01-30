@@ -108,9 +108,17 @@ class TaskScript(AbstractTask):
             if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
-                    msg = _('Process returned data: %s\n') % str(stdoutdata)
+                    stdoutdata = str(stdoutdata).strip()
+                    if stdoutdata != '':
+                        msg = _('Process returned data: %s\n') % stdoutdata
+                    else:
+                        msg = _('Process returned no data\n')
+                else:
+                    msg = _('Process returned no data\n')
                 if stderrdata is not None:
-                    msg += _('Process returned error: %s') % str(stdoutdata)
+                    stderrdata = str(stderrdata).strip()
+                    if stderrdata != '':
+                        msg += _('Process returned error: %s') % stdoutdata
         except subprocess.CalledProcessError, e:
             err = True
             msg = e.output

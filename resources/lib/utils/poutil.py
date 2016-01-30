@@ -16,22 +16,32 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
+
 import os
 import fnmatch
 import re
 import operator
 import xbmcaddon
+import threading
+import copy
+from resources.lib.kodilogging import KodiLogger
+klogger = KodiLogger()
+log = klogger.log
 
 class KodiPo(object):
 
     _instance = None
-    def __new__(cls):
-        if not cls._instance:
-            cls._instance = super(KodiPo, cls).__new__(cls)
-            KodiPo.cls_init(cls)
-        return cls._instance
+    _lock = threading.Lock()
 
-    @staticmethod
+    def __new__(cls):
+        if KodiPo._instance is None:
+            with KodiPo._lock:
+                if KodiPo._instance is None:
+                    KodiPo._instance = super(KodiPo, cls).__new__(cls)
+                    KodiPo.cls_init()
+        return  KodiPo._instance
+
+    @classmethod
     def cls_init(cls):
         try:
             isStub = xbmcaddon.isStub
@@ -47,17 +57,23 @@ class KodiPo(object):
 
 
     def __init__(self):
-        pass
+        KodiPo._instance = self
 
     def getLocalizedString(self, strToId, update=False):
         strToId = strToId.replace('\n', '\\n')
         idFound, strid = self.podict.has_msgid(strToId)
         if idFound:
+            if self.podict.savethread.is_alive():
+                self.podict.savethread.join()
             return xbmcaddon.Addon().getLocalizedString(int(strid))
         else:
             if update is True or self.updateAlways is True:
+
+                log(msg=_('Localized string added to po for: [%s]') % strToId)
                 self.updatePo(strid, strToId)
-        return strToId
+            else:
+                log(msg=_('Localized string id not found for: [%s]') % strToId)
+            return strToId
 
     def getLocalizedStringId(self, strToId, update=False):
         idFound, strid = self.podict.has_msgid(strToId)
@@ -66,8 +82,10 @@ class KodiPo(object):
         else:
             if update is True or self.updateAlways is True:
                 self.updatePo(strid, strToId)
+                log(msg=_('Localized string added to po for: [%s]') % strToId)
                 return strid
             else:
+                log(msg=_('Localized string not found for: [%s]') % strToId)
                 return 'String not found'
 
     def updatePo(self, strid, txt):
@@ -75,20 +93,30 @@ class KodiPo(object):
         self.podict.write_to_file(self.pofn)
 
 class PoDict(object):
+
     _instance = None
+    _lock = threading.Lock()
+    _rlock = threading.RLock()
+
     def __new__(cls):
-        if not cls._instance:
-            cls._instance = super(PoDict, cls).__new__(cls)
-        return cls._instance
+        if PoDict._instance is None:
+            with PoDict._lock:
+                if PoDict._instance is None:
+                    PoDict._instance = super(PoDict, cls).__new__(cls)
+        return PoDict._instance
 
     def __init__(self):
+        PoDict._instance = self
         self.dict_msgctxt = dict()
         self.dict_msgid = dict()
         self.chkdict = dict()
+        self.remsgid = re.compile(r'"([^"\\]*(?:\\.[^"\\]*)*)"')
+        self.savethread = threading.Thread()
 
     def get_new_key(self):
         if len(self.dict_msgctxt) > 0:
-            mmax = max(self.dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
+            with PoDict._rlock:
+                mmax = max(self.dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
         else:
             mmax = '32000'
         try:
@@ -98,20 +126,23 @@ class PoDict(object):
         return int_key + 1
 
     def addentry(self, str_msgctxt, str_msgid):
-        self.dict_msgctxt[str_msgctxt] = str_msgid
-        self.dict_msgid[str_msgid] = str_msgctxt
+        with PoDict._lock:
+            self.dict_msgctxt[str_msgctxt] = str_msgid
+            self.dict_msgid[str_msgid] = str_msgctxt
 
     def has_msgctxt(self, str_msgctxt):
-        if str_msgctxt in self.dict_msgctxt:
-            return [True, self.dict_msgctxt[str_msgctxt]]
-        else:
-            return [False, None]
+        with PoDict._lock:
+            if str_msgctxt in self.dict_msgctxt.keys():
+                return [True, self.dict_msgctxt[str_msgctxt]]
+            else:
+                return [False, None]
 
     def has_msgid(self, str_msgid):
-        if str_msgid in self.dict_msgid:
-            return [True, self.dict_msgid[str_msgid]]
-        else:
-            return [False, str(self.get_new_key())]
+        with PoDict._lock:
+            if str_msgid in self.dict_msgid.keys():
+                return [True, self.dict_msgid[str_msgid]]
+            else:
+                return [False, str(self.get_new_key())]
 
     def read_from_file(self, url):
         if url is None:
@@ -127,14 +158,21 @@ class PoDict(object):
                     str_msgctxt = t[0][2:7]
                     i += 1
                     line2 = poin[i]
-                    str_msgid = re.findall(r'"([^"\\]*(?:\\.[^"\\]*)*)"', line2)[0]
+                    str_msgid = self.remsgid.findall(line2)[0]
                     self.dict_msgctxt[str_msgctxt] = str_msgid
                     self.dict_msgid[str_msgid] = str_msgctxt
                     self.chkdict[str_msgctxt] = False
                 i += 1
 
     def write_to_file(self, url):
-        self._write_to_file(self.dict_msgctxt, url)
+        if self.savethread is not None:
+            assert isinstance(self.savethread, threading.Thread)
+            if self.savethread.is_alive():
+                self.savethread.join()
+        with PoDict._lock:
+            tmp = copy.copy(self.dict_msgctxt)
+            self.savethread = threading.Thread(target=PoDict._write_to_file, args=[tmp, url])
+            self.savethread.start()
 
     @staticmethod
     def _write_to_file(dict_msgctxt, url):
@@ -215,6 +253,7 @@ class UpdatePo(object):
         self.podict.read_from_file(self.current_working_English_strings_po)
         self.exclude_directories = exclude_directories
         self.exclude_files = exclude_files
+        self.find = re.compile(r"_\('(.+?)'\)")
 
     def getFileList(self):
         files_to_scan = []
@@ -240,7 +279,7 @@ class UpdatePo(object):
             with open(myfile, 'r') as f:
                 lines = ''.join(f.readlines())
             try:
-                finds = re.findall(r"_\('(.+?)'\)", lines)
+                finds = self.find.findall(lines)
             except re.error:
                 finds = []
             lstrings += finds
@@ -254,4 +293,6 @@ class UpdatePo(object):
                 self.podict.addentry(strid, s)
         self.podict.write_to_file(self.current_working_English_strings_po)
 
-
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+__ = kodipo.getLocalizedStringId

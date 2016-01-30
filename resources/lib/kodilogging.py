@@ -17,6 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 import xbmc
+import threading
 
 def log(loglevel=xbmc.LOGNOTICE, msg=''):
     if isinstance(msg, str):
@@ -25,8 +26,19 @@ def log(loglevel=xbmc.LOGNOTICE, msg=''):
     xbmc.log(msg=message.encode("utf-8"), level=loglevel)
 
 class KodiLogger(object):
-
+    _instance = None
+    _lock = threading.Lock()
     selfloglevel = xbmc.LOGDEBUG
+
+    def __new__(cls):
+        if KodiLogger._instance is None:
+            with KodiLogger._lock:
+                if KodiLogger._instance is None:
+                    KodiLogger._instance = super(KodiLogger, cls).__new__(cls)
+        return KodiLogger._instance
+
+    def __init__(self):
+        KodiLogger._instance = self
 
     @staticmethod
     def setLogLevel(arg):

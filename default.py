@@ -113,7 +113,7 @@ def returnHandler(taskReturn):
     assert isinstance(taskReturn, PubSub_Threaded.TaskReturn)
     if taskReturn.iserror is False:
         msg = _('Command for Task %s, Event %s completed succesfully!') % (taskReturn.taskId, taskReturn.eventId)
-        if taskReturn.msg != '':
+        if taskReturn.msg.strip() != '':
             msg += _('\nThe following message was returned: %s') % taskReturn.msg
         log(msg=msg)
     else:

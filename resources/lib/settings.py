@@ -110,9 +110,7 @@ class Settings(object):
         return evt
 
     def getTestEventSettings(self, taskId):
-        evt = {}
-        evt['type'] = 'onTest'
-        evt['task'] = taskId
+        evt = {'type': 'onTest', 'task': taskId}
         for oa in Settings.allevents['onTest']['optArgs']:
             evt[oa] = True
         evt['eventId'] = True

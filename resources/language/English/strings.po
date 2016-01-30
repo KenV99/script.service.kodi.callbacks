@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en\n""Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#Add-on messages id=32001 to 32162
+#Add-on messages id=32001 to 32166
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -660,4 +660,16 @@ msgstr ""
 
 msgctxt "#32162"
 msgid "afterIdleTime"
+msgstr ""
+
+msgctxt "#32163"
+msgid "Process returned no data\n"
+msgstr ""
+
+msgctxt "#32164"
+msgid "Localized string added to po for: [%s]"
+msgstr ""
+
+msgctxt "#32165"
+msgid "Localized string not found for: [%s]"
 msgstr ""
