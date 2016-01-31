@@ -26,10 +26,10 @@ class mockaddon(object):
     def __init__(self, *args):
         # flexmock(poutil.xbmcaddon, Addon=self)
         self.podict = poutil.PoDict()
-        self.podict.read_from_file(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po')
+        self.podict.read_from_file(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po')
 
     def getAddonInfo(self, y):
-        return r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks'
+        return r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks'
 
     def getLocalizedString(self, strid):
         assert isinstance(strid, int)
@@ -52,10 +52,10 @@ class testPo(object):
         assert x == 'Tasks'
 
 def testPoFileUpdate():
-    up =  poutil.UpdatePo(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks',
-                   r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po',
-                   [r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\watchdog',
-                    r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\lib\tests\stubs'])
+    up =  poutil.UpdatePo(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks',
+                   r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po',
+                   [r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\watchdog',
+                    r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\tests\stubs'])
     assert isinstance(up, poutil.UpdatePo)
     for i in xrange(1, 11):
         t = 'Task %s' % str(i)

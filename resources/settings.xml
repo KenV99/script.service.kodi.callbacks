@@ -212,7 +212,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E1.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E1.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E1)" visible="!eq(-67,0)" />
+    <setting default="" id="E1.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E1)" visible="!eq(-67,0)" />
     <setting label="32012" type="lsep" />
     <setting default="None" id="E2.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E2.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -281,7 +281,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E2.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E2.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E2)" visible="!eq(-67,0)" />
+    <setting default="" id="E2.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E2)" visible="!eq(-67,0)" />
     <setting label="32013" type="lsep" />
     <setting default="None" id="E3.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E3.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -350,7 +350,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E3.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E3.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E3)" visible="!eq(-67,0)" />
+    <setting default="" id="E3.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E3)" visible="!eq(-67,0)" />
     <setting label="32014" type="lsep" />
     <setting default="None" id="E4.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E4.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -419,7 +419,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E4.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E4.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E4)" visible="!eq(-67,0)" />
+    <setting default="" id="E4.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E4)" visible="!eq(-67,0)" />
     <setting label="32015" type="lsep" />
     <setting default="None" id="E5.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E5.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -488,7 +488,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E5.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E5.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E5)" visible="!eq(-67,0)" />
+    <setting default="" id="E5.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E5)" visible="!eq(-67,0)" />
     <setting label="32016" type="lsep" />
     <setting default="None" id="E6.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E6.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -557,7 +557,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E6.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E6.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E6)" visible="!eq(-67,0)" />
+    <setting default="" id="E6.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E6)" visible="!eq(-67,0)" />
     <setting label="32017" type="lsep" />
     <setting default="None" id="E7.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E7.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -626,7 +626,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E7.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E7.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E7)" visible="!eq(-67,0)" />
+    <setting default="" id="E7.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E7)" visible="!eq(-67,0)" />
     <setting label="32018" type="lsep" />
     <setting default="None" id="E8.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E8.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -695,7 +695,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E8.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E8.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E8)" visible="!eq(-67,0)" />
+    <setting default="" id="E8.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E8)" visible="!eq(-67,0)" />
     <setting label="32019" type="lsep" />
     <setting default="None" id="E9.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E9.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -764,7 +764,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E9.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E9.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E9)" visible="!eq(-67,0)" />
+    <setting default="" id="E9.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E9)" visible="!eq(-67,0)" />
     <setting label="32020" type="lsep" />
     <setting default="None" id="E10.type" label="32062" type="select" values="None|on Clean Finished|on Clean Started|on DPMS Activated|on DPMS Deactivated|on File System Change|on Idle [secs]|on JSON Notification|on Log Regex|on Log Simple|on Playback Ended|on Playback Paused|on Playback Resumed|on Playback Seek|on Playback Seek Chapter|on Playback Speed Changed|on Playback Started|on Profile Change|on Queue Next Item|on Resume After Idle [secs]|on Scan Finished|on Scan Started|on Screensaver Activated|on Screensaver Deactivated|on Shutdown|on Startup|on Stereoscopic Mode Change |on Window Closed|on Window Opened" />
     <setting default="Task 1" id="E10.task" label="32057" type="labelenum" visible="!eq(-1,None)" lvalues="32001|32002|32003|32004|32005|32006|32007|32008|32009|32010" />
@@ -833,7 +833,7 @@
     <setting label="32063" type="lsep" visible="eq(-64,on Playback Paused)" />
     <setting label="32118" type="lsep" visible="eq(-65,on Playback Paused)" />
     <setting default="" id="E10.userargs" label="32064" type="text" visible="!eq(-66,None)" />
-    <setting default="" id="E10.test" label="32065" type="action" action="RunScript(service.kodi.callbacks, E10)" visible="!eq(-67,0)" />
+    <setting default="" id="E10.test" label="32065" type="action" action="RunScript(script.service.kodi.callbacks, E10)" visible="!eq(-67,0)" />
   </category>
   <category label="32066">
     <setting default="false" id="Notify" label="32067" type="bool" />
@@ -841,7 +841,7 @@
     <setting default="500" id="LogFreq" label="32069" type="number" />
     <setting default="100" id="TaskFreq" label="32070" type="number" />
     <setting default="false" id="loglevel" label="32071" type="bool" />
-    <setting id="regen" label="32072" type="action" action="RunScript(service.kodi.callbacks, regen)" />
-    <setting id="test" label="32073" type="action" action="RunScript(service.kodi.callbacks, test)" />
+    <setting id="regen" label="32072" type="action" action="RunScript(script.service.kodi.callbacks, regen)" />
+    <setting id="test" label="32073" type="action" action="RunScript(script.service.kodi.callbacks, test)" />
   </category>
 </settings>

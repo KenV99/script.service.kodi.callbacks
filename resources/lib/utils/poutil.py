@@ -50,7 +50,7 @@ class KodiPo(object):
         if isStub is False:
             cls.pofn =  os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), r'resources\language\English\strings.po')
         else:
-            cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po'
+            cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
         cls.podict = PoDict()
         cls.podict.read_from_file(cls.pofn)
         cls.updateAlways = False
@@ -205,7 +205,7 @@ class PoDict(object):
     def write_po_header(fo):
         fo.write('# XBMC Media Center language file\n')
         fo.write('# Addon Name: Kodi Callbacks\n')
-        fo.write('# Addon id: service.kodi.callbacks\n')
+        fo.write('# Addon id: script.service.kodi.callbacks\n')
         fo.write('# Addon Provider: KenV99\n')
         fo.write('msgid ""\n')
         fo.write('msgstr ""\n')

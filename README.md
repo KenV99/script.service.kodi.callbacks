@@ -1,4 +1,4 @@
-service.kodi.callbacks
+script.service.kodi.callbacks
 =======================
 Props to pilluli for initial idea
 

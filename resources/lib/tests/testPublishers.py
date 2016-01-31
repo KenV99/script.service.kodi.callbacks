@@ -57,7 +57,7 @@ class testWatchdog(object):
         self.folder=None
 
     def setup(self):
-        self.folder = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\service.kodi.callbacks\\resources\\lib\\tests\\'
+        self.folder = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\'
         watchdogSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
                             'recursive':False, 'key':'E1'}]
         self.dispatcher = Dispatcher()
@@ -319,7 +319,7 @@ class testLoop(object):
 
 def logSimulate():
     import random, string
-    fn = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\service.kodi.callbacks\\resources\\lib\\tests\\kodi.log'
+    fn = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\kodi.log'
     randomstring = ''.join(random.choice(string.lowercase) for i in range(30))
     targetstring = '%s%s%s' %(randomstring[:12],'kodi_callbacks',randomstring[20:])
     for i in xrange(0,10):
@@ -331,7 +331,7 @@ def logSimulate():
         time.sleep(0.25)
 
 class testLog(object):
-    fn = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\service.kodi.callbacks\\resources\\lib\\tests\\kodi.log'
+    fn = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\kodi.log'
 
     def __init__(self):
         self.publisher=None

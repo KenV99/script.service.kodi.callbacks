@@ -18,16 +18,18 @@
 #
 from resources.lib.events import Events
 from resources.lib  import taskdict
-from resources.lib.kodilogging import log
+from resources.lib.kodilogging import KodiLogger
 import xbmcaddon
 import os
 from resources.lib.utils.poutil import KodiPo, PoDict
 kodipo = KodiPo()
 _ = kodipo.getLocalizedStringId
+kl = KodiLogger()
+log = kl.log
 podict = PoDict()
 pofile = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'language', 'English', 'strings.po')
 if pofile.startswith('resources'):
-    pofile = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po'
+    pofile = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
 podict.read_from_file(pofile)
 
 
@@ -131,7 +133,7 @@ def generate_settingsxml(fn=None):
                         podirty = True
                     output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (strid, getoffset(idx,output), evt['text']))
         output.append(ssp + 'default="" id="%s.userargs" label="%s" type="text" visible="!eq(%s,None)" />\n' % (prefix, _('Var subbed arg string'), getoffset(idx, output)))
-        output.append(ssp + 'default="" id="%s.test" label="%s" type="action" action="RunScript(service.kodi.callbacks, %s)" visible="!eq(%s,0)" />\n' % (prefix, _('Test Command (click OK to save changes first)'), prefix,getoffset(idx, output)))
+        output.append(ssp + 'default="" id="%s.test" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, %s)" visible="!eq(%s,0)" />\n' % (prefix, _('Test Command (click OK to save changes first)'), prefix,getoffset(idx, output)))
 
     output.append('  </category>\n')
     output.append('  <category label="%s">\n' % _('General'))
@@ -140,19 +142,19 @@ def generate_settingsxml(fn=None):
     output.append('    <setting default="500" id="LogFreq" label="%s" type="number" />\n' % _('Log Polling Frequency (ms)'))
     output.append('    <setting default="100" id="TaskFreq" label="%s" type="number" />\n' % _('Task Polling Frequency (ms)'))
     output.append('    <setting default="false" id="loglevel" label="%s" type="bool" />\n' % _('Show debugging info in normal log?'))
-    output.append('    <setting id="regen" label="%s" type="action" action="RunScript(service.kodi.callbacks, regen)" />\n' % _('Regenerate settings.xml'))
-    output.append('    <setting id="test" label="%s" type="action" action="RunScript(service.kodi.callbacks, test)" />\n' % _('Test addon native tasks (see log for output)'))
+    output.append('    <setting id="regen" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, regen)" />\n' % _('Regenerate settings.xml'))
+    output.append('    <setting id="test" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, test)" />\n' % _('Test addon native tasks (see log for output)'))
     output.append('  </category>\n')
     output.append('</settings>')
     output = "".join(output)
     if fn is None:
-        fn = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
-        with open(fn, mode='w') as f:
-            f.writelines(output)
+        fn = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
+    with open(fn, mode='w') as f:
+        f.writelines(output)
 
     if podirty is True:
         podict.write_to_file(pofile)
     log(_('Settings.xml rewritten'))
 
 if __name__ == '__main__':
-    generate_settingsxml(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\settings.xml')
+    generate_settingsxml(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\settings.xml')

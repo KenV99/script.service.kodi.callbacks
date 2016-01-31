@@ -25,14 +25,17 @@ import json
 from resources.lib import taskdict
 from resources.lib.pubsub import Topic, TaskManager
 from resources.lib.events import Events
-from resources.lib.kodilogging import log
+from resources.lib.kodilogging import KodiLogger
 import xbmc, xbmcaddon
 from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
+kl = KodiLogger()
+log = kl.log
 events = Events().AllEvents
 
-testdir = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
+
+testdir = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
 
 def is_xbmc_debug():
     json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'

@@ -26,6 +26,13 @@ def log(loglevel=xbmc.LOGNOTICE, msg=''):
     xbmc.log(msg=message.encode("utf-8"), level=loglevel)
 
 class KodiLogger(object):
+    LOGERROR = xbmc.LOGERROR
+    LOGDEBUG = xbmc.LOGDEBUG
+    LOGFATAL = xbmc.LOGFATAL
+    LOGINFO = xbmc.LOGINFO
+    LOGNOTICE = xbmc.LOGNOTICE
+    LOGSEVERE = xbmc.LOGSEVERE
+    LOGWARNING = xbmc.LOGWARNING
     _instance = None
     _lock = threading.Lock()
     selfloglevel = xbmc.LOGDEBUG

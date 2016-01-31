@@ -19,13 +19,16 @@
 import xbmcaddon
 from resources.lib.pubsub import Topic
 from resources.lib.events import Events
-from resources.lib.kodilogging import log
+from resources.lib.kodilogging import KodiLogger
 from resources.lib import taskdict
 from resources.lib.events import requires_subtopic
 try:
     addonid = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('id')
 except Exception:
     addonid = 'script.service.kodi.callbacks'
+
+kl = KodiLogger()
+log = kl.log
 
 def get(settingid, var_type):
     t = xbmcaddon.Addon(addonid).getSetting(settingid)

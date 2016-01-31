@@ -1,6 +1,6 @@
 # XBMC Media Center language file
 # Addon Name: Kodi Callbacks
-# Addon id: service.kodi.callbacks
+# Addon id: script.service.kodi.callbacks
 # Addon Provider: KenV99
 msgid ""
 msgstr ""
@@ -11,6 +11,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en\n""Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "Addon Summary"
+msgid "Callbacks for Kodi"
+msgstr ""
+
+msgctxt "Addon Description"
+msgid "Provides user definable actions for specific events within Kodi. Credit to Yesudeep Mangalapilly (gorakhargosh on github) and contributors for watchdog and pathtools modules."
+msgstr ""
+
+msgctxt "Addon Disclaimer"
+msgid "For bugs, requests or general questions visit the Kodi forums."
+msgstr ""
 
 #Add-on messages id=32001 to 32166
 
