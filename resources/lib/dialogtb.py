@@ -72,7 +72,7 @@ class MessageDialog(xbmcgui.WindowXMLDialog):
 
 
 def show_textbox(title, msg):
-    __addon__ = xbmcaddon.Addon('service.kodi.callbacks')
+    __addon__ = xbmcaddon.Addon('script.service.kodi.callbacks')
     __cwd__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode('utf-8')
     msgbox = MessageDialog("DialogTextBox.xml", __cwd__, "Default")
     xt = type(msg)

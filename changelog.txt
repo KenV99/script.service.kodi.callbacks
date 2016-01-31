@@ -1,6 +1,20 @@
-0.9.5 Minor changes to onIdle and afterIdle
-0.9.4 Added after Idle event. Bug fix with string handling from settings.xml
-0.9.3 Provided string localization and po handling
-0.9.2 Added basic auth for http, added task testing to settings, bug fixes, removed dependency on service.watchdog
-0.9.1 Bug fixes, file watchdog added
-0.9.0 Initial version
+v0.9.6 (2016-01-31)
+- Publisher and Subscriber Factories. Readied for offical repo submission.
+
+v0.9.5 (2016-01-29)
+- Minor changes to onIdle and afterIdle
+
+v0.9.4 (2016-01-27)
+- Added after Idle event. Bug fix with string handling from settings.xml
+
+v0.9.3 (2016-01-25)
+- Provided string localization and po handling
+
+v0.9.2 (2016-01-22)
+- Added basic auth for http, added task testing to settings, bug fixes, removed dependency on service.watchdog
+
+v0.9.1 (2016-01-16)
+- Bug fixes, file watchdog added
+
+v0.9.0 (2016-01-12)
+- Initial version

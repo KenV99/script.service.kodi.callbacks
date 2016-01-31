@@ -25,7 +25,7 @@ from resources.lib.utils.poutil import KodiPo, PoDict
 kodipo = KodiPo()
 _ = kodipo.getLocalizedStringId
 podict = PoDict()
-pofile = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'language', 'English', 'strings.po')
+pofile = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'language', 'English', 'strings.po')
 if pofile.startswith('resources'):
     pofile = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po'
 podict.read_from_file(pofile)

@@ -26,17 +26,15 @@ _ = kodipo.getLocalizedString
 
 class MonitorPublisher(Publisher, threading.Thread):
     publishes = Events().Monitor.keys()
-    def __init__(self, dispatcher, jsoncriteria=None):
+
+    def __init__(self, dispatcher, settings):
         Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self, name='MonitorPublisher')
         self.dispatcher = dispatcher
         self._abortevt = threading.Event()
         self._abortevt.clear()
-        if jsoncriteria is None:
-            self.jsoncriteria = []
-        else:
-            self.jsoncriteria = jsoncriteria
-        self.publishes = Events().Monitor.keys()
+        self.jsoncriteria = settings.getJsonNotifications()
+        # self.publishes = Events().Monitor.keys()
 
     def run(self):
         publish = super(MonitorPublisher, self).publish

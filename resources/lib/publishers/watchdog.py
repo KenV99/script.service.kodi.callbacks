@@ -24,12 +24,12 @@ import xbmcaddon
 from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
 
-libs = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib')
+libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib')
 if libs[:3] != 'C:\\':
     libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\service.kodi.callbacks\\' + libs
 sys.path.append(libs)
 
-libs = os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'watchdog')
+libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'watchdog')
 if libs[:3] != 'C:\\':
     libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\service.kodi.callbacks\\' + libs
 sys.path.append(libs)
@@ -53,16 +53,18 @@ class EventHandler(PatternMatchingEventHandler):
 class WatchdogPublisher(Publisher):
     publishes = Events().Watchdog.keys()
 
-    def __init__(self, dispatcher, watchdogSettings):
+    def __init__(self, dispatcher, settings):
         super(WatchdogPublisher, self).__init__(dispatcher)
-        self.watchdogSettings = watchdogSettings
+        self.watchdogSettings = settings.getWatchdogSettings()
         self.event_handlers = []
         self.observers = []
         self.initialize()
 
     def initialize(self):
         for setting in self.watchdogSettings:
-            eh = EventHandler(patterns=setting['patterns'].split(','), ignore_patterns=setting['ignore_patterns'].split(','),
+            patterns = setting['patterns'].split(',')
+            ignore_patterns = setting['ignore_patterns'].split(',')
+            eh = EventHandler(patterns=patterns, ignore_patterns=ignore_patterns,
                             ignore_directories=setting['ignore_directories'],
                             topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
             self.event_handlers.append(eh)

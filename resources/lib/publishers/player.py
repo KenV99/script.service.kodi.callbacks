@@ -26,7 +26,7 @@ _ = kodipo.getLocalizedString
 
 class PlayerPublisher(Publisher, threading.Thread):
     publishes = Events.Player.keys()
-    def __init__(self, dispatcher):
+    def __init__(self, dispatcher, settings):
         Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self, name='PlayerPublisher')
         self.dispatcher = dispatcher
@@ -151,7 +151,7 @@ class Player(xbmc.Player):
             self.totalTime = self.getTotalTime()
         except:
             self.totalTime = -1
-        self.playingType = self.playingType
+        self.playingType = self.playing_type()
         self.playingTitle = self.getTitle()
         topic = Topic('onPlayBackStarted')
         kwargs = {'mediaType':self.playingType, 'fileName':self.playingFile, 'title':self.playingTitle, 'aspectRatio':self.getAspectRatio(), 'resolution':self.getResoluion()}

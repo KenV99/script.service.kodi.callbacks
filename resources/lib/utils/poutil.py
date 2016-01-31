@@ -48,7 +48,7 @@ class KodiPo(object):
         except:
             isStub = False
         if isStub is False:
-            cls.pofn =  os.path.join(xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('path'), r'resources\language\English\strings.po')
+            cls.pofn =  os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), r'resources\language\English\strings.po')
         else:
             cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\service.kodi.callbacks\resources\language\English\strings.po'
         cls.podict = PoDict()

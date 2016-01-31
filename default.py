@@ -17,16 +17,17 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-debug = False  # TODO: check
+debug = True  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 
 import os
+import sys
 
-if debug:
+
+def startdebugger():
     debugegg = 'C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg'
     if os.path.exists(debugegg):
-        import sys
         sys.path.append(debugegg)
         try:
             import pydevd
@@ -35,159 +36,73 @@ if debug:
         else:
             pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
+
+if debug:
+    startdebugger()
+
 import threading
 import xbmc
 import xbmcaddon
 import xbmcgui
 import resources.lib.pubsub as PubSub_Threaded
-from resources.lib import taskdict
 from resources.lib.kodilogging import KodiLogger
-from resources.lib.publishers.log import LogPublisher
-from resources.lib.publishers.loop import LoopPublisher
-from resources.lib.publishers.monitor import MonitorPublisher
-from resources.lib.publishers.player import PlayerPublisher
+from resources.lib.publisherfactory import PublisherFactory
+from resources.lib.subscriberfactory import SubscriberFactory
 from resources.lib.settings import Settings
-try:
-    from resources.lib.publishers.watchdog import WatchdogPublisher
-except ImportError:
-    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
 from resources.lib.utils.poutil import KodiPo
 
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
-log = None
-dispatcher = None
-publishers = None
+log = KodiLogger.log
 
 try:
     __version__ = xbmcaddon.Addon().getAddonInfo('version')
 except:
     try:
-        __version__ = xbmcaddon.Addon('service.kodi.callbacks').getAddonInfo('version')
+        __version__ = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('version')
     except:
         __version__ = 'ERROR getting version'
 
 
-class NotificationTask(PubSub_Threaded.Task):
-    def __init__(self):
-        super(NotificationTask, self).__init__()
-
-    def run(self):
-        msg = _('Task received: %s: %s') % (str(self.topic), str(self.kwargs))
-        log(msg=msg)
-        dialog = xbmcgui.Dialog()
-        dialog.notification(_('Kodi Callbacks'), msg, xbmcgui.NOTIFICATION_INFO, 5000)
-
-
 class MainMonitor(xbmc.Monitor):
-    def __init__(self):
+    def __init__(self, dispatcher, publishers):
         super(MainMonitor, self).__init__()
+        self.dispatcher = dispatcher
+        self.publishers = publishers
 
     def onSettingsChanged(self):
-        global publishers, log
         log(msg=_('Settings change detected - attempting to restart'))
-        for p in publishers:
+        for p in self.publishers:
             p.abort(0.525)
-        dispatcher.abort(0.25)
+        self.dispatcher.abort(0.25)
         start()
 
 
-def createTaskT(taskSettings, xlog):
-    if xlog is None:
-        xlog = log
-    mytask = taskdict[taskSettings['type']]['class']
-    taskKwargs = taskSettings
-    if mytask.validate(taskKwargs, xlog=xlog) is True:
-        return mytask, taskKwargs
-    else:
-        return None, None
-
-
-def returnHandler(taskReturn):
-    assert isinstance(taskReturn, PubSub_Threaded.TaskReturn)
-    if taskReturn.iserror is False:
-        msg = _('Command for Task %s, Event %s completed succesfully!') % (taskReturn.taskId, taskReturn.eventId)
-        if taskReturn.msg.strip() != '':
-            msg += _('\nThe following message was returned: %s') % taskReturn.msg
-        log(msg=msg)
-    else:
-        msg = _('ERROR encountered for Task %s, Event %s\nERROR mesage: %s') % (
-            taskReturn.taskId, taskReturn.eventId, taskReturn.msg)
-        log(loglevel=xbmc.LOGERROR, msg=msg)
-
-
-def createSubscriber(tasksettings, eventSettings, retHandler=returnHandler, xlog=None):
-    taskT, taskKwargs = createTaskT(tasksettings, xlog)
-    if taskT is not None:
-        tm = PubSub_Threaded.TaskManager(taskT, taskid=eventSettings['task'], userargs=eventSettings['userargs'],
-                                         **taskKwargs)
-        tm.returnHandler = retHandler
-        subscriber = PubSub_Threaded.Subscriber(logger=KodiLogger)
-        subscriber.addTaskManager(tm)
-        return subscriber
-
-
 def start():
-    global dispatcher, publishers, log
+    global log
     settings = Settings()
     settings.getSettings()
+    kl = KodiLogger()
     if settings.general['elevate_loglevel'] is True:
-        KodiLogger.setLogLevel(xbmc.LOGNOTICE)
+        kl.setLogLevel(xbmc.LOGNOTICE)
     else:
-        KodiLogger.setLogLevel(xbmc.LOGDEBUG)
-    log = KodiLogger.log
+        kl.setLogLevel(xbmc.LOGDEBUG)
+    log = kl.log
     log(msg=_('Settings read'))
-    publishers = []
-    subscribers = []
-    topics = []
     dispatcher = PubSub_Threaded.Dispatcher(interval=settings.general['TaskFreq'], sleepfxn=xbmc.sleep)
     log(msg=_('Dispatcher initialized'))
 
-    for key in settings.events.keys():
-        task_key = settings.events[key]['task']
-        evtsettings = settings.events[key]
-        topic = settings.topicFromSettingsEvent(key)
-        topics.append(topic.topic)
-        tasksettings = settings.tasks[task_key]
-        subscriber = createSubscriber(tasksettings, evtsettings)
-        if subscriber is not None:
-            subscriber.addTopic(topic)
-            subscriber.taskmanagers[0].taskKwargs['notify'] = settings.general['Notify']
-            dispatcher.addSubscriber(subscriber)
-            subscribers.append(subscriber)
-            log(msg=_('Subscriber for event: %s, task: %s created') % (str(topic), task_key))
-        else:
-            log(loglevel=xbmc.LOGERROR,
-                msg=_('Subscriber for event: %s, task: %s NOT created due to errors') % (str(topic), task_key))
-
-    if not set(topics).isdisjoint(LoopPublisher.publishes) or debug is True:
-        loopPublisher = LoopPublisher(dispatcher, settings.getOpenwindowids(), settings.getClosewindowids(),
-                                      settings.getIdleTimes(), settings.getAfterIdleTimes(),
-                                      settings.general['LoopFreq'])
-        publishers.append(loopPublisher)
-        log(msg=_('Loop Publisher initialized'))
-    if not set(topics).isdisjoint(PlayerPublisher.publishes) or debug is True:
-        playerPublisher = PlayerPublisher(dispatcher)
-        publishers.append(playerPublisher)
-        log(msg=_('Player Publisher initialized'))
-    if not set(topics).isdisjoint(MonitorPublisher.publishes) or debug is True:
-        monitorPublisher = MonitorPublisher(dispatcher)
-        monitorPublisher.jsoncriteria = settings.getJsonNotifications()
-        publishers.append(monitorPublisher)
-        log(msg=_('Monitor Publisher initialized'))
-    if not set(topics).isdisjoint(LogPublisher.publishes) or debug is True:
-        logPublisher = LogPublisher(dispatcher, settings.general['LogFreq'])
-        logPublisher.add_simple_checks(settings.getLogSimples())
-        logPublisher.add_regex_checks(settings.getLogRegexes())
-        publishers.append(logPublisher)
-        log(msg=_('Log Publisher initialized'))
-    if not set(topics).isdisjoint(WatchdogPublisher.publishes) or debug is True:
-        watchdogPublisher = WatchdogPublisher(dispatcher, settings.getWatchdogSettings())
-        publishers.append(watchdogPublisher)
-        log(msg=_('Watchdog Publisher initialized'))
+    subscriberfactory = SubscriberFactory(settings, kl)
+    subscribers = subscriberfactory.createSubscribers()
+    for subscriber in subscribers:
+        dispatcher.addSubscriber(subscriber)
+    publisherfactory = PublisherFactory(settings, subscriberfactory.topics, dispatcher, kl, debug)
+    publisherfactory.createPublishers()
+    publishers = publisherfactory.ipublishers
 
     dispatcher.start()
     log(msg=_('Dispatcher started'))
+
     for p in publishers:
         try:
             p.start()
@@ -198,11 +113,10 @@ def start():
 
 
 def main():
-    global dispatcher, publishers
     xbmc.log(msg=_('$$$ [kodi.callbacks] Staring kodi.callbacks ver: %s') % str(__version__), level=xbmc.LOGNOTICE)
     dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
-    monitor = MainMonitor()
+    monitor = MainMonitor(dispatcher, publishers)
     log(msg=_('Entering wait loop'))
     monitor.waitForAbort()
 
@@ -254,13 +168,11 @@ def test(key):
     task_key = settings.events[key]['task']
     tasksettings = settings.tasks[task_key]
     testlogger = direct_test.TestLogger()
-    testlog = testlogger.log
     log(msg=_('Creating subscriber for test'))
-    subscriber = createSubscriber(tasksettings, evtsettings, xlog=testlog)
+    subscriberfactory = SubscriberFactory(settings, testlogger)
+    subscriber = subscriberfactory.createSubscriber(key)
     if subscriber is not None:
         log(msg=_('Test subscriber created successfully'))
-        subscriber.addTopic(topic)
-        subscriber.taskmanagers[0].taskKwargs['notify'] = settings.general['Notify']
         try:
             kwargs = events[evtsettings['type']]['expArgs']
         except KeyError:
@@ -293,11 +205,8 @@ def test(key):
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        if testdebug is True:
-            sys.path.append('C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
-            import pydevd
-
-            pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
+        if testdebug is True and debug is False:
+            startdebugger()
         if sys.argv[1] == 'regen':
             from resources.lib.utils.xml_gen import generate_settingsxml
 

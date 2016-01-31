@@ -16,6 +16,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
+#   MEANT TO BE RUN USING NOSE
+#
 import os
 from resources.lib.publishers.log import LogPublisher
 import resources.lib.publishers.loop as loop
@@ -23,7 +25,8 @@ import resources.lib.publishers.log as log
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.watchdog import WatchdogPublisher
 from resources.lib.pubsub import Dispatcher, Subscriber, Message, Topic
-from resources.lib.tests.stubs import *
+from resources.lib.settings import Settings
+import xbmc
 from flexmock import flexmock
 import Queue
 import threading
@@ -55,16 +58,17 @@ class testWatchdog(object):
 
     def setup(self):
         self.folder = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\service.kodi.callbacks\\resources\\lib\\tests\\'
-        watchdogSettings = [{'folder':self.folder, 'patterns':'*.txt', 'ignore_patterns':'', 'ignore_directories':'',
+        watchdogSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
                             'recursive':False, 'key':'E1'}]
         self.dispatcher = Dispatcher()
         self.subscriber = testSubscriber()
         self.topic = Topic('onFileSystemChange','E1')
         self.subscriber.addTopic(self.topic)
         self.dispatcher.addSubscriber(self.subscriber)
-        self.publisher = WatchdogPublisher(self.dispatcher, watchdogSettings)
+        settings = Settings()
+        flexmock(settings, getWatchdogSettings=watchdogSettings)
+        self.publisher = WatchdogPublisher(self.dispatcher, settings)
         self.dispatcher.start()
-
     def teardown(self):
         self.publisher.abort()
         self.dispatcher.abort()
@@ -198,7 +202,10 @@ class testLoop(object):
             self.subscriber.addTopic(topic)
         self.dispatcher.addSubscriber(self.subscriber)
         idleSettings = {'E1':3, 'E2':5}
-        self.publisher = LoopPublisher(self.dispatcher, idleT=idleSettings)
+        settings = Settings()
+        flexmock(settings, getIdleTimes=idleSettings)
+        flexmock(settings, general={'LoopFreq':100})
+        self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
         time.sleep(7)
@@ -220,7 +227,9 @@ class testLoop(object):
         self.topics = [Topic('onStereoModeChange')]
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
-        self.publisher = LoopPublisher(self.dispatcher)
+        settings = Settings()
+        flexmock(settings, general={'LoopFreq':100})
+        self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
         time.sleep(5)
@@ -241,7 +250,10 @@ class testLoop(object):
         self.topics = [Topic('onWindowOpen','E1' )]
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
-        self.publisher = LoopPublisher(self.dispatcher, owids={10001:'E1'})
+        settings = Settings()
+        flexmock(settings, general={'LoopFreq':100})
+        flexmock(settings, getOpenwindowids={10001:'E1'})
+        self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
         time.sleep(5)
@@ -262,7 +274,10 @@ class testLoop(object):
         self.topics = [Topic('onWindowClose','E1' )]
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
-        self.publisher = LoopPublisher(self.dispatcher, cwids={10001:'E1'})
+        settings = Settings()
+        flexmock(settings, general={'LoopFreq':100})
+        flexmock(settings, getClosewindowids={10001:'E1'})
+        self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
         time.sleep(5)
@@ -283,7 +298,9 @@ class testLoop(object):
         self.topics = [Topic('onProfileChange')]
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
-        self.publisher = LoopPublisher(self.dispatcher)
+        settings = Settings()
+        flexmock(settings, general={'LoopFreq':100})
+        self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
         time.sleep(5)
@@ -352,9 +369,11 @@ class testLog(object):
 
     def testLogSimple(self):
         self.topics = [Topic('onLogSimple','E1')]
-        settings = [{'matchIf':'kodi_callbacks', 'rejectIf':'', 'eventId':'E1'}]
-        self.publisher = LogPublisher(self.dispatcher)
-        self.publisher.add_simple_checks(settings)
+        xsettings = [{'matchIf':'kodi_callbacks', 'rejectIf':'', 'eventId':'E1'}]
+        settings = Settings()
+        flexmock(settings, getLogSimples=xsettings)
+        flexmock(settings, general={'LogFreq':100})
+        self.publisher = LogPublisher(self.dispatcher, settings)
         try:
             os.remove(testLog.fn)
         except OSError:
@@ -389,9 +408,11 @@ class testLog(object):
 
     def testLogRegex(self):
         self.topics = [Topic('onLogRegex','E1')]
-        settings = [{'matchIf':'kodi_callbacks', 'rejectIf':'', 'eventId':'E1'}]
-        self.publisher = LogPublisher(self.dispatcher)
-        self.publisher.add_regex_checks(settings)
+        xsettings = [{'matchIf':'kodi_callbacks', 'rejectIf':'', 'eventId':'E1'}]
+        settings = Settings()
+        flexmock(settings, getLogRegexes=xsettings)
+        flexmock(settings, general={'LogFreq':100})
+        self.publisher = LogPublisher(self.dispatcher, settings)
         try:
             os.remove(testLog.fn)
         except OSError:

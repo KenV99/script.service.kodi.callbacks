@@ -61,16 +61,20 @@ class LogMonitor(threading.Thread):
                 xbmc.log(msg=_('Could not stop LogMonitor T:%i') % self.ident)
 
 class LogPublisher(threading.Thread, Publisher):
+
     publishes = Events.Log.keys()
-    def __init__(self, dispatcher, interval_checker=100, interval_monitor=100):
+
+    def __init__(self, dispatcher, settings):
         Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self, name='LogPublisher')
         self._checks_simple = []
         self._checks_regex = []
         self.abort_evt = threading.Event()
         self.abort_evt.clear()
-        self.interval_checker = interval_checker
-        self.interval_monitor = interval_monitor
+        self.interval_checker = settings.general['LogFreq']
+        self.interval_monitor = settings.general['LogFreq']
+        self.add_simple_checks(settings.getLogSimples())
+        self.add_regex_checks(settings.getLogRegexes())
 
     def add_simple_checks(self, simpleList):
         for chk in simpleList:

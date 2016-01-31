@@ -24,9 +24,10 @@ from json import loads as jloads
 
 import xbmc
 import xbmcgui
-from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
+from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.utils.poutil import KodiPo
+
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
@@ -60,20 +61,17 @@ def getProfileString():
 
 class LoopPublisher(Publisher, threading.Thread):
     publishes = Events().CustomLoop.keys()
-    def __init__(self, dispatcher, owids=None, cwids=None, idleT=None, afterIdle=None, interval=500):
+
+    def __init__(self, dispatcher, settings):
         Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self, name='LoopPublisher')
-        self.interval = interval
+        self.interval = settings.general['LoopFreq']
         self.abort_evt = threading.Event()
         self.abort_evt.clear()
-        if owids is None:
-            self.openwindowids = {}
-        else:
-            self.openwindowids = owids
-        if cwids is None:
-            self.closewindowsids = {}
-        else:
-            self.closewindowsids = cwids
+        self.openwindowids = settings.getOpenwindowids()
+        self.closewindowsids = settings.getClosewindowids()
+        idleT = settings.getIdleTimes()
+        afterIdle = settings.getAfterIdleTimes()
         self.player = xbmc.Player()
         if idleT is not None:
             if len(idleT) > 0:
@@ -103,8 +101,6 @@ class LoopPublisher(Publisher, threading.Thread):
             self.doidle = True
         else:
             self.doidle = False
-
-        self.publishes = Events().CustomLoop.keys()
 
     def run(self):
         lastwindowid = xbmcgui.getCurrentWindowId()
@@ -150,27 +146,27 @@ class LoopPublisher(Publisher, threading.Thread):
         if self.player.isPlaying():
             self._playeridle = False
             self._startidle = XBMCit
-        else: # player is not playing
-            if self._playeridle is False: # if the first pass with player idle, start timing here
+        else:  # player is not playing
+            if self._playeridle is False:  # if the first pass with player idle, start timing here
                 self._playeridle = True
                 self._startidle = XBMCit
-        myit = XBMCit - self._startidle # amount of time idle and not playing
+        myit = XBMCit - self._startidle  # amount of time idle and not playing
         for it in self.idleTs:
-            if myit > it[0]: # if time exceeded idle timer
-                if it[2] is False: # idle task has NOT been executed
+            if myit > it[0]:  # if time exceeded idle timer
+                if it[2] is False:  # idle task has NOT been executed
                     msg = Message(Topic('onIdle', it[1]))
                     self.publish(msg)
                     it[2] = True
-            else: # if time has not exceeded timer
-                it[2] = False # reset task executed flag
+            else:  # if time has not exceeded timer
+                it[2] = False  # reset task executed flag
         for it in self.afterIdles:
-            if myit > it[0]: # time has exceeded timer
-                    it[2] = True # set flag that task needs to be executed when exiting idle
-            else: # time has not exceeded idle timer
-                if it[2] is True: # if flag to execute has been set
+            if myit > it[0]:  # time has exceeded timer
+                it[2] = True  # set flag that task needs to be executed when exiting idle
+            else:  # time has not exceeded idle timer
+                if it[2] is True:  # if flag to execute has been set
                     msg = Message(Topic('afterIdle', it[1]))
                     self.publish(msg)
-                it[2] = False # reset flag to execute
+                it[2] = False  # reset flag to execute
 
     def abort(self, timeout=0):
         self.abort_evt.set()

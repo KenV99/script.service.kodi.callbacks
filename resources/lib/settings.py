@@ -25,7 +25,7 @@ from resources.lib.events import requires_subtopic
 try:
     addonid = xbmcaddon.Addon().getAddonInfo('id')
 except:
-    addonid = 'service.kodi.callbacks'
+    addonid = 'script.service.kodi.callbacks'
 
 def get(settingid, var_type):
     t = xbmcaddon.Addon(addonid).getSetting(settingid)
