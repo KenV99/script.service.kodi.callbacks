@@ -109,7 +109,7 @@ class testWatchdog(object):
         self.dispatcher.abort()
         try:
             message = self.subscriber.testq.get(timeout=0.5)
-        except:
+        except Exception:
             message = None
         assert isinstance(message, Message)
         assert message.topic == self.topic
@@ -130,7 +130,7 @@ class testWatchdog(object):
         self.dispatcher.abort()
         try:
             message =self. subscriber.testq.get(timeout=0.5)
-        except:
+        except Exception:
             message = None
         finally:
             os.remove(fn)

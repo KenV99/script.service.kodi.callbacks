@@ -60,7 +60,7 @@ try:
 except Exception:
     try:
         __version__ = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('version')
-    except:
+    except Exception:
         __version__ = 'ERROR getting version'
 
 

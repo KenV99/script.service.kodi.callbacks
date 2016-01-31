@@ -121,7 +121,7 @@ class Player(xbmc.Player):
     def getPlayingFileX(self):
         try:
             fn = self.getPlayingFile()
-        except:
+        except Exception:
             fn = 'unknown'
         if fn is None:
             fn = 'Kodi returned playing file is none'
@@ -130,7 +130,7 @@ class Player(xbmc.Player):
     def getAspectRatio(self):
         try:
             ar = xbmc.getInfoLabel("VideoPlayer.VideoAspect")
-        except:
+        except Exception:
             ar = 'unknown'
         if ar is None:
             ar = 'unknown'
@@ -139,7 +139,7 @@ class Player(xbmc.Player):
     def getResoluion(self):
         try:
             vr = xbmc.getInfoLabel("VideoPlayer.VideoResolution")
-        except:
+        except Exception:
             vr = 'unknown'
         if vr is None:
             vr = 'unknown'
@@ -149,7 +149,7 @@ class Player(xbmc.Player):
         self.playingFile = self.getPlayingFileX()
         try:
             self.totalTime = self.getTotalTime()
-        except:
+        except Exception:
             self.totalTime = -1
         self.playingType = self.playing_type()
         self.playingTitle = self.getTitle()
