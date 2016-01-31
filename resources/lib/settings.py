@@ -23,8 +23,8 @@ from resources.lib.kodilogging import log
 from resources.lib import taskdict
 from resources.lib.events import requires_subtopic
 try:
-    addonid = xbmcaddon.Addon().getAddonInfo('id')
-except:
+    addonid = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('id')
+except Exception:
     addonid = 'script.service.kodi.callbacks'
 
 def get(settingid, var_type):

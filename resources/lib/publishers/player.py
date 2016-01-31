@@ -74,7 +74,7 @@ class Player(xbmc.Player):
                 isMovie = True
         try:
             filename = self.getPlayingFile()
-        except:
+        except Exception:
             filename = ''
         if filename != '':
             if filename[0:3] == 'pvr':

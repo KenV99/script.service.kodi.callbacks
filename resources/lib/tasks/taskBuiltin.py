@@ -61,7 +61,7 @@ class TaskBuiltin(AbstractTask):
                 msg = result
                 if result != '':
                     err = True
-        except:
+        except Exception:
             e = sys.exc_info()[0]
             err = True
             if hasattr(e, 'message'):

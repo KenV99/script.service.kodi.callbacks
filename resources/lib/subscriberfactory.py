@@ -17,7 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-from resources.lib import taskdict, tasktypes
+from resources.lib import taskdict
 from resources.lib.pubsub import TaskManager, Subscriber, TaskReturn
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.utils.poutil import KodiPo

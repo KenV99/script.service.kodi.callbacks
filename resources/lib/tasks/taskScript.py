@@ -122,7 +122,7 @@ class TaskScript(AbstractTask):
         except subprocess.CalledProcessError, e:
             err = True
             msg = e.output
-        except:
+        except Exception:
             e = sys.exc_info()[0]
             err = True
             if hasattr(e, 'message'):

@@ -45,7 +45,7 @@ class KodiPo(object):
     def cls_init(cls):
         try:
             isStub = xbmcaddon.isStub
-        except:
+        except Exception:
             isStub = False
         if isStub is False:
             cls.pofn =  os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), r'resources\language\English\strings.po')

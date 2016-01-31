@@ -99,7 +99,7 @@ class testTasks(object):
         outfile = os.path.join(testdir, 'scriptoutput.txt')
         try:
             os.remove(outfile)
-        except:
+        except Exception:
             pass
         if sys.platform.startswith('win'):
             testfile = 'tstScript.bat'
@@ -153,7 +153,7 @@ class testTasks(object):
         try:
             with open(outfile, 'r') as f:
                 retArgs = f.readline()
-        except Exception as e:
+        except Exception:
             retArgs = ''
         try:
             os.remove(outfile)

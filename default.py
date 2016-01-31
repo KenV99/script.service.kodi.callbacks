@@ -57,7 +57,7 @@ log = KodiLogger.log
 
 try:
     __version__ = xbmcaddon.Addon().getAddonInfo('version')
-except:
+except Exception:
     try:
         __version__ = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('version')
     except:
