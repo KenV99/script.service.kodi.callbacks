@@ -55,7 +55,7 @@ class KodiPo(object):
         except Exception:
             isStub = False
         if isStub is False:
-            cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path'), r'resources\language\English\strings.po')
+            cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path'), r'resources/language/English/strings.po')
         else:
             cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
         cls.podict = PoDict()
@@ -160,26 +160,32 @@ class PoDict(object):
 
     def read_from_file(self, url):
         if url is None:
+            log(loglevel=klogger.LOGERROR, msg='No URL to Read PoDict From')
             return
         if os.path.exists(url):
-            with open(url, 'r') as f:
-                poin = f.readlines()
-            i = 0
-            while i < len(poin):
-                line = poin[i]
-                if line[0:7] == 'msgctxt':
-                    t = re.findall(r'".+"', line)
-                    if not t[0].startswith('"Addon'):
-                        str_msgctxt = t[0][2:7]
-                        i += 1
-                        line2 = poin[i]
-                        str_msgid = self.remsgid.findall(line2)[0]
-                        self.dict_msgctxt[str_msgctxt] = str_msgid
-                        self.dict_msgid[str_msgid] = str_msgctxt
-                        self.chkdict[str_msgctxt] = False
-                    else:
-                        i += 1
-                i += 1
+            try:
+                with open(url, 'r') as f:
+                    poin = f.readlines()
+                i = 0
+                while i < len(poin):
+                    line = poin[i]
+                    if line[0:7] == 'msgctxt':
+                        t = re.findall(r'".+"', line)
+                        if not t[0].startswith('"Addon'):
+                            str_msgctxt = t[0][2:7]
+                            i += 1
+                            line2 = poin[i]
+                            str_msgid = self.remsgid.findall(line2)[0]
+                            self.dict_msgctxt[str_msgctxt] = str_msgid
+                            self.dict_msgid[str_msgid] = str_msgctxt
+                            self.chkdict[str_msgctxt] = False
+                        else:
+                            i += 1
+                    i += 1
+            except Exception as e:
+                log(loglevel=klogger.LOGERROR, msg='Error reading po: %s' % e.message)
+        else:
+            log(loglevel=klogger.LOGERROR, msg='Could not locate po at %s' % url)
 
     def write_to_file(self, url):
         if self.savethread is not None:

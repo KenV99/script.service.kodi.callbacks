@@ -17,6 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 import xbmc
 import threading
 from Queue import Queue, Empty
@@ -27,7 +28,10 @@ from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
-logfn = xbmc.translatePath(r'special://home\Kodi.log')
+if  os.uname()[4].startswith('arm'):
+    logfn = xbmc.translatePath(r'special://home\temp\Kodi.log')
+else:
+    logfn = xbmc.translatePath(r'special://home\Kodi.log')
 
 class LogMonitor(threading.Thread):
     def __init__(self, interval=100):
