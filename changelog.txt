@@ -1,3 +1,6 @@
+v0.9.7 (2016-02-03)
+- Watchdog startup file change detection added. Several bugs corrected.
+
 v0.9.6 (2016-01-31)
 - Publisher and Subscriber Factories. Readied for offical repo submission.
 

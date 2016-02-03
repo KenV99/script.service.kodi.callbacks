@@ -28,6 +28,13 @@ from resources.lib.kodilogging import KodiLogger
 klogger = KodiLogger()
 log = klogger.log
 
+try:
+    addonid = xbmcaddon.Addon().getAddonInfo('id')
+except:
+    addonid = 'script.service.kodi.callbacks'
+if addonid == '':
+     addonid = 'script.service.kodi.callbacks'
+
 class KodiPo(object):
 
     _instance = None
@@ -48,7 +55,7 @@ class KodiPo(object):
         except Exception:
             isStub = False
         if isStub is False:
-            cls.pofn =  os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), r'resources\language\English\strings.po')
+            cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path'), r'resources\language\English\strings.po')
         else:
             cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
         cls.podict = PoDict()
@@ -65,7 +72,14 @@ class KodiPo(object):
         if idFound:
             if self.podict.savethread.is_alive():
                 self.podict.savethread.join()
-            return xbmcaddon.Addon().getLocalizedString(int(strid))
+            try:
+                ret = xbmcaddon.Addon(addonid).getLocalizedString(int(strid))
+            except Exception as e:
+                log(msg=_('Localized string not found for: [%s]') % strToId)
+                ret = strToId
+            if ret == u'':
+                ret = strToId
+            return ret
         else:
             if update is True or self.updateAlways is True:
 
@@ -86,7 +100,7 @@ class KodiPo(object):
                 return strid
             else:
                 log(msg=_('Localized string not found for: [%s]') % strToId)
-                return 'String not found'
+                return 32168
 
     def updatePo(self, strid, txt):
         self.podict.addentry(strid, txt)
@@ -155,14 +169,18 @@ class PoDict(object):
                 line = poin[i]
                 if line[0:7] == 'msgctxt':
                     t = re.findall(r'".+"', line)
-                    str_msgctxt = t[0][2:7]
-                    i += 1
-                    line2 = poin[i]
-                    str_msgid = self.remsgid.findall(line2)[0]
-                    self.dict_msgctxt[str_msgctxt] = str_msgid
-                    self.dict_msgid[str_msgid] = str_msgctxt
-                    self.chkdict[str_msgctxt] = False
+                    if not t[0].startswith('"Addon'):
+                        str_msgctxt = t[0][2:7]
+                        i += 1
+                        line2 = poin[i]
+                        str_msgid = self.remsgid.findall(line2)[0]
+                        self.dict_msgctxt[str_msgctxt] = str_msgid
+                        self.dict_msgid[str_msgid] = str_msgctxt
+                        self.chkdict[str_msgctxt] = False
+                    else:
+                        i += 1
                 i += 1
+        pass
 
     def write_to_file(self, url):
         if self.savethread is not None:
@@ -180,13 +198,24 @@ class PoDict(object):
         PoDict.write_po_header(fo)
         str_max = max(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
         str_min = min(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
+
+        fo.write('msgctxt "Addon Summary"\n')
+        fo.write('msgid "Callbacks for Kodi"\n')
+        fo.write('msgstr ""\n\n')
+        fo.write('msgctxt "Addon Description"\n')
+        fo.write('msgid "Provides user definable actions for specific events within Kodi. Credit to Yesudeep Mangalapilly (gorakhargosh on github) and contributors for watchdog and pathtools modules."\n')
+        fo.write('msgstr ""\n\n')
+        fo.write('msgctxt "Addon Disclaimer"\n')
+        fo.write('msgid "For bugs, requests or general questions visit the Kodi forums."\n')
+        fo.write('msgstr ""\n\n')
         fo.write('#Add-on messages id=%s to %s\n\n' % (str_min, str_max))
         last = int(str_min) - 1
         for str_msgctxt in sorted(dict_msgctxt):
-            if int(str_msgctxt) != last + 1:
-                fo.write('#empty strings from id %s to %s\n\n' % (str(last + 1), str(int(str_msgctxt) - 1)))
-            PoDict.write_to_po(fo, str_msgctxt, PoDict.format_string_forpo(dict_msgctxt[str_msgctxt]))
-            last = int(str_msgctxt)
+            if not str_msgctxt.startswith('Addon'):
+                if int(str_msgctxt) != last + 1:
+                    fo.write('#empty strings from id %s to %s\n\n' % (str(last + 1), str(int(str_msgctxt) - 1)))
+                PoDict.write_to_po(fo, str_msgctxt, PoDict.format_string_forpo(dict_msgctxt[str_msgctxt]))
+                last = int(str_msgctxt)
         fo.close()
 
     @staticmethod

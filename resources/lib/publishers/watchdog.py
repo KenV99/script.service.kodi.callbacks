@@ -25,12 +25,12 @@ from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
 
 libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib')
-if libs[:3] != 'C:\\':
-    libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script/service.kodi.callbacks\\' + libs
+if libs.startswith('resources'):
+    libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\' + libs
 sys.path.append(libs)
 
 libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'watchdog')
-if libs[:3] != 'C:\\':
+if libs.startswith('resources'):
     libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\' + libs
 sys.path.append(libs)
 

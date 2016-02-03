@@ -23,7 +23,7 @@ _ = kodipo.getLocalizedStringId
 
 
 def requires_subtopic():
-    return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'afterIdle', 'onWindowOpen', 'onWindowClose', 'onNotification']
+    return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'afterIdle', 'onWindowOpen', 'onWindowClose', 'onNotification', 'onFileSystemChange', 'onStartupFileChanges']
 
 
 class Events(object):
@@ -217,7 +217,16 @@ class Events(object):
             'optArgs':['path', 'event'],
             'varArgs':{'%pa':'path', '%ev':'event'},
             'expArgs':{'path':'C:\\Users\\User\\text.txt', 'event':'deleted' }
-        },
+        }
+    }
+    WatchdogStartup = {
+        'onStartupFileChanges':{
+            'text':'on File System Change at Startup',
+            'reqInfo':[('ws_folder','folder', ''), ('ws_patterns', 'text', ''), ('ws_ignore_patterns', 'text', ''),('ws_ignore_directories', 'bool', 'false'),('ws_recursive','bool', 'false')],
+            'optArgs':['listOfChanges'],
+            'varArgs':{'%li':'listOfChanges'},
+            'expArgs':{'listOfChanges': str({'FilesDeleted':['C:\\Users\\User\\text.txt'], 'FilesCreated': ['C:\\movies\\Fargo.mp4']})}
+        }
     }
 
     def __init__(self):
@@ -233,7 +242,7 @@ class Events(object):
 
     @staticmethod
     def _AllEvents():
-        return Events.mergedicts(Events.Player, Events.Monitor, Events.CustomLoop, Events.Basic, Events.Log, Events.Watchdog)
+        return Events.mergedicts(Events.Player, Events.Monitor, Events.CustomLoop, Events.Basic, Events.Log, Events.Watchdog, Events.WatchdogStartup)
 
     @staticmethod
     def _AllEventsSimple():

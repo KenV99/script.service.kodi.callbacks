@@ -23,6 +23,7 @@ import xbmcaddon
 import os
 from resources.lib.utils.poutil import KodiPo, PoDict
 kodipo = KodiPo()
+kodipo.updateAlways = True
 _ = kodipo.getLocalizedStringId
 kl = KodiLogger()
 log = kl.log

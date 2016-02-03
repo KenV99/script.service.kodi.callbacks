@@ -196,6 +196,10 @@ class Settings(object):
         evts = self.getEventsByType('onFileSystemChange')
         return evts
 
+    def getWatchdogStartupSettings(self):
+        evts = self.getEventsByType('onStartupFileChanges')
+        return evts
+
     def topicFromSettingsEvent(self, key):
         top = self.events[key]['type']
         if top in requires_subtopic():

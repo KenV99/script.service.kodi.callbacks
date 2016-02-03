@@ -17,20 +17,22 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #   MEANT TO BE RUN USING NOSE
-#
+
+import xbmc
 import os
 from resources.lib.publishers.log import LogPublisher
 import resources.lib.publishers.loop as loop
 import resources.lib.publishers.log as log
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.watchdog import WatchdogPublisher
+from resources.lib.publishers.watchdogStartup import WatchdogStartup
 from resources.lib.pubsub import Dispatcher, Subscriber, Message, Topic
 from resources.lib.settings import Settings
-import xbmc
 from flexmock import flexmock
 import Queue
 import threading
 import time
+q = Queue.Queue
 
 def printlog(msg, loglevel=0):
     print msg
@@ -47,6 +49,66 @@ class testSubscriber(Subscriber):
 
     def notify(self, message):
         self.testq.put(message)
+
+class testWatchdogStartup(object):
+    def __init__(self):
+        self.publisher=None
+        self.dispatcher=None
+        self.subscriber=None
+        self.topic=None
+        self.folder=None
+
+    def setup(self):
+        self.folder = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\'
+        watchdogStartupSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
+                            'recursive':False, 'key':'E1'}]
+        self.dispatcher = Dispatcher()
+        self.subscriber = testSubscriber()
+        self.topic = Topic('onStartupFileChanges','E1')
+        self.subscriber.addTopic(self.topic)
+        self.dispatcher.addSubscriber(self.subscriber)
+        settings = Settings()
+        flexmock(settings, getWatchdogStartupSettings=watchdogStartupSettings)
+        self.publisher = WatchdogStartup(self.dispatcher, settings)
+        self.publisher.pickle = r'C:\Users\Ken User\AppData\Roaming\Kodi\userdata\addon_data\script.service.kodi.callbacks\\watchdog.pkl'
+        self.dispatcher.start()
+
+    def teardown(self):
+        self.publisher.abort()
+        self.dispatcher.abort()
+        del self.publisher
+        del self.dispatcher
+
+    def testWatchdogPublisherCreate(self):
+        fn = '%s%s' %(self.folder,'test.txt')
+        if os.path.exists(fn):
+            os.remove(fn)
+        self.publisher.start()
+        self.publisher.abort()
+        time.sleep(1)
+        self.subscriber.testq=Queue.Queue()
+        with open(fn, 'w') as f:
+            f.writelines('test')
+        time.sleep(0.5)
+        self.publisher.start()
+        time.sleep(2)
+        self.publisher.abort()
+        self.dispatcher.abort()
+        os.remove(fn)
+        messages = []
+        while not self.subscriber.testq.empty():
+            try:
+                message = self.subscriber.testq.get(timeout=0.5)
+            except Exception:
+                message = None
+            if message is not None:
+                messages.append(message)
+        assert isinstance(messages[0], Message)
+        assert messages[0].topic == self.topic
+        tmp = messages[0].kwargs['listOfChanges']
+        assert 'FilesCreated' in tmp.keys()
+        assert [fn] in tmp.values()
+
 
 class testWatchdog(object):
     def __init__(self):
@@ -69,6 +131,7 @@ class testWatchdog(object):
         flexmock(settings, getWatchdogSettings=watchdogSettings)
         self.publisher = WatchdogPublisher(self.dispatcher, settings)
         self.dispatcher.start()
+
     def teardown(self):
         self.publisher.abort()
         self.dispatcher.abort()
@@ -445,3 +508,11 @@ class testLog(object):
         for topic in self.topics:
             assert topic in msgtopics
 
+if __name__ == '__main__':
+    t = testWatchdog()
+    t.setup()
+    try:
+        t.testWatchdogPublisherCreate()
+    except Exception as e:
+        pass
+    t.teardown()

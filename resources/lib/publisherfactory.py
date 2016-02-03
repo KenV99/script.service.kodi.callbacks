@@ -25,6 +25,10 @@ try:
     from resources.lib.publishers.watchdog import WatchdogPublisher
 except ImportError:
     from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
+try:
+    from resources.lib.publishers.watchdogStartup import WatchdogStartup
+except ImportError:
+    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogStartup
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.utils.poutil import KodiPo
 
@@ -45,7 +49,8 @@ class PublisherFactory(object):
                            LoopPublisher:'Loop Publisher initialized',
                            MonitorPublisher:'Monitor Publisher initialized',
                            PlayerPublisher:'Player Publisher initialized',
-                           WatchdogPublisher:'Watchdog Publisher initialized'
+                           WatchdogPublisher:'Watchdog Publisher initialized',
+                           WatchdogStartup:'Watchdog Startup Publisher initialized'
                            }
         self.ipublishers = []
 
