@@ -65,7 +65,7 @@ class WatchdogStartup(Publisher):
 
     def __init__(self, dispatcher, settings):
         super(WatchdogStartup, self).__init__(dispatcher)
-        self.pickle = xbmc.translatePath(r'special://profile\addon_data\script.service.kodi.callbacks\watchdog.pkl')
+        self.pickle = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks/watchdog.pkl')
         self.settings = settings.getWatchdogStartupSettings()
 
     def start(self):
@@ -144,7 +144,7 @@ class WatchdogStartup(Publisher):
 
 
 def clearPickle():
-    path = xbmc.translatePath(r'special://profile\addon_data\script.service.kodi.callbacks\watchdog.pkl')
+    path = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks/watchdog.pkl')
     if os.path.exists(path):
         try:
             os.remove(path)

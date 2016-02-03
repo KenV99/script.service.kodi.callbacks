@@ -29,9 +29,9 @@ kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
 if  os.uname()[4].startswith('arm'):
-    logfn = xbmc.translatePath(r'special://home\temp\Kodi.log')
+    logfn = xbmc.translatePath(r'special://home/temp/Kodi.log')
 else:
-    logfn = xbmc.translatePath(r'special://home\Kodi.log')
+    logfn = xbmc.translatePath(r'special://home/Kodi.log')
 
 class LogMonitor(threading.Thread):
     def __init__(self, interval=100):
