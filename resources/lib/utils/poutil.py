@@ -30,7 +30,7 @@ log = klogger.log
 
 try:
     addonid = xbmcaddon.Addon().getAddonInfo('id')
-except:
+except Exception:
     addonid = 'script.service.kodi.callbacks'
 if addonid == '':
      addonid = 'script.service.kodi.callbacks'
@@ -74,10 +74,10 @@ class KodiPo(object):
                 self.podict.savethread.join()
             try:
                 ret = xbmcaddon.Addon(addonid).getLocalizedString(int(strid))
-            except Exception as e:
+            except Exception:
                 log(msg=_('Localized string not found for: [%s]') % strToId)
                 ret = strToId
-            if ret == u'':
+            if ret == u'': # Occurs with stub
                 ret = strToId
             return ret
         else:
@@ -180,7 +180,6 @@ class PoDict(object):
                     else:
                         i += 1
                 i += 1
-        pass
 
     def write_to_file(self, url):
         if self.savethread is not None:

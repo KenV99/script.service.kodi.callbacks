@@ -97,13 +97,14 @@ class WatchdogStartup(Publisher):
                             for change in changes:
                                 eh.dispatch(change)
                             observer.unschedule_all()
-                        except Exception as e:
+                        except Exception:
                             raise
                         if len(eh.data) > 0:
                             message = Message(Topic('onStartupFileChanges', setting['key']), listOfChanges=eh.data)
                             self.publish(message)
             else:
-                pass  # Need to log error here
+                message = Message(Topic('onStartupFileChanges', setting['key']), listOfChanges=[{'DirsDeleted':folder}])
+                self.publish(message)
 
     @staticmethod
     def getChangesFromDiff(diff):
@@ -123,12 +124,13 @@ class WatchdogStartup(Publisher):
                     ret.append(evt)
         return ret
 
-    def abort(self, arg):
+    def abort(self, arg=None):
         snapshots = {}
         for setting in self.settings:
-            snapshot = DirectorySnapshot(setting['ws_folder'], recursive=setting['ws_recursive'])
-            key = setting['ws_folder']
-            snapshots[key] = snapshot
+            folder = setting['ws_folder']
+            if os.path.exists(folder):
+                snapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
+                snapshots[folder] = snapshot
         try:
             with open(self.pickle, 'w') as f:
                 pickle.dump(snapshots, f)
