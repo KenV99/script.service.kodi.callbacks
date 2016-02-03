@@ -16,7 +16,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-from resources.lib.tests.stubs import *
+# from resources.lib.tests.stubs import *
+import xbmcaddon
 from flexmock import flexmock
 import resources.lib.utils.poutil as poutil
 from resources.lib.utils.poutil import KodiPo
@@ -55,18 +56,10 @@ def testPoFileUpdate():
     up =  poutil.UpdatePo(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks',
                    r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po',
                    [r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\watchdog',
+                    r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\pathtools',
+                    r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\helpers',
                     r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\tests\stubs'])
     assert isinstance(up, poutil.UpdatePo)
-    for i in xrange(1, 11):
-        t = 'Task %s' % str(i)
-        found, strid = up.podict.has_msgid(t)
-        if found is False:
-            up.podict.addentry(strid, t)
-    for i in xrange(1, 11):
-        t = 'Event %s' % str(i)
-        found, strid = up.podict.has_msgid(t)
-        if found is False:
-            up.podict.addentry(strid, t)
     up.updateStringsPo()
 
 

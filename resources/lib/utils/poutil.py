@@ -75,7 +75,7 @@ class KodiPo(object):
             try:
                 ret = xbmcaddon.Addon(addonid).getLocalizedString(int(strid))
             except Exception:
-                log(msg=_('Localized string not found for: [%s]') % strToId)
+                log(msg='Localized string not found for: [%s]' % str(strToId))
                 ret = strToId
             if ret == u'': # Occurs with stub
                 ret = strToId

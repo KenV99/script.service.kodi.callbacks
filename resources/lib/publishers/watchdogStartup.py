@@ -36,6 +36,12 @@ from resources.lib.watchdog.utils.dirsnapshot import DirectorySnapshot, Director
 from resources.lib.watchdog.observers import Observer
 from resources.lib.watchdog.events import PatternMatchingEventHandler, FileSystemEvent, EVENT_TYPE_CREATED, EVENT_TYPE_DELETED, EVENT_TYPE_MODIFIED, EVENT_TYPE_MOVED
 from resources.lib.pubsub import Publisher, Message, Topic
+from resources.lib.utils.poutil import KodiPo
+kodipo = KodiPo()
+_ = kodipo.getLocalizedString
+from resources.lib.kodilogging import KodiLogger
+klogger = KodiLogger()
+log = klogger.log
 
 
 class EventHandler(PatternMatchingEventHandler):
@@ -53,14 +59,6 @@ class EventHandler(PatternMatchingEventHandler):
             self.data[et].append(event.src_path)
         else:
             self.data[et] = [event.src_path]
-#
-# class StartupEvent(FileSystemEvent):
-#
-#     def __init__(self, folder, data):
-#         super(StartupEvent, self).__init__(folder)
-#         self.is_directory = True
-#         self.data = data
-
 
 class WatchdogStartup(Publisher):
     publishes = Events().WatchdogStartup.keys()
@@ -77,7 +75,9 @@ class WatchdogStartup(Publisher):
             with open(self.pickle, 'r') as f:
                 oldsnapshots = pickle.load(f)
         except OSError:
-            raise
+            log (msg=_('Watchdog Startup ould not load pickle'))
+        except pickle.UnpicklingError:
+            log (msg=_('Watchdog Startup unpickling error'))
         newsnapshots = {}
         for setting in self.settings:
             folder = setting['ws_folder']
@@ -104,6 +104,7 @@ class WatchdogStartup(Publisher):
                             self.publish(message)
             else:
                 message = Message(Topic('onStartupFileChanges', setting['key']), listOfChanges=[{'DirsDeleted':folder}])
+                log(msg=_('Watchdog Startup folder not found: %s') % folder)
                 self.publish(message)
 
     @staticmethod
@@ -114,7 +115,7 @@ class WatchdogStartup(Publisher):
         for event in events.keys():
             try:
                 mylist = diff.__getattribute__(event)
-            except Exception as e:
+            except Exception:
                 mylist = []
             if len(mylist) > 0:
                 for item in mylist:
@@ -134,8 +135,13 @@ class WatchdogStartup(Publisher):
         try:
             with open(self.pickle, 'w') as f:
                 pickle.dump(snapshots, f)
-        except Exception as e:
-            raise
+        except (pickle.PicklingError):
+            log(msg=_('Watchdog startup pickling error on exit'))
+        except OSError:
+            log(msg=_('Watchdog startup OSError on pickle attempt'))
+        else:
+            log(msg=_('Watchdog startup pickle saved'))
+
 
 def clearPickle():
     path = xbmc.translatePath(r'special://profile\addon_data\script.service.kodi.callbacks\watchdog.pkl')
@@ -143,4 +149,4 @@ def clearPickle():
         try:
             os.remove(path)
         except OSError:
-            raise
+            log(msg=_('Watchdog startup could not clear pickle'))
