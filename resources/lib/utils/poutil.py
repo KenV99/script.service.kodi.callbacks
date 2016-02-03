@@ -83,10 +83,10 @@ class KodiPo(object):
         else:
             if update is True or self.updateAlways is True:
 
-                log(msg=_('Localized string added to po for: [%s]') % strToId)
+                log(msg='Localized string added to po for: [%s]' % strToId)
                 self.updatePo(strid, strToId)
             else:
-                log(msg=_('Localized string id not found for: [%s]') % strToId)
+                log(msg='Localized string id not found for: [%s]' % strToId)
             return strToId
 
     def getLocalizedStringId(self, strToId, update=False):
@@ -96,10 +96,10 @@ class KodiPo(object):
         else:
             if update is True or self.updateAlways is True:
                 self.updatePo(strid, strToId)
-                log(msg=_('Localized string added to po for: [%s]') % strToId)
+                log(msg='Localized string added to po for: [%s]' % strToId)
                 return strid
             else:
-                log(msg=_('Localized string not found for: [%s]') % strToId)
+                log(msg='Localized string not found for: [%s]' % strToId)
                 return 32168
 
     def updatePo(self, strid, txt):

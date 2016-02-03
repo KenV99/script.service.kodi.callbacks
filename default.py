@@ -17,7 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-debug = False  # TODO: check
+debug = True  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 

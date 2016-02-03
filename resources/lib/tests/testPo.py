@@ -17,7 +17,7 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # from resources.lib.tests.stubs import *
-import xbmcaddon
+# import xbmcaddon
 from flexmock import flexmock
 import resources.lib.utils.poutil as poutil
 from resources.lib.utils.poutil import KodiPo
@@ -61,6 +61,14 @@ def testPoFileUpdate():
                     r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\tests\stubs'])
     assert isinstance(up, poutil.UpdatePo)
     up.updateStringsPo()
+
+def moclog(msg=None):
+    print msg
+
+def testPoFailure():
+    flexmock(poutil.klogger, log=moclog)
+    test = _('Non existent string')
+
 
 
 
