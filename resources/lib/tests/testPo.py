@@ -68,6 +68,7 @@ def moclog(msg=None):
 def testPoFailure():
     flexmock(poutil.klogger, log=moclog)
     test = _('Non existent string')
+    assert test == 'Non existent string'
 
 
 

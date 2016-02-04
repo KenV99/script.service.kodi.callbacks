@@ -110,6 +110,7 @@ class testTasks(object):
             testfile = 'tstScript.sh'
         taskKwargs = {'scriptfile':os.path.join(testdir, testfile),
                       'use_shell':False, 'type':'script', 'waitForCompletion': True, 'notify':False}
+        self.task.validate(taskKwargs)
         userargs = 'abc def:ghi'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
         tm.returnHandler = self.returnHandler
