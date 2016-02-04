@@ -178,12 +178,12 @@ class Player(xbmc.Player):
 
     def onPlayBackPaused(self):
         topic = Topic('onPlayBackPaused')
-        kwargs = {'time':str(self.getTime())}
+        kwargs = {'time':str(self.getTime()), 'mediaType':self.playingType}
         self.publish(Message(topic, **kwargs))
 
     def onPlayBackResumed(self):
         topic = Topic('onPlayBackResumed')
-        kwargs = {}
+        kwargs = {'mediaType':self.playingType}
         self.publish(Message(topic, **kwargs))
 
     def onPlayBackSeek(self, time, seekOffset):

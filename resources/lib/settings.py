@@ -132,7 +132,7 @@ class Settings(object):
         for evtkey in self.events.keys():
             evt = self.events[evtkey]
             if evt['type'] == 'onWindowOpen':
-                ret[evt['windowIdO']] = evt['eventId']
+                ret[evt['windowIdO']] = evt['key']
         return ret
 
     def getClosewindowids(self):
@@ -140,7 +140,7 @@ class Settings(object):
         for evtkey in self.events.keys():
             evt = self.events[evtkey]
             if evt['type'] == 'onWindowClose':
-                ret[evt['windowIdC']] = evt['eventId']
+                ret[evt['windowIdC']] = evt['key']
         return ret
 
     def getEventsByType(self, eventType):
@@ -171,7 +171,7 @@ class Settings(object):
         ret = []
         dic = {}
         for evt in jsonEvts:
-            dic['eventId'] = evt['eventId']
+            dic['eventId'] = evt['key']
             dic['sender'] = evt['reqInfo']['sender']
             dic['method'] = evt['regInfo']['method']
             dic['data'] = evt['reqInfo']['data']
@@ -182,14 +182,14 @@ class Settings(object):
         evts = self.getEventsByType('onLogSimple')
         ret = []
         for evt in evts:
-            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['eventId']})
+            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['key']})
         return ret
 
     def getLogRegexes(self):
         evts = self.getEventsByType('onLogRegex')
         ret = []
         for evt in evts:
-            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['eventId']})
+            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['key']})
         return ret
 
     def getWatchdogSettings(self):

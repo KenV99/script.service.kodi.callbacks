@@ -47,14 +47,16 @@ class Events(object):
         'onPlayBackPaused':{
             'text':'on Playback Paused',
             'reqInfo':[],
-            'optArgs':['time'],
-            'varArgs':{'%ti':'time'},
-            'expArgs':{'time':'235.026016235'}
+            'optArgs':['time','mediaType'],
+            'varArgs':{'%ti':'time', '%mt':'mediaType'},
+            'expArgs':{'time':'235.026016235', 'mediaType':'movie'}
         },
         'onPlayBackResumed':{
             'text':'on Playback Resumed',
             'reqInfo':[],
-            'optArgs':[]
+            'optArgs':['mediaType'],
+            'varArgs':{'%mt':'mediaType'},
+            'expArgs':{'mediaType':'movie'}
         },
         'onPlayBackSeek':{
             'text':'on Playback Seek',
