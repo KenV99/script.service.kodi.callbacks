@@ -20,6 +20,7 @@
 import os
 import sys
 
+import xbmc
 import xbmcaddon
 from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
@@ -47,7 +48,7 @@ class EventHandler(PatternMatchingEventHandler):
         self.publish = publish
 
     def on_any_event(self, event):
-        msg = Message(self.topic, path=event._src_path, event=event.event_type)
+        msg = Message(self.topic, path=event.src_path, event=event.event_type)
         self.publish(msg)
 
 class WatchdogPublisher(Publisher):
@@ -69,7 +70,7 @@ class WatchdogPublisher(Publisher):
                             topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
             self.event_handlers.append(eh)
             observer = Observer()
-            observer.schedule(eh, setting['folder'], recursive=setting['recursive'])
+            observer.schedule(eh, xbmc.translatePath(setting['folder']).decode('utf-8'), recursive=setting['recursive'])
             self.observers.append(observer)
 
 

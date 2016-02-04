@@ -77,14 +77,21 @@ def generate_settingsxml(fn=None):
         for i1, key in enumerate(sorted(taskdict.keys())):
             for var in taskdict[key]['variables']:
                 varset = var['settings']
+                if varset['type'] == 'sfile':
+                    mytype = 'file'
+                else:
+                    mytype = varset['type']
                 try:
                     option = varset['option']
                 except KeyError:
                     output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' %
-                                  (varset['default'], prefix, var['id'], varset['label'], varset['type'], getoffset(idx,output), i1+1))
+                                  (varset['default'], prefix, var['id'], varset['label'], mytype, getoffset(idx,output), i1+1))
                 else:
                     output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" option="%s" visible="eq(%s,%s)" />\n' %
-                                  (varset['default'], prefix, var['id'], varset['label'], varset['type'], option, getoffset(idx,output), i1+1))
+                                  (varset['default'], prefix, var['id'], varset['label'], mytype, option, getoffset(idx,output), i1+1))
+                if varset['type'] == 'sfile':
+                    output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' %
+                                  (varset['default'], prefix, var['id'], varset['label'], 'text', getoffset(idx,output), i1+1))
 
     output.append('  </category>\n\n')
     output.append('  <category label="%s">\n' % _('Events'))
@@ -103,7 +110,13 @@ def generate_settingsxml(fn=None):
                 r1 = req[1]
                 if r1 in ['float', 'int']:
                     r1 = 'number'
-                output.append(ssp + 'default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' % (req[2], prefix, req[0], kodipo.getLocalizedStringId(req[0]), r1, getoffset(idx,output), evt['text'] ))
+                if r1 == 'sfolder':
+                    mytype = 'folder'
+                else:
+                    mytype = r1
+                output.append(ssp + 'default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' % (req[2], prefix, req[0], kodipo.getLocalizedStringId(req[0]), mytype, getoffset(idx,output), evt['text'] ))
+                if r1 == 'sfolder':
+                    output.append(ssp + 'default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' % (req[2], prefix, req[0], kodipo.getLocalizedStringId(req[0]), 'text', getoffset(idx,output), evt['text'] ))
             output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (_('Hint - variables can be subbed (%%=%, _%=space, _%%=,): '), getoffset(idx,output), evt['text']))
             try:
                 vargs = evt['varArgs']

@@ -32,7 +32,7 @@ log = kl.log
 
 def get(settingid, var_type):
     t = xbmcaddon.Addon(addonid).getSetting(settingid)
-    if var_type == 'text' or var_type == 'file' or var_type == 'folder':
+    if var_type == 'text' or var_type == 'file' or var_type == 'folder' or var_type == 'sfile' or var_type == 'sfolder':
         return t
     elif var_type == 'int':
         try:

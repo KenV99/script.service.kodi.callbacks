@@ -49,7 +49,9 @@ class SubscriberFactory(object):
     def createSubscribers(self, retHandler=returnHandler):
         subscribers = []
         for key in self.settings.events.keys():
-            subscribers.append(self.createSubscriber(key, retHandler))
+            subscriber = self.createSubscriber(key, retHandler)
+            if subscriber is not None:
+                subscribers.append(self.createSubscriber(key, retHandler))
         return subscribers
 
     def createSubscriber(self, eventkey, retHandler=returnHandler):

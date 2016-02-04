@@ -16,6 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
+
 import sys
 import os
 import xbmcaddon
@@ -80,7 +81,7 @@ class WatchdogStartup(Publisher):
             log (msg=_('Watchdog Startup unpickling error'))
         newsnapshots = {}
         for setting in self.settings:
-            folder = setting['ws_folder']
+            folder = xbmc.translatePath(setting['ws_folder']).decode('utf-8')
             if os.path.exists(folder):
                 newsnapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 newsnapshots[folder] = newsnapshot
@@ -128,14 +129,14 @@ class WatchdogStartup(Publisher):
     def abort(self, arg=None):
         snapshots = {}
         for setting in self.settings:
-            folder = setting['ws_folder']
+            folder = xbmc.translatePath(setting['ws_folder']).decode('utf-8')
             if os.path.exists(folder):
                 snapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 snapshots[folder] = snapshot
         try:
             with open(self.pickle, 'w') as f:
                 pickle.dump(snapshots, f)
-        except (pickle.PicklingError):
+        except pickle.PicklingError:
             log(msg=_('Watchdog startup pickling error on exit'))
         except OSError:
             log(msg=_('Watchdog startup OSError on pickle attempt'))

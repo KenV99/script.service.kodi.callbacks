@@ -20,6 +20,7 @@
 import sys
 import os
 import stat
+import shlex
 import subprocess
 import traceback
 from resources.lib.taskABC import AbstractTask, notify, KodiLogger
@@ -40,7 +41,7 @@ class TaskScript(AbstractTask):
             'settings':{
                 'default':'',
                 'label':__('Script executable file'),
-                'type':'file'
+                'type':'sfile'
             }
         },
         {
@@ -68,20 +69,18 @@ class TaskScript(AbstractTask):
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):
 
-        tmp = taskKwargs['scriptfile']
-        tmp = xbmc.translatePath(tmp).decode('utf-8')
-        if xbmcvfs.exists(tmp) or os.path.exists(tmp):
-            try:
-                mode = os.stat(tmp).st_mode
-                mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
-                os.chmod(tmp, mode)
-            except OSError:
-                if sysplat.startswith('win') is False:
-                    xlog(msg=_('Failed to set execute bit on script: %s') % tmp)
-            return True
-        else:
-            xlog(msg=_('Error - File not found: %s') % tmp)
-            return False
+        tmpl = shlex.split(taskKwargs['scriptfile'])
+        for tmp in tmpl:
+            tmp = xbmc.translatePath(tmp).decode('utf-8')
+            if xbmcvfs.exists(tmp) or os.path.exists(tmp):
+                try:
+                    mode = os.stat(tmp).st_mode
+                    mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+                    os.chmod(tmp, mode)
+                except OSError:
+                    if sysplat.startswith('win') is False:
+                        xlog(msg=_('Failed to set execute bit on script: %s') % tmp)
+        return True
 
     def run(self):
         if self.taskKwargs['notify'] is True:
@@ -94,16 +93,30 @@ class TaskScript(AbstractTask):
             wait = self.taskKwargs['waitForCompletion']
         except KeyError:
             wait = True
-        args = self.runtimeargs
-        basedir, fn = os.path.split(self.taskKwargs['scriptfile'])
+        # TODO: Fix this part
+        tmpl = shlex.split(self.taskKwargs['scriptfile'])
+        filefound = False
+        basedir = None
+        for i, tmp in enumerate(tmpl):
+            tmp = xbmc.translatePath(tmp).decode('utf-8')
+            tmp = os.path.expanduser(tmp)
+            tmp = os.path.expandvars(tmp)
+            if os.path.exists(tmp) and filefound is False:
+                basedir, fn = os.path.split(tmp)
+                tmpl[i] = fn
+                filefound = True
+            else:
+                tmpl[i] = tmp
+
         cwd = os.getcwd()
-        args.insert(0, fn)
+        args =tmpl + self.runtimeargs
         if needs_shell:
             args = ' '.join(args)
         err = False
         msg = ''
         try:
-            os.chdir(basedir)
+            if basedir is not None:
+                os.chdir(basedir)
             p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
             if wait:
                 stdoutdata, stderrdata = p.communicate()

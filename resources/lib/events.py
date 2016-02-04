@@ -215,7 +215,7 @@ class Events(object):
     Watchdog = {
         'onFileSystemChange':{
             'text':'on File System Change',
-            'reqInfo':[('folder','folder', ''), ('patterns', 'text', ''), ('ignore_patterns', 'text', ''),('ignore_directories', 'bool', 'false'),('recursive','bool', 'false')],
+            'reqInfo':[('folder','sfolder', ''), ('patterns', 'text', ''), ('ignore_patterns', 'text', ''),('ignore_directories', 'bool', 'false'),('recursive','bool', 'false')],
             'optArgs':['path', 'event'],
             'varArgs':{'%pa':'path', '%ev':'event'},
             'expArgs':{'path':'C:\\Users\\User\\text.txt', 'event':'deleted' }
@@ -224,7 +224,7 @@ class Events(object):
     WatchdogStartup = {
         'onStartupFileChanges':{
             'text':'on File System Change at Startup',
-            'reqInfo':[('ws_folder','folder', ''), ('ws_patterns', 'text', ''), ('ws_ignore_patterns', 'text', ''),('ws_ignore_directories', 'bool', 'false'),('ws_recursive','bool', 'false')],
+            'reqInfo':[('ws_folder','sfolder', ''), ('ws_patterns', 'text', ''), ('ws_ignore_patterns', 'text', ''),('ws_ignore_directories', 'bool', 'false'),('ws_recursive','bool', 'false')],
             'optArgs':['listOfChanges'],
             'varArgs':{'%li':'listOfChanges'},
             'expArgs':{'listOfChanges': str({'FilesDeleted':['C:\\Users\\User\\text.txt'], 'FilesCreated': ['C:\\movies\\Fargo.mp4']})}

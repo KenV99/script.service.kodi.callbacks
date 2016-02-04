@@ -1,3 +1,6 @@
+v0.9.7.1 (2016-02-04)
+- Android path fix. Added %mt for pause and resume. Changed settings to allow for special// paths.
+
 v0.9.7 (2016-02-03)
 - Watchdog startup file change detection added. Several bugs corrected.
 
