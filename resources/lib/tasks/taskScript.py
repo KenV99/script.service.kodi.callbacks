@@ -94,7 +94,6 @@ class TaskScript(AbstractTask):
             wait = self.taskKwargs['waitForCompletion']
         except KeyError:
             wait = True
-        # TODO: Fix this part
         tmpl = shlex.split(self.taskKwargs['scriptfile'])
         filefound = False
         basedir = None
@@ -108,13 +107,18 @@ class TaskScript(AbstractTask):
                 tmpl[i] = fn
                 filefound = True
                 if i == 0:
-                    if os.path.splitext(fn)[1] == 'sh':
+                    x = os.path.splitext(fn)[1]
+                    if os.path.splitext(fn)[1] == u'.sh':
                         if isAndroid:
                             sysexecutable = '/system/bin/sh'
                         elif not sysplat.startswith('win'):
                             sysexecutable = '/bin/bash'
             else:
                 tmpl[i] = tmp
+        if sysexecutable == '/system/bin/sh':
+            tmpl.insert(0, 'sh')
+        elif sysexecutable == '/bin/bash':
+            tmpl.insert(0, 'bash')
 
         cwd = os.getcwd()
         args =tmpl + self.runtimeargs
@@ -127,7 +131,7 @@ class TaskScript(AbstractTask):
             if basedir is not None:
                 os.chdir(basedir)
             if sysexecutable is not None:
-                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, executable=sysexecutable)
+                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, executable=sysexecutable, cwd=basedir)
             else:
                 p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
             if wait:

@@ -34,9 +34,9 @@ kl = KodiLogger()
 log = kl.log
 events = Events().AllEvents
 isAndroid = 'XBMC_ANDROID_SYSTEM_LIBS' in os.environ.keys()
-
-
 testdir = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
+import stat
+os.chmod(testdir, os.stat(testdir).st_mode| stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH | stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
 
 def is_xbmc_debug():
     json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'
@@ -177,6 +177,7 @@ class testTasks(object):
         taskKwargs = {'scriptfile':'"%s"' % os.path.join(testdir, testfile),
                       'use_shell':True, 'type':'script', 'waitForCompletion': True, 'notify':False}
         userargs = 'abc def:ghi'
+        self.task.validate(taskKwargs)
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
         tm.returnHandler = self.returnHandler
         topic = Topic('onPlaybackStarted')
@@ -262,7 +263,7 @@ class testTasks(object):
             try:
                 test()
             except AssertionError as e:
-                log(msg=_('Error: %s') % e.message)
+                log(msg=_('Error: %s') % str(e))
             except Exception as e:
                 msg = _('Error testing %s\n') % testname
                 e = sys.exc_info()[0]
