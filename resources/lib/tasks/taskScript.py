@@ -32,6 +32,7 @@ _ = kodipo.getLocalizedString
 __ = kodipo.getLocalizedStringId
 
 sysplat = sys.platform
+isAndroid = 'XBMC_ANDROID_SYSTEM_LIBS' in os.environ.keys()
 
 class TaskScript(AbstractTask):
     tasktype = 'script'
@@ -97,6 +98,7 @@ class TaskScript(AbstractTask):
         tmpl = shlex.split(self.taskKwargs['scriptfile'])
         filefound = False
         basedir = None
+        sysexecutable = None
         for i, tmp in enumerate(tmpl):
             tmp = xbmc.translatePath(tmp).decode('utf-8')
             tmp = os.path.expanduser(tmp)
@@ -105,6 +107,12 @@ class TaskScript(AbstractTask):
                 basedir, fn = os.path.split(tmp)
                 tmpl[i] = fn
                 filefound = True
+                if i == 0:
+                    if os.path.splitext(fn)[1] == 'sh':
+                        if isAndroid:
+                            sysexecutable = '/system/bin/sh'
+                        elif not sysplat.startswith('win'):
+                            sysexecutable = '/bin/bash'
             else:
                 tmpl[i] = tmp
 
@@ -118,7 +126,10 @@ class TaskScript(AbstractTask):
         try:
             if basedir is not None:
                 os.chdir(basedir)
-            p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
+            if sysexecutable is not None:
+                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, executable=sysexecutable)
+            else:
+                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
             if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:

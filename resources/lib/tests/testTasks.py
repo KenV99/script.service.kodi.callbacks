@@ -33,6 +33,7 @@ _ = kodipo.getLocalizedString
 kl = KodiLogger()
 log = kl.log
 events = Events().AllEvents
+isAndroid = 'XBMC_ANDROID_SYSTEM_LIBS' in os.environ.keys()
 
 
 testdir = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
@@ -238,6 +239,8 @@ class testTasks(object):
         tr = self.q.get(timeout=1)
         if tr.iserror is True:
             log(loglevel=xbmc.LOGERROR, msg=_('testPythonExternal returned with an error: %s') % tr.msg)
+        if isAndroid:
+            raise AssertionError('Cannot fully test pythonExternal on Android')
         try:
             retArgs = sys.modules['__builtin__'].__dict__['testReturn']
         except KeyError:
