@@ -51,6 +51,28 @@ def is_xbmc_debug():
                 else:
                     return False
 
+def getWebserverInfo():
+    json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'
+                                     ' {"filter":{"section":"services", "category":"webserver"}}}')
+    json_query = unicode(json_query, 'utf-8', errors='ignore')
+    json_response = json.loads(json_query)
+
+    if json_response.has_key('result') and json_response['result'].has_key('settings') and json_response['result']['settings'] is not None:
+        serverEnabled = False
+        serverPort = 8080
+        serverUser = ''
+        serverPassword = ''
+        for item in json_response['result']['settings']:
+            if item["id"] == u"services.webserver": #u'services.webserverport' u'services.webserver'
+                if item["value"] is True:
+                    serverEnabled = True
+            elif item["id"] == u'services.webserverport':
+                serverPort = item['value']
+            elif item['id'] == u'services.webserverusername':
+                serverUser = item['value']
+            elif item['id'] == u'services.webserverpassword':
+                serverPassword = item['value']
+        return  serverEnabled, serverPort, serverUser, serverPassword
 
 
 class testTasks(object):
@@ -59,24 +81,28 @@ class testTasks(object):
         self.q = Queue.Queue()
 
     def testHttp(self):
-        self.task = taskdict['http']['class']
-        taskKwargs = {'http':'http://localhost:9091/jsonrpc', 'user':'', 'pass':'', 'type':'http', 'notify':False}
-        userargs = '?request={"jsonrpc": "2.0", "id": 1, "method":"Application.Setmute", "params":{"mute":"toggle"}}'
-        tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
-        tm.returnHandler = self.returnHandler
-        topic = Topic('onPlaybackStarted')
-        runKwargs = events['onPlayBackStarted']['expArgs']
-        tm.start(topic, **runKwargs)
-        try:
-            tr = self.q.get(timeout=1)
-        except Queue.Empty:
-            raise Queue.Empty('testHttp never returned')
+        serverEnabled, serverPort, serverUser, serverPassword = getWebserverInfo()
+        if serverEnabled:
+            self.task = taskdict['http']['class']
+            taskKwargs = {'http':'http://localhost:%s/jsonrpc' % str(serverPort), 'user':serverUser, 'pass':serverPassword, 'type':'http', 'notify':False}
+            userargs = '?request={"jsonrpc": "2.0", "id": 1, "method":"Application.Setmute", "params":{"mute":"toggle"}}'
+            tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
+            tm.returnHandler = self.returnHandler
+            topic = Topic('onPlaybackStarted')
+            runKwargs = events['onPlayBackStarted']['expArgs']
+            tm.start(topic, **runKwargs)
+            try:
+                tr = self.q.get(timeout=1)
+            except Queue.Empty:
+                raise Queue.Empty('testHttp never returned')
+            else:
+                tm.start(topic, **runKwargs)  # Toggle Mute again
+            if tr.iserror is True:
+                log(loglevel=xbmc.LOGERROR, msg=_('testHttp returned with an error: %s') % tr.msg)
+            if tr.msg.startswith('{"id":1,"jsonrpc":"2.0","result":') is False:
+                raise AssertionError(_('Http test failed'))
         else:
-            tm.start(topic, **runKwargs)  # Toggle Mute again
-        if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg=_('testHttp returned with an error: %s') % tr.msg)
-        if tr.msg.startswith('{"id":1,"jsonrpc":"2.0","result":') is False:
-            raise AssertionError(_('Http test failed'))
+            raise AssertionError('Http test cannot be run because webserver not enabled')
 
     def returnHandler(self, taskReturn):
         self.q.put_nowait(taskReturn)
@@ -108,7 +134,7 @@ class testTasks(object):
             testfile = 'tstScript.bat'
         else:
             testfile = 'tstScript.sh'
-        taskKwargs = {'scriptfile':os.path.join(testdir, testfile),
+        taskKwargs = {'scriptfile':'"%s"' % os.path.join(testdir, testfile),
                       'use_shell':False, 'type':'script', 'waitForCompletion': True, 'notify':False}
         self.task.validate(taskKwargs)
         userargs = 'abc def:ghi'
@@ -117,20 +143,24 @@ class testTasks(object):
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
-        tr = self.q.get(timeout=1)
-        if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg=_('testScriptNoShell returned with an error: %s') % tr.msg)
         try:
-            with open(outfile, 'r') as f:
-                retArgs = f.readline()
-        except OSError:
-            retArgs = ''
-        try:
-            os.remove(outfile)
-        except OSError:
-            pass
-        if retArgs.strip('\n') != userargs:
-            raise AssertionError(_('Script without shell test failed'))
+            tr = self.q.get(timeout=2)
+        except Queue.Empty:
+            raise AssertionError('Timed out waiting for return')
+        else:
+            if tr.iserror is True:
+                log(loglevel=xbmc.LOGERROR, msg=_('testScriptNoShell returned with an error: %s') % tr.msg)
+            try:
+                with open(outfile, 'r') as f:
+                    retArgs = f.readline()
+            except OSError:
+                retArgs = ''
+            try:
+                os.remove(outfile)
+            except OSError:
+                pass
+            if retArgs.strip('\n') != userargs:
+                raise AssertionError(_('Script without shell test failed'))
 
     def testScriptShell(self):
         self.task = taskdict['script']['class']
@@ -143,7 +173,7 @@ class testTasks(object):
             testfile = 'tstScript.bat'
         else:
             testfile = 'tstScript.sh'
-        taskKwargs = {'scriptfile':os.path.join(testdir, testfile),
+        taskKwargs = {'scriptfile':'"%s"' % os.path.join(testdir, testfile),
                       'use_shell':True, 'type':'script', 'waitForCompletion': True, 'notify':False}
         userargs = 'abc def:ghi'
         tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
@@ -151,7 +181,10 @@ class testTasks(object):
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
-        tr = self.q.get(timeout=1)
+        try:
+            tr = self.q.get(timeout=2)
+        except Queue.Empty:
+            raise AssertionError('Timed out waiting for return')
         if tr.iserror is True:
             log(loglevel=xbmc.LOGERROR, msg=_('testScriptShell returned with an error: %s') % tr.msg)
         try:
@@ -222,6 +255,7 @@ class testTasks(object):
                  self.testPythonImport]
         for test in tests:
             testname = test.__name__
+            sys.exc_clear()
             try:
                 test()
             except AssertionError as e:

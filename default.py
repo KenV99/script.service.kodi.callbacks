@@ -209,22 +209,23 @@ if __name__ == '__main__':
             startdebugger()
         if sys.argv[1] == 'regen':
             from resources.lib.utils.xml_gen import generate_settingsxml
-
             generate_settingsxml()
         elif sys.argv[1] == 'test':
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             from resources.lib.tests.testTasks import testTasks
-
             tt = testTasks()
             tt.runTests()
             dialog = xbmcgui.Dialog()
             msg = _('Native Task Testing Complete - see log for results')
             dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
         else:
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             eventId = sys.argv[1]
             test(eventId)
     elif testTasks:
+        KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+        startdebugger()
         from resources.lib.tests.testTasks import testTasks
-
         tt = testTasks()
         tt.runTests()
     else:

@@ -114,6 +114,7 @@ class TaskScript(AbstractTask):
             args = ' '.join(args)
         err = False
         msg = ''
+        sys.exc_clear()
         try:
             if basedir is not None:
                 os.chdir(basedir)
