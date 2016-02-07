@@ -99,6 +99,11 @@ class TaskHttp(AbstractTask):
             notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         err = False
         msg = ''
+        if isinstance(self.runtimeargs, list):
+            if len(self.runtimeargs) > 0:
+                self.runtimeargs = ''.join(self.runtimeargs)
+            else:
+                self.runtimeargs = ''
         try:
             if self.taskKwargs['user'] != '' and self.taskKwargs['pass'] != '':
                 u = requests.get(self.taskKwargs['http']+self.runtimeargs, auth=(self.taskKwargs['user'], self.taskKwargs['pass']), timeout=20)
