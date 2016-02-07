@@ -67,17 +67,6 @@ class WatchdogStartup(Publisher):
 
     def __init__(self, dispatcher, settings):
         super(WatchdogStartup, self).__init__(dispatcher)
-        # dirpickle = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks')
-        # if dirpickle == u'':
-        #     if sys.platform.startswith('win'):
-        #         dirpickle = os.path.expandvars('%appdata%/Kodi/userdata/addon_data/script.service.kodi.callbacks')
-        #     else:
-        #         dirpickle = os.path.expanduser('~/.kodi/userdata/addon_data/script.service.kodi.callbacks')
-        # try:
-        #     os.chmod(dirpickle, os.stat(dirpickle).st_mode| stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
-        # except OSError:
-        #     pass
-        # self.pickle = os.path.join(dirpickle, 'watchdog.pkl')
         self.settings = settings.getWatchdogStartupSettings()
 
     def start(self):
