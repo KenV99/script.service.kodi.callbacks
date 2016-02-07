@@ -70,7 +70,12 @@ class WatchdogPublisher(Publisher):
                             topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
             self.event_handlers.append(eh)
             observer = Observer()
-            observer.schedule(eh, xbmc.translatePath(setting['folder']).decode('utf-8'), recursive=setting['recursive'])
+            folder = xbmc.translatePath(setting['folder']).decode('utf-8')
+            if folder == u'':
+                folder = setting['folder']
+            folder = os.path.expanduser(folder)
+            folder = os.path.expandvars(folder)
+            observer.schedule(eh, folder, recursive=setting['recursive'])
             self.observers.append(observer)
 
 

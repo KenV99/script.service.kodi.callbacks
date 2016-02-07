@@ -21,21 +21,24 @@ from resources.lib.publishers.log import LogPublisher
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
-try:
-    from resources.lib.publishers.watchdog import WatchdogPublisher
-except ImportError:
-    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
-try:
-    from resources.lib.publishers.watchdogStartup import WatchdogStartup
-except ImportError:
-    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogStartup
 from resources.lib.kodilogging import KodiLogger
-from resources.lib.utils.poutil import KodiPo
-
 kl = KodiLogger()
 log = kl.log
+from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
+try:
+    from resources.lib.publishers.watchdog import WatchdogPublisher
+except ImportError as e:
+    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogPublisher
+    log(msg=_('Error importing Watchdog: %s') % str(e), loglevel=KodiLogger.LOGERROR)
+try:
+    from resources.lib.publishers.watchdogStartup import WatchdogStartup
+except ImportError as e:
+    from resources.lib.publishers.dummy import WatchdogPublisherDummy as WatchdogStartup
+    log(msg=_('Error importing Watchdog: %s') % str(e), loglevel=KodiLogger.LOGERROR)
+
+
 
 class PublisherFactory(object):
 

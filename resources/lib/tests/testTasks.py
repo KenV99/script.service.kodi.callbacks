@@ -95,7 +95,7 @@ class testTasks(object):
             try:
                 tr = self.q.get(timeout=1)
             except Queue.Empty:
-                raise Queue.Empty('testHttp never returned')
+                raise Queue.Empty(_('testHttp never returned'))
             else:
                 tm.start(topic, **runKwargs)  # Toggle Mute again
             if tr.iserror is True:
@@ -147,7 +147,7 @@ class testTasks(object):
         try:
             tr = self.q.get(timeout=2)
         except Queue.Empty:
-            raise AssertionError('Timed out waiting for return')
+            raise AssertionError(_('Timed out waiting for return'))
         else:
             if tr.iserror is True:
                 log(loglevel=xbmc.LOGERROR, msg=_('testScriptNoShell returned with an error: %s') % tr.msg)
@@ -186,7 +186,7 @@ class testTasks(object):
         try:
             tr = self.q.get(timeout=2)
         except Queue.Empty:
-            raise AssertionError('Timed out waiting for return')
+            raise AssertionError(_('Timed out waiting for return'))
         if tr.iserror is True:
             log(loglevel=xbmc.LOGERROR, msg=_('testScriptShell returned with an error: %s') % tr.msg)
         try:
@@ -212,7 +212,10 @@ class testTasks(object):
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
-        tr = self.q.get(timeout=1)
+        try:
+            tr = self.q.get(timeout=1)
+        except Queue.Empty:
+            raise AssertionError(_('Timed out waiting for return'))
         if tr.iserror is True:
             log(loglevel=xbmc.LOGERROR, msg=_('testPythonImport returned with an error: %s') % tr.msg)
         try:
@@ -237,11 +240,14 @@ class testTasks(object):
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
         tm.start(topic, **runKwargs)
-        tr = self.q.get(timeout=1)
+        try:
+            tr = self.q.get(timeout=1)
+        except Queue.Empty:
+            raise AssertionError(_('Timed out waiting for return'))
         if tr.iserror is True:
             log(loglevel=xbmc.LOGERROR, msg=_('testPythonExternal returned with an error: %s') % tr.msg)
         if isAndroid:
-            raise AssertionError('Cannot fully test pythonExternal on Android')
+            raise AssertionError(_('Cannot fully test pythonExternal on Android'))
         try:
             retArgs = sys.modules['__builtin__'].__dict__['testReturn']
         except KeyError:
@@ -263,7 +269,7 @@ class testTasks(object):
             try:
                 test()
             except AssertionError as e:
-                log(msg=_('Error: %s') % str(e))
+                log(msg=_('Error testing %s: %s') % (testname, str(e)))
             except Exception as e:
                 msg = _('Error testing %s\n') % testname
                 e = sys.exc_info()[0]

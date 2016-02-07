@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32183
+#Add-on messages id=32001 to 32189
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -756,5 +756,29 @@ msgstr ""
 
 msgctxt "#32183"
 msgid "%mt=mediaType,%ti=time"
+msgstr ""
+
+msgctxt "#32184"
+msgid "Error importing Watchdog: %s"
+msgstr ""
+
+msgctxt "#32185"
+msgid "Non existent string"
+msgstr ""
+
+msgctxt "#32186"
+msgid "testHttp never returned"
+msgstr ""
+
+msgctxt "#32187"
+msgid "Timed out waiting for return"
+msgstr ""
+
+msgctxt "#32188"
+msgid "Cannot fully test pythonExternal on Android"
+msgstr ""
+
+msgctxt "#32189"
+msgid "Error testing %s: %s"
 msgstr ""
 

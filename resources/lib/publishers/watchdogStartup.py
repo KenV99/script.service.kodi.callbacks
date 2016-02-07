@@ -30,6 +30,7 @@ if libs.startswith('resources'):
     libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\' + libs
 sys.path.append(libs)
 
+import stat
 import pickle
 import xbmc
 from resources.lib.events import Events
@@ -66,22 +67,28 @@ class WatchdogStartup(Publisher):
 
     def __init__(self, dispatcher, settings):
         super(WatchdogStartup, self).__init__(dispatcher)
-        self.pickle = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks/watchdog.pkl')
+        # dirpickle = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks')
+        # if dirpickle == u'':
+        #     if sys.platform.startswith('win'):
+        #         dirpickle = os.path.expandvars('%appdata%/Kodi/userdata/addon_data/script.service.kodi.callbacks')
+        #     else:
+        #         dirpickle = os.path.expanduser('~/.kodi/userdata/addon_data/script.service.kodi.callbacks')
+        # try:
+        #     os.chmod(dirpickle, os.stat(dirpickle).st_mode| stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+        # except OSError:
+        #     pass
+        # self.pickle = os.path.join(dirpickle, 'watchdog.pkl')
         self.settings = settings.getWatchdogStartupSettings()
 
     def start(self):
-        if not os.path.exists(self.pickle):
-            return
-        try:
-            with open(self.pickle, 'r') as f:
-                oldsnapshots = pickle.load(f)
-        except OSError:
-            log (msg=_('Watchdog Startup ould not load pickle'))
-        except pickle.UnpicklingError:
-            log (msg=_('Watchdog Startup unpickling error'))
+        oldsnapshots = WatchdogStartup.getPickle()
         newsnapshots = {}
         for setting in self.settings:
             folder = xbmc.translatePath(setting['ws_folder']).decode('utf-8')
+            if folder == u'':
+                folder = setting['ws_folder']
+            folder = os.path.expanduser(folder)
+            folder = os.path.expandvars(folder)
             if os.path.exists(folder):
                 newsnapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 newsnapshots[folder] = newsnapshot
@@ -130,11 +137,18 @@ class WatchdogStartup(Publisher):
         snapshots = {}
         for setting in self.settings:
             folder = xbmc.translatePath(setting['ws_folder']).decode('utf-8')
+            if folder == u'':
+                folder = setting['ws_folder']
             if os.path.exists(folder):
                 snapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 snapshots[folder] = snapshot
+        WatchdogStartup.savePickle(snapshots)
+
+    @staticmethod
+    def savePickle(snapshots):
+        picklepath = WatchdogStartup.getPicklePath()
         try:
-            with open(self.pickle, 'w') as f:
+            with open(picklepath, 'w') as f:
                 pickle.dump(snapshots, f)
         except pickle.PicklingError:
             log(msg=_('Watchdog startup pickling error on exit'))
@@ -143,11 +157,41 @@ class WatchdogStartup(Publisher):
         else:
             log(msg=_('Watchdog startup pickle saved'))
 
+    @staticmethod
+    def clearPickle():
+        path = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks/watchdog.pkl')
+        if os.path.exists(path):
+            try:
+                os.remove(path)
+            except OSError:
+                log(msg=_('Watchdog startup could not clear pickle'))
 
-def clearPickle():
-    path = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks/watchdog.pkl')
-    if os.path.exists(path):
+    @staticmethod
+    def getPicklePath():
+        dirpickle = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks')
+        if dirpickle == u'':
+            if sys.platform.startswith('win'):
+                dirpickle = os.path.expandvars('%appdata%/Kodi/userdata/addon_data/script.service.kodi.callbacks')
+            else:
+                dirpickle = os.path.expanduser('~/.kodi/userdata/addon_data/script.service.kodi.callbacks')
         try:
-            os.remove(path)
+            os.chmod(dirpickle, os.stat(dirpickle).st_mode| stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
         except OSError:
-            log(msg=_('Watchdog startup could not clear pickle'))
+            pass
+        return os.path.join(dirpickle, 'watchdog.pkl')
+
+    @staticmethod
+    def getPickle():
+        picklepath = WatchdogStartup.getPicklePath()
+        if not os.path.exists(picklepath):
+            return
+        try:
+            with open(picklepath, 'r') as f:
+                oldsnapshots = pickle.load(f)
+        except OSError:
+            log (msg=_('Watchdog Startup ould not load pickle'))
+        except pickle.UnpicklingError:
+            log (msg=_('Watchdog Startup unpickling error'))
+        else:
+            return oldsnapshots
+

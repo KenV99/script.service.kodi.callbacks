@@ -20,6 +20,7 @@
 
 import xbmc
 import os
+import sys
 from resources.lib.publishers.log import LogPublisher
 import resources.lib.publishers.loop as loop
 import resources.lib.publishers.log as log
@@ -39,6 +40,7 @@ def printlog(msg, loglevel=0):
 
 flexmock(xbmc, log=printlog)
 
+
 def sleep(xtime):
     time.sleep(xtime/1000.0)
 
@@ -57,11 +59,16 @@ class testWatchdogStartup(object):
         self.subscriber=None
         self.topic=None
         self.folder=None
+        self.saveduserpickle = None
 
     def setup(self):
-        self.folder = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\'
-        watchdogStartupSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
-                            'recursive':False, 'key':'E1'}]
+        if sys.platform.startswith('win'):
+            self.folder = os.path.expandvars('%appdata%\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\')
+        else:
+            self.folder = os.path.expanduser('~/.kodi/addons/script.service.kodi.callbacks/resources/lib/tests')
+        watchdogStartupSettings = [{'ws_folder':self.folder, 'ws_patterns':'*', 'ws_ignore_patterns':'', 'ws_ignore_directories':True,
+                            'ws_recursive':False, 'key':'E1'}]
+        self.saveduserpickle = WatchdogStartup.getPickle()
         self.dispatcher = Dispatcher()
         self.subscriber = testSubscriber()
         self.topic = Topic('onStartupFileChanges','E1')
@@ -70,17 +77,17 @@ class testWatchdogStartup(object):
         settings = Settings()
         flexmock(settings, getWatchdogStartupSettings=watchdogStartupSettings)
         self.publisher = WatchdogStartup(self.dispatcher, settings)
-        self.publisher.pickle = r'C:\Users\Ken User\AppData\Roaming\Kodi\userdata\addon_data\script.service.kodi.callbacks\\watchdog.pkl'
         self.dispatcher.start()
 
     def teardown(self):
+        WatchdogStartup.savePickle(self.saveduserpickle)
         self.publisher.abort()
         self.dispatcher.abort()
         del self.publisher
         del self.dispatcher
 
     def testWatchdogPublisherCreate(self):
-        fn = '%s%s' %(self.folder,'test.txt')
+        fn = os.path.join(self.folder,'test.txt')
         if os.path.exists(fn):
             os.remove(fn)
         self.publisher.start()
@@ -89,7 +96,7 @@ class testWatchdogStartup(object):
         self.subscriber.testq=Queue.Queue()
         with open(fn, 'w') as f:
             f.writelines('test')
-        time.sleep(0.5)
+        time.sleep(1)
         self.publisher.start()
         time.sleep(2)
         self.publisher.abort()
@@ -98,8 +105,8 @@ class testWatchdogStartup(object):
         messages = []
         while not self.subscriber.testq.empty():
             try:
-                message = self.subscriber.testq.get(timeout=0.5)
-            except Exception:
+                message = self.subscriber.testq.get(timeout=1)
+            except Queue.Empty:
                 message = None
             if message is not None:
                 messages.append(message)
@@ -119,7 +126,10 @@ class testWatchdog(object):
         self.folder=None
 
     def setup(self):
-        self.folder = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\'
+        if sys.platform.startswith('win'):
+            self.folder = os.path.expandvars('%appdata%\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\')
+        else:
+            self.folder = os.path.expanduser('~/.kodi/addons/script.service.kodi.callbacks/resources/lib/tests')
         watchdogSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
                             'recursive':False, 'key':'E1'}]
         self.dispatcher = Dispatcher()
@@ -139,20 +149,20 @@ class testWatchdog(object):
         del self.dispatcher
 
     def testWatchdogPublisherCreate(self):
-        fn = '%s%s' %(self.folder,'test.txt')
+        fn = os.path.join(self.folder,'test.txt')
         if os.path.exists(fn):
             os.remove(fn)
         self.publisher.start()
         time.sleep(1)
         with open(fn, 'w') as f:
             f.writelines('test')
-        time.sleep(0.5)
+        time.sleep(1)
         self.publisher.abort()
         self.dispatcher.abort()
         os.remove(fn)
         try:
-            message = self.subscriber.testq.get(timeout=0.5)
-        except Exception:
+            message = self.subscriber.testq.get(timeout=1)
+        except Queue.Empty:
             message = None
         assert isinstance(message, Message)
         assert message.topic == self.topic
@@ -160,14 +170,14 @@ class testWatchdog(object):
         assert message.kwargs['event'] == 'created'
 
     def testWatchdogPublisherDelete(self):
-        fn = '%s%s' %(self.folder,'test.txt')
+        fn = os.path.join(self.folder,'test.txt')
         if os.path.exists(fn) is False:
             with open(fn, 'w') as f:
                 f.writelines('test')
         self.publisher.start()
         time.sleep(1)
         os.remove(fn)
-        time.sleep(0.5)
+        time.sleep(1)
         self.publisher.abort()
         self.dispatcher.abort()
         try:
@@ -180,7 +190,7 @@ class testWatchdog(object):
         assert message.kwargs['event'] == 'deleted'
 
     def testWatchdogPublisherModify(self):
-        fn = '%s%s' %(self.folder,'test.txt')
+        fn = os.path.join(self.folder,'test.txt')
         if os.path.exists(fn) is False:
             with open(fn, 'w') as f:
                 f.writelines('test')
@@ -188,7 +198,7 @@ class testWatchdog(object):
         time.sleep(1)
         with open(fn, 'a') as f:
             f.writelines('test2')
-        time.sleep(0.5)
+        time.sleep(1)
         self.publisher.abort()
         self.dispatcher.abort()
         try:

@@ -107,7 +107,6 @@ class TaskScript(AbstractTask):
                 tmpl[i] = fn
                 filefound = True
                 if i == 0:
-                    x = os.path.splitext(fn)[1]
                     if os.path.splitext(fn)[1] == u'.sh':
                         if isAndroid:
                             sysexecutable = '/system/bin/sh'
@@ -148,6 +147,9 @@ class TaskScript(AbstractTask):
                     stderrdata = str(stderrdata).strip()
                     if stderrdata != '':
                         msg += _('Process returned error: %s') % stdoutdata
+        except ValueError, e:
+            err = True
+            msg = str(e)
         except subprocess.CalledProcessError, e:
             err = True
             msg = e.output
