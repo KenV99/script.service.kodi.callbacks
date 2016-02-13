@@ -20,7 +20,6 @@
 
 import xbmc
 import os
-import sys
 from resources.lib.publishers.log import LogPublisher
 import resources.lib.publishers.loop as loop
 import resources.lib.publishers.log as log
@@ -29,6 +28,7 @@ from resources.lib.publishers.watchdog import WatchdogPublisher
 from resources.lib.publishers.watchdogStartup import WatchdogStartup
 from resources.lib.pubsub import Dispatcher, Subscriber, Message, Topic
 from resources.lib.settings import Settings
+from resources.lib.utils.kodipathtools import translatepath, setPathRW
 from flexmock import flexmock
 import Queue
 import threading
@@ -52,6 +52,18 @@ class testSubscriber(Subscriber):
     def notify(self, message):
         self.testq.put(message)
 
+    def retrieveMessages(self):
+        messages = []
+        while not self.testq.empty():
+            try:
+                message = self.testq.get(timeout=1)
+            except Queue.Empty:
+                pass
+            else:
+                messages.append(message)
+        return messages
+
+
 class testWatchdogStartup(object):
     def __init__(self):
         self.publisher=None
@@ -62,10 +74,7 @@ class testWatchdogStartup(object):
         self.saveduserpickle = None
 
     def setup(self):
-        if sys.platform.startswith('win'):
-            self.folder = os.path.expandvars('%appdata%\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\')
-        else:
-            self.folder = os.path.expanduser('~/.kodi/addons/script.service.kodi.callbacks/resources/lib/tests')
+        self.folder = translatepath('special://addon/resources/lib/tests')
         watchdogStartupSettings = [{'ws_folder':self.folder, 'ws_patterns':'*', 'ws_ignore_patterns':'', 'ws_ignore_directories':True,
                             'ws_recursive':False, 'key':'E1'}]
         self.saveduserpickle = WatchdogStartup.getPickle()
@@ -102,20 +111,18 @@ class testWatchdogStartup(object):
         self.publisher.abort()
         self.dispatcher.abort()
         os.remove(fn)
-        messages = []
-        while not self.subscriber.testq.empty():
-            try:
-                message = self.subscriber.testq.get(timeout=1)
-            except Queue.Empty:
-                message = None
-            if message is not None:
-                messages.append(message)
-        assert isinstance(messages[0], Message)
-        assert messages[0].topic == self.topic
-        tmp = messages[0].kwargs['listOfChanges']
-        assert 'FilesCreated' in tmp.keys()
-        assert [fn] in tmp.values()
-
+        messages = self.subscriber.retrieveMessages()
+        found = False
+        for message in messages:
+            assert isinstance(message, Message)
+            assert 'listOfChanges' in message.kwargs.keys()
+            tmp = message.kwargs['listOfChanges']
+            if 'FilesCreated' in tmp.keys() and [fn] in tmp.values():
+                found = True
+                assert message.topic == self.topic
+        assert found == True
+        if len(messages) > 1:
+            raise AssertionError('Warning: Too many messages found for Watchdog Startup Create')
 
 class testWatchdog(object):
     def __init__(self):
@@ -126,10 +133,8 @@ class testWatchdog(object):
         self.folder=None
 
     def setup(self):
-        if sys.platform.startswith('win'):
-            self.folder = os.path.expandvars('%appdata%\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\')
-        else:
-            self.folder = os.path.expanduser('~/.kodi/addons/script.service.kodi.callbacks/resources/lib/tests')
+        self.folder = translatepath('special://addon/resources/lib/tests')
+        setPathRW(self.folder)
         watchdogSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
                             'recursive':False, 'key':'E1'}]
         self.dispatcher = Dispatcher()
@@ -152,6 +157,7 @@ class testWatchdog(object):
         fn = os.path.join(self.folder,'test.txt')
         if os.path.exists(fn):
             os.remove(fn)
+        time.sleep(1)
         self.publisher.start()
         time.sleep(1)
         with open(fn, 'w') as f:
@@ -159,58 +165,83 @@ class testWatchdog(object):
         time.sleep(1)
         self.publisher.abort()
         self.dispatcher.abort()
+        time.sleep(1)
         os.remove(fn)
-        try:
-            message = self.subscriber.testq.get(timeout=1)
-        except Queue.Empty:
-            message = None
-        assert isinstance(message, Message)
-        assert message.topic == self.topic
-        assert message.kwargs['path'] == fn
-        assert message.kwargs['event'] == 'created'
+        messages = self.subscriber.retrieveMessages()
+        foundc = False
+        foundm = False
+        fmesgc = None
+        fmesgm = None
+        for message in messages:
+            assert isinstance(message, Message)
+            if message.kwargs['event'] == 'created':
+                foundc = True
+                fmesgc = message
+            elif message.kwargs['event'] == 'modified':
+                foundm = True
+                fmesgm = message
+        assert foundc is True
+        assert fmesgc.topic == self.topic
+        assert fmesgc.kwargs['path'] == fn
+        assert foundm is True
+        assert fmesgm.topic == self.topic
+        assert fmesgm.kwargs['path'] == fn
+        if len(messages) > 2:
+            raise AssertionError('Warning: Too many messages found for Watchdog Create')
 
     def testWatchdogPublisherDelete(self):
         fn = os.path.join(self.folder,'test.txt')
         if os.path.exists(fn) is False:
             with open(fn, 'w') as f:
                 f.writelines('test')
+        time.sleep(1)
         self.publisher.start()
-        time.sleep(1)
+        time.sleep(2)
         os.remove(fn)
-        time.sleep(1)
+        time.sleep(2)
         self.publisher.abort()
         self.dispatcher.abort()
-        try:
-            message = self.subscriber.testq.get(timeout=0.5)
-        except Exception:
-            message = None
-        assert isinstance(message, Message)
-        assert message.topic == self.topic
-        assert message.kwargs['path'] == fn
-        assert message.kwargs['event'] == 'deleted'
+        messages = self.subscriber.retrieveMessages()
+        found = False
+        fmesg = None
+        for message in messages:
+            assert isinstance(message, Message)
+            if message.kwargs['event'] == 'deleted':
+                found = True
+                fmesg = message
+        assert found is True
+        assert fmesg.topic == self.topic
+        assert fmesg.kwargs['path'] == fn
+        if len(messages) > 1:
+            raise AssertionError('Warning: Too many messages found for Watchdog Delete')
 
     def testWatchdogPublisherModify(self):
         fn = os.path.join(self.folder,'test.txt')
         if os.path.exists(fn) is False:
             with open(fn, 'w') as f:
                 f.writelines('test')
+        time.sleep(1)
         self.publisher.start()
         time.sleep(1)
         with open(fn, 'a') as f:
             f.writelines('test2')
-        time.sleep(1)
+        time.sleep(2)
         self.publisher.abort()
         self.dispatcher.abort()
-        try:
-            message =self. subscriber.testq.get(timeout=0.5)
-        except Exception:
-            message = None
-        finally:
-            os.remove(fn)
-        assert isinstance(message, Message)
-        assert message.topic == self.topic
-        assert message.kwargs['path'] == fn
-        assert message.kwargs['event'] == 'modified'
+        os.remove(fn)
+        messages = self.subscriber.retrieveMessages()
+        found = False
+        fmesg = None
+        for message in messages:
+            assert isinstance(message, Message)
+            if message.kwargs['event'] == 'modified':
+                found = True
+                fmesg = message
+        assert found is True
+        assert fmesg.topic == self.topic
+        assert fmesg.kwargs['path'] == fn
+        if len(messages) > 1:
+            raise AssertionError('Warning: Too many messages found for Watchdog Modify')
 
 class testLoop(object):
     def __init__(self):
@@ -284,13 +315,7 @@ class testLoop(object):
         time.sleep(7)
         self.publisher.abort()
         self.dispatcher.abort()
-        messages = []
-        try:
-            while self.subscriber.testq.empty() is False:
-                message = self.subscriber.testq.get(timeout=0.5)
-                messages.append(message)
-        except Queue.Empty:
-            messages = []
+        messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
             assert topic in msgtopics
@@ -308,13 +333,7 @@ class testLoop(object):
         time.sleep(5)
         self.publisher.abort()
         self.dispatcher.abort()
-        messages = []
-        try:
-            while self.subscriber.testq.empty() is False:
-                message = self.subscriber.testq.get(timeout=0.5)
-                messages.append(message)
-        except Queue.Empty:
-            messages = []
+        messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
             assert topic in msgtopics
@@ -332,13 +351,7 @@ class testLoop(object):
         time.sleep(5)
         self.publisher.abort()
         self.dispatcher.abort()
-        messages = []
-        try:
-            while self.subscriber.testq.empty() is False:
-                message = self.subscriber.testq.get(timeout=0.5)
-                messages.append(message)
-        except Queue.Empty:
-            messages = []
+        messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
             assert topic in msgtopics
@@ -356,13 +369,7 @@ class testLoop(object):
         time.sleep(5)
         self.publisher.abort()
         self.dispatcher.abort()
-        messages = []
-        try:
-            while self.subscriber.testq.empty() is False:
-                message = self.subscriber.testq.get(timeout=0.5)
-                messages.append(message)
-        except Queue.Empty:
-            messages = []
+        messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
             assert topic in msgtopics
@@ -379,32 +386,20 @@ class testLoop(object):
         time.sleep(5)
         self.publisher.abort()
         self.dispatcher.abort()
-        messages = []
-        try:
-            while self.subscriber.testq.empty() is False:
-                message = self.subscriber.testq.get(timeout=0.5)
-                messages.append(message)
-        except Queue.Empty:
-            messages = []
+        messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
             assert topic in msgtopics
 
-def logSimulate():
-    import random, string
-    fn = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\kodi.log'
-    randomstring = ''.join(random.choice(string.lowercase) for i in range(30))
-    targetstring = '%s%s%s' %(randomstring[:12],'kodi_callbacks',randomstring[20:])
-    for i in xrange(0,10):
-        with open(fn, 'a') as f:
-            if i == 5:
-                f.writelines(targetstring)
-            else:
-                f.writelines(randomstring)
-        time.sleep(0.25)
+
+
 
 class testLog(object):
-    fn = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\resources\\lib\\tests\\kodi.log'
+    path = translatepath('special://addondata')
+    if not os.path.exists(path):
+        os.mkdir(path)
+    setPathRW(path)
+    fn = translatepath('special://addondata/kodi.log')
 
     def __init__(self):
         self.publisher=None
@@ -468,13 +463,7 @@ class testLog(object):
             os.remove(testLog.fn)
         except OSError:
             pass
-        messages = []
-        try:
-            while self.subscriber.testq.empty() is False:
-                message = self.subscriber.testq.get(timeout=0.5)
-                messages.append(message)
-        except Queue.Empty:
-            messages = []
+        messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
             assert topic in msgtopics
@@ -507,13 +496,7 @@ class testLog(object):
             os.remove(testLog.fn)
         except OSError:
             pass
-        messages = []
-        try:
-            while self.subscriber.testq.empty() is False:
-                message = self.subscriber.testq.get(timeout=0.5)
-                messages.append(message)
-        except Queue.Empty:
-            messages = []
+        messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:
             assert topic in msgtopics

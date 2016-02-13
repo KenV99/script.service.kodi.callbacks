@@ -26,7 +26,8 @@ from resources.lib import taskdict
 from resources.lib.pubsub import Topic, TaskManager
 from resources.lib.events import Events
 from resources.lib.kodilogging import KodiLogger
-import xbmc, xbmcaddon
+from resources.lib.utils.kodipathtools import translatepath, setPathExecuteRW
+import xbmc
 from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
@@ -34,9 +35,9 @@ kl = KodiLogger()
 log = kl.log
 events = Events().AllEvents
 isAndroid = 'XBMC_ANDROID_SYSTEM_LIBS' in os.environ.keys()
-testdir = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
-import stat
-os.chmod(testdir, os.stat(testdir).st_mode| stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH | stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+testdir = translatepath('special://addon/resources/lib/tests')
+setPathExecuteRW(testdir)
+
 
 def is_xbmc_debug():
     json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'
@@ -64,7 +65,7 @@ def getWebserverInfo():
         serverUser = ''
         serverPassword = ''
         for item in json_response['result']['settings']:
-            if item["id"] == u"services.webserver": #u'services.webserverport' u'services.webserver'
+            if item["id"] == u"services.webserver":
                 if item["value"] is True:
                     serverEnabled = True
             elif item["id"] == u'services.webserverport':
@@ -129,7 +130,7 @@ class testTasks(object):
         outfile = os.path.join(testdir, 'scriptoutput.txt')
         try:
             os.remove(outfile)
-        except Exception:
+        except OSError:
             pass
         if sys.platform.startswith('win'):
             testfile = 'tstScript.bat'

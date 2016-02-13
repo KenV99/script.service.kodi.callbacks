@@ -18,20 +18,15 @@
 #
 
 import sys
-import os
-import xbmcaddon
-libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib')
-if libs.startswith('resources'):
-    libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\' + libs
-sys.path.append(libs)
-
-libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'watchdog')
-if libs.startswith('resources'):
-    libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\' + libs
-sys.path.append(libs)
-
-import stat
 import pickle
+import os
+import time
+from resources.lib.utils.kodipathtools import translatepath, setPathRW
+libs = translatepath('special://addon/resources/lib')
+sys.path.append(libs)
+libs = translatepath('special://addon/resources/lib/watchdog')
+sys.path.append(libs)
+
 import xbmc
 from resources.lib.events import Events
 from resources.lib.watchdog.utils.dirsnapshot import DirectorySnapshot, DirectorySnapshotDiff
@@ -73,11 +68,7 @@ class WatchdogStartup(Publisher):
         oldsnapshots = WatchdogStartup.getPickle()
         newsnapshots = {}
         for setting in self.settings:
-            folder = xbmc.translatePath(setting['ws_folder']).decode('utf-8')
-            if folder == u'':
-                folder = setting['ws_folder']
-            folder = os.path.expanduser(folder)
-            folder = os.path.expandvars(folder)
+            folder = translatepath(setting['ws_folder'])
             if os.path.exists(folder):
                 newsnapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 newsnapshots[folder] = newsnapshot
@@ -91,9 +82,14 @@ class WatchdogStartup(Publisher):
                         observer = Observer()
                         try:
                             observer.schedule(eh, folder, recursive=setting['ws_recursive'])
+                            time.sleep(0.25)
                             for change in changes:
                                 eh.dispatch(change)
-                            observer.unschedule_all()
+                                time.sleep(0.25)
+                            try:
+                                observer.unschedule_all()
+                            except Exception:
+                                pass
                         except Exception:
                             raise
                         if len(eh.data) > 0:
@@ -148,7 +144,7 @@ class WatchdogStartup(Publisher):
 
     @staticmethod
     def clearPickle():
-        path = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks/watchdog.pkl')
+        path = WatchdogStartup.getPicklePath()
         if os.path.exists(path):
             try:
                 os.remove(path)
@@ -157,17 +153,9 @@ class WatchdogStartup(Publisher):
 
     @staticmethod
     def getPicklePath():
-        dirpickle = xbmc.translatePath(r'special://profile/addon_data/script.service.kodi.callbacks')
-        if dirpickle == u'':
-            if sys.platform.startswith('win'):
-                dirpickle = os.path.expandvars('%appdata%/Kodi/userdata/addon_data/script.service.kodi.callbacks')
-            else:
-                dirpickle = os.path.expanduser('~/.kodi/userdata/addon_data/script.service.kodi.callbacks')
-        try:
-            os.chmod(dirpickle, os.stat(dirpickle).st_mode| stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
-        except OSError:
-            pass
-        return os.path.join(dirpickle, 'watchdog.pkl')
+        path = translatepath('special://addondata/watchdog.pkl')
+        setPathRW(path)
+        return path
 
     @staticmethod
     def getPickle():
@@ -178,7 +166,7 @@ class WatchdogStartup(Publisher):
             with open(picklepath, 'r') as f:
                 oldsnapshots = pickle.load(f)
         except OSError:
-            log (msg=_('Watchdog Startup ould not load pickle'))
+            log (msg=_('Watchdog Startup could not load pickle'))
         except pickle.UnpicklingError:
             log (msg=_('Watchdog Startup unpickling error'))
         else:

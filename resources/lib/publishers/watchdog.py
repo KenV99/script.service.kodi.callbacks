@@ -21,25 +21,22 @@ import os
 import sys
 
 import xbmc
-import xbmcaddon
 from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
-
-libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib')
-if libs.startswith('resources'):
-    libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\' + libs
-sys.path.append(libs)
-
-libs = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'watchdog')
-if libs.startswith('resources'):
-    libs = 'C:\\Users\\Ken User\\AppData\\Roaming\\Kodi\\addons\\script.service.kodi.callbacks\\' + libs
-sys.path.append(libs)
-
+from resources.lib.utils.kodipathtools import translatepath
 try:
-    from resources.lib.watchdog.observers import Observer
-    from resources.lib.watchdog.events import PatternMatchingEventHandler
-except ImportError as e:
-    raise
+    from watchdog.observers import Observer
+    from watchdog.events import PatternMatchingEventHandler
+except ImportError:
+    libs = translatepath('special://addon/resources/lib')
+    sys.path.append(libs)
+    libs = translatepath('special://addon/resources/lib/watchdog')
+    sys.path.append(libs)
+    try:
+        from resources.lib.watchdog.observers import Observer
+        from resources.lib.watchdog.events import PatternMatchingEventHandler
+    except ImportError:
+        raise
 
 class EventHandler(PatternMatchingEventHandler):
     def __init__(self, patterns, ignore_patterns, ignore_directories, topic, publish):
@@ -58,6 +55,7 @@ class WatchdogPublisher(Publisher):
         super(WatchdogPublisher, self).__init__(dispatcher)
         self.watchdogSettings = settings.getWatchdogSettings()
         self.event_handlers = []
+        self.observersettings = []
         self.observers = []
         self.initialize()
 
@@ -69,20 +67,18 @@ class WatchdogPublisher(Publisher):
                             ignore_directories=setting['ignore_directories'],
                             topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
             self.event_handlers.append(eh)
-            observer = Observer()
-            folder = xbmc.translatePath(setting['folder']).decode('utf-8')
-            if folder == u'':
-                folder = setting['folder']
-            folder = os.path.expanduser(folder)
-            folder = os.path.expandvars(folder)
-            observer.schedule(eh, folder, recursive=setting['recursive'])
-            self.observers.append(observer)
+            folder = translatepath(setting['folder'])
+            mysetting = [eh, folder, setting['recursive']]
+            self.observersettings.append(mysetting)
+
 
 
     def start(self):
-        for item in self.observers:
-            assert isinstance(item, Observer)
-            item.start()
+        for item in self.observersettings:
+            observer = Observer()
+            observer.schedule(item[0], item[1], recursive=item[2])
+            observer.start()
+            self.observers.append(observer)
 
     def abort(self, timeout=0):
         for item in self.observers:
