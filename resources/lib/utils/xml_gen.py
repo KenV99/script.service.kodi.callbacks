@@ -159,6 +159,10 @@ def generate_settingsxml(fn=None):
     output.append('    <setting id="regen" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, regen)" />\n' % _('Regenerate settings.xml'))
     output.append('    <setting id="test" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, test)" />\n' % _('Test addon native tasks (see log for output)'))
     output.append('  </category>\n')
+    output.append('  <category label="%s">\n' % _('Update'))
+    output.append('    <setting id="updatefromzip" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, updatefromzip)" />\n' % _('Update from downloaded zip'))
+    output.append('    <setting id="restorebackup" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, restorebackup)" />\n' % _('Restore from previous back up'))
+    output.append('  </category>\n')
     output.append('</settings>')
     output = "".join(output)
     if fn is None:

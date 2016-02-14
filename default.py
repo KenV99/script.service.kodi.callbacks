@@ -218,6 +218,25 @@ if __name__ == '__main__':
             dialog = xbmcgui.Dialog()
             msg = _('Native Task Testing Complete - see log for results')
             dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
+        elif sys.argv[1] == 'updatefromzip':
+            from resources.lib.utils.kodipathtools import translatepath
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+            dialog = xbmcgui.Dialog()
+            zipfn = dialog.browse(1, _('Locate zip file'), 'files', '.zip', False, False, translatepath('~'))
+            if zipfn != translatepath('~'):
+                if os.path.isfile(zipfn):
+                    from resources.lib.utils.updateaddon import UpdateAddon
+                    ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'master', addonid='script.service.kodi.callbacks')
+                    ua.installFromZip(zipfn, updateonly=True, dryrun=False)
+        elif sys.argv[1] == 'restorebackup':
+            from resources.lib.utils.kodipathtools import translatepath
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+            dialog = xbmcgui.Dialog()
+            zipfn = dialog.browse(1, _('Locate backup zip file'), 'files', '.zip', False, False, translatepath('special://addondata/backup/'))
+            if zipfn !=  translatepath('special://addondata/backup/'):
+                from resources.lib.utils.updateaddon import UpdateAddon
+                ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'master', addonid='script.service.kodi.callbacks')
+                ua.installFromZip(zipfn, updateonly=False, dryrun=False)
         else:
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             eventId = sys.argv[1]

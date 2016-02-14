@@ -36,11 +36,11 @@ import threading
 try:
     import watchdog.utils.platform
     from watchdog.utils import platform
-except:
+except Exception:
     from resources.lib.watchdog.utils import platform
 try:
     from watchdog.utils.compat import Event
-except:
+except Exception:
     from resources.lib.watchdog.utils.compat import Event
 
 from collections import namedtuple

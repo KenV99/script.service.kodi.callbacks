@@ -65,10 +65,10 @@ def testPoFileUpdate():
 def moclog(msg=None):
     print msg
 
-def testPoFailure():
-    flexmock(poutil.klogger, log=moclog)
-    test = _('Non existent string')
-    assert test == 'Non existent string'
+# def testPoFailure():
+#     flexmock(poutil.klogger, log=moclog)
+#     test = _('Non existent string')
+#     assert test == 'Non existent string'
 
 
 

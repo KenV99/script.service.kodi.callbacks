@@ -1,3 +1,6 @@
+v0.9.7.2 (2016-02-14)
+- Added ability to load from zip in settings and backup current
+
 v0.9.7.2 (2016-02-13)
 - Implement kodipathtools. Publisher tests passing on Linux, OSX, Windows.
 

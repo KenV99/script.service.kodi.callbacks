@@ -17,10 +17,8 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
 import sys
 
-import xbmc
 from resources.lib.pubsub import Publisher, Message, Topic
 from resources.lib.events import Events
 from resources.lib.utils.kodipathtools import translatepath

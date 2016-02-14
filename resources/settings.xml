@@ -954,4 +954,8 @@
     <setting id="regen" label="32072" type="action" action="RunScript(script.service.kodi.callbacks, regen)" />
     <setting id="test" label="32073" type="action" action="RunScript(script.service.kodi.callbacks, test)" />
   </category>
+  <category label="32190">
+    <setting id="updatefromzip" label="32191" type="action" action="RunScript(script.service.kodi.callbacks, updatefromzip)" />
+    <setting id="restorebackup" label="32192" type="action" action="RunScript(script.service.kodi.callbacks, restorebackup)" />
+  </category>
 </settings>

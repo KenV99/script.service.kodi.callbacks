@@ -271,7 +271,7 @@ class testTasks(object):
                 test()
             except AssertionError as e:
                 log(msg=_('Error testing %s: %s') % (testname, str(e)))
-            except Exception as e:
+            except Exception:
                 msg = _('Error testing %s\n') % testname
                 e = sys.exc_info()[0]
                 if hasattr(e, 'message'):

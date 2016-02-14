@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32189
+#Add-on messages id=32001 to 32204
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -780,5 +780,65 @@ msgstr ""
 
 msgctxt "#32189"
 msgid "Error testing %s: %s"
+msgstr ""
+
+msgctxt "#32190"
+msgid "Update"
+msgstr ""
+
+msgctxt "#32191"
+msgid "Update from downloaded zip"
+msgstr ""
+
+msgctxt "#32192"
+msgid "Restore from previous back up"
+msgstr ""
+
+msgctxt "#32193"
+msgid "Locate zip file"
+msgstr ""
+
+msgctxt "#32194"
+msgid "Locate backup zip file"
+msgstr ""
+
+msgctxt "#32195"
+msgid "Watchdog Startup could not load pickle"
+msgstr ""
+
+msgctxt "#32196"
+msgid "A new version of %s is available\nDownload and install?"
+msgstr ""
+
+msgctxt "#32197"
+msgid "Downloaded file could not be extracted"
+msgstr ""
+
+msgctxt "#32198"
+msgid "Backup failed, update aborted"
+msgstr ""
+
+msgctxt "#32199"
+msgid "Error encountered copying to addon directory: %s"
+msgstr ""
+
+msgctxt "#32200"
+msgid "New version installed"
+msgstr ""
+
+msgctxt "#32201"
+msgid "\nPrevious installation backed up"
+msgstr ""
+
+msgctxt "#32202"
+msgid "Attempt to restart addon now?"
+msgstr ""
+
+msgctxt "#32203"
+msgid "All files are current"
+msgstr ""
+
+msgctxt "#32204"
+msgid "Could not find addon.xml\nInstallation aborted"
 msgstr ""
 

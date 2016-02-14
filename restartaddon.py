@@ -23,6 +23,6 @@ addonid = sys.argv[1]
 
 xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled", "params":{"addonid":"%s","enabled":"toggle"},"id":1}' % addonid)
 xbmc.log(msg='***** Toggling addon enabled 1: %s' % addonid)
-xbmc.sleep(2000)
+xbmc.sleep(1000)
 xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled", "params":{"addonid":"%s","enabled":"toggle"},"id":1}' % addonid)
 xbmc.log(msg='***** Toggling addon enabled 2: %s' % addonid)

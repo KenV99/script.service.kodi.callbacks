@@ -272,7 +272,7 @@ class testLoop(object):
         git = self.getGlobalIdleTime()
         if git <2:
             return 10000
-        elif git >= 2 and git < 4:
+        elif 2 <= git < 4:
             return 10001
         else:
             return 10002

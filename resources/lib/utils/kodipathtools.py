@@ -104,8 +104,10 @@ def addonpath(addon_id='script.service.kodi.callbacks'):
     else:
         try:
             path = xbmcaddon.Addon(addon_id).getAddonInfo('path')
-        except:
+        except Exception:
             path = ''
+    if path == '':
+        path = os.path.join(*[homepath(), 'addons', addon_id])
     return path
 
 def addondatapath(addon_id='script.service.kodi.callbacks'):
@@ -113,7 +115,6 @@ def addondatapath(addon_id='script.service.kodi.callbacks'):
         path = os.path.join(*[homepath(), 'userdata', 'addon_data', addon_id])
     else:
         path = os.path.join(*[xbmc.translatePath('special://userdata'), 'addon_data', addon_id])
-    pass
     return path
 
 def homepath():
