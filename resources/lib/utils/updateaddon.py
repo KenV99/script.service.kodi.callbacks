@@ -33,7 +33,6 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.kodilogging import KodiLogger
-from resources.lib.utils.githubtools import GitHubTools, GitHubToolsException
 from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
 
@@ -105,7 +104,7 @@ class UpdateAddon(object):
         try:
             with contextlib.closing(zipfile.ZipFile(source_filename , "r")) as zf:
                 zf.extractall(dest_dir)
-        except Exception:
+        except zipfile.BadZipfile:
             log(msg='Zip File Error')
             return False
         return True
@@ -259,37 +258,6 @@ class UpdateAddon(object):
             elif fnmatch.fnmatchcase(fn, item):
                 ret =  True
         return ret
-
-    def checkForDownload(self):
-        try:
-            ghversion = GitHubTools.getGHVersion(self.addonxmlurl)
-        except GitHubToolsException as e:
-            log(msg=e.message)
-            return False
-        else:
-            if self.is_v1_gt_v2(ghversion, self.currentversion):
-                return True
-            else:
-                return False
-
-    def promptForDownloadAndInstall(self, dryrun=False, updateonly=None):
-        if self.checkForDownload() is True:
-            if self.silent is False:
-                if self.prompt(_('A new version of %s is available\nDownload and install?') % self.addonid) is False:
-                    return
-            else:
-                log(msg='New version found on GitHub. Starting Download/Install.')
-            self.downloadAndInstall(dryrun, updateonly)
-
-    def downloadAndInstall(self, dryrun=False, updateonly=None):
-        zipfn = os.path.join(self.addondatadir, '%s.zip' % self.addonid)
-        try:
-            GitHubTools.dlBinaryFile(self.zipurl, zipfn)
-        except GitHubToolsException as e:
-            self.notify(e.message)
-            return
-        else:
-            self.installFromZip(zipfn, dryrun, updateonly, deletezip=True)
 
     def installFromZip(self, zipfn, dryrun=False, updateonly=None, deletezip=False):
         if os.path.split(os.path.split(zipfn)[0])[1] == 'backup':
