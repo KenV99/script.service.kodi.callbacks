@@ -207,7 +207,7 @@ def downloadinstallfromGH(updateonly=True, silent=False):
     from resources.lib.utils.updateaddon import UpdateAddon
     ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks', silent=silent)
     ght = GitHubTools(ua)
-    ght.downloadAndInstall(updateonly=updateonly, dryrun=True)
+    ght.downloadAndInstall(updateonly=updateonly, dryrun=False)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -244,7 +244,8 @@ if __name__ == '__main__':
                 ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'master', addonid='script.service.kodi.callbacks')
                 ua.installFromZip(zipfn, updateonly=False, dryrun=False)
         elif sys.argv[1] == 'checkupdate':
-            startdebugger()
+            # startdebugger()
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             from resources.lib.utils.updateaddon import UpdateAddon
             from resources.lib.utils.githubtools import GitHubTools
             ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks')

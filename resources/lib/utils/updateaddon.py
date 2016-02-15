@@ -295,10 +295,14 @@ class UpdateAddon(object):
             log(msg='File timestamps updated')
             if updateonly is None:
                 updateonly = True
+            ziptimestamped = True
         else:
+            ziptimestamped = False
             if updateonly is None:
                 updateonly = False
         if updateonly is True and addonisGHA:
+            updateonly = False
+        if updateonly is True and ziptimestamped is False and isBackup is False:
             updateonly = False
         install_root = self.getAddonxmlPath(archivedir)
         if install_root != '':
