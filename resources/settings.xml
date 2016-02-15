@@ -955,6 +955,10 @@
     <setting id="test" label="32073" type="action" action="RunScript(script.service.kodi.callbacks, test)" />
   </category>
   <category label="32190">
+    <setting label="32205" type="lsep" />
+    <setting default="false" id="autodownload" label="32206" type="bool" />
+    <setting default="false" id="silent_install" label="32207" type="bool" />
+    <setting id="checkupdate" label="32208" type="action" action="RunScript(script.service.kodi.callbacks, checkupdate)" />
     <setting id="updatefromzip" label="32191" type="action" action="RunScript(script.service.kodi.callbacks, updatefromzip)" />
     <setting id="restorebackup" label="32192" type="action" action="RunScript(script.service.kodi.callbacks, restorebackup)" />
   </category>

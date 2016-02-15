@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32204
+#Add-on messages id=32001 to 32214
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -840,5 +840,45 @@ msgstr ""
 
 msgctxt "#32204"
 msgid "Could not find addon.xml\nInstallation aborted"
+msgstr ""
+
+msgctxt "#32205"
+msgid "Before any installation, the current is backed up to userdata/addon_data"
+msgstr ""
+
+msgctxt "#32206"
+msgid "Automatically download/install latest from GitHub on startup?"
+msgstr ""
+
+msgctxt "#32207"
+msgid "Install without prompts?"
+msgstr ""
+
+msgctxt "#32208"
+msgid "Check for update on GitHub"
+msgstr ""
+
+msgctxt "#32209"
+msgid "Download/install latest from Github"
+msgstr ""
+
+msgctxt "#32210"
+msgid "GitHub Download Error - Error reading file"
+msgstr ""
+
+msgctxt "#32211"
+msgid "Downloading %s bytes %s"
+msgstr ""
+
+msgctxt "#32212"
+msgid "Download Cancelled"
+msgstr ""
+
+msgctxt "#32213"
+msgid "GitHub Download Error: %s"
+msgstr ""
+
+msgctxt "#32214"
+msgid "Unknown GitHub Download Error"
 msgstr ""
 

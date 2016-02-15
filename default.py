@@ -202,6 +202,12 @@ def test(key):
 
     xbmc.sleep(2000)
 
+def downloadinstallfromGH(updateonly=True, silent=False):
+    from resources.lib.utils.githubtools import GitHubTools
+    from resources.lib.utils.updateaddon import UpdateAddon
+    ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks', silent=silent)
+    ght = GitHubTools(ua)
+    ght.downloadAndInstall(updateonly=updateonly, dryrun=True)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -237,6 +243,26 @@ if __name__ == '__main__':
                 from resources.lib.utils.updateaddon import UpdateAddon
                 ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'master', addonid='script.service.kodi.callbacks')
                 ua.installFromZip(zipfn, updateonly=False, dryrun=False)
+        elif sys.argv[1] == 'checkupdate':
+            startdebugger()
+            from resources.lib.utils.updateaddon import UpdateAddon
+            from resources.lib.utils.githubtools import GitHubTools
+            ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks')
+            ght = GitHubTools(ua)
+            downloadnew, ghversion, currentversion = ght.checkForDownload()
+            dialog = xbmcgui.Dialog()
+            if downloadnew is True:
+                answer =  dialog.yesno('New version available', line1='Current version: %s' % currentversion, line2='Available version: %s' % ghversion,
+                             line3='Download and install?')
+            else:
+                answer = dialog.yesno('A new version is not available', line1='Current version: %s' % currentversion, line2='Available version: %s' % ghversion,
+                             line3='Download and install anyway?')
+            if answer != 0:
+                try:
+                    silent = (xbmcaddon.Addon().getSetting('silent_install')== 'true')
+                except Exception:
+                    silent = False
+                downloadinstallfromGH(silent=silent)
         else:
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             eventId = sys.argv[1]
@@ -248,4 +274,7 @@ if __name__ == '__main__':
         tt = testTasks()
         tt.runTests()
     else:
+        if xbmcaddon.Addon().getSetting('autodownload') == 'true':
+            silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
+            downloadinstallfromGH(silent=silent)
         main()

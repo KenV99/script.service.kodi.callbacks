@@ -25,7 +25,7 @@ _ = kodipo.getLocalizedString
 __ = kodipo.getLocalizedStringId
 
 class TaskCustom(AbstractTask):
-    '''
+    """
     Your task MUST subclass AbstractTask. If it doesn't, it will not be accessible.
     The following two parameters are REQUIRED with the same structure as shown.
     'Varaibles' will be prompted for from the Settings screen.
@@ -33,7 +33,7 @@ class TaskCustom(AbstractTask):
     Shorten or extend the list as needed for more or less variables.
     This allows for the task to be properly 'discovered' and also will allow users to imput required information.
     See http://kodi.wiki/view/Add-on_settings for details about the settings variables.
-    '''
+    """
     tasktype = 'mycustomtasktype'
     variables = [
         {
@@ -55,16 +55,15 @@ class TaskCustom(AbstractTask):
     ]
 
     def __init__(self):
-        '''Do not request any other variables via __init__. Nothing else will be provided and an exception will be raised.
-        The following super call is REQUIRED.'''
+        """Do not request any other variables via __init__. Nothing else will be provided and an exception will be raised.
+        The following super call is REQUIRED."""
         super(TaskCustom, self).__init__()
         # Put anything else here you may need, but note that validate is a staticmethod and cannot access 'self'.
 
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):
-        '''
+        """
         :param taskKwargs:
-        :type dict:
         :param xlog:
         :type class or method that accepts msg=str and loglevel=int see below:
         :return: whether validate
@@ -80,13 +79,13 @@ class TaskCustom(AbstractTask):
         ** If you generate any log messages here, surround them with the _(  , update=True) localization function.
         This will cause the po file to be updated with your strings.
         See below. During direct testing from the settings page, these log messages will be displayed on the screen
-        '''
+        """
         xlog(msg=_('My Custom Task passed validation', update=True))
 
         return True
 
     def run(self):
-        '''
+        """
         The following templated code is recommended. As above, self.taskKwargs contains your user input variables.
         There are a few other things added to taskKwargs (such as 'notify' seen below). If you have access to a debugger,
         stop the code here and look at that variable. Or try logging it as a string, if interested.
@@ -96,7 +95,7 @@ class TaskCustom(AbstractTask):
         ** If you generate any log messages here, surround them with the _(  , update=True) localization function.
         This will cause the po file to be updated with your strings.
         See below. During direct testing from the settings page, these log messages will be displayed on the screen
-        '''
+        """
         if self.taskKwargs['notify'] is True:
             notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         err = False  # Change this to True if an error is encountered
