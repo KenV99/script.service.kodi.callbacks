@@ -23,7 +23,6 @@ import json
 import os
 import re
 import shutil
-import stat
 import time
 import zipfile
 from stat import S_ISREG, ST_MTIME, ST_MODE
@@ -32,6 +31,7 @@ from time import strftime
 import xbmc
 import xbmcaddon
 import xbmcgui
+from resources.lib.utils.copyToDir import copyToDir
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
@@ -173,83 +173,6 @@ class UpdateAddon(object):
             return False
 
     @staticmethod
-    def getFullFromRelativePath(src, lst, depth):
-        srcsplit = os.path.split(src)[1]
-        ret = []
-        for item in lst:
-            splt = item.split('/')
-            if len(splt) == depth + 1:
-                if srcsplit == splt[-2]:
-                    ret.append(os.path.join(src, *splt[depth:]))
-            elif depth == 0 and len(splt) ==1:
-                ret.append(os.path.join(src, *splt))
-        return ret
-
-    @staticmethod
-    def copyToDir(src, dst, updateonly=True, ignore=None, forceupdate=None, symlinks=True, dryrun=False, _depth=0):
-        def getFullFromRel(src, lst, depth):
-            srcsplit = os.path.split(src)[1]
-            ret = []
-            for item in lst:
-                splt = item.split('/')
-                if len(splt) == depth + 1:
-                    if srcsplit == splt[-2]:
-                        ret.append(os.path.join(src, *splt[depth:]))
-                elif depth == 0 and len(splt) ==1:
-                    ret.append(os.path.join(src, *splt))
-            return ret
-        fc = []
-        if not os.path.exists(dst) and not dryrun:
-            os.makedirs(dst)
-            shutil.copystat(src, dst)
-        lst = os.listdir(src)
-        if ignore:
-            excl = getFullFromRel(src, ignore, _depth)
-        else:
-            excl = []
-        if forceupdate:
-            forcelst = getFullFromRel(src, forceupdate, _depth)
-        else:
-            forcelst = []
-        for item in lst:
-            s = os.path.join(src, item)
-            d = os.path.join(dst, item)
-            if symlinks and os.path.islink(s) and dryrun is False:
-                if os.path.lexists(d):
-                    os.remove(d)
-                os.symlink(os.readlink(s), d)
-                try:
-                    st = os.lstat(s)
-                    mode = stat.S_IMODE(st.st_mode)
-                    os.lchmod(d, mode)
-                except OSError:
-                    pass  # lchmod not available
-            elif os.path.isdir(s):
-                fc = fc + UpdateAddon.copyToDir(s, d, updateonly, ignore, forceupdate, symlinks, dryrun, _depth=_depth + 1)
-            else:
-                if not UpdateAddon.checkfilematch(s, excl):
-                    if updateonly:
-                        go = False
-                        if os.path.isfile(d):
-                            srcdate = os.stat(s).st_mtime
-                            dstdate = os.stat(d).st_mtime
-                            if srcdate > dstdate:
-                                go = True
-                        else:
-                            go = True
-                        if UpdateAddon.checkfilematch(s, forcelst):
-                            go = True
-                        if go is True:
-                            fc.append(d)
-                            if not dryrun:
-                                shutil.copy2(s, d)
-                    else:
-                        fc.append(d)
-                        if not dryrun:
-                            shutil.copy2(s, d)
-        return fc
-
-    @staticmethod
     def checkfilematch(fn, lst):
         ret = False
         for item in lst:
@@ -307,7 +230,7 @@ class UpdateAddon(object):
         install_root = self.getAddonxmlPath(archivedir)
         if install_root != '':
             try:
-                fc = self.copyToDir(install_root, self.addondir, updateonly=updateonly, dryrun=dryrun)
+                fc = copyToDir(install_root, self.addondir, updateonly=updateonly, dryrun=dryrun)
             except OSError as e:
                 self.notify(_('Error encountered copying to addon directory: %s') % str(e))
                 shutil.rmtree(unzipdir)
@@ -432,10 +355,10 @@ class UpdateAddon(object):
             if ignore:
                 continue
             # add files
-            for file in files:
-                if os.path.splitext(file)[1] not in ignoreExts:
-                    vals.append(os.path.getmtime(os.path.join(root, file)))
-                    filelist.append(os.path.join(root, file))
+            for fn in files:
+                if os.path.splitext(fn)[1] not in ignoreExts:
+                    vals.append(os.path.getmtime(os.path.join(root, fn)))
+                    filelist.append(os.path.join(root, fn))
         vals.sort()
         vals = vals[5:-5]
         n = len(vals)
@@ -518,5 +441,5 @@ class ZipArchive(zipfile.ZipFile):
                 self.addEmptyDir(root, baseToRemove, inZipRoot)
 
             # add files
-            for file in files:
-                self.addFile(os.path.join(root, file), baseToRemove, inZipRoot)
+            for fn in files:
+                self.addFile(os.path.join(root, fn), baseToRemove, inZipRoot)

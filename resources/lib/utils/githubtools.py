@@ -23,7 +23,6 @@ import urllib2
 import requests
 
 import xbmcgui
-import xbmcvfs
 from resources.lib.utils.poutil import KodiPo
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.utils.updateaddon import UpdateAddon
@@ -143,10 +142,10 @@ class GitHubTools(object):
                     del u
             except Exception:
                 pass
-            if xbmcvfs.exists(destfn):
+            if os.path.exists(destfn):
                 try:
-                    xbmcvfs.delete(destfn)
-                except Exception:
+                    os.remove(destfn)
+                except OSError:
                     pass
             raise GitHubToolsException(message, iserror=True)
         else:
