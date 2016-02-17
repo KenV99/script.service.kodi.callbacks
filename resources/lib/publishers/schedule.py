@@ -35,7 +35,6 @@ class SchedulePublisher(Publisher, threading.Thread):
         self.intervalAlarms = settings.getEventsByType('onIntervalAlarm')
         self.abortEvt = threading.Event()
         self.abortEvt.clear()
-        self.jobs = []
         self.sleep = xbmc.sleep
         self.sleepinterval = 1000
 
