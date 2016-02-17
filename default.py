@@ -232,7 +232,7 @@ if __name__ == '__main__':
             if zipfn != translatepath('~'):
                 if os.path.isfile(zipfn):
                     from resources.lib.utils.updateaddon import UpdateAddon
-                    ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'master', addonid='script.service.kodi.callbacks')
+                    ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks')
                     ua.installFromZip(zipfn, updateonly=True, dryrun=False)
         elif sys.argv[1] == 'restorebackup':
             from resources.lib.utils.kodipathtools import translatepath
@@ -241,7 +241,7 @@ if __name__ == '__main__':
             zipfn = dialog.browse(1, _('Locate backup zip file'), 'files', '.zip', False, False, translatepath('special://addondata/backup/'))
             if zipfn !=  translatepath('special://addondata/backup/'):
                 from resources.lib.utils.updateaddon import UpdateAddon
-                ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'master', addonid='script.service.kodi.callbacks')
+                ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks')
                 ua.installFromZip(zipfn, updateonly=False, dryrun=False)
         elif sys.argv[1] == 'checkupdate':
             # startdebugger()
