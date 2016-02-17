@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32214
+#Add-on messages id=32001 to 32222
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -880,5 +880,37 @@ msgstr ""
 
 msgctxt "#32214"
 msgid "Unknown GitHub Download Error"
+msgstr ""
+
+msgctxt "#32215"
+msgid "hour"
+msgstr ""
+
+msgctxt "#32216"
+msgid "minute"
+msgstr ""
+
+msgctxt "#32217"
+msgid "hours"
+msgstr ""
+
+msgctxt "#32218"
+msgid "minutes"
+msgstr ""
+
+msgctxt "#32219"
+msgid "seconds"
+msgstr ""
+
+msgctxt "#32220"
+msgid "onIntervalAlarm interval cannot be zero"
+msgstr ""
+
+msgctxt "#32221"
+msgid "Could not stop SchedulePublisher T:%i"
+msgstr ""
+
+msgctxt "#32222"
+msgid "Schedule Publisher initialized"
 msgstr ""
 

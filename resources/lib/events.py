@@ -23,7 +23,8 @@ _ = kodipo.getLocalizedStringId
 
 
 def requires_subtopic():
-    return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'afterIdle', 'onWindowOpen', 'onWindowClose', 'onNotification', 'onFileSystemChange', 'onStartupFileChanges']
+    return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'afterIdle', 'onWindowOpen', 'onWindowClose',
+            'onNotification', 'onFileSystemChange', 'onStartupFileChanges', 'onDailyAlarm', 'onIntervalAlarm']
 
 
 class Events(object):
@@ -230,7 +231,18 @@ class Events(object):
             'expArgs':{'listOfChanges': str({'FilesDeleted':['C:\\Users\\User\\text.txt'], 'FilesCreated': ['C:\\movies\\Fargo.mp4']})}
         }
     }
-
+    Schedule = {
+        'onDailyAlarm':{
+            'text':'on Daily Alarm',
+            'reqInfo':[('hour','int', '13'), ('minute', 'int', '0')],
+            'optArgs':[]
+        },
+        'onIntervalAlarm':{
+            'text':'on Interval Alarm',
+            'reqInfo':[('hours','int', '0'), ('minutes', 'int', '30'), ('seconds', 'int', '0')],
+            'optArgs':[]
+        },
+    }
     def __init__(self):
         self.AllEvents = self._AllEvents()
         self.AllEventsSimple = self._AllEventsSimple()
@@ -244,7 +256,7 @@ class Events(object):
 
     @staticmethod
     def _AllEvents():
-        return Events.mergedicts(Events.Player, Events.Monitor, Events.CustomLoop, Events.Basic, Events.Log, Events.Watchdog, Events.WatchdogStartup)
+        return Events.mergedicts(Events.Player, Events.Monitor, Events.CustomLoop, Events.Basic, Events.Log, Events.Watchdog, Events.WatchdogStartup, Events.Schedule)
 
     @staticmethod
     def _AllEventsSimple():

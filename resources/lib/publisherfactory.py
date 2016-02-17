@@ -21,6 +21,7 @@ from resources.lib.publishers.log import LogPublisher
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.monitor import MonitorPublisher
 from resources.lib.publishers.player import PlayerPublisher
+from resources.lib.publishers.schedule import SchedulePublisher
 from resources.lib.kodilogging import KodiLogger
 kl = KodiLogger()
 log = kl.log
@@ -48,12 +49,13 @@ class PublisherFactory(object):
         self.topics = topics
         self.debug = debug
         self.dispatcher = dispatcher
-        self.publishers = {LogPublisher:'Log Publisher initialized',
-                           LoopPublisher:'Loop Publisher initialized',
-                           MonitorPublisher:'Monitor Publisher initialized',
-                           PlayerPublisher:'Player Publisher initialized',
-                           WatchdogPublisher:'Watchdog Publisher initialized',
-                           WatchdogStartup:'Watchdog Startup Publisher initialized'
+        self.publishers = {LogPublisher:_('Log Publisher initialized'),
+                           LoopPublisher:_('Loop Publisher initialized'),
+                           MonitorPublisher:_('Monitor Publisher initialized'),
+                           PlayerPublisher:_('Player Publisher initialized'),
+                           WatchdogPublisher:_('Watchdog Publisher initialized'),
+                           WatchdogStartup:_('Watchdog Startup Publisher initialized'),
+                           SchedulePublisher:_('Schedule Publisher initialized')
                            }
         self.ipublishers = []
 

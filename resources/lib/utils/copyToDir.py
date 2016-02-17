@@ -138,10 +138,12 @@ def copyToDirOld(src, dst, updateonly=True, ignore=None, forceupdate=None, symli
 
 def testCTDOld():
     path = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks'
-    fc = copyToDir(path, r'C:\Temp', ignore=['.git/*', '.idea/*', '*.pyc', '*.pyo'], dryrun=True)
+    fc = copyToDirOld(path, r'C:\Temp', ignore=['.git/*', '.idea/*', '*.pyc', '*.pyo'], dryrun=True)
 
 
 def testCTD():
     path = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks'
     fc = copyToDir(path, r'C:\Temp', ignore=['.git/*', '.idea/*', '*.pyc', '*.pyo'], dryrun=True)
 
+if __name__ == '__main__':
+        testCTD()

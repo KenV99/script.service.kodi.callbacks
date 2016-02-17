@@ -33,6 +33,8 @@ from flexmock import flexmock
 import Queue
 import threading
 import time
+from nose.plugins.skip import SkipTest
+
 q = Queue.Queue
 
 def printlog(msg, loglevel=0):
@@ -63,7 +65,7 @@ class testSubscriber(Subscriber):
                 messages.append(message)
         return messages
 
-
+@SkipTest
 class testWatchdogStartup(object):
     def __init__(self):
         self.publisher=None
@@ -124,6 +126,7 @@ class testWatchdogStartup(object):
         if len(messages) > 1:
             raise AssertionError('Warning: Too many messages found for Watchdog Startup Create')
 
+@SkipTest
 class testWatchdog(object):
     def __init__(self):
         self.publisher=None
@@ -243,6 +246,7 @@ class testWatchdog(object):
         if len(messages) > 1:
             raise AssertionError('Warning: Too many messages found for Watchdog Modify')
 
+@SkipTest
 class testLoop(object):
     def __init__(self):
         self.publisher=None
@@ -391,9 +395,7 @@ class testLoop(object):
         for topic in self.topics:
             assert topic in msgtopics
 
-
-
-
+@SkipTest
 class testLog(object):
     path = translatepath('special://addondata')
     if not os.path.exists(path):
@@ -496,6 +498,71 @@ class testLog(object):
             os.remove(testLog.fn)
         except OSError:
             pass
+        messages = self.subscriber.retrieveMessages()
+        msgtopics = [msg.topic for msg in messages]
+        for topic in self.topics:
+            assert topic in msgtopics
+
+class TestSchedule():
+    from resources.lib.publishers.schedule import SchedulePublisher
+    def __init__(self):
+        self.publisher=None
+        self.dispatcher=None
+        self.subscriber=None
+        self.topics=None
+
+    def setup(self):
+        flexmock(log.xbmc, log=printlog)
+        flexmock(log.xbmc, sleep=sleep)
+        self.dispatcher = Dispatcher()
+        self.subscriber = testSubscriber()
+
+    def teardown(self):
+        self.publisher.abort()
+        self.dispatcher.abort()
+        del self.publisher
+        del self.dispatcher
+
+    @SkipTest
+    def testDailyAlarm(self):
+        from time import strftime
+        self.topics = [Topic('onDailyAlarm','E1')]
+        hour, minute = strftime('%H:%M').split(':')
+        xsettings = [{'hour':int(hour), 'minute':int(minute)+1, 'key':'E1'}]
+        settings = Settings()
+        flexmock(settings, getEventsByType=xsettings)
+        self.publisher = TestSchedule.SchedulePublisher(self.dispatcher, settings)
+        self.publisher.intervalAlarms=[]
+        self.publisher.sleep = time.sleep
+        self.publisher.sleepinterval = 1
+        self.subscriber.addTopic(self.topics[0])
+        self.dispatcher.addSubscriber(self.subscriber)
+        self.dispatcher.start()
+        self.publisher.start()
+        time.sleep(65)
+        self.publisher.abort()
+        self.dispatcher.abort()
+        messages = self.subscriber.retrieveMessages()
+        msgtopics = [msg.topic for msg in messages]
+        for topic in self.topics:
+            assert topic in msgtopics
+
+    def testIntervalAlarm(self):
+        self.topics = [Topic('onIntervalAlarm','E1')]
+        xsettings = [{'hours':0, 'minutes':1, 'seconds':1, 'key':'E1'}]
+        settings = Settings()
+        flexmock(settings, getEventsByType=xsettings)
+        self.publisher = TestSchedule.SchedulePublisher(self.dispatcher, settings)
+        self.publisher.dailyAlarms = []
+        self.publisher.sleep = time.sleep
+        self.publisher.sleepinterval = 1
+        self.subscriber.addTopic(self.topics[0])
+        self.dispatcher.addSubscriber(self.subscriber)
+        self.dispatcher.start()
+        self.publisher.start()
+        time.sleep(65)
+        self.publisher.abort()
+        self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
         for topic in self.topics:

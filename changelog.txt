@@ -1,3 +1,9 @@
+v0.9.7.4 (2016-02-14)
+- Added Scheduler publisher to schedule tasks to run daily or at a given interval
+
+v0.9.7.3 (2016-02-14)
+- Non-repo version added ability to update from Github
+
 v0.9.7.2 (2016-02-14)
 - Added ability to load from zip in settings and backup current
 
