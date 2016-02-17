@@ -33,7 +33,7 @@ from flexmock import flexmock
 import Queue
 import threading
 import time
-from nose.plugins.skip import SkipTest
+# from nose.plugins.skip import SkipTest
 
 q = Queue.Queue
 
@@ -65,7 +65,7 @@ class testSubscriber(Subscriber):
                 messages.append(message)
         return messages
 
-@SkipTest
+# @SkipTest
 class testWatchdogStartup(object):
     def __init__(self):
         self.publisher=None
@@ -126,7 +126,7 @@ class testWatchdogStartup(object):
         if len(messages) > 1:
             raise AssertionError('Warning: Too many messages found for Watchdog Startup Create')
 
-@SkipTest
+# @SkipTest
 class testWatchdog(object):
     def __init__(self):
         self.publisher=None
@@ -246,7 +246,7 @@ class testWatchdog(object):
         if len(messages) > 1:
             raise AssertionError('Warning: Too many messages found for Watchdog Modify')
 
-@SkipTest
+# @SkipTest
 class testLoop(object):
     def __init__(self):
         self.publisher=None
@@ -395,7 +395,7 @@ class testLoop(object):
         for topic in self.topics:
             assert topic in msgtopics
 
-@SkipTest
+# @SkipTest
 class testLog(object):
     path = translatepath('special://addondata')
     if not os.path.exists(path):
@@ -523,7 +523,7 @@ class TestSchedule():
         del self.publisher
         del self.dispatcher
 
-    @SkipTest
+    # @SkipTest
     def testDailyAlarm(self):
         from time import strftime
         self.topics = [Topic('onDailyAlarm','E1')]

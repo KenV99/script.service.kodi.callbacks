@@ -62,6 +62,7 @@ class SchedulePublisher(Publisher, threading.Thread):
         while not self.abortEvt.is_set():
             schedule.run_pending()
             self.sleep(self.sleepinterval)
+        schedule.clear()
 
     def prePublishDailyAlarm(self, key):
         meseage = Message(Topic('onDailyAlarm', key))
