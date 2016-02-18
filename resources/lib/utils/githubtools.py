@@ -82,7 +82,7 @@ class GitHubTools(object):
         try:
             f = urllib2.urlopen(url)
             data = f.read()
-        except urllib2.HTTPError, urllib2.URLError:
+        except (urllib2.HTTPError, urllib2.URLError):
             raise GitHubToolsException(message=_('GitHub Download Error - Error reading file'), iserror=True)
         else:
             return data

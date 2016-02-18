@@ -118,7 +118,7 @@ class WatchdogStartup(Publisher):
                     ret.append(evt)
         return ret
 
-    def abort(self, arg=None):
+    def abort(self, *args):
         snapshots = {}
         for setting in self.settings:
             folder = xbmc.translatePath(setting['ws_folder']).decode('utf-8')

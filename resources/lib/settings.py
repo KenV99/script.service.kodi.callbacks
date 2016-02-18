@@ -22,6 +22,8 @@ from resources.lib.events import Events
 from resources.lib.kodilogging import KodiLogger
 from resources.lib import taskdict
 from resources.lib.events import requires_subtopic
+
+# noinspection PyBroadException
 try:
     addonid = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('id')
 except Exception:
@@ -77,7 +79,8 @@ class Settings(object):
             if tsk is not None:
                 self.tasks[pid] = tsk
 
-    def getTaskSetting(self, pid):
+    @staticmethod
+    def getTaskSetting(pid):
         tsk = {}
         tasktype = get('%s.type' % pid, 'text')
         if tasktype == 'none':
@@ -97,7 +100,8 @@ class Settings(object):
             if evt is not None:
                 self.events[pid] = evt
 
-    def getEventSetting(self, pid):
+    @staticmethod
+    def getEventSetting(pid):
         evt = {}
         et = get('%s.type' % pid, 'text')
         if et == 'None':
@@ -112,7 +116,8 @@ class Settings(object):
         evt['userargs'] = get('%s.userargs' % pid, 'text')
         return evt
 
-    def getTestEventSettings(self, taskId):
+    @staticmethod
+    def getTestEventSettings(taskId):
         evt = {'type': 'onTest', 'task': taskId}
         for oa in Settings.allevents['onTest']['optArgs']:
             evt[oa] = True

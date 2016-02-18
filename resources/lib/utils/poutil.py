@@ -293,10 +293,10 @@ class UpdatePo(object):
         files_to_scan = []
         exclusions = []
         for direct in self.exclude_directories:
-            for root, dirname, filenames in os.walk(os.path.join(self.root_directory_to_scan, direct)):
+            for root, ___, filenames in os.walk(os.path.join(self.root_directory_to_scan, direct)):
                 for filename in filenames:
                     exclusions.append(os.path.join(root, filename))
-        for root, dirnames, filenames in os.walk(self.root_directory_to_scan):
+        for root, ___, filenames in os.walk(self.root_directory_to_scan):
             for filename in fnmatch.filter(filenames, '*.py'):
                 if os.path.split(filename)[1] in self.exclude_files:
                     continue

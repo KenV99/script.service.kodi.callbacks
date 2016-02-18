@@ -134,7 +134,6 @@ def logpath():
 
 if __name__ == '__main__':
     x = translatepath('special://addon/resources/lib/tests')
-    pass
 
 def setPathExecuteRW(path):
     path = translatepath(path)

@@ -54,6 +54,7 @@ class MessageDialog(xbmcgui.WindowXMLDialog):
 
     def onInit(self):
         self.getControl(self.MESSAGE_TITLE).setLabel(self.title)
+        # noinspection PyBroadException
         try:
             self.getControl(self.MESSAGE_TEXT).setText(self.msg)
         except Exception:

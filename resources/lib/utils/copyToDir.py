@@ -78,7 +78,7 @@ def copyToDir(src, dst, updateonly=True, symlinks=True, ignore=None, forceupdate
 def copyToDirOld(src, dst, updateonly=True, ignore=None, forceupdate=None, symlinks=True, dryrun=False, _depth=0):
     def getFullFromRel(srcdir, filelist, filterlist, depth):
         root = srcdir
-        for i in xrange(0, depth):
+        for _ in xrange(0, depth):
             root = os.path.split(root)[0]
         ret = []
         for relativepattern in filterlist:
@@ -139,11 +139,13 @@ def copyToDirOld(src, dst, updateonly=True, ignore=None, forceupdate=None, symli
 def testCTDOld():
     path = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks'
     fc = copyToDirOld(path, r'C:\Temp', ignore=['.git/*', '.idea/*', '*.pyc', '*.pyo'], dryrun=True)
+    assert isinstance(fc, list)
 
 
 def testCTD():
     path = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks'
     fc = copyToDir(path, r'C:\Temp', ignore=['.git/*', '.idea/*', '*.pyc', '*.pyo'], dryrun=True)
+    assert isinstance(fc, list)
 
 if __name__ == '__main__':
         testCTD()

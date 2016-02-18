@@ -106,6 +106,7 @@ class TaskCustom(AbstractTask):
             # If you need the args in a different format consider rejoining it into a string such as ' '.join(args) or
             # ', '.join(args). If you need something very different, you will need to override self.processUserargs()
             # See taskABC for the default processing and taskHttp for an example of overriding.
+        assert isinstance(args, list)
         try:
             pass
             # Put your task implementation code here. Consider an inner try/except block accumulating specific error info

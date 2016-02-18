@@ -26,6 +26,7 @@ import resources.lib.publishers.log as log
 from resources.lib.publishers.loop import LoopPublisher
 from resources.lib.publishers.watchdog import WatchdogPublisher
 from resources.lib.publishers.watchdogStartup import WatchdogStartup
+from resources.lib.publishers.schedule import SchedulePublisher
 from resources.lib.pubsub import Dispatcher, Subscriber, Message, Topic
 from resources.lib.settings import Settings
 from resources.lib.utils.kodipathtools import translatepath, setPathRW
@@ -414,7 +415,7 @@ class testLog(object):
     @staticmethod
     def logSimulate():
         import random, string
-        randomstring = ''.join(random.choice(string.lowercase) for i in range(30)) + '\n'
+        randomstring = ''.join(random.choice(string.lowercase) for _ in range(30)) + '\n'
         targetstring = '%s%s%s' %(randomstring[:12],'kodi_callbacks',randomstring[20:])
         for i in xrange(0,10):
             with open(testLog.fn, 'a') as f:
@@ -455,9 +456,9 @@ class testLog(object):
         self.dispatcher.addSubscriber(self.subscriber)
         self.dispatcher.start()
         self.publisher.start()
-        t = threading.Thread(target=testLog.logSimulate)
-        t.start()
-        t.join()
+        xthread = threading.Thread(target=testLog.logSimulate)
+        xthread.start()
+        xthread.join()
         self.publisher.abort()
         self.dispatcher.abort()
         time.sleep(2)
@@ -503,8 +504,7 @@ class testLog(object):
         for topic in self.topics:
             assert topic in msgtopics
 
-class TestSchedule():
-    from resources.lib.publishers.schedule import SchedulePublisher
+class TestSchedule(object):
     def __init__(self):
         self.publisher=None
         self.dispatcher=None
@@ -531,7 +531,7 @@ class TestSchedule():
         xsettings = [{'hour':int(hour), 'minute':int(minute)+1, 'key':'E1'}]
         settings = Settings()
         flexmock(settings, getEventsByType=xsettings)
-        self.publisher = TestSchedule.SchedulePublisher(self.dispatcher, settings)
+        self.publisher = SchedulePublisher(self.dispatcher, settings)
         self.publisher.intervalAlarms=[]
         self.publisher.sleep = time.sleep
         self.publisher.sleepinterval = 1
@@ -552,7 +552,7 @@ class TestSchedule():
         xsettings = [{'hours':0, 'minutes':1, 'seconds':1, 'key':'E1'}]
         settings = Settings()
         flexmock(settings, getEventsByType=xsettings)
-        self.publisher = TestSchedule.SchedulePublisher(self.dispatcher, settings)
+        self.publisher = SchedulePublisher(self.dispatcher, settings)
         self.publisher.dailyAlarms = []
         self.publisher.sleep = time.sleep
         self.publisher.sleepinterval = 1

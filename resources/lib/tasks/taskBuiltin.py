@@ -52,6 +52,7 @@ class TaskBuiltin(AbstractTask):
         err = False
         msg = ''
         args = ' %s' % ' '.join(self.runtimeargs)
+        # noinspection PyBroadException,PyBroadException,PyBroadException
         try:
             if len(self.runtimeargs) > 0:
                 result = xbmc.executebuiltin('%s, %s' % (self.taskKwargs['builtin'], args))

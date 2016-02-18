@@ -159,7 +159,7 @@ class UpdateAddon(object):
         i = 0
         for cdate, path in sorted(entries):
             entrylist.append((i, cdate, path))
-            i = i + 1
+            i += 1
         return entrylist
 
     @staticmethod
@@ -260,7 +260,7 @@ class UpdateAddon(object):
     @staticmethod
     def getAddonxmlPath(path):
         ret = ''
-        for root, dirs, files in os.walk(path):
+        for root, __, files in os.walk(path):
             if 'addon.xml' in files:
                 ret = root
                 break
@@ -324,7 +324,7 @@ class UpdateAddon(object):
         fd = {}
         if dst is None:
             dst = os.path.join(src, 'timestamp.json')
-        for root, dirs, files in os.walk(src):
+        for root, __, files in os.walk(src):
             for fn in files:
                 ffn = os.path.join(root, fn)
                 relpath = os.path.relpath(ffn, src).replace('\\', '/')

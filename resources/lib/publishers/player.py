@@ -127,7 +127,8 @@ class Player(xbmc.Player):
             fn = 'Kodi returned playing file is none'
         return xbmc.translatePath(fn)
 
-    def getAspectRatio(self):
+    @staticmethod
+    def getAspectRatio():
         try:
             ar = xbmc.getInfoLabel("VideoPlayer.VideoAspect")
         except Exception:
@@ -136,7 +137,8 @@ class Player(xbmc.Player):
             ar = 'unknown'
         return str(ar)
 
-    def getResoluion(self):
+    @staticmethod
+    def getResoluion():
         try:
             vr = xbmc.getInfoLabel("VideoPlayer.VideoResolution")
         except Exception:

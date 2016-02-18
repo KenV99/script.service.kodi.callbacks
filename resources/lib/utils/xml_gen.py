@@ -45,8 +45,8 @@ def generate_settingsxml(fn=None):
     evts.sort()
     evts = "|".join(evts)
 
-    def getoffset(idx, lst):
-        return str(idx-len(lst))
+    def getoffset(idxx, lst):
+        return str(idxx - len(lst))
 
     output.append('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n')
     output.append('<settings>\n')

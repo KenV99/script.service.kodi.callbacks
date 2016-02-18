@@ -23,9 +23,8 @@ kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
 def testMsg(taskManager, taskSettings, kwargs):
-    msg = [_('Testing for task type: %s') % taskSettings['type']]
-    msg.append(_('Settings: %s') % str(taskManager.taskKwargs))
-    msg.append(_('Runtime kwargs: %s') % str(kwargs))
+    msg = [_('Testing for task type: %s') % taskSettings['type'], _('Settings: %s') % str(taskManager.taskKwargs),
+           _('Runtime kwargs: %s') % str(kwargs)]
     return msg
 
 class TestHandler(object):

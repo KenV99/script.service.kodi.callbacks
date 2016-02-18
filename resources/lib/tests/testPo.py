@@ -48,7 +48,8 @@ class testPo(object):
     def __init__(self):
         pass
 
-    def testGetMsgxtxt(self):
+    @staticmethod
+    def testGetMsgxtxt():
         x = _('Tasks')
         assert x == 'Tasks'
 
