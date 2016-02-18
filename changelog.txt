@@ -1,4 +1,7 @@
 v0.9.7.4 (2016-02-14)
+- Fix schedule import
+
+v0.9.7.4 (2016-02-14)
 - Added Scheduler publisher to schedule tasks to run daily or at a given interval
 
 v0.9.7.3 (2016-02-14)
