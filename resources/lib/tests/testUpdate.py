@@ -21,6 +21,7 @@ from resources.lib.utils.updateaddon import UpdateAddon
 from resources.lib.utils.kodipathtools import translatepath
 # from nose.plugins.skip import SkipTest
 
+
 def testBackup():
     ua = UpdateAddon('Kenv99', 'script.service.kodi.callbacks', 'master', silent=True)
     assert isinstance(ua, UpdateAddon)
