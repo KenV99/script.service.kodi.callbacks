@@ -25,9 +25,9 @@ def testBackup():
     ua = UpdateAddon('Kenv99', 'script.service.kodi.callbacks', 'master', silent=True)
     assert isinstance(ua, UpdateAddon)
     ua.createTimeStampJson(translatepath('special://addon'), dst=None, ignore=['.git/*', '.idea/*', '*.pyc', '*.pyo'])
-    # result = ua.backup(translatepath('special://addon'), translatepath('special://addondata/backup'))
-    # os.remove(os.path.join(translatepath('special://addon'), 'timestamp.json'))
-    # assert result is True
+    result = ua.backup(translatepath('special://addon'), translatepath('special://addondata/backup'))
+    os.remove(os.path.join(translatepath('special://addon'), 'timestamp.json'))
+    assert result is True
 
 @SkipTest
 def testGHA_Detect():
