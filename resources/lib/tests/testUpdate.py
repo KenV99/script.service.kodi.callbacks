@@ -19,7 +19,7 @@
 import os
 from resources.lib.utils.updateaddon import UpdateAddon
 from resources.lib.utils.kodipathtools import translatepath
-from nose.plugins.skip import SkipTest
+# from nose.plugins.skip import SkipTest
 
 def testBackup():
     ua = UpdateAddon('Kenv99', 'script.service.kodi.callbacks', 'master', silent=True)
@@ -29,7 +29,6 @@ def testBackup():
     os.remove(os.path.join(translatepath('special://addon'), 'timestamp.json'))
     assert result is True
 
-@SkipTest
 def testGHA_Detect():
      assert UpdateAddon.isGitHubArchive(translatepath('special://addon')) is False
      assert UpdateAddon.isGitHubArchive(r'C:\Temp\script.service.kodi.callbacks-master') is True
