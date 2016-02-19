@@ -20,10 +20,10 @@
 import sys
 import os
 import stat
-import shlex
 import subprocess
 import traceback
 from resources.lib.taskABC import AbstractTask, notify, KodiLogger
+from resources.lib.utils.detectPath import process_cmdline
 import xbmc
 import xbmcvfs
 from resources.lib.utils.poutil import KodiPo
@@ -70,10 +70,11 @@ class TaskScript(AbstractTask):
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):
 
-        tmpl = shlex.split(taskKwargs['scriptfile'])
+        tmpl = process_cmdline(taskKwargs['scriptfile'])
+        found = False
         for tmp in tmpl:
             tmp = xbmc.translatePath(tmp).decode('utf-8')
-            if xbmcvfs.exists(tmp) or os.path.exists(tmp):
+            if xbmcvfs.exists(tmp) or os.path.exists(tmp) and found is False:
                 try:
                     mode = os.stat(tmp).st_mode
                     mode |= stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
@@ -81,9 +82,12 @@ class TaskScript(AbstractTask):
                 except OSError:
                     if sysplat.startswith('win') is False:
                         xlog(msg=_('Failed to set execute bit on script: %s') % tmp)
+                finally:
+                    found = True
         return True
 
     def run(self):
+        msg = ''
         if self.taskKwargs['notify'] is True:
             notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         try:
@@ -94,14 +98,12 @@ class TaskScript(AbstractTask):
             wait = self.taskKwargs['waitForCompletion']
         except KeyError:
             wait = True
-        tmpl = shlex.split(self.taskKwargs['scriptfile'])
+        tmpl = process_cmdline(self.taskKwargs['scriptfile'])
         filefound = False
         basedir = None
         sysexecutable = None
         for i, tmp in enumerate(tmpl):
             tmp = xbmc.translatePath(tmp).decode('utf-8')
-            tmp = os.path.expanduser(tmp)
-            tmp = os.path.expandvars(tmp)
             if os.path.exists(tmp) and filefound is False:
                 basedir, fn = os.path.split(tmp)
                 tmpl[i] = fn
@@ -120,11 +122,11 @@ class TaskScript(AbstractTask):
             tmpl.insert(0, 'bash')
 
         cwd = os.getcwd()
-        args =tmpl + self.runtimeargs
+        args = tmpl + self.runtimeargs
         if needs_shell:
             args = ' '.join(args)
         err = False
-        msg = ''
+        msg += 'taskScript ARGS = %s\n    SYSEXEC = %s\n BASEDIR = %s\n' % (args, sysexecutable, basedir)
         sys.exc_clear()
         try:
             if basedir is not None:
@@ -132,17 +134,17 @@ class TaskScript(AbstractTask):
             if sysexecutable is not None:
                 p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, executable=sysexecutable, cwd=basedir)
             else:
-                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
+                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, cwd=basedir)
             if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
                     stdoutdata = str(stdoutdata).strip()
                     if stdoutdata != '':
-                        msg = _('Process returned data: %s\n') % stdoutdata
+                        msg += _('Process returned data: %s\n') % stdoutdata
                     else:
-                        msg = _('Process returned no data\n')
+                        msg += _('Process returned no data\n')
                 else:
-                    msg = _('Process returned no data\n')
+                    msg += _('Process returned no data\n')
                 if stderrdata is not None:
                     stderrdata = str(stderrdata).strip()
                     if stderrdata != '':
