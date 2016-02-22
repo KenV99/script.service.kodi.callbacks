@@ -57,7 +57,7 @@ class TaskPython(AbstractTask):
     def validate(taskKwargs, xlog=KodiLogger.log):
         tmp = xbmc.translatePath(taskKwargs['pythonfile']).decode('utf-8')
         if xbmcvfs.exists(tmp):
-            ext = os.path.splitext(tmp)[0]
+            ext = os.path.splitext(tmp)[1]
             if ext == '.py':
                 return True
             else:

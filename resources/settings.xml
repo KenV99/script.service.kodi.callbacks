@@ -1026,6 +1026,8 @@
   </category>
   <category label="32190">
     <setting label="32205" type="lsep" />
+    <setting default="nonrepo" id="installedbranch" label="32224" type="text" enable="false" />
+    <setting default="master" id="repobranchname" label="32225" type="select" values="master" />
     <setting default="false" id="autodownload" label="32206" type="bool" />
     <setting default="false" id="silent_install" label="32207" type="bool" />
     <setting id="checkupdate" label="32208" type="action" action="RunScript(script.service.kodi.callbacks, checkupdate)" />

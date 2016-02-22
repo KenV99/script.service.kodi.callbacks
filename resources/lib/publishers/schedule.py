@@ -37,6 +37,7 @@ class SchedulePublisher(Publisher, threading.Thread):
         self.abortEvt.clear()
         self.sleep = xbmc.sleep
         self.sleepinterval = 1000
+        self.schedules = []
 
     def run(self):
         for alarm in self.dailyAlarms:
@@ -56,7 +57,6 @@ class SchedulePublisher(Publisher, threading.Thread):
                 schedule.every(interval).seconds.do(self.prePublishIntervalAlarm, key=alarm['key'])
             else:
                 xbmc.log(msg=_('onIntervalAlarm interval cannot be zero'))
-
 
         while not self.abortEvt.is_set():
             schedule.run_pending()

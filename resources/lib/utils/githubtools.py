@@ -20,11 +20,13 @@ import json
 import os
 import re
 import urllib2
+
 import requests
 
 import xbmcgui
-from resources.lib.utils.poutil import KodiPo
 from resources.lib.kodilogging import KodiLogger
+from resources.lib.utils.kodipathtools import translatepath
+from resources.lib.utils.poutil import KodiPo
 from resources.lib.utils.updateaddon import UpdateAddon
 
 kodipo = KodiPo()
@@ -32,44 +34,48 @@ _ = kodipo.getLocalizedString
 kl = KodiLogger()
 log = kl.log
 
+
 class GitHubTools(object):
+    # def __init__(self):
+    # assert isinstance(ua, UpdateAddon)
+    # self.ua = ua
 
-    def __init__(self, ua):
-        assert isinstance(ua, UpdateAddon)
-        self.ua = ua
-
-    def checkForDownload(self):
+    @staticmethod
+    def checkForDownload(username, reponame, branch, addonid):
+        addonxmlurl = r'https://raw.githubusercontent.com/%s/%s/%s/addon.xml' % (username, reponame, branch)
         try:
-            ghversion = GitHubTools.getGHVersion(self.ua.addonxmlurl)
+            ghversion = GitHubTools.getGHVersion(addonxmlurl)
         except GitHubToolsException as e:
             log(msg=e.message)
             return False
         else:
-            currentversion = self.ua.currentversion
+            currentversion = UpdateAddon.currentversion(addonid)
             if UpdateAddon.is_v1_gt_v2(ghversion, currentversion):
                 return True, ghversion, currentversion
             else:
                 return False, ghversion, currentversion
 
-    def promptForDownloadAndInstall(self, dryrun=False, updateonly=None):
-        if self.checkForDownload()[0] is True:
-            if self.ua.silent is False:
-                if self.ua.prompt(_('A new version of %s is available\nDownload and install?') % self.ua.addonid) is False:
-                    return
+    @staticmethod
+    def promptForDownloadAndInstall(username, reponame, addonid, branch, dryrun=False, updateonly=None):
+        if GitHubTools.checkForDownload(username, reponame, branch, addonid)[0] is True:
+
+            if UpdateAddon.prompt(_('A new version of %s is available\nDownload and install?') % addonid) is False:
+                return
             else:
                 log(msg='New version found on GitHub. Starting Download/Install.')
-            self.downloadAndInstall(dryrun, updateonly)
+                GitHubTools.downloadAndInstall(username, reponame, addonid, branch, dryrun, updateonly)
 
-    def downloadAndInstall(self, dryrun=False, updateonly=None):
-        zipfn = os.path.join(self.ua.addondatadir, '%s.zip' % self.ua.addonid)
+    @staticmethod
+    def downloadAndInstall(username, reponame, addonid, branch, updateonly=None, dryrun=False, silent=False):
+        zipurl = r'https://github.com/%s/%s/archive/%s.zip' % (username, reponame, branch)
+        zipfn = os.path.join(translatepath('special://addondata(%s)' % addonid), '%s.zip' % addonid)
         try:
-            GitHubTools.dlBinaryFile(self.ua.zipurl, zipfn)
-        except GitHubToolsException as e:
-            self.ua.notify(e.message)
-            return
+            GitHubTools.dlBinaryFile(zipurl, zipfn)
+        except GitHubToolsException:
+            raise
         else:
-            self.ua.installFromZip(zipfn, dryrun, updateonly, deletezip=True)
-
+            ua = UpdateAddon(addonid, silent=silent)
+            ua.installFromZip(zipfn, dryrun=dryrun, updateonly=updateonly, deletezip=True, silent=silent)
 
     @staticmethod
     def getGHVersion(url):
@@ -154,7 +160,9 @@ class GitHubTools(object):
     @staticmethod
     def dumpfiledatestojson(username, reponame, branch, output_fn, user, password):
         filedict = {}
-        r = requests.get('https://api.github.com/repos/%s/%s/commits?per_page=100&sha=%s' % (username, reponame, branch), auth=(user, password))
+        r = requests.get(
+            'https://api.github.com/repos/%s/%s/commits?per_page=100&sha=%s' % (username, reponame, branch),
+            auth=(user, password))
         commits = r.json()
         while 'next' in r.links.keys():
             r = requests.get(r.links['next']['url'], auth=(user, password))
@@ -176,6 +184,43 @@ class GitHubTools(object):
                 fd[key] = filedict[key][0]
         with open(output_fn, 'w') as f:
             json.dump(fd, f, ensure_ascii=False)
+
+    @staticmethod
+    def getbranches(username, reponame):
+        try:
+            r = requests.get('https://api.github.com/repos/%s/%s/branches' % (username, reponame))
+        except (requests.HTTPError, requests.ConnectionError) as e:
+            msg = 'Get branches Error: %s' % str(e)
+            log(msg=msg)
+            raise GitHubToolsException(message=msg, iserror=True)
+        else:
+            branches = r.json()
+            ret = []
+            for branch in branches:
+                ret.append(branch['name'])
+            return ret
+
+    @staticmethod
+    def updateSettingsWithBranches(tag, username, reponame, addonid=None):
+        from resources.lib.utils.kodipathtools import translatepath
+        import re
+        if addonid is None:
+            addonid = reponame
+        try:
+            branches = GitHubTools.getbranches(username, reponame)
+        except GitHubToolsException:
+            return False
+        else:
+            settingspath = translatepath('special://addon(%s)/resources/settings.xml' % addonid)
+            branches = r'\g<1>%s\g<2>' % '|'.join(branches)
+            pattern = r'(%s.+?values*=*\").+?(\")' % tag
+            with open(settingspath, 'r') as f:
+                lines = f.read()
+            newlines = re.sub(pattern, branches, lines)
+            with open(settingspath, 'w') as f:
+                f.write(newlines)
+            return not newlines == lines
+
 
 class GitHubToolsException(Exception):
     def __init__(self, message="Unknown GitHub Error", iserror=False):

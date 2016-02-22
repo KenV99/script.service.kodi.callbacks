@@ -11,6 +11,7 @@ def process_cmdline(cmd):
             t = ' '.join(parts[i:j])
             t = os.path.expandvars(t)
             t = os.path.expanduser(t)
+            t = t.strip('"')
             if os.path.exists(t):
                 if j > found:
                     found = j
@@ -33,6 +34,7 @@ def process_cmdline(cmd):
                     t = ' '.join(parts[i:paths[j][1]])
                     t = os.path.expanduser(t)
                     t = os.path.expandvars(t)
+                    t = t.strip('"')
                     parts[i] = t
                     for k in xrange(i+1, paths[j][1]):
                         parts[k]=''
@@ -42,10 +44,3 @@ def process_cmdline(cmd):
     else:
         args = parts
     return args
-
-
-if __name__ == "__main__":
-    test = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\tests\tstScript.sh arg  C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\tests\test space\space test.txt args kwarg:key'
-    ret = process_cmdline(test)
-    pass
-    pass

@@ -29,8 +29,10 @@ class mockaddon(object):
         self.podict = poutil.PoDict()
         self.podict.read_from_file(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po')
 
-    def getAddonInfo(self, y):
-        return r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks'
+    @staticmethod
+    def getAddonInfo(y):
+        if y is not None:
+            return r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks'
 
     def getLocalizedString(self, strid):
         assert isinstance(strid, int)

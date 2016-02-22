@@ -161,22 +161,28 @@ def generate_settingsxml(fn=None):
     output.append('  </category>\n')
     output.append('  <category label="%s">\n' % _('Update'))
     output.append('    <setting label="%s" type="lsep" />\n' % _('Before any installation, the current is backed up to userdata/addon_data'))
+    output.append('    <setting default="nonrepo" id="installedbranch" label="%s" type="text" enable="false" />\n' %_('Currently installed branch'))
+    output.append('    <setting default="master" id="repobranchname" label="%s" type="select" values="master" />\n' % _('Repository branch name for downloads'))
     output.append('    <setting default="false" id="autodownload" label="%s" type="bool" />\n' % _('Automatically download/install latest from GitHub on startup?'))
     output.append('    <setting default="false" id="silent_install" label="%s" type="bool" />\n' % _('Install without prompts?'))
     output.append('    <setting id="checkupdate" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, checkupdate)" />\n' % _('Check for update on GitHub'))
     output.append('    <setting id="updatefromzip" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, updatefromzip)" />\n' % _('Update from downloaded zip'))
     output.append('    <setting id="restorebackup" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, restorebackup)" />\n' % _('Restore from previous back up'))
+
     output.append('  </category>\n')
     output.append('</settings>')
     output = "".join(output)
     if fn is None:
         fn = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
-    with open(fn, mode='w') as f:
+    with open(fn, mode='wb') as f:
         f.writelines(output)
 
     if podirty is True:
         podict.write_to_file(pofile)
-    log(_('Settings.xml rewritten'))
+    try:
+        log(msg=_('Settings.xml rewritten'))
+    except TypeError:
+        pass
 
 if __name__ == '__main__':
     generate_settingsxml(r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\settings.xml')

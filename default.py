@@ -113,7 +113,7 @@ def start():
 
 
 def main():
-    xbmc.log(msg=_('$$$ [kodi.callbacks] Staring kodi.callbacks ver: %s') % str(__version__), level=xbmc.LOGNOTICE)
+    xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s') % str(__version__), level=xbmc.LOGNOTICE)
     dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
     monitor = MainMonitor(dispatcher, publishers)
@@ -202,80 +202,97 @@ def test(key):
 
     xbmc.sleep(2000)
 
-def downloadinstallfromGH(updateonly=True, silent=False):
-    from resources.lib.utils.githubtools import GitHubTools
-    from resources.lib.utils.updateaddon import UpdateAddon
-    ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks', silent=silent)
-    ght = GitHubTools(ua)
-    ght.downloadAndInstall(updateonly=updateonly, dryrun=False)
 
 if __name__ == '__main__':
+    dryrun = False
+    addonid = 'script.service.kodi.callbacks'
+    GHUser = 'KenV99'
+    reponame = addonid
+
     if len(sys.argv) > 1:
         if testdebug is True and debug is False:
             startdebugger()
+            dryrun = True
+
         if sys.argv[1] == 'regen':
             from resources.lib.utils.xml_gen import generate_settingsxml
+
             generate_settingsxml()
+
         elif sys.argv[1] == 'test':
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             from resources.lib.tests.testTasks import testTasks
+
             tt = testTasks()
             tt.runTests()
             dialog = xbmcgui.Dialog()
             msg = _('Native Task Testing Complete - see log for results')
             dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
+
         elif sys.argv[1] == 'updatefromzip':
             from resources.lib.utils.kodipathtools import translatepath
+            from resources.lib.utils.updateaddon import UpdateAddon
+
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             dialog = xbmcgui.Dialog()
             zipfn = dialog.browse(1, _('Locate zip file'), 'files', '.zip', False, False, translatepath('~'))
             if zipfn != translatepath('~'):
                 if os.path.isfile(zipfn):
-                    from resources.lib.utils.updateaddon import UpdateAddon
-                    ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks')
-                    ua.installFromZip(zipfn, updateonly=True, dryrun=False)
+                    ua = UpdateAddon(addonid)
+                    ua.installFromZip(zipfn, updateonly=True, dryrun=dryrun)
+                else:
+                    dialog.ok(addonid, 'Incorrect path')
+
         elif sys.argv[1] == 'restorebackup':
             from resources.lib.utils.kodipathtools import translatepath
+
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             dialog = xbmcgui.Dialog()
-            zipfn = dialog.browse(1, _('Locate backup zip file'), 'files', '.zip', False, False, translatepath('special://addondata/backup/'))
-            if zipfn !=  translatepath('special://addondata/backup/'):
+            zipfn = dialog.browse(1, _('Locate backup zip file'), 'files', '.zip', False, False,
+                                  translatepath('special://addondata/backup/'))
+            if zipfn != translatepath('special://addondata/backup/'):
                 from resources.lib.utils.updateaddon import UpdateAddon
-                ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks')
-                ua.installFromZip(zipfn, updateonly=False, dryrun=False)
+
+                ua = UpdateAddon(addonid)
+                ua.installFromZip(zipfn, updateonly=False, dryrun=dryrun)
+
         elif sys.argv[1] == 'checkupdate':
-            # startdebugger()
-            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-            from resources.lib.utils.updateaddon import UpdateAddon
             from resources.lib.utils.githubtools import GitHubTools
-            ua = UpdateAddon('KenV99', 'script.service.kodi.callbacks', 'nonrepo', addonid='script.service.kodi.callbacks')
-            ght = GitHubTools(ua)
-            downloadnew, ghversion, currentversion = ght.checkForDownload()
+
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+            branchname = xbmcaddon.Addon().getSetting('repobranchname')
+            downloadnew, ghversion, currentversion = GitHubTools.checkForDownload(GHUser, reponame, branchname, addonid)
             dialog = xbmcgui.Dialog()
             if downloadnew is True:
-                answer =  dialog.yesno('New version available', line1='Current version: %s' % currentversion, line2='Available version: %s' % ghversion,
-                             line3='Download and install?')
+                answer = dialog.yesno('New version available', line1='Current version: %s' % currentversion,
+                                      line2='Available version: %s' % ghversion,
+                                      line3='Download and install?')
             else:
-                answer = dialog.yesno('A new version is not available', line1='Current version: %s' % currentversion, line2='Available version: %s' % ghversion,
-                             line3='Download and install anyway?')
+                answer = dialog.yesno('A new version is not available', line1='Current version: %s' % currentversion,
+                                      line2='Available version: %s' % ghversion,
+                                      line3='Download and install anyway?')
             if answer != 0:
-                try:
-                    silent = (xbmcaddon.Addon().getSetting('silent_install')== 'true')
-                except Exception:
-                    silent = False
-                downloadinstallfromGH(silent=silent)
+                silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
+                GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=downloadnew, silent=silent)
         else:
+            # Direct Event/Task Testing
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             eventId = sys.argv[1]
             test(eventId)
+
     elif testTasks:
         KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
         startdebugger()
         from resources.lib.tests.testTasks import testTasks
+
         tt = testTasks()
         tt.runTests()
     else:
+        from resources.lib.utils.githubtools import GitHubTools
+
+        GitHubTools.updateSettingsWithBranches('repobranchname', GHUser, reponame)
         if xbmcaddon.Addon().getSetting('autodownload') == 'true':
             silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
-            downloadinstallfromGH(silent=silent)
+            branchname = xbmcaddon.Addon().getSetting('repobranchname')
+            GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=True, silent=silent)
         main()

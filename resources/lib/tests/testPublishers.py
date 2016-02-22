@@ -20,6 +20,7 @@
 
 import xbmc
 import os
+import sys
 from resources.lib.publishers.log import LogPublisher
 import resources.lib.publishers.loop as loop
 import resources.lib.publishers.log as log
@@ -34,12 +35,11 @@ from flexmock import flexmock
 import Queue
 import threading
 import time
+import nose
 # from nose.plugins.skip import SkipTest
 
-q = Queue.Queue
-
 def printlog(msg, loglevel=0):
-    print msg
+    print msg, loglevel
 
 flexmock(xbmc, log=printlog)
 
@@ -47,9 +47,9 @@ flexmock(xbmc, log=printlog)
 def sleep(xtime):
     time.sleep(xtime/1000.0)
 
-class testSubscriber(Subscriber):
+class MockSubscriber(Subscriber):
     def __init__(self):
-        super(testSubscriber, self).__init__()
+        super(MockSubscriber, self).__init__()
         self.testq = Queue.Queue()
 
     def notify(self, message):
@@ -65,6 +65,16 @@ class testSubscriber(Subscriber):
             else:
                 messages.append(message)
         return messages
+
+    def waitForMessage(self, count=1, timeout=30):
+        loopcount = 0
+        while loopcount < timeout:
+            msgcount = self.testq.qsize()
+            if msgcount >= count:
+                return
+            else:
+                time.sleep(1)
+                loopcount += 1
 
 # @SkipTest
 class testWatchdogStartup(object):
@@ -82,7 +92,7 @@ class testWatchdogStartup(object):
                             'ws_recursive':False, 'key':'E1'}]
         self.saveduserpickle = WatchdogStartup.getPickle()
         self.dispatcher = Dispatcher()
-        self.subscriber = testSubscriber()
+        self.subscriber = MockSubscriber()
         self.topic = Topic('onStartupFileChanges','E1')
         self.subscriber.addTopic(self.topic)
         self.dispatcher.addSubscriber(self.subscriber)
@@ -110,7 +120,7 @@ class testWatchdogStartup(object):
             f.writelines('test')
         time.sleep(1)
         self.publisher.start()
-        time.sleep(2)
+        self.subscriber.waitForMessage(count=2, timeout=2)
         self.publisher.abort()
         self.dispatcher.abort()
         os.remove(fn)
@@ -142,7 +152,7 @@ class testWatchdog(object):
         watchdogSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
                             'recursive':False, 'key':'E1'}]
         self.dispatcher = Dispatcher()
-        self.subscriber = testSubscriber()
+        self.subscriber = MockSubscriber()
         self.topic = Topic('onFileSystemChange','E1')
         self.subscriber.addTopic(self.topic)
         self.dispatcher.addSubscriber(self.subscriber)
@@ -166,7 +176,7 @@ class testWatchdog(object):
         time.sleep(1)
         with open(fn, 'w') as f:
             f.writelines('test')
-        time.sleep(1)
+        self.subscriber.waitForMessage(count=2, timeout=2)
         self.publisher.abort()
         self.dispatcher.abort()
         time.sleep(1)
@@ -202,7 +212,7 @@ class testWatchdog(object):
         self.publisher.start()
         time.sleep(2)
         os.remove(fn)
-        time.sleep(2)
+        self.subscriber.waitForMessage(count=1, timeout=2)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
@@ -229,7 +239,7 @@ class testWatchdog(object):
         time.sleep(1)
         with open(fn, 'a') as f:
             f.writelines('test2')
-        time.sleep(2)
+        self.subscriber.waitForMessage(count=1, timeout=2)
         self.publisher.abort()
         self.dispatcher.abort()
         os.remove(fn)
@@ -296,7 +306,7 @@ class testLoop(object):
         flexmock(loop.xbmc.Player, isPlaying=False)
         flexmock(loop.xbmcgui, getCurrentWindowId=self.getCurrentWindowId)
         self.dispatcher = Dispatcher()
-        self.subscriber = testSubscriber()
+        self.subscriber = MockSubscriber()
 
 
     def teardown(self):
@@ -317,7 +327,7 @@ class testLoop(object):
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
-        time.sleep(7)
+        self.subscriber.waitForMessage(count=2, timeout=7)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
@@ -335,7 +345,7 @@ class testLoop(object):
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
-        time.sleep(5)
+        self.subscriber.waitForMessage(count=1, timeout=5)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
@@ -353,7 +363,7 @@ class testLoop(object):
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
-        time.sleep(5)
+        self.subscriber.waitForMessage(count=1, timeout=5)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
@@ -371,7 +381,7 @@ class testLoop(object):
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
-        time.sleep(5)
+        self.subscriber.waitForMessage(count=1, timeout=5)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
@@ -388,7 +398,7 @@ class testLoop(object):
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
-        time.sleep(5)
+        self.subscriber.waitForMessage(count=1, timeout=5)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
@@ -430,7 +440,7 @@ class testLog(object):
         flexmock(log.xbmc, log=printlog)
         flexmock(log.xbmc, sleep=sleep)
         self.dispatcher = Dispatcher()
-        self.subscriber = testSubscriber()
+        self.subscriber = MockSubscriber()
 
     def teardown(self):
         self.publisher.abort()
@@ -461,7 +471,7 @@ class testLog(object):
         xthread.join()
         self.publisher.abort()
         self.dispatcher.abort()
-        time.sleep(2)
+        self.subscriber.waitForMessage(count=1, timeout=2)
         try:
             os.remove(testLog.fn)
         except OSError:
@@ -494,7 +504,7 @@ class testLog(object):
         t.join()
         self.publisher.abort()
         self.dispatcher.abort()
-        time.sleep(2)
+        self.subscriber.waitForMessage(count=1, timeout=2)
         try:
             os.remove(testLog.fn)
         except OSError:
@@ -515,7 +525,7 @@ class TestSchedule(object):
         flexmock(log.xbmc, log=printlog)
         flexmock(log.xbmc, sleep=sleep)
         self.dispatcher = Dispatcher()
-        self.subscriber = testSubscriber()
+        self.subscriber = MockSubscriber()
 
     def teardown(self):
         self.publisher.abort()
@@ -523,7 +533,6 @@ class TestSchedule(object):
         del self.publisher
         del self.dispatcher
 
-    # @SkipTest
     def testDailyAlarm(self):
         from time import strftime
         self.topics = [Topic('onDailyAlarm','E1')]
@@ -539,28 +548,32 @@ class TestSchedule(object):
         self.dispatcher.addSubscriber(self.subscriber)
         self.dispatcher.start()
         self.publisher.start()
-        time.sleep(65)
+        self.subscriber.waitForMessage(count=1, timeout=65)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
         msgtopics = [msg.topic for msg in messages]
+        time.sleep(1)
         for topic in self.topics:
             assert topic in msgtopics
 
     def testIntervalAlarm(self):
         self.topics = [Topic('onIntervalAlarm','E1')]
-        xsettings = [{'hours':0, 'minutes':1, 'seconds':1, 'key':'E1'}]
+        xsettings = [{'hours':0, 'minutes':0, 'seconds':10, 'key':'E1'}]
         settings = Settings()
+        self.dispatcher = Dispatcher()
+        self.subscriber = MockSubscriber()
         flexmock(settings, getEventsByType=xsettings)
         self.publisher = SchedulePublisher(self.dispatcher, settings)
         self.publisher.dailyAlarms = []
         self.publisher.sleep = time.sleep
         self.publisher.sleepinterval = 1
+        self.subscriber.testq = Queue.Queue()
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
         self.dispatcher.start()
         self.publisher.start()
-        time.sleep(65)
+        self.subscriber.waitForMessage(count=1, timeout=20)
         self.publisher.abort()
         self.dispatcher.abort()
         messages = self.subscriber.retrieveMessages()
@@ -568,11 +581,14 @@ class TestSchedule(object):
         for topic in self.topics:
             assert topic in msgtopics
 
+
+def main():
+    module_name = sys.modules[__name__].__file__
+    result = nose.run(
+        argv=[sys.argv[0],
+              module_name]
+        )
+    return result
+
 if __name__ == '__main__':
-    t = testWatchdog()
-    t.setup()
-    try:
-        t.testWatchdogPublisherCreate()
-    except Exception as e:
-        pass
-    t.teardown()
+    main()

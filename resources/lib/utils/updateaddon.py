@@ -31,8 +31,8 @@ from time import strftime
 import xbmc
 import xbmcaddon
 import xbmcgui
-from resources.lib.utils.copyToDir import copyToDir
 from resources.lib.kodilogging import KodiLogger
+from resources.lib.utils.copyToDir import copyToDir
 from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
 
@@ -42,45 +42,40 @@ _ = kodipo.getLocalizedString
 kl = KodiLogger()
 log = kl.log
 
-debug = True
 
 class UpdateAddon(object):
-    def __init__(self, username, reponame, branch='master', src_root=None, addonid=None, silent=False, numbackups=5):
-        self.username = username
-        self.reponame = reponame
-        self.branch = branch
-        self.zipurl = r'https://github.com/%s/%s/archive/%s.zip' % (username, reponame, branch)
-        if src_root is None:
-            self.addonxmlurl = r'https://raw.githubusercontent.com/%s/%s/%s/addon.xml' % (username, reponame, branch)
-        else:
-            self.addonxmlurl = r'https://raw.githubusercontent.com/%s/%s/%s/%s/addon.xml' % (username, reponame, branch, src_root)
-        if addonid is None:
-            self.addonid = reponame
-        else:
-            self.addonid = addonid
+    def __init__(self, addonid=None, silent=False, numbackups=5):
+
+        self.addonid = addonid
         self.addondir = translatepath('special://addon(%s)' % self.addonid)
         self.addondatadir = translatepath('special://addondata(%s)' % self.addonid)
         self.tmpdir = translatepath('%s/temp' % self.addondatadir)
         self.backupdir = translatepath('%s/backup' % self.addondatadir)
-        self.currentversion = xbmcaddon.Addon(self.addonid).getAddonInfo('version')
-        if self.currentversion == u'':  # Running stub
-            self.currentversion = '0.9.0'
         self.silent = silent
         self.numbackups = numbackups
 
-    def prompt(self, strprompt, force=False):
-        if not self.silent or force:
+    @staticmethod
+    def currentversion(addonid):
+        currentversion = xbmcaddon.Addon(addonid).getAddonInfo('version')
+        if currentversion == u'':  # Running stub
+            currentversion = '0.9.0'
+        return currentversion
+
+    @staticmethod
+    def prompt(strprompt, silent=False, force=False):
+        if not silent or force:
             ddialog = xbmcgui.Dialog()
-            if ddialog.yesno(self.addonid, strprompt):
+            if ddialog.yesno('', strprompt):
                 return True
             else:
                 return False
 
-    def notify(self, message, force=False):
+    @staticmethod
+    def notify(message, silent=False, force=False):
         log(msg=message)
-        if not self.silent or force:
+        if not silent or force:
             ddialog = xbmcgui.Dialog()
-            ddialog.ok(self.addonid, message)
+            ddialog.ok('', message)
 
     def cleartemp(self, recreate=True):
         if os.path.exists(os.path.join(self.tmpdir, '.git')):
@@ -102,7 +97,7 @@ class UpdateAddon(object):
     @staticmethod
     def unzip(source_filename, dest_dir):
         try:
-            with contextlib.closing(zipfile.ZipFile(source_filename , "r")) as zf:
+            with contextlib.closing(zipfile.ZipFile(source_filename, "r")) as zf:
                 zf.extractall(dest_dir)
         except zipfile.BadZipfile:
             log(msg='Zip File Error')
@@ -115,7 +110,6 @@ class UpdateAddon(object):
         zipf = ZipArchive(dest, 'w', zipfile.ZIP_DEFLATED)
         zipf.addDir(srcdir, srcdir)
         zipf.close()
-
 
     def backup(self, src=None, destdir=None, numbackups=5):
         if src is None:
@@ -130,14 +124,15 @@ class UpdateAddon(object):
             if os.path.exists(destname):
                 os.remove(destname)
         self.cleartemp(recreate=True)
-        archivedir = os.path.join(self.tmpdir, '%s-%s' % (os.path.split(src)[1], self.branch))
+        archivedir = os.path.join(self.tmpdir,
+                                  '%s-%s' % (os.path.split(src)[1], xbmcaddon.Addon().getSetting('installedbranch')))
         shutil.copytree(src, archivedir, ignore=shutil.ignore_patterns('*.pyc', '*.pyo', '.git', '.idea'))
-        self.zipdir(destname, self.tmpdir)
+        UpdateAddon.zipdir(destname, self.tmpdir)
         self.cleartemp(recreate=False)
-        sorteddir = self.datesorteddir(destdir)
+        sorteddir = UpdateAddon.datesorteddir(destdir)
         num = len(sorteddir)
         if num > numbackups:
-            for i in xrange(0, num-numbackups):
+            for i in xrange(0, num - numbackups):
                 try:
                     os.remove(sorted(sorteddir)[i][2])
                 except OSError:
@@ -165,7 +160,8 @@ class UpdateAddon(object):
     @staticmethod
     def is_v1_gt_v2(version1, version2):
         def normalize(v):
-            return [int(x) for x in re.sub(r'(\.0+)*$','', v).split(".")]
+            return [int(x) for x in re.sub(r'(\.0+)*$', '', v).split(".")]
+
         result = cmp(normalize(version1), normalize(version2))
         if result == 1:
             return True
@@ -177,20 +173,32 @@ class UpdateAddon(object):
         ret = False
         for item in lst:
             if fn == item:
-                ret =  True
+                ret = True
             elif fnmatch.fnmatchcase(fn, item):
-                ret =  True
+                ret = True
         return ret
 
-    def installFromZip(self, zipfn, dryrun=False, updateonly=None, deletezip=False):
+    @staticmethod
+    def getBranchFromFile(path):
+        root = UpdateAddon.getAddonxmlPath(path)
+        if root != '':
+            ps = root.split('-')
+            if len(ps) == 1:
+                return ''
+            else:
+                return ps[len(ps) - 1]
+        else:
+            return ''
+
+    def installFromZip(self, zipfn, dryrun=False, updateonly=None, deletezip=False, silent=False):
         if os.path.split(os.path.split(zipfn)[0])[1] == 'backup':
             log(msg='Installing from backup')
             isBackup = True
         else:
             isBackup = False
         unzipdir = os.path.join(self.addondatadir, 'tmpunzip')
-        if self.unzip(zipfn, unzipdir) is False:
-            self.notify(_('Downloaded file could not be extracted'))
+        if UpdateAddon.unzip(zipfn, unzipdir) is False:
+            UpdateAddon.notify(_('Downloaded file could not be extracted'))
             try:
                 os.remove(zipfn)
             except OSError:
@@ -203,18 +211,21 @@ class UpdateAddon(object):
         else:
             if deletezip:
                 os.remove(zipfn)
+        branch = UpdateAddon.getBranchFromFile(unzipdir)
+        installedbranch = xbmcaddon.Addon().getSetting('installedbranch')
+        if branch == '':
+            branch = installedbranch
         if not isBackup:
             if self.backup(self.addondir, self.backupdir, self.numbackups) is False:
-                self.notify(_('Backup failed, update aborted'))
+                UpdateAddon.notify(_('Backup failed, update aborted'), silent=silent)
                 return
             else:
                 log(msg='Backup succeeded.')
-        archivedir = os.path.join(unzipdir, '%s-%s' %(self.reponame, self.branch))
-        addonisGHA = self.isGitHubArchive(self.addondir)
+        archivedir = UpdateAddon.getAddonxmlPath(unzipdir)
+        addonisGHA = UpdateAddon.isGitHubArchive(self.addondir)
         if os.path.isfile(os.path.join(archivedir, 'timestamp.json')) and not isBackup:
-            fd = self.loadfiledates(os.path.join(archivedir, 'timestamp.json'))
-            path = os.path.join(unzipdir, '%s-%s' %(self.addonid, self.branch))
-            self.setfiledates(path, fd)
+            fd = UpdateAddon.loadfiledates(os.path.join(archivedir, 'timestamp.json'))
+            UpdateAddon.setfiledates(archivedir, fd)
             log(msg='File timestamps updated')
             if updateonly is None:
                 updateonly = True
@@ -227,35 +238,44 @@ class UpdateAddon(object):
             updateonly = False
         if updateonly is True and ziptimestamped is False and isBackup is False:
             updateonly = False
-        install_root = self.getAddonxmlPath(archivedir)
-        if install_root != '':
+        if installedbranch != branch:
+            updateonly = False
+        if archivedir != '':
             try:
-                fc = copyToDir(install_root, self.addondir, updateonly=updateonly, dryrun=dryrun)
+                fc = copyToDir(archivedir, self.addondir, updateonly=updateonly, dryrun=dryrun)
             except OSError as e:
-                self.notify(_('Error encountered copying to addon directory: %s') % str(e))
+                UpdateAddon.notify(_('Error encountered copying to addon directory: %s') % str(e), silent=silent)
                 shutil.rmtree(unzipdir)
                 self.cleartemp(recreate=False)
             else:
+                if installedbranch != branch:
+                    xbmcaddon.Addon().setSetting('installedbranch', branch)
                 if len(fc) > 0:
                     self.cleartemp(recreate=False)
                     shutil.rmtree(unzipdir)
-                    if self.silent is False:
-                        msg = _('New version installed')
+                    if silent is False:
                         if not isBackup:
+                            msg = _('New version installed')
                             msg += _('\nPrevious installation backed up')
-                        self.notify(msg)
-                        log(msg='The following files were updated: %s' % str(fc))
-                        if self.prompt(_('Attempt to restart addon now?')):
+                        else:
+                            msg = _('Backup restored')
+                        UpdateAddon.notify(msg)
+                        log(msg=_('The following files were updated: %s') % str(fc))
+                        if not silent:
+                            answer = UpdateAddon.prompt(_('Attempt to restart addon now?')) == True
+                        else:
+                            answer = True
+                        if answer is True:
                             restartpath = translatepath('special://addon{%s)/restartaddon.py' % self.addonid)
                             if not os.path.isfile(restartpath):
                                 self.createRestartPy(restartpath)
                             xbmc.executebuiltin('RunScript(%s, %s)' % (restartpath, self.addonid))
                 else:
-                    self.notify(_('All files are current'))
-                    self.cleartemp(recreate=False)
-                    shutil.rmtree(unzipdir)
+                    UpdateAddon.notify(_('All files are current'), silent=silent)
         else:
-            self.notify(_('Could not find addon.xml\nInstallation aborted'))
+            self.cleartemp(recreate=False)
+            shutil.rmtree(unzipdir)
+            UpdateAddon.notify(_('Could not find addon.xml\nInstallation aborted'), silent=silent)
 
     @staticmethod
     def getAddonxmlPath(path):
@@ -275,7 +295,7 @@ class UpdateAddon(object):
     @staticmethod
     def setTime(path, strtime):
         ts = UpdateAddon.getTS(strtime)
-        os.utime(path, (ts,ts))
+        os.utime(path, (ts, ts))
 
     @staticmethod
     def loadfiledates(path):
@@ -304,10 +324,12 @@ class UpdateAddon(object):
         output.append('import xbmc')
         output.append('import sys')
         output.append('addonid = sys.argv[1]')
-        output.append('xbmc.executeJSONRPC(\'{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled", "params":{"addonid":"%s","enabled":"toggle"},"id":1}\' % addonid)')
+        output.append(
+            'xbmc.executeJSONRPC(\'{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled", "params":{"addonid":"%s","enabled":"toggle"},"id":1}\' % addonid)')
         output.append('xbmc.log(msg=\'***** Toggling addon enabled 1: %s\' % addonid)')
         output.append('xbmc.sleep(1000)')
-        output.append('xbmc.executeJSONRPC(\'{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled", "params":{"addonid":"%s","enabled":"toggle"},"id":1}\' % addonid)')
+        output.append(
+            'xbmc.executeJSONRPC(\'{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled", "params":{"addonid":"%s","enabled":"toggle"},"id":1}\' % addonid)')
         output.append('xbmc.log(msg=\'***** Toggling addon enabled 2: %s\' % addonid)')
         output = '\n'.join(output)
         with open(path, 'w') as f:
@@ -331,7 +353,7 @@ class UpdateAddon(object):
                 if not UpdateAddon.checkfilematch(relpath, ignore):
                     fd[relpath] = UpdateAddon.getFileModTime(ffn)
         if os.path.dirname(dst) == src:
-            fd[os.path.relpath(dst,src)] = strftime('%Y-%m-%dT%H:%M:%SZ')
+            fd[os.path.relpath(dst, src)] = strftime('%Y-%m-%dT%H:%M:%SZ')
         with open(dst, 'w') as f:
             json.dump(fd, f, ensure_ascii=False)
 
@@ -362,57 +384,36 @@ class UpdateAddon(object):
         vals.sort()
         vals = vals[5:-5]
         n = len(vals)
-        mean = sum(vals)/n
-        stdev = ((sum((x-mean)**2 for x in vals))/n)**0.5
-        if stdev/60.0 < 1.0:
+        mean = sum(vals) / n
+        stdev = ((sum((x - mean) ** 2 for x in vals)) / n) ** 0.5
+        if stdev / 60.0 < 1.0:
             return True
         else:
             return False
 
 
-
 class ZipArchive(zipfile.ZipFile):
-
-    verbose = False
-
-    showDebugInfo = False
-
     def __init__(self, *args, **kwargs):
-
-        self.verbose = kwargs.pop('verbose', self.verbose)
         zipfile.ZipFile.__init__(self, *args, **kwargs)
 
     def addEmptyDir(self, path, baseToRemove="", inZipRoot=None):
-
         inZipPath = os.path.relpath(path, baseToRemove)
         if inZipPath == ".":  # path == baseToRemove (but still root might be added
             inZipPath = ""
-
         if inZipRoot is not None:
             inZipPath = os.path.join(inZipRoot, inZipPath)
-
         if inZipPath == "":  # nothing to add
             return
-
-        if self.verbose:
-            print "Adding dir entry: " + inZipPath
         zipInfo = zipfile.ZipInfo(os.path.join(inZipPath, ''))
         self.writestr(zipInfo, '')
 
     def addFile(self, filePath, baseToRemove="", inZipRoot=None):
-
         inZipPath = os.path.relpath(filePath, baseToRemove)
-
         if inZipRoot is not None:
             inZipPath = os.path.join(inZipRoot, inZipPath)
-
-        if self.verbose:
-            print "Adding file: " + filePath
-            print "	Under path: " + inZipPath
         self.write(filePath, inZipPath)
 
     def addDir(self, path, baseToRemove="", ignoreDirs=None, inZipRoot=None):
-
         if ignoreDirs is None:
             ignoreDirs = []
         ignoredRoots = []
@@ -421,8 +422,6 @@ class ZipArchive(zipfile.ZipFile):
             dirName = os.path.basename(root)
             if ignoreDirs.count(dirName) > 0:
                 ignoredRoots += [root]
-                if self.showDebugInfo:
-                    print "ignored: " + root
                 continue
             # ignore descendants of folders ignored above
             ignore = False
@@ -435,9 +434,6 @@ class ZipArchive(zipfile.ZipFile):
 
             # add dir itself (needed for empty dirs)
             if len(files) <= 0:
-                if self.showDebugInfo:
-                    print "(root, baseToRemove, inZipRoot) = "
-                    print (root, baseToRemove, inZipRoot)
                 self.addEmptyDir(root, baseToRemove, inZipRoot)
 
             # add files

@@ -1,10 +1,13 @@
-v0.9.7.4 (2016-02-14)
+v0.9.7.6 (2016-02-22)
+- Refactored update, detects paths with spaces
+
+v0.9.7.5 (2016-02-16)
 - Fix schedule import
 
-v0.9.7.4 (2016-02-14)
+v0.9.7.4 (2016-02-16)
 - Added Scheduler publisher to schedule tasks to run daily or at a given interval
 
-v0.9.7.3 (2016-02-14)
+v0.9.7.3 (2016-02-15)
 - Non-repo version added ability to update from Github
 
 v0.9.7.2 (2016-02-14)

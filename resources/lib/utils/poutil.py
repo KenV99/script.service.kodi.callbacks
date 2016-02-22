@@ -199,7 +199,7 @@ class PoDict(object):
 
     @staticmethod
     def _write_to_file(dict_msgctxt, url):
-        fo = open(url, 'w')
+        fo = open(url, 'wb')
         PoDict.write_po_header(fo)
         str_max = max(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
         str_min = min(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
