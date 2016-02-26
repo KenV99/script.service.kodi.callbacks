@@ -202,8 +202,6 @@ class GitHubTools(object):
 
     @staticmethod
     def updateSettingsWithBranches(tag, username, reponame, addonid=None):
-        from resources.lib.utils.kodipathtools import translatepath
-        import re
         if addonid is None:
             addonid = reponame
         try:

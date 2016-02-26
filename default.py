@@ -286,8 +286,6 @@ if __name__ == '__main__':
                 xbmc.log(msg='Error: %s' % str(e), level=xbmc.LOGERROR)
 
         elif sys.argv[1] == 'logsettings':
-            import xbmcgui
-
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             settings = Settings()
             settings.getSettings()

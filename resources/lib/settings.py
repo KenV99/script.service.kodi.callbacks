@@ -82,7 +82,6 @@ class Settings(object):
 
     def logSettings(self):
         import pprint
-        from resources.lib.kodilogging import KodiLogger
         settingspp = {'Tasks':self.tasks, 'Events': self.events, 'General':self.general}
         pp = pprint.PrettyPrinter(indent=2)
         msg = pp.pformat(settingspp)
