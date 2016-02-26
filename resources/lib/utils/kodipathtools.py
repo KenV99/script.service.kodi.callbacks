@@ -103,7 +103,7 @@ def addonpath(addon_id='script.service.kodi.callbacks'):
         path = os.path.join(*[homepath(), 'addons', addon_id])
     else:
         try:
-            path = xbmcaddon.Addon(addon_id).getAddonInfo('path')
+            path = xbmcaddon.Addon(addon_id).getAddonInfo('path').decode("utf-8")
         except Exception:
             path = ''
     if path == '':
@@ -114,7 +114,7 @@ def addondatapath(addon_id='script.service.kodi.callbacks'):
     if isStub:
         path = os.path.join(*[homepath(), 'userdata', 'addon_data', addon_id])
     else:
-        path = os.path.join(*[xbmc.translatePath('special://userdata'), 'addon_data', addon_id])
+        path = os.path.join(*[xbmc.translatePath('special://userdata').decode("utf-8"), 'addon_data', addon_id])
     return path
 
 def homepath():
@@ -122,7 +122,7 @@ def homepath():
     if isStub:
         return paths[getPlatform()]
     else:
-        return xbmc.translatePath('special://home')
+        return xbmc.translatePath('special://home').decode("utf-8")
 
 
 def logpath():
@@ -130,10 +130,10 @@ def logpath():
     if isStub:
         return paths[getPlatform()]
     else:
-        return xbmc.translatePath('special://logpath')
+        return xbmc.translatePath('special://logpath').decode("utf-8")
 
 if __name__ == '__main__':
-    x = translatepath('special://addon/resources/lib/tests')
+    x = translatepath('special://addon/resources/lib/tests').decode("utf-8")
 
 def setPathExecuteRW(path):
     path = translatepath(path)

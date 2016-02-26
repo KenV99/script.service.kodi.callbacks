@@ -23,7 +23,7 @@ from resources.lib.utils.kodipathtools import translatepath
 
 
 def testBackup():
-    ua = UpdateAddon('Kenv99', 'script.service.kodi.callbacks', 'master', silent=True)
+    ua = UpdateAddon('script.service.kodi.callbacks', silent=True)
     assert isinstance(ua, UpdateAddon)
     ua.createTimeStampJson(translatepath('special://addon'), dst=None, ignore=['.git/*', '.idea/*', '*.pyc', '*.pyo'])
     result = ua.backup(translatepath('special://addon'), translatepath('special://addondata/backup'))

@@ -218,6 +218,9 @@ if __name__ == '__main__':
             from resources.lib.utils.xml_gen import generate_settingsxml
 
             generate_settingsxml()
+            dialog = xbmcgui.Dialog()
+            msg = _('Settings Regenerated')
+            dialog.ok(_('Kodi Callbacks'), msg)
 
         elif sys.argv[1] == 'test':
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
@@ -227,7 +230,7 @@ if __name__ == '__main__':
             tt.runTests()
             dialog = xbmcgui.Dialog()
             msg = _('Native Task Testing Complete - see log for results')
-            dialog.notification('Kodi Callbacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
+            dialog.notification(_('Kodi Callbacks'), msg, xbmcgui.NOTIFICATION_INFO, 5000)
 
         elif sys.argv[1] == 'updatefromzip':
             from resources.lib.utils.kodipathtools import translatepath
@@ -241,7 +244,7 @@ if __name__ == '__main__':
                     ua = UpdateAddon(addonid)
                     ua.installFromZip(zipfn, updateonly=True, dryrun=dryrun)
                 else:
-                    dialog.ok(addonid, 'Incorrect path')
+                    dialog.ok(_('Kodi Callbacks'), _('Incorrect path'))
 
         elif sys.argv[1] == 'restorebackup':
             from resources.lib.utils.kodipathtools import translatepath
@@ -264,16 +267,35 @@ if __name__ == '__main__':
             downloadnew, ghversion, currentversion = GitHubTools.checkForDownload(GHUser, reponame, branchname, addonid)
             dialog = xbmcgui.Dialog()
             if downloadnew is True:
-                answer = dialog.yesno('New version available', line1='Current version: %s' % currentversion,
-                                      line2='Available version: %s' % ghversion,
-                                      line3='Download and install?')
+                answer = dialog.yesno(_('New version available'), line1=_('Current version: %s') % currentversion,
+                                      line2=_('Available version: %s') % ghversion,
+                                      line3=_('Download and install?'))
             else:
-                answer = dialog.yesno('A new version is not available', line1='Current version: %s' % currentversion,
-                                      line2='Available version: %s' % ghversion,
-                                      line3='Download and install anyway?')
+                answer = dialog.yesno(_('A new version is not available'), line1='Current version: %s' % currentversion,
+                                      line2=_('Available version: %s') % ghversion,
+                                      line3=_('Download and install anyway?'))
             if answer != 0:
                 silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
                 GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=downloadnew, silent=silent)
+
+        elif sys.argv[1] == 'lselector':
+            from resources.lib.utils.selector import selectordialog
+            try:
+                result = selectordialog(sys.argv[2:])
+            except (SyntaxError, TypeError) as e:
+                xbmc.log(msg='Error: %s' % str(e), level=xbmc.LOGERROR)
+
+        elif sys.argv[1] == 'logsettings':
+            import xbmcgui
+
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+            settings = Settings()
+            settings.getSettings()
+            settings.logSettings()
+            dialog = xbmcgui.Dialog()
+            msg = _('Settings written to log')
+            dialog.ok(_('Kodi Callbacks'), msg)
+
         else:
             # Direct Event/Task Testing
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)

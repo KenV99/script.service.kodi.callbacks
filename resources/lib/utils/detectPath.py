@@ -1,3 +1,22 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+#     Copyright (C) 2016 KenV99
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 import os
 import shlex
 import sys
@@ -8,7 +27,7 @@ def process_cmdline(cmd):
     for i in xrange(0, len(parts)):
         found=-1
         for j in xrange(i+1, len(parts)+1):
-            t = ' '.join(parts[i:j])
+            t = ' '.join(parts[i:j]).decode("utf-8")
             t = os.path.expandvars(t)
             t = os.path.expanduser(t)
             t = t.strip('"')
@@ -31,7 +50,7 @@ def process_cmdline(cmd):
         for i in xrange(0, len(parts)):
             for j in xrange(0, len(paths)):
                 if i == paths[j][0]:
-                    t = ' '.join(parts[i:paths[j][1]])
+                    t = ' '.join(parts[i:paths[j][1]]).decode("utf-8")
                     t = os.path.expanduser(t)
                     t = os.path.expandvars(t)
                     t = t.strip('"')

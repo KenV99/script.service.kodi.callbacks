@@ -22,9 +22,9 @@ import pickle
 import os
 import time
 from resources.lib.utils.kodipathtools import translatepath, setPathRW
-libs = translatepath('special://addon/resources/lib')
+libs = translatepath('special://addon/resources/lib').decode("utf-8")
 sys.path.append(libs)
-libs = translatepath('special://addon/resources/lib/watchdog')
+libs = translatepath('special://addon/resources/lib/watchdog').decode("utf-8")
 sys.path.append(libs)
 
 import xbmc
@@ -68,7 +68,7 @@ class WatchdogStartup(Publisher):
         oldsnapshots = WatchdogStartup.getPickle()
         newsnapshots = {}
         for setting in self.settings:
-            folder = translatepath(setting['ws_folder'])
+            folder = translatepath(setting['ws_folder']).decode("utf-8")
             if os.path.exists(folder):
                 newsnapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 newsnapshots[folder] = newsnapshot
@@ -123,7 +123,7 @@ class WatchdogStartup(Publisher):
         for setting in self.settings:
             folder = xbmc.translatePath(setting['ws_folder']).decode('utf-8')
             if folder == u'':
-                folder = setting['ws_folder']
+                folder = setting['ws_folder'].decode("utf-8")
             if os.path.exists(folder):
                 snapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 snapshots[folder] = snapshot
@@ -153,7 +153,7 @@ class WatchdogStartup(Publisher):
 
     @staticmethod
     def getPicklePath():
-        path = translatepath('special://addondata/watchdog.pkl')
+        path = translatepath('special://addondata/watchdog.pkl').decode("utf-8")
         setPathRW(path)
         return path
 

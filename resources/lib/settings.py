@@ -16,12 +16,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
+import os
 import xbmcaddon
 from resources.lib.pubsub import Topic
 from resources.lib.events import Events
 from resources.lib.kodilogging import KodiLogger
 from resources.lib import taskdict
 from resources.lib.events import requires_subtopic
+from resources.lib.utils.poutil import PoDict
+podict = PoDict()
+podict.read_from_file(os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path').decode("utf-8"), r'resources/language/English/strings.po'))
+
+def getEnglishStringFromId(msgctxt):
+    status, ret = podict.has_msgctxt(msgctxt)
+    if status is True:
+        return ret
+    else:
+        return ''
+
+_ = getEnglishStringFromId
 
 # noinspection PyBroadException
 try:
@@ -67,6 +80,15 @@ class Settings(object):
             rl[evt['text']] = key
         Settings.eventsReverseLookup = rl
 
+    def logSettings(self):
+        import pprint
+        from resources.lib.kodilogging import KodiLogger
+        settingspp = {'Tasks':self.tasks, 'Events': self.events, 'General':self.general}
+        pp = pprint.PrettyPrinter(indent=2)
+        msg = pp.pformat(settingspp)
+        kl = KodiLogger()
+        kl.log(msg=msg)
+
     def getSettings(self):
         self.getTaskSettings()
         self.getEventSettings()
@@ -104,9 +126,10 @@ class Settings(object):
     def getEventSetting(pid):
         evt = {}
         et = get('%s.type' % pid, 'text')
-        if et == 'None':
+        if et == podict.has_msgid('None')[1]:
             return
         else:
+            et = _(et)
             et = Settings.eventsReverseLookup[et]
             evt['type'] = et
         tsk = get('%s.task' % pid, 'text')

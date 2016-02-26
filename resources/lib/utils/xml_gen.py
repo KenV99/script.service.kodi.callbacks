@@ -28,7 +28,7 @@ _ = kodipo.getLocalizedStringId
 kl = KodiLogger()
 log = kl.log
 podict = PoDict()
-pofile = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'language', 'English', 'strings.po')
+pofile = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path').decode("utf-8"), 'resources', 'language', 'English', 'strings.po')
 if pofile.startswith('resources'):
     pofile = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
 podict.read_from_file(pofile)
@@ -39,11 +39,15 @@ def generate_settingsxml(fn=None):
     allevts = Events().AllEvents
     output = []
     ssp = '    <setting '
-    evts = ['None']
+    evts = []
     for evtkey in allevts.keys():
         evts.append(allevts[evtkey]['text'])
     evts.sort()
-    evts = "|".join(evts)
+    evts.insert(0, 'None')
+    levts = []
+    for evt in evts:
+        levts.append(_(evt))
+    levts = "|".join(levts)
 
     def getoffset(idxx, lst):
         return str(idxx - len(lst))
@@ -54,11 +58,12 @@ def generate_settingsxml(fn=None):
 
     startnum = int(kodipo.getLocalizedStringId('Task 1')) - 1
     tasks = []
+    idx_prev = 0
     for i in xrange(1,11):
         prefix = "T%s" % str(i)
-        output.append('    <setting label="%s" type="lsep"/>\n'% str(startnum + i))
+
         tasks.append(str(startnum + i))
-        idx = len(output)
+
         taskchoices = ['none']
         for key in sorted(taskdict.keys()):
             taskchoices.append(key)
@@ -70,7 +75,14 @@ def generate_settingsxml(fn=None):
                 podirty = True
             ltaskchoices.append(strid)
         ltaskchoices = "|".join(ltaskchoices)
-        output.append('    <setting default="none" id="%s.type" label="%s" type="labelenum" lvalues="%s" />\n' % (prefix, _('Task'), ltaskchoices))
+        if i == 1:
+            output.append('    <setting label="%s" type="lsep" />\n' % str(startnum + i))
+            idx = len(output)
+            output.append('    <setting default="none" id="%s.type" label="%s" type="labelenum" lvalues="%s" />\n' % (prefix, _('Task'), ltaskchoices))
+        else:
+            output.append('    <setting label="%s" type="lsep" visible="!eq(%s,0)" />\n' % (str(startnum + i), str(getoffset(idx_prev, output))))
+            idx = len(output)
+            output.append('    <setting default="none" id="%s.type" label="%s" type="labelenum" lvalues="%s" visible="!eq(%s,0)" />\n' % (prefix, _('Task'), ltaskchoices, str(getoffset(idx_prev, output))))
         output.append('    <setting default="-1" id="%s.maxrunning" label="%s" type="number" visible="!eq(-1,0)" />\n' % (prefix, _('Max num of this task running simultaneously (-1=no limit)')))
         output.append('    <setting default="-1" id="%s.maxruns" label="%s" type="number" visible="!eq(-2,0)" />\n' % (prefix, _('Max num of times this task runs (-1=no limit)')))
         output.append('    <setting default="-1" id="%s.refractory" label="%s" type="number" visible="!eq(-3,0)" />\n' % (prefix, _('Refractory period in secs (-1=none)')))
@@ -92,18 +104,22 @@ def generate_settingsxml(fn=None):
                 if varset['type'] == 'sfile':
                     output.append('    <setting default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' %
                                   (varset['default'], prefix, var['id'], varset['label'], 'text', getoffset(idx,output), i1+1))
-
+        idx_prev = idx
     output.append('  </category>\n\n')
     output.append('  <category label="%s">\n' % _('Events'))
     tasks = '|'.join(tasks)
 
     startnum = int(kodipo.getLocalizedStringId('Event 1')) - 1
+    idx_prev = 0
     for i in xrange(1,11):
         prefix = 'E%s' % str(i)
-        output.append(ssp + 'label="%s" type="lsep" />\n' % str(startnum + i))
+        output.append(ssp + 'label="%s" type="lsep" visible="!eq(%s,%s)" />\n' % (str(startnum + i), getoffset(idx_prev, output), _('None')))
+        # output.append(ssp + 'default="None" id="%s.type" label="%s" type="select" values="%s" />\n' % (prefix, _('Type'), evts))
+        output.append(ssp + 'label="%s" type="action" action="RunScript(script.service.kodi.callbacks, lselector, id=%s.type, heading=%s, lvalues=%s)" visible="!eq(%s,%s)" />\n' % (_('Choose event type'), prefix, _('Choose event type'), levts, getoffset(idx_prev, output), _('None')))
+        output.append(ssp + 'ldefault="%s" id="%s.type-v" label="%s" type="select" enable="false" lvalues="%s" visible="!eq(%s,%s)" />\n' % (_('None'), prefix, _('Event:'), levts, getoffset(idx_prev, output), _('None')))
         idx = len(output)
-        output.append(ssp + 'default="None" id="%s.type" label="%s" type="select" values="%s" />\n' % (prefix, _('Type'), evts))
-        output.append(ssp + 'default="Task 1" id="%s.task" label="%s" type="labelenum" visible="!eq(%s,None)" lvalues="%s" />\n' %(prefix, _('Task'), getoffset(idx,output),tasks))
+        output.append(ssp + 'default="%s" id="%s.type" label="" type="text" visible="false" />\n' % (_('None'), prefix))
+        output.append(ssp + 'default="Task 1" id="%s.task" label="%s" type="labelenum" visible="!eq(%s,%s)" lvalues="%s" />\n' %(prefix, _('Task'), getoffset(idx,output), _('None'), tasks))
         for evtkey in allevts.keys():
             evt = allevts[evtkey]
             for req in evt['reqInfo']:
@@ -114,10 +130,10 @@ def generate_settingsxml(fn=None):
                     mytype = 'folder'
                 else:
                     mytype = r1
-                output.append(ssp + 'default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' % (req[2], prefix, req[0], kodipo.getLocalizedStringId(req[0]), mytype, getoffset(idx,output), evt['text'] ))
+                output.append(ssp + 'default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' % (req[2], prefix, req[0], kodipo.getLocalizedStringId(req[0]), mytype, getoffset(idx,output), _(evt['text']) ))
                 if r1 == 'sfolder':
-                    output.append(ssp + 'default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' % (req[2], prefix, req[0], kodipo.getLocalizedStringId(req[0]), 'text', getoffset(idx,output), evt['text'] ))
-            output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (_('Hint - variables can be subbed (%%=%, _%=space, _%%=,): '), getoffset(idx,output), evt['text']))
+                    output.append(ssp + 'default="%s" id="%s.%s" label="%s" type="%s" visible="eq(%s,%s)" />\n' % (req[2], prefix, req[0], kodipo.getLocalizedStringId(req[0]), 'text', getoffset(idx,output), _(evt['text']) ))
+            output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (_('Hint - variables can be subbed (%%=%, _%=space, _%%=,): '), getoffset(idx,output), _(evt['text'])))
             try:
                 vargs = evt['varArgs']
             except KeyError:
@@ -133,21 +149,22 @@ def generate_settingsxml(fn=None):
                     if found is False:
                         podict.addentry(strid, vs)
                         podirty = True
-                    output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (strid, getoffset(idx,output), evt['text']))
+                    output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (strid, getoffset(idx,output), _(evt['text'])))
                 else:
                     x = vs.rfind(',', 0, brk)
                     found, strid =  podict.has_msgid(vs[:x])
                     if found is False:
                         podict.addentry(strid, vs[:x])
                         podirty = True
-                    output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (strid, getoffset(idx,output), evt['text']))
+                    output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (strid, getoffset(idx,output), _(evt['text'])))
                     found, strid =  podict.has_msgid(vs[x+1:])
                     if found is False:
                         podict.addentry(strid, vs[x+1:])
                         podirty = True
-                    output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (strid, getoffset(idx,output), evt['text']))
-        output.append(ssp + 'default="" id="%s.userargs" label="%s" type="text" visible="!eq(%s,None)" />\n' % (prefix, _('Var subbed arg string'), getoffset(idx, output)))
-        output.append(ssp + 'default="" id="%s.test" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, %s)" visible="!eq(%s,0)" />\n' % (prefix, _('Test Command (click OK to save changes first)'), prefix,getoffset(idx, output)))
+                    output.append(ssp + 'label="%s" type="lsep" visible="eq(%s,%s)" />\n' % (strid, getoffset(idx,output), _(evt['text'])))
+        output.append(ssp + 'default="" id="%s.userargs" label="%s" type="text" visible="!eq(%s,%s)" />\n' % (prefix, _('Var subbed arg string'), getoffset(idx, output), _('None')))
+        output.append(ssp + 'default="" id="%s.test" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, %s)" visible="!eq(%s,%s)" />\n' % (prefix, _('Test Command (click OK to save changes first)'), prefix, getoffset(idx, output), _('None')))
+        idx_prev = idx
 
     output.append('  </category>\n')
     output.append('  <category label="%s">\n' % _('General'))
@@ -156,6 +173,7 @@ def generate_settingsxml(fn=None):
     output.append('    <setting default="500" id="LogFreq" label="%s" type="number" />\n' % _('Log Polling Frequency (ms)'))
     output.append('    <setting default="100" id="TaskFreq" label="%s" type="number" />\n' % _('Task Polling Frequency (ms)'))
     output.append('    <setting default="false" id="loglevel" label="%s" type="bool" />\n' % _('Show debugging info in normal log?'))
+    output.append('    <setting id="logsettings" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, logsettings)" />\n' % _('Write Settings into Kodi log'))
     output.append('    <setting id="regen" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, regen)" />\n' % _('Regenerate settings.xml'))
     output.append('    <setting id="test" label="%s" type="action" action="RunScript(script.service.kodi.callbacks, test)" />\n' % _('Test addon native tasks (see log for output)'))
     output.append('  </category>\n')
@@ -173,7 +191,7 @@ def generate_settingsxml(fn=None):
     output.append('</settings>')
     output = "".join(output)
     if fn is None:
-        fn = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path'), 'resources', 'lib', 'tests')
+        fn = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path').decode("utf-8"), 'resources', 'lib', 'tests')
     with open(fn, mode='wb') as f:
         f.writelines(output)
 

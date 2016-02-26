@@ -55,7 +55,7 @@ class KodiPo(object):
         except Exception:
             isStub = False
         if isStub is False:
-            cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path'), r'resources/language/English/strings.po')
+            cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path').decode("utf-8"), r'resources/language/English/strings.po')
         else:
             cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
         cls.podict = PoDict()
@@ -144,14 +144,14 @@ class PoDict(object):
             self.dict_msgctxt[str_msgctxt] = str_msgid
             self.dict_msgid[str_msgid] = str_msgctxt
 
-    def has_msgctxt(self, str_msgctxt):
+    def has_msgctxt(self, str_msgctxt): # Returns the English string associate with the id provided
         with PoDict._lock:
             if str_msgctxt in self.dict_msgctxt.keys():
                 return [True, self.dict_msgctxt[str_msgctxt]]
             else:
                 return [False, None]
 
-    def has_msgid(self, str_msgid):
+    def has_msgid(self, str_msgid): # Returns the id in .po as a string i.e. "32000"
         with PoDict._lock:
             if str_msgid in self.dict_msgid.keys():
                 return [True, self.dict_msgid[str_msgid]]

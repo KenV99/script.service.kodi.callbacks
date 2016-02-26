@@ -65,7 +65,7 @@ class WatchdogPublisher(Publisher):
                             ignore_directories=setting['ignore_directories'],
                             topic=Topic('onFileSystemChange', setting['key']), publish=self.publish)
             self.event_handlers.append(eh)
-            folder = translatepath(setting['folder'])
+            folder = translatepath(setting['folder'].decode("utf-8"))
             mysetting = [eh, folder, setting['recursive']]
             self.observersettings.append(mysetting)
 

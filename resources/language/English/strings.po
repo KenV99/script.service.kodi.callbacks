@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32228
+#Add-on messages id=32001 to 32272
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -936,5 +936,181 @@ msgstr ""
 
 msgctxt "#32228"
 msgid "$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s"
+msgstr ""
+
+msgctxt "#32229"
+msgid "None"
+msgstr ""
+
+msgctxt "#32230"
+msgid "on Clean Finished"
+msgstr ""
+
+msgctxt "#32231"
+msgid "on Clean Started"
+msgstr ""
+
+msgctxt "#32232"
+msgid "on DPMS Activated"
+msgstr ""
+
+msgctxt "#32233"
+msgid "on DPMS Deactivated"
+msgstr ""
+
+msgctxt "#32234"
+msgid "on Daily Alarm"
+msgstr ""
+
+msgctxt "#32235"
+msgid "on File System Change"
+msgstr ""
+
+msgctxt "#32236"
+msgid "on File System Change at Startup"
+msgstr ""
+
+msgctxt "#32237"
+msgid "on Idle [secs]"
+msgstr ""
+
+msgctxt "#32238"
+msgid "on Interval Alarm"
+msgstr ""
+
+msgctxt "#32239"
+msgid "on JSON Notification"
+msgstr ""
+
+msgctxt "#32240"
+msgid "on Log Regex"
+msgstr ""
+
+msgctxt "#32241"
+msgid "on Log Simple"
+msgstr ""
+
+msgctxt "#32242"
+msgid "on Playback Ended"
+msgstr ""
+
+msgctxt "#32243"
+msgid "on Playback Paused"
+msgstr ""
+
+msgctxt "#32244"
+msgid "on Playback Resumed"
+msgstr ""
+
+msgctxt "#32245"
+msgid "on Playback Seek"
+msgstr ""
+
+msgctxt "#32246"
+msgid "on Playback Seek Chapter"
+msgstr ""
+
+msgctxt "#32247"
+msgid "on Playback Speed Changed"
+msgstr ""
+
+msgctxt "#32248"
+msgid "on Playback Started"
+msgstr ""
+
+msgctxt "#32249"
+msgid "on Profile Change"
+msgstr ""
+
+msgctxt "#32250"
+msgid "on Queue Next Item"
+msgstr ""
+
+msgctxt "#32251"
+msgid "on Resume After Idle [secs]"
+msgstr ""
+
+msgctxt "#32252"
+msgid "on Scan Finished"
+msgstr ""
+
+msgctxt "#32253"
+msgid "on Scan Started"
+msgstr ""
+
+msgctxt "#32254"
+msgid "on Screensaver Activated"
+msgstr ""
+
+msgctxt "#32255"
+msgid "on Screensaver Deactivated"
+msgstr ""
+
+msgctxt "#32256"
+msgid "on Shutdown"
+msgstr ""
+
+msgctxt "#32257"
+msgid "on Startup"
+msgstr ""
+
+msgctxt "#32258"
+msgid "on Stereoscopic Mode Change "
+msgstr ""
+
+msgctxt "#32259"
+msgid "on Window Closed"
+msgstr ""
+
+msgctxt "#32260"
+msgid "on Window Opened"
+msgstr ""
+
+msgctxt "#32261"
+msgid "Choose event type"
+msgstr ""
+
+msgctxt "#32262"
+msgid "Event:"
+msgstr ""
+
+msgctxt "#32263"
+msgid "Write Settings into Kodi log"
+msgstr ""
+
+msgctxt "#32264"
+msgid "Settings Regenerated"
+msgstr ""
+
+msgctxt "#32265"
+msgid "Incorrect path"
+msgstr ""
+
+msgctxt "#32266"
+msgid "New version available"
+msgstr ""
+
+msgctxt "#32267"
+msgid "Current version: %s"
+msgstr ""
+
+msgctxt "#32268"
+msgid "Available version: %s"
+msgstr ""
+
+msgctxt "#32269"
+msgid "Download and install?"
+msgstr ""
+
+msgctxt "#32270"
+msgid "A new version is not available"
+msgstr ""
+
+msgctxt "#32271"
+msgid "Download and install anyway?"
+msgstr ""
+
+msgctxt "#32272"
+msgid "Settings written to log"
 msgstr ""
 
