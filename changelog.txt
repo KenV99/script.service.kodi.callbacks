@@ -1,4 +1,5 @@
 v0.9.8 (2016-02-26)
+- Merged nonrepo branch onto master
 - Change xml to be official repo compliant
 - Added ability to write settings to log - useful if need to put log on pastebin
 - Hide unused tasks and events in settings
