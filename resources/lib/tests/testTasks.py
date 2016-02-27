@@ -20,6 +20,7 @@ import os
 import sys
 import Queue
 import time
+import re
 import traceback
 import json
 from resources.lib import taskdict
@@ -82,6 +83,9 @@ class testTasks(object):
         self.task = None
         self.q = Queue.Queue()
 
+    def clear_q(self):
+        self.q = Queue.Queue()
+
     def testHttp(self):
         serverEnabled, serverPort, serverUser, serverPassword = getWebserverInfo()
         if serverEnabled:
@@ -92,6 +96,7 @@ class testTasks(object):
             tm.returnHandler = self.returnHandler
             topic = Topic('onPlaybackStarted')
             runKwargs = events['onPlayBackStarted']['expArgs']
+            self.clear_q()
             tm.start(topic, **runKwargs)
             try:
                 tr = self.q.get(timeout=1)
@@ -117,8 +122,9 @@ class testTasks(object):
         tm = TaskManager(self.task,1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
         topic = Topic('onPlayBackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
+        self.clear_q()
         tm.start(topic, **runKwargs)
-        time.sleep(1)
+        time.sleep(3)
         debug = is_xbmc_debug()
         tm.start(topic, **runKwargs)
         if debug == start_debug:
@@ -127,11 +133,6 @@ class testTasks(object):
 
     def testScriptNoShell(self):
         self.task = taskdict['script']['class']
-        outfile = os.path.join(testdir, 'scriptoutput.txt')
-        try:
-            os.remove(outfile)
-        except OSError:
-            pass
         if sys.platform.startswith('win'):
             testfile = 'tstScript.bat'
         else:
@@ -144,6 +145,7 @@ class testTasks(object):
         tm.returnHandler = self.returnHandler
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
+        self.clear_q()
         tm.start(topic, **runKwargs)
         try:
             tr = self.q.get(timeout=2)
@@ -152,25 +154,14 @@ class testTasks(object):
         else:
             if tr.iserror is True:
                 log(loglevel=xbmc.LOGERROR, msg=_('testScriptNoShell returned with an error: %s') % tr.msg)
-            try:
-                with open(outfile, 'r') as f:
-                    retArgs = f.readline()
-            except OSError:
-                retArgs = ''
-            try:
-                os.remove(outfile)
-            except OSError:
-                pass
-            if retArgs.strip('\n') != userargs:
-                raise AssertionError(_('Script without shell test failed'))
+                raise AssertionError (_('Script without shell test failed'))
+            else:
+                retArgs = re.findall(r'Process returned data: \[(.+)\]', tr.msg)[0]
+                if retArgs != userargs:
+                    raise AssertionError(_('Script without shell test failed'))
 
     def testScriptShell(self):
         self.task = taskdict['script']['class']
-        outfile = os.path.join(testdir, 'scriptoutput.txt')
-        try:
-            os.remove(outfile)
-        except Exception:
-            pass
         if sys.platform.startswith('win'):
             testfile = 'tstScript.bat'
         else:
@@ -183,24 +174,20 @@ class testTasks(object):
         tm.returnHandler = self.returnHandler
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
+        self.clear_q()
         tm.start(topic, **runKwargs)
         try:
             tr = self.q.get(timeout=2)
         except Queue.Empty:
             raise AssertionError(_('Timed out waiting for return'))
-        if tr.iserror is True:
-            log(loglevel=xbmc.LOGERROR, msg=_('testScriptShell returned with an error: %s') % tr.msg)
-        try:
-            with open(outfile, 'r') as f:
-                retArgs = f.readline()
-        except Exception:
-            retArgs = ''
-        try:
-            os.remove(outfile)
-        except OSError:
-            pass
-        if retArgs.strip('\n') != userargs:
-            raise AssertionError(_('Script with shell test failed'))
+        else:
+            if tr.iserror is True:
+                log(loglevel=xbmc.LOGERROR, msg=_('testScriptShell returned with an error: %s') % tr.msg)
+                raise AssertionError(_('Script with shell test failed'))
+            else:
+                retArgs = re.findall(r'Process returned data: \[(.+)\]', tr.msg)[0]
+                if retArgs != userargs:
+                    raise AssertionError(_('Script with shell test failed'))
 
 
     def testPythonImport(self):
@@ -212,6 +199,7 @@ class testTasks(object):
         tm.returnHandler = self.returnHandler
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
+        self.clear_q()
         tm.start(topic, **runKwargs)
         try:
             tr = self.q.get(timeout=1)
@@ -240,6 +228,7 @@ class testTasks(object):
         tm.returnHandler = self.returnHandler
         topic = Topic('onPlaybackStarted')
         runKwargs = events['onPlayBackStarted']['expArgs']
+        self.clear_q()
         tm.start(topic, **runKwargs)
         try:
             tr = self.q.get(timeout=1)

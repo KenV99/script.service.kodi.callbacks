@@ -73,7 +73,7 @@ class TaskScript(AbstractTask):
         tmpl = process_cmdline(taskKwargs['scriptfile'])
         found = False
         for tmp in tmpl:
-            tmp = xbmc.translatePath(tmp).decode('utf-8')
+            tmp = xbmc.translatePath(tmp)
             if xbmcvfs.exists(tmp) or os.path.exists(tmp) and found is False:
                 try:
                     mode = os.stat(tmp).st_mode
@@ -103,7 +103,7 @@ class TaskScript(AbstractTask):
         basedir = None
         sysexecutable = None
         for i, tmp in enumerate(tmpl):
-            tmp = xbmc.translatePath(tmp).decode('utf-8')
+            tmp = xbmc.translatePath(tmp)
             if os.path.exists(tmp) and filefound is False:
                 basedir, fn = os.path.split(tmp)
                 tmpl[i] = fn
@@ -140,7 +140,7 @@ class TaskScript(AbstractTask):
                 if stdoutdata is not None:
                     stdoutdata = str(stdoutdata).strip()
                     if stdoutdata != '':
-                        msg += _('Process returned data: %s\n') % stdoutdata
+                        msg += _('Process returned data: [%s]\n') % stdoutdata
                     else:
                         msg += _('Process returned no data\n')
                 else:

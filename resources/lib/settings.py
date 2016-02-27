@@ -24,8 +24,9 @@ from resources.lib.kodilogging import KodiLogger
 from resources.lib import taskdict
 from resources.lib.events import requires_subtopic
 from resources.lib.utils.poutil import PoDict
+from resources.lib.utils.kodipathtools import translatepath
 podict = PoDict()
-podict.read_from_file(os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path').decode("utf-8"), r'resources/language/English/strings.po'))
+podict.read_from_file(os.path.join(translatepath(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path')), r'resources/language/English/strings.po'))
 
 def getEnglishStringFromId(msgctxt):
     status, ret = podict.has_msgctxt(msgctxt)

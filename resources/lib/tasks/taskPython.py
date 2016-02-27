@@ -24,6 +24,7 @@ import xbmc
 import xbmcvfs
 from resources.lib.taskABC import AbstractTask, KodiLogger, notify
 from resources.lib.utils.poutil import KodiPo
+from resources.lib.utils.kodipathtools import translatepath
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 __ = kodipo.getLocalizedStringId
@@ -55,7 +56,7 @@ class TaskPython(AbstractTask):
 
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):
-        tmp = xbmc.translatePath(taskKwargs['pythonfile']).decode('utf-8')
+        tmp = xbmc.translatePath(taskKwargs['pythonfile'])
         if xbmcvfs.exists(tmp):
             ext = os.path.splitext(tmp)[1]
             if ext == '.py':
@@ -77,13 +78,14 @@ class TaskPython(AbstractTask):
             useImport = self.taskKwargs['import']
         except KeyError:
             useImport = False
+        fn = translatepath(self.taskKwargs['pythonfile'])
         try:
             if len(self.runtimeargs) > 0:
                 if useImport is False:
                     args = ' %s' % ' '.join(args)
-                    result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (self.taskKwargs['pythonfile'].decode("utf-8"), args))
+                    result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (fn, args))
                 else:
-                    directory, module_name = os.path.split(self.taskKwargs['pythonfile'])
+                    directory, module_name = os.path.split(fn)
                     module_name = os.path.splitext(module_name)[0]
 
                     path = list(sys.path)
@@ -95,9 +97,9 @@ class TaskPython(AbstractTask):
                         sys.path[:] = path
             else:
                 if useImport is False:
-                    result = xbmc.executebuiltin('XBMC.RunScript(%s)' % self.taskKwargs['pythonfile'].decode("utf-8"))
+                    result = xbmc.executebuiltin('XBMC.RunScript(%s)' % fn)
                 else:
-                    directory, module_name = os.path.split(self.taskKwargs['pythonfile'].decode("utf-8"))
+                    directory, module_name = os.path.split(fn)
                     module_name = os.path.splitext(module_name)[0]
 
                     path = list(sys.path)

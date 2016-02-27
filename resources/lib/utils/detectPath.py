@@ -20,6 +20,7 @@
 import os
 import shlex
 import sys
+from resources.lib.utils.kodipathtools import translatepath
 
 def process_cmdline(cmd):
     posspaths = []
@@ -27,9 +28,8 @@ def process_cmdline(cmd):
     for i in xrange(0, len(parts)):
         found=-1
         for j in xrange(i+1, len(parts)+1):
-            t = ' '.join(parts[i:j]).decode("utf-8")
-            t = os.path.expandvars(t)
-            t = os.path.expanduser(t)
+            t = ' '.join(parts[i:j])
+            t = translatepath(t)
             t = t.strip('"')
             if os.path.exists(t):
                 if j > found:
@@ -50,9 +50,8 @@ def process_cmdline(cmd):
         for i in xrange(0, len(parts)):
             for j in xrange(0, len(paths)):
                 if i == paths[j][0]:
-                    t = ' '.join(parts[i:paths[j][1]]).decode("utf-8")
-                    t = os.path.expanduser(t)
-                    t = os.path.expandvars(t)
+                    t = ' '.join(parts[i:paths[j][1]])
+                    t = translatepath(t)
                     t = t.strip('"')
                     parts[i] = t
                     for k in xrange(i+1, paths[j][1]):

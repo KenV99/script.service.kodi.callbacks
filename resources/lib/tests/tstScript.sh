@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-echo $1 $2>scriptoutput.txt
+echo $1 $2
