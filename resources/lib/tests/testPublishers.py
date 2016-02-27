@@ -198,8 +198,8 @@ class testWatchdog(object):
         assert fmesgc.topic == self.topic
         assert fmesgc.kwargs['path'] == fn
         assert foundm is True
-        assert fmesgm.topic == self.topic
-        assert fmesgm.kwargs['path'] == fn
+        assert fmesgm.topic == self.topic, 'Warning Only'
+        assert fmesgm.kwargs['path'] == fn, 'Warning Only'
         if len(messages) > 2:
             raise AssertionError('Warning: Too many messages found for Watchdog Create')
 
