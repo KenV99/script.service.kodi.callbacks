@@ -24,7 +24,7 @@ import xbmcaddon
 import re
 import stat
 
-_split = re.compile(r'[\0%s]' % re.escape(''.join([os.path.sep, os.path.altsep or ''])))
+_split = re.compile(r'\0')
 
 def _translatePathMock(path):
     return kodiTranslatePathMock(path)
@@ -92,14 +92,7 @@ def translatepath(path):
     if not os.path.supports_unicode_filenames:
         ret = ret.decode('utf-8')
 
-    try:
-        isdir = os.path.isdir(ret)
-    except TypeError:
-        isdir = False
-    if not isdir:
-        head, tail = os.path.split(ret)
-        ret = os.path.join(head, secure_filename(tail))
-
+    ret = secure_filename(ret)
     return ret
 
 def kodiTranslatePathMock(path):
