@@ -18,6 +18,7 @@
 #
 
 import os
+import codecs
 import fnmatch
 import re
 import operator
@@ -66,6 +67,9 @@ class KodiPo(object):
     def __init__(self):
         KodiPo._instance = self
 
+    def _(self, strToId, update=False):
+        self.getLocalizedString(strToId, update)
+
     def getLocalizedString(self, strToId, update=False):
         strToId = strToId.replace('\n', '\\n')
         idFound, strid = self.podict.has_msgid(strToId)
@@ -75,7 +79,7 @@ class KodiPo(object):
             try:
                 ret = xbmcaddon.Addon(addonid).getLocalizedString(int(strid))
             except Exception:
-                log(msg='Localized string not found for: [%s]' % str(strToId))
+                log(msg=_('Localized string not found for: [%s]') % str(strToId))
                 ret = strToId
             if ret == u'': # Occurs with stub
                 ret = strToId
@@ -83,10 +87,10 @@ class KodiPo(object):
         else:
             if update is True or self.updateAlways is True:
 
-                log(msg='Localized string added to po for: [%s]' % strToId)
+                log(msg=_('Localized string added to po for: [%s]') % strToId)
                 self.updatePo(strid, strToId)
             else:
-                log(msg='Localized string id not found for: [%s]' % strToId)
+                log(msg=_('Localized string id not found for: [%s]') % strToId)
             return strToId
 
     def getLocalizedStringId(self, strToId, update=False):
@@ -96,10 +100,10 @@ class KodiPo(object):
         else:
             if update is True or self.updateAlways is True:
                 self.updatePo(strid, strToId)
-                log(msg='Localized string added to po for: [%s]' % strToId)
+                log(msg=_('Localized string added to po for: [%s]') % strToId)
                 return strid
             else:
-                log(msg='Localized string not found for: [%s]' % strToId)
+                log(msg=_('Localized string not found for: [%s]') % strToId)
                 return 32168
 
     def updatePo(self, strid, txt):
@@ -164,7 +168,7 @@ class PoDict(object):
             return
         if os.path.exists(url):
             try:
-                with open(url, 'r') as f:
+                with codecs.open(url, 'r', 'UTF-8') as f:
                     poin = f.readlines()
                 i = 0
                 while i < len(poin):
@@ -199,7 +203,7 @@ class PoDict(object):
 
     @staticmethod
     def _write_to_file(dict_msgctxt, url):
-        fo = open(url, 'wb')
+        fo = codecs.open(url, 'wb', 'UTF-8')
         PoDict.write_po_header(fo)
         str_max = max(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
         str_min = min(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
@@ -287,7 +291,7 @@ class UpdatePo(object):
         self.podict.read_from_file(self.current_working_English_strings_po)
         self.exclude_directories = exclude_directories
         self.exclude_files = exclude_files
-        self.find = re.compile(r"_\('(.+?)'\)")
+        self.find_localizer = re.compile(r'^(\S+?)\s*=\s*kodipo.getLocalizedString\s*$', flags=re.MULTILINE)
 
     def getFileList(self):
         files_to_scan = []
@@ -313,10 +317,20 @@ class UpdatePo(object):
             with open(myfile, 'r') as f:
                 lines = ''.join(f.readlines())
             try:
-                finds = self.find.findall(lines)
-            except re.error:
+                finds = self.find_localizer.findall(lines)
+            except:
                 finds = []
-            lstrings += finds
+            finally:
+                if len(finds) != 1:
+                    print 'Skipping file: %s, localizer not found' % myfile
+                else:
+                    findstr = r"%s\('(.+?)'\)" % finds[0]
+                    find = re.compile(findstr)
+                    try:
+                        finds = find.findall(lines)
+                    except re.error:
+                        finds = []
+                    lstrings += finds
         return lstrings
 
     def updateStringsPo(self):

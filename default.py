@@ -204,7 +204,7 @@ def test(key):
 
 
 if __name__ == '__main__':
-    dryrun = False
+    dryrun = True
     addonid = 'script.service.kodi.callbacks'
     GHUser = 'KenV99'
     reponame = addonid

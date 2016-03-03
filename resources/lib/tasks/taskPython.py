@@ -34,18 +34,18 @@ class TaskPython(AbstractTask):
     tasktype = 'python'
     variables = [
         {
-            'id':'pythonfile',
+            'id':u'pythonfile',
             'settings':{
-                'default':'',
-                'label':__('Python file'),
+                'default':u'',
+                'label':u'Python file',
                 'type':'file'
             }
         },
         {
-            'id':'import',
+            'id':u'import',
             'settings':{
-                'default':'false',
-                'label':__('Import and call run() (default=no)?'),
+                'default':u'false',
+                'label':u'Import and call run() (default=no)?',
                 'type':'bool'
             }
         }

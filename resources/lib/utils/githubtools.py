@@ -20,6 +20,7 @@ import json
 import os
 import re
 import urllib2
+import codecs
 
 import requests
 
@@ -71,8 +72,8 @@ class GitHubTools(object):
         zipfn = os.path.join(translatepath('special://addondata(%s)' % addonid), '%s.zip' % addonid)
         try:
             GitHubTools.dlBinaryFile(zipurl, zipfn)
-        except GitHubToolsException:
-            raise
+        except GitHubToolsException as e:
+            raise e
         else:
             ua = UpdateAddon(addonid, silent=silent)
             ua.installFromZip(zipfn, dryrun=dryrun, updateonly=updateonly, deletezip=True, silent=silent)
@@ -212,12 +213,15 @@ class GitHubTools(object):
             settingspath = translatepath('special://addon(%s)/resources/settings.xml' % addonid)
             branches = r'\g<1>%s\g<2>' % '|'.join(branches)
             pattern = r'(%s.+?values*=*\").+?(\")' % tag
-            with open(settingspath, 'r') as f:
+            with codecs.open(settingspath, 'r', 'UTF-8') as f:
                 lines = f.read()
             newlines = re.sub(pattern, branches, lines)
-            with open(settingspath, 'w') as f:
-                f.write(newlines)
-            return not newlines == lines
+            if not newlines == lines:
+                with codecs.open(settingspath, 'w', 'UTF-8') as f:
+                    f.write(newlines)
+                return True
+            else:
+                return False
 
 
 class GitHubToolsException(Exception):

@@ -38,26 +38,26 @@ class TaskScript(AbstractTask):
     tasktype = 'script'
     variables = [
         {
-            'id':'scriptfile',
+            'id':u'scriptfile',
             'settings':{
-                'default':'',
-                'label':__('Script executable file'),
+                'default':u'',
+                'label':u'Script executable file',
                 'type':'sfile'
             }
         },
         {
-            'id':'use_shell',
+            'id':u'use_shell',
             'settings':{
-                'default':'false',
-                'label':__('Requires shell?'),
+                'default':u'false',
+                'label':u'Requires shell?',
                 'type':'bool'
             }
         },
         {
-            'id':'waitForCompletion',
+            'id':u'waitForCompletion',
             'settings':{
-                'default':'true',
-                'label':__('Wait for script to complete?'),
+                'default':u'true',
+                'label':u'Wait for script to complete?',
                 'type':'bool'
             }
         }
