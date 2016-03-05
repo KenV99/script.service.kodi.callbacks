@@ -164,7 +164,7 @@
     <setting id="T9.type" label="32292" type="text" visible="false" default="0" />
     <setting id="T10.type" label="32292" type="text" visible="false" default="0" />
     <setting id="E1.lsep" label="32011" type="lsep" />
-    <setting id="E1.action" label="32327" type="action" action="RunScript(script.service.kodi.callbacks, lselector, id=E1.type, heading=32261, lvalues=32229|32230|32231|32232|32233|32234|32235|32236|32237|32238|32239|32240|32241|32242|32243|32244|32245|32246|32247|32248|32249|32250|32251|32252|32253|32254|32255|32256|32257|32258|32259|32260)" />
+    <setting id="E1.action" label="32326" type="action" action="RunScript(script.service.kodi.callbacks, lselector, id=E1.type, heading=32261, lvalues=32229|32230|32231|32232|32233|32234|32235|32236|32237|32238|32239|32240|32241|32242|32243|32244|32245|32246|32247|32248|32249|32250|32251|32252|32253|32254|32255|32256|32257|32258|32259|32260)" />
     <setting id="E1.type-v" label="32262" type="select" enable="false" default="None" lvalues="32229|32230|32231|32232|32233|32234|32235|32236|32237|32238|32239|32240|32241|32242|32243|32244|32245|32246|32247|32248|32249|32250|32251|32252|32253|32254|32255|32256|32257|32258|32259|32260" />
     <setting id="E1.type" label="32292" type="text" visible="false" default="32229" />
     <setting id="E1.task" label="32057" type="labelenum" enable="false" visible="eq(-14,none) + !eq(-1,32229)" default="Task 1" lvalues="32129" />

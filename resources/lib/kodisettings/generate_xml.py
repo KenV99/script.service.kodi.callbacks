@@ -25,7 +25,7 @@ import os
 import codecs
 from resources.lib.utils.poutil import KodiPo, PoDict
 kodipo = KodiPo()
-kodipo.updateAlways = True
+kodipo.updateAlways = False
 glsid = kodipo.getLocalizedStringId
 __ = kodipo.podict.has_msgctxt
 kl = KodiLogger()

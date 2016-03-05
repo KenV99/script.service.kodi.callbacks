@@ -204,7 +204,7 @@ def test(key):
 
 
 if __name__ == '__main__':
-    dryrun = True
+    dryrun = False
     addonid = 'script.service.kodi.callbacks'
     GHUser = 'KenV99'
     reponame = addonid
@@ -216,6 +216,7 @@ if __name__ == '__main__':
 
         if sys.argv[1] == 'regen':
             from resources.lib.kodisettings.generate_xml import generate_settingsxml
+
             generate_settingsxml()
             dialog = xbmcgui.Dialog()
             msg = _('Settings Regenerated')
@@ -275,10 +276,12 @@ if __name__ == '__main__':
                                       line3=_('Download and install anyway?'))
             if answer != 0:
                 silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
-                GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=downloadnew, silent=silent)
+                GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun,
+                                               updateonly=downloadnew, silent=silent)
 
         elif sys.argv[1] == 'lselector':
             from resources.lib.utils.selector import selectordialog
+
             try:
                 result = selectordialog(sys.argv[2:])
             except (SyntaxError, TypeError) as e:
@@ -313,5 +316,6 @@ if __name__ == '__main__':
         if xbmcaddon.Addon().getSetting('autodownload') == 'true':
             silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
             branchname = xbmcaddon.Addon().getSetting('repobranchname')
-            GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=True, silent=silent)
+            GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=True,
+                                           silent=silent)
         main()

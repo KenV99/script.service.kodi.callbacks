@@ -21,6 +21,7 @@ import os
 import re
 import urllib2
 import codecs
+import traceback
 
 import requests
 
@@ -37,9 +38,6 @@ log = kl.log
 
 
 class GitHubTools(object):
-    # def __init__(self):
-    # assert isinstance(ua, UpdateAddon)
-    # self.ua = ua
 
     @staticmethod
     def checkForDownload(username, reponame, branch, addonid):
@@ -108,7 +106,11 @@ class GitHubTools(object):
             u = urllib2.urlopen(url)
             f = open(destfn, 'wb')
             meta = u.info()
-            file_size = int(meta.getheaders("Content-Length")[0])
+            cl = meta.getheaders("Content-Length")
+            if isinstance(cl, list):
+                file_size = int(cl[0])
+            else:
+                file_size = int(cl)
             mprogress = xbmcgui.DialogProgress()
             mprogress.create(_('Downloading %s bytes %s') % (os.path.basename(destfn), file_size))
             file_size_dl = 0
@@ -135,11 +137,16 @@ class GitHubTools(object):
                 del u
         except GitHubToolsException as e:
             raise e
+        except urllib2.HTTPError as e:
+            raise GitHubToolsException(message='GitHubTools HTTPError - Code: %s' % e.code)
+        except urllib2.URLError as e:
+            raise GitHubToolsException(message='GitHubTools URLError: %s' % str(e.reason), iserror=True)
         except Exception as e:
             if hasattr(e, 'message'):
                 message = _('GitHub Download Error: %s') % e.message
             else:
                 message = _('Unknown GitHub Download Error')
+            message += '\n' + traceback.format_exc()
             try:
                 if mprogress is not None:
                     mprogress.close()

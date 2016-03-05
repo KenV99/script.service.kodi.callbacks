@@ -59,6 +59,7 @@ class KodiPo(object):
             cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path').decode("utf-8"), r'resources/language/English/strings.po')
         else:
             cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
+        cls.isStub = isStub
         cls.podict = PoDict()
         cls.podict.read_from_file(cls.pofn)
         cls.updateAlways = False
@@ -78,7 +79,8 @@ class KodiPo(object):
                 self.podict.savethread.join()
             ret = xbmcaddon.Addon(addonid).getLocalizedString(int(strid))
             if ret == u'': # Occurs with stub or undefined number
-                log(msg=_('Localized string not found for: [%s]') % str(strToId))
+                if not self.isStub:
+                    log(_('Localized string not found for: [%s]') % str(strToId))
                 ret = strToId
             return ret
         else:

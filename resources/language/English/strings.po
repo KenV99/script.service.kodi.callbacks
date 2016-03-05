@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32327
+#Add-on messages id=32001 to 32326
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -1326,7 +1326,7 @@ msgctxt "#32325"
 msgid "onPlayBackPaused"
 msgstr ""
 
-msgctxt "#32327"
+msgctxt "#32326"
 msgid "Choose event type (click here)"
 msgstr ""
 
