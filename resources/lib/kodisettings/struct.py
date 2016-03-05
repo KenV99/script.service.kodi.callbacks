@@ -18,14 +18,20 @@
 #
 
 import abc
-from resources.lib.kodilogging import KodiLogger
-from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 kodipo.updateAlways = False
 _ = kodipo.getLocalizedStringId
 
+def getSettingMock(sid):
+    assert isinstance(sid, str) or isinstance(sid, unicode)
+    return 'none'
 
+try:
+    import xbmcaddon
+    getSetting = xbmcaddon.Addon().getSetting
+except ImportError:
+    getSetting = getSettingMock
 
 class Settings(object):
     """
@@ -34,20 +40,17 @@ class Settings(object):
     """
 
     def __init__(self):
-        """
-
-        :return:
-        :rtype: Settings
-        """
         self._categories = []
         self._controldict = {}
+        self._controldictbyrefid = {}
         self.id_position = {}
         self.duplicateids = []
+        self.values = {}
 
     def category(self, label):
         """
         Retrieves a category by label
-        :param label: English non-localized unicode string for label
+        :param label: English non-localized unicode or string for label
         :type label: unicode or str
         :return:
         :rtype: Category
@@ -66,9 +69,9 @@ class Settings(object):
 
     def addCategory(self, category):
         """
-
+        Add a category. Categories are listed as tabbed pages in settings.
         :param category:
-        :type category: Category or str
+        :type category: Category or str or unicode
         :return:
         :rtype: Category
         """
@@ -83,13 +86,11 @@ class Settings(object):
 
     def addControl(self, catgorylabel, control):
         """
-
+        Add a control to a specific category.
         :param catgorylabel:
         :type catgorylabel: unicode or str
         :param control:
         :type control: Control
-        :return:
-        :rtype:
         """
         assert isinstance(catgorylabel, unicode) or isinstance(catgorylabel, str)
         assert isinstance(control, Control)
@@ -99,26 +100,29 @@ class Settings(object):
             raise KeyError('No category created with that label: %s' % catgorylabel)
         else:
             c.addControl(control)
-            if control.sid != u'':
-                if self._controldict.has_key(control.sid):
-                    print 'Warning - control with duplicate sid: %s' % control.sid
+            if control.internal_ref != u'':
+                if self._controldict.has_key(control.internal_ref):
+                    print 'Warning - control with duplicate internal reference: %s' % control.internal_ref
                 else:
-                    self._controldict[control.sid] = control
+                    self._controldict[control.internal_ref] = control
 
-    def control(self, sid):
+
+    def control(self, internal_ref):
         """
-        Returns the instance of Control associated with the sid, if the control has a unique sid
-        :param sid:
-        :type sid: unicode or str
+        Returns the instance of Control associated with the internal reference id, if the control has a unique id.
+        Unless a specific internal reference id was provided during instantiation, the sid is the internal
+        reference id.
+        :param internal_ref:
+        :type internal_ref: unicode or str
         :return:
         :rtype: Control
         """
-        assert isinstance(sid, unicode) or isinstance(sid, str)
-        sid = unicode(sid)
+        assert isinstance(internal_ref, unicode) or isinstance(internal_ref, str)
+        internal_ref = unicode(internal_ref)
         try:
-            return self._controldict[sid]
+            return self._controldict[internal_ref]
         except KeyError:
-            raise KeyError("No control found for sid: %s" % sid)
+            raise KeyError("No control found for sid: %s" % internal_ref)
 
     @staticmethod
     def renderHead():
@@ -132,7 +136,7 @@ class Settings(object):
 
     def render(self):
         """
-        Renders the xml version of the contained Categories and their Controls
+        Renders the xml version of the contained Categories and their Controls.
         :return: Unicode string representing the xml
         :rtype: unicode
         """
@@ -147,23 +151,25 @@ class Settings(object):
     def buildIndices(self):
         """
         Builds the index of positions of the currently contained categories and controls to be used for referenced
-        conditionals
-        :return:
-        :rtype:
+        conditionals.
         """
         curindex = 3
         for category in self._categories:
             curindex += 1
             for control in category._controls:
                 curindex += control.weight
-                if control.sid != u'':
-                    if not self.id_position.has_key(control.sid):
-                        self.id_position[control.sid] = curindex
+                if control.internal_ref != u'':
+                    if not self.id_position.has_key(control.internal_ref):
+                        self.id_position[control.internal_ref] = curindex
                     else:
-                        print 'Warning duplicate key found: %s [%s, %s]' % (control.sid, control.label, self.control(control.sid).label)
-                        self.duplicateids.append(control.sid)
+                        print 'Warning duplicate key found: %s [%s, %s]' % (control.internal_ref, control.label, self.control(control.internal_ref).label)
+                        self.duplicateids.append(control.internal_ref)
                 control._outputindex = curindex
             curindex += 1
+
+    def read(self):
+        for category in self._categories:
+            self.values.update(category.read())
 
 
 class Category(object):
@@ -174,8 +180,6 @@ class Category(object):
         """
         :param label:
         :type label: unicode or str
-        :return:
-        :rtype:
         """
         assert (isinstance(label, unicode) or isinstance(label, str))
         self.label = unicode(label)
@@ -187,8 +191,6 @@ class Category(object):
         Adds a control to the category
         :param control:
         :type control: Control
-        :return:
-        :rtype:
         """
         assert isinstance(control,Control)
         self._controls.append(control)
@@ -234,30 +236,35 @@ class Category(object):
         output += self.renderTail()
         return output
 
+    def read(self):
+        ret = {}
+        for control in self._controls:
+            ret.update(control.read())
+
 class Control(object):
     """
     Base class for controls
     """
     __metaclass__ = abc.ABCMeta
-    def __init__(self, stype, sid=u'', label=u'', enable=None, visible=None, subsetting=False, weight=1):
+    def __init__(self, stype, sid=u'', label=u'', enable=None, visible=None, subsetting=False, weight=1, internal_ref=None):
         """
 
-        :param stype:
+        :param stype: The internally used type of control.
         :type stype: str
-        :param sid:
+        :param sid: The settings id for the control.
         :type sid: unicode or str
-        :param label:
+        :param label: The label to be displayed. If it is a five digit integer, it will look in the po file for a localized string.
         :type label: unicode or str
-        :param enable:
+        :param enable: If evaluates to false, the control is shown as greyed out and disabled.
         :type enable: NoneType or resources.lib.kodisettings.struct.Conditionals or bool or resources.lib.kodisettings.struct.Conditional
-        :param visible:
+        :param visible: If evaluates to false, the control is not visible (hidden).
         :type visible: NoneType or resources.lib.kodisettings.struct.Conditionals or bool or resources.lib.kodisettings.struct.Conditional
-        :param subsetting:
+        :param subsetting: If true, a dash is shown before the label.
         :type subsetting: bool
-        :param weight:
+        :param weight: Internally used; the number of lines the control consumes.
         :type weight: int
-        :return:
-        :rtype:
+        :param internal_ref: If needed, a separate internal reference id for the control. Needed if more than one control shares the same sid (and values).
+        :type internal_ref: unicode or string
         """
         if isinstance(sid, str):
             sid = unicode(sid)
@@ -279,6 +286,11 @@ class Control(object):
                 visible = Conditionals(visible)
             else:
                 assert isinstance(visible, Conditionals)
+        if internal_ref is not None:
+            assert isinstance(internal_ref, str) or isinstance(internal_ref, unicode)
+            self.internal_ref = unicode(internal_ref)
+        else:
+            self.internal_ref = sid
         self.sid = sid
         self.stype = stype
         self.label = label
@@ -294,6 +306,13 @@ class Control(object):
         pass
 
     def requiredrenderlist(self, parent):
+        """
+
+        :param parent: A reference to the calling instantiation of Setttings.
+        :type parent: resources.lib.kodisettings.struct.Settings
+        :return: A list of rendered unicode strings.
+        :rtype:list
+        """
         if self.sid != u'':
             elements = [u'id="%s"' % self.sid]
         else:
@@ -308,16 +327,17 @@ class Control(object):
             elements += [u'visible="%s"' % self.visible.render(self, parent)]
         return elements
 
+    def read(self):
+        if self.sid != u'':
+            return {self.sid: getSetting(self.sid)}
+        else:
+            return None
+
 class Sep(Control):
     """
     Adds a horizontal separating line between other elements.
     """
     def __init__(self):
-        """
-
-        :return:
-        :rtype:
-        """
         super(Sep, self).__init__('sep')
 
     def render(self, parent):
@@ -331,14 +351,12 @@ class Lsep(Control):
     def __init__(self, sid=u'', label=u'', visible=None):
         """
 
-        :param sid:
+        :param sid: The settings id for the control.
         :type sid: unicode or str
-        :param label: (required) - will be converted to an id from the language file that indicates which text to display.
+        :param label: The label to be displayed. If it is a five digit integer, it will look in the po file for a localized string.
         :type label: unicode or str
-        :param visible:
+        :param visible: If evaluates to false, the control is not visible (hidden).
         :type visible: NoneType or resources.lib.kodisettings.struct.Conditionals or bool or resources.lib.kodisettings.struct.Conditional
-        :return:
-        :rtype:
         """
         super(Lsep, self).__init__('lsep', sid, label, visible=visible)
 
@@ -354,7 +372,7 @@ class Text(Control):
     """
     Text input elements allow a user to input text in various formats.
     """
-    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, option=None, default=None):
+    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, option=None, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -374,7 +392,7 @@ class Text(Control):
         :return:
         :rtype:
         """
-        super(Text, self).__init__('text', sid, label, enable, visible, subsetting)
+        super(Text, self).__init__('text', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         self.option = option
         if option is not None:
             if option == 'hidden':
@@ -403,7 +421,7 @@ class Ipaddress(Control):
     """
 
     """
-    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -421,7 +439,7 @@ class Ipaddress(Control):
         :return:
         :rtype:
         """
-        super(Ipaddress, self).__init__('ipaddress', sid, label, enable, visible, subsetting)
+        super(Ipaddress, self).__init__('ipaddress', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         if default is not None:
             assert (isinstance(default, unicode) or isinstance(default, str))
             self.default = unicode(default)
@@ -440,7 +458,7 @@ class Number(Control):
     """
     Allows the user to enter an integer using up/down buttons.
     """
-    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -458,7 +476,7 @@ class Number(Control):
         :return:
         :rtype:
         """
-        super(Number, self).__init__('number', sid, label, enable, visible, subsetting)
+        super(Number, self).__init__('number', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         if default is not None:
             if isinstance(default, int):
                 self.default = unicode(str(default))
@@ -473,11 +491,19 @@ class Number(Control):
         elements += [u'/>']
         return [u' '.join(elements)]
 
+    def read(self):
+        try:
+            value = int(getSetting(self.sid))
+        except ValueError:
+            value = 0
+        return {self.sid: value}
+
+
 class Slider(Control):
     """
     Allows the user to enter a number using a horizontal sliding bar.
     """
-    def __init__(self, sid=u'', label=u'', srangemin=0, srangemax=100, srangestep=None, option=u'int', enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', srangemin=0, srangemax=100, srangestep=None, option=u'int', enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -504,7 +530,7 @@ class Slider(Control):
         :rtype:
         """
 
-        super(Slider, self).__init__('slider', sid, label, enable, visible, subsetting)
+        super(Slider, self).__init__('slider', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         self.srangemin = unicode(srangemin)
         self.srangemax = unicode(srangemax)
         if srangestep is not None:
@@ -536,11 +562,28 @@ class Slider(Control):
         elements += [u'/>']
         return [u' '.join(elements)]
 
+    def read(self):
+        rawvalue = getSetting(self.sid)
+        if self.option == u'int':
+            try:
+                value = int(rawvalue)
+            except ValueError:
+                value = 0
+        else:
+            try:
+                value = float(rawvalue)
+            except ValueError:
+                value = 0.00
+            else:
+                if self.option == u'percent':
+                    value *= 100.0
+        return {self.sid:value}
+
 class Date(Control):
     """
     Displays a date picker dialog box.
     """
-    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -558,7 +601,7 @@ class Date(Control):
         :return:
         :rtype:
         """
-        super(Date, self).__init__('date', sid, label, enable, visible, subsetting)
+        super(Date, self).__init__('date', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         if default is not None:
             assert (isinstance(default, unicode) or isinstance(default, str))
             self.default = unicode(default)
@@ -577,7 +620,7 @@ class Time(Control):
     """
     Displays a time picker dialog box.
     """
-    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -595,7 +638,7 @@ class Time(Control):
         :return:
         :rtype:
         """
-        super(Time, self).__init__('time', sid, label, enable, visible, subsetting)
+        super(Time, self).__init__('time', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         if default is not None:
             assert (isinstance(default, unicode) or isinstance(default, str))
             self.default = unicode(default)
@@ -614,7 +657,7 @@ class Bool(Control):
     """
     Boolean input elements allow a user to switch a setting on or off.
     """
-    def __init__(self, sid, label, enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid, label, enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -632,7 +675,7 @@ class Bool(Control):
         :return:
         :rtype:
         """
-        super(Bool, self).__init__('bool', sid, label, enable, visible, subsetting)
+        super(Bool, self).__init__('bool', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         if default is not None:
             if isinstance(default, unicode) or isinstance(default, str):
                 if default.lower() == 'true':
@@ -662,11 +705,14 @@ class Bool(Control):
         elements += [u'/>']
         return [u' '.join(elements)]
 
+    def read(self):
+        return {self.sid:getSetting(self.sid)=='true'}
+
 class Select(Control):
     """
     Will open separate selection window
     """
-    def __init__(self, sid=u'', label=u'', values=None, lvalues=None, enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', values=None, lvalues=None, enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -688,7 +734,7 @@ class Select(Control):
         :return:
         :rtype:
         """
-        super(Select, self).__init__('select', sid, label, enable, visible, subsetting)
+        super(Select, self).__init__('select', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         assert ((values is not None and lvalues is None) or (lvalues is not None and values is None))
         if lvalues is not None:
             self.usinglvalues = True
@@ -725,7 +771,7 @@ class Addon(Control):
     """
     Displays a selection window with a list of addons.
     """
-    def __init__(self, sid=u'', label=u'', addontype=u'xbmc.metadata.scraper.movies', multiselect=None, enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', addontype=u'xbmc.metadata.scraper.movies', multiselect=None, enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -747,7 +793,7 @@ class Addon(Control):
         :return:
         :rtype:
         """
-        super(Addon, self).__init__('addon', sid, label, enable, visible, subsetting)
+        super(Addon, self).__init__('addon', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         assert (isinstance(addontype, unicode) or isinstance(addontype, str))
         self.addontype = unicode(addontype)
         if multiselect is not None:
@@ -779,7 +825,7 @@ class Enum(Control):
     """
     A rotary selector allows the user to selected from a list of predefined values using the index of the chosen value.
     """
-    def __init__(self, sid=u'', label=u'', values=None, lvalues=None, enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', values=None, lvalues=None, enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -801,7 +847,7 @@ class Enum(Control):
         :return:
         :rtype:
         """
-        super(Enum, self).__init__('enum', sid, label, enable, visible, subsetting)
+        super(Enum, self).__init__('enum', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         assert ((values is not None and lvalues is None) or (lvalues is not None and values is None))
         if lvalues is not None:
             self.usinglvalues = True
@@ -836,11 +882,18 @@ class Enum(Control):
         elements += [u'/>']
         return [u' '.join(elements)]
 
+    def read(self):
+        index = int(getSetting(self.sid))
+        if self.values == u'$HOURS':
+            return {self.sid:index}
+        else:
+            return {self.sid:self.values[index]}
+
 class LabelEnum(Control):
     """
     A rotary selector allows the user to selected from a list of predefined values using the actual value of the chosen value.
     """
-    def __init__(self, sid=u'', label=u'', values=None, lvalues=None, sort=u'no', enable=None, visible=None, subsetting=False, default=None):
+    def __init__(self, sid=u'', label=u'', values=None, lvalues=None, sort=u'no', enable=None, visible=None, subsetting=False, default=None, internal_ref=None):
         """
 
         :param sid:
@@ -864,7 +917,7 @@ class LabelEnum(Control):
         :return:
         :rtype:
         """
-        super(LabelEnum, self).__init__('labelenum', sid, label, enable, visible, subsetting)
+        super(LabelEnum, self).__init__('labelenum', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         assert ((values is not None and lvalues is None) or (lvalues is not None and values is None))
         if lvalues is not None:
             self.usinglvalues = True
@@ -920,7 +973,7 @@ class FileBrowser(Control):
     TYPE_FILE_ENUM = 6
     TYPE_DICT = {TYPE_FILE:'file', TYPE_AUDIO:'audio', TYPE_VIDEO:'video', TYPE_IMAGE:'image', TYPE_EXECUTABLE:'executable', TYPE_FOLDER:'folder', TYPE_FILE_ENUM:'fileenum'}
 
-    def __init__(self, sid=u'', label=u'', fbtype=TYPE_FILE, source=u'auto', option=u'', mask=u'', enable=None, visible=None, subsetting=False, default=u''):
+    def __init__(self, sid=u'', label=u'', fbtype=TYPE_FILE, source=u'auto', option=u'', mask=u'', enable=None, visible=None, subsetting=False, default=u'', internal_ref=None):
         """
 
         :param sid:
@@ -946,7 +999,7 @@ class FileBrowser(Control):
         :return:
         :rtype:
         """
-        super(FileBrowser, self).__init__(self.TYPE_DICT[fbtype], sid, label, enable, visible, subsetting)
+        super(FileBrowser, self).__init__(self.TYPE_DICT[fbtype], sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         assert (fbtype >= self.TYPE_FILE and fbtype <= self.TYPE_FILE_ENUM)
         self.fbtype = fbtype
         if fbtype == self.TYPE_FOLDER:
@@ -986,7 +1039,7 @@ class Action(Control):
     """
 
     """
-    def __init__(self, sid=u'', label=u'', action=u'', enable=None, visible=None, subsetting=False):
+    def __init__(self, sid=u'', label=u'', action=u'', enable=None, visible=None, subsetting=False, internal_ref=None):
         """
 
         :param sid:
@@ -1004,7 +1057,7 @@ class Action(Control):
         :return:
         :rtype:
         """
-        super(Action, self).__init__('action', sid, label, enable, visible, subsetting)
+        super(Action, self).__init__('action', sid, label, enable, visible, subsetting, internal_ref=internal_ref)
         assert (isinstance(action, unicode) or isinstance(action, str))
         self.action = unicode(action)
 
@@ -1026,7 +1079,7 @@ class Conditionals(object):
         """
 
         :param args:
-        :type args: resources.lib.kodisettings.struct.Conditional
+        :type args: resources.lib.kodisettings.struct.Conditional or list
         :param combine_type:
         :type combine_type: int
         :return:
@@ -1060,9 +1113,9 @@ class Conditionals(object):
         for conditional in self.conditionals:
             cond += conditional.render(control, parent)
         if self.combine_type == self.COMBINE_AND:
-            cond = u'+'.join(cond)
+            cond = u' + '.join(cond)
         else:
-            cond = u'|'.join(cond)
+            cond = u' | '.join(cond)
         return cond
 
 

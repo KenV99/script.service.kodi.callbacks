@@ -31,7 +31,7 @@ log = klogger.log
 
 try:
     addonid = xbmcaddon.Addon().getAddonInfo('id')
-except Exception:
+except RuntimeError:
     addonid = 'script.service.kodi.callbacks'
 if addonid == '':
      addonid = 'script.service.kodi.callbacks'
@@ -53,7 +53,7 @@ class KodiPo(object):
     def cls_init(cls):
         try:
             isStub = xbmcaddon.isStub
-        except Exception:
+        except AttributeError:
             isStub = False
         if isStub is False:
             cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path').decode("utf-8"), r'resources/language/English/strings.po')
@@ -76,12 +76,9 @@ class KodiPo(object):
         if idFound:
             if self.podict.savethread.is_alive():
                 self.podict.savethread.join()
-            try:
-                ret = xbmcaddon.Addon(addonid).getLocalizedString(int(strid))
-            except Exception:
+            ret = xbmcaddon.Addon(addonid).getLocalizedString(int(strid))
+            if ret == u'': # Occurs with stub or undefined number
                 log(msg=_('Localized string not found for: [%s]') % str(strToId))
-                ret = strToId
-            if ret == u'': # Occurs with stub
                 ret = strToId
             return ret
         else:
@@ -318,7 +315,7 @@ class UpdatePo(object):
                 lines = ''.join(f.readlines())
             try:
                 finds = self.find_localizer.findall(lines)
-            except:
+            except re.error:
                 finds = []
             finally:
                 if len(finds) != 1:

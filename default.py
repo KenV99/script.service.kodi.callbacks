@@ -57,10 +57,10 @@ log = KodiLogger.log
 
 try:
     __version__ = xbmcaddon.Addon().getAddonInfo('version')
-except Exception:
+except RuntimeError:
     try:
         __version__ = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('version')
-    except Exception:
+    except RuntimeError:
         __version__ = 'ERROR getting version'
 
 
@@ -215,8 +215,7 @@ if __name__ == '__main__':
             dryrun = True
 
         if sys.argv[1] == 'regen':
-            from resources.lib.utils.xml_gen import generate_settingsxml
-
+            from resources.lib.kodisettings.generate_xml import generate_settingsxml
             generate_settingsxml()
             dialog = xbmcgui.Dialog()
             msg = _('Settings Regenerated')

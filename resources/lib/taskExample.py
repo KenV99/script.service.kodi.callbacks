@@ -111,7 +111,7 @@ class TaskCustom(AbstractTask):
             pass
             # Put your task implementation code here. Consider an inner try/except block accumulating specific error info
             # by setting err=True and appending to the message.
-        except:
+        except Exception:
             # Non-specific error catching and processing.
             e = sys.exc_info()[0]
             err = True
