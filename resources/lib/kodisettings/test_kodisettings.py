@@ -28,6 +28,4 @@ def testStruct():
     settings.addControl(u'General', control)
     output = settings.render()
     print output
-    pass
-    pass
 

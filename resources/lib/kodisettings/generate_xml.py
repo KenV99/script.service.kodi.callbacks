@@ -83,7 +83,7 @@ def createTasks():
         taskcontrols.append(struct.Number('%s.maxruns' % prefix, 'Max num of times this task runs (-1=no limit)', default=-1, visible=conditional))
         taskcontrols.append(struct.Number('%s.refractory' % prefix, 'Refractory period in secs (-1=none)', default=-1, visible=conditional))
 
-        for i1, key in enumerate(sorted(taskdict.keys())):
+        for key in sorted(taskdict.keys()):
             for var in taskdict[key]['variables']:
                 varset = var['settings']
                 if varset['type'] == 'sfile':
