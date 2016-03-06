@@ -71,7 +71,9 @@ class GitHubTools(object):
         try:
             GitHubTools.dlBinaryFile(zipurl, zipfn)
         except GitHubToolsException as e:
-            raise e
+            log (msg='GitHubTools Exception: %s' % e.message)
+            if e.iserror:
+                raise e
         else:
             ua = UpdateAddon(addonid, silent=silent)
             ua.installFromZip(zipfn, dryrun=dryrun, updateonly=updateonly, deletezip=True, silent=silent)

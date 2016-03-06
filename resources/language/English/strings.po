@@ -1087,7 +1087,7 @@ msgid "Incorrect path"
 msgstr ""
 
 msgctxt "#32266"
-msgid "New version available"
+msgid "New version available for branch: %s"
 msgstr ""
 
 msgctxt "#32267"
@@ -1103,7 +1103,7 @@ msgid "Download and install?"
 msgstr ""
 
 msgctxt "#32270"
-msgid "A new version is not available"
+msgid "A new version is not available for branch: %s"
 msgstr ""
 
 msgctxt "#32271"

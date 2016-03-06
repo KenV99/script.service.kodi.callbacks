@@ -267,11 +267,11 @@ if __name__ == '__main__':
             downloadnew, ghversion, currentversion = GitHubTools.checkForDownload(GHUser, reponame, branchname, addonid)
             dialog = xbmcgui.Dialog()
             if downloadnew is True:
-                answer = dialog.yesno(_('New version available'), line1=_('Current version: %s') % currentversion,
+                answer = dialog.yesno(_('New version available for branch: %s' % branchname), line1=_('Current version: %s') % currentversion,
                                       line2=_('Available version: %s') % ghversion,
                                       line3=_('Download and install?'))
             else:
-                answer = dialog.yesno(_('A new version is not available'), line1='Current version: %s' % currentversion,
+                answer = dialog.yesno(_('A new version is not available for branch: %s' % branchname), line1='Current version: %s' % currentversion,
                                       line2=_('Available version: %s') % ghversion,
                                       line3=_('Download and install anyway?'))
             if answer != 0:
