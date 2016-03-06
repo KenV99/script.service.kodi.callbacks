@@ -106,6 +106,7 @@ class TaskScript(AbstractTask):
             tmp = xbmc.translatePath(tmp)
             if os.path.exists(tmp) and filefound is False:
                 basedir, fn = os.path.split(tmp)
+                basedir = os.path.realpath(basedir)
                 tmpl[i] = fn
                 filefound = True
                 if i == 0:
@@ -132,9 +133,15 @@ class TaskScript(AbstractTask):
             if basedir is not None:
                 os.chdir(basedir)
             if sysexecutable is not None:
-                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, executable=sysexecutable, cwd=basedir)
+                if isAndroid or sysplat.startswith('darwin'):
+                    p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, executable=sysexecutable)
+                else:
+                    p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, executable=sysexecutable, cwd=basedir)
             else:
-                p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, cwd=basedir)
+                if isAndroid or sysplat.startswith('darwin'):
+                    p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT)
+                else:
+                    p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=needs_shell, stderr=subprocess.STDOUT, cwd=basedir)
             if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
