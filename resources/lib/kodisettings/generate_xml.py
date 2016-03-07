@@ -239,8 +239,8 @@ def createUpdate():
         updatecontrols.append(struct.Text('installed branch', 'Currently installed branch', default='nonrepo', enable=False))
         updatecontrols.append(struct.Select('repobranchname','Repository branch name for downloads', default='nonrepo', values=['master', 'nonrepo']))
         updatecontrols.append( struct.Bool('autodownload', 'Automatically download/install latest from GitHub on startup?', default=False))
-        updatecontrols.append(struct.Bool('silent_install', 'Install without prompts?', visible = True, default=False))
         updatecontrols.append(struct.Action('checkupdate', 'Check for update on GitHub', action='RunScript(script.service.kodi.callbacks, checkupdate)'))
+    updatecontrols.append(struct.Bool('silent_install', 'Install without prompts?', visible = False, default=False))
     updatecontrols.append(struct.Action('updatefromzip', 'Update from downloaded zip', action='RunScript(script.service.kodi.callbacks, updatefromzip)'))
     updatecontrols.append(struct.Action('restorebackup', 'Restore from previous back up', action='RunScript(script.service.kodi.callbacks, restorebackup)'))
     return updatecontrols
