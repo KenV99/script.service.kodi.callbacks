@@ -25,6 +25,7 @@ import operator
 import xbmcaddon
 import threading
 import copy
+from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.kodilogging import KodiLogger
 klogger = KodiLogger()
 log = klogger.log
@@ -51,15 +52,8 @@ class KodiPo(object):
 
     @classmethod
     def cls_init(cls):
-        try:
-            isStub = xbmcaddon.isStub
-        except AttributeError:
-            isStub = False
-        if isStub is False:
-            cls.pofn =  os.path.join(xbmcaddon.Addon(addonid).getAddonInfo('path').decode("utf-8"), r'resources/language/English/strings.po')
-        else:
-            cls.pofn = r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\language\English\strings.po'
-        cls.isStub = isStub
+        cls.pofn =  translatepath('special://addon/resources/language/English/strings.po')
+        cls.isStub =  xbmcaddon.Addon().getAddonInfo('id') == ''
         cls.podict = PoDict()
         cls.podict.read_from_file(cls.pofn)
         cls.updateAlways = False

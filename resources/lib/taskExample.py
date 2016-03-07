@@ -64,8 +64,8 @@ class TaskCustom(AbstractTask):
     def validate(taskKwargs, xlog=KodiLogger.log):
         """
         :param taskKwargs:
-        :param xlog:
-        :type class or method that accepts msg=str and loglevel=int see below:
+        :param xlog: class or method that accepts msg=str and loglevel=int see below
+        :type:
         :return: whether validate
         :rtype: bool
         Place any code here to validate the users input from the settings page.

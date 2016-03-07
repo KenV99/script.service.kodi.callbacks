@@ -20,6 +20,7 @@
 debug = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
+branch = 'nonrepo'
 
 import os
 import sys
@@ -32,7 +33,7 @@ def startdebugger():
         try:
             import pydevd
         except ImportError:
-            pass
+            import None as pydevd
         else:
             pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
@@ -49,6 +50,7 @@ from resources.lib.kodilogging import KodiLogger
 from resources.lib.publisherfactory import PublisherFactory
 from resources.lib.subscriberfactory import SubscriberFactory
 from resources.lib.settings import Settings
+from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
 
 kodipo = KodiPo()
@@ -62,6 +64,26 @@ except RuntimeError:
         __version__ = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('version')
     except RuntimeError:
         __version__ = 'ERROR getting version'
+
+
+def createUserTasks():
+    paths = [translatepath('special://addondata')]
+    paths.append(os.path.join(paths[0], 'lib'))
+    paths.append(os.path.join(paths[1], 'usertasks'))
+    for path in paths:
+        if not os.path.isdir(path):
+            try:
+                os.mkdir(path)
+            except OSError:
+                pass
+    for path in paths[1:]:
+        fn = os.path.join(path, '__init__.py')
+        if not os.path.isfile(fn):
+            try:
+                with open(fn, mode='w') as f:
+                    f.writelines('')
+            except (OSError, IOError):
+                pass
 
 
 class MainMonitor(xbmc.Monitor):
@@ -206,8 +228,6 @@ def test(key):
 if __name__ == '__main__':
     dryrun = False
     addonid = 'script.service.kodi.callbacks'
-    GHUser = 'KenV99'
-    reponame = addonid
 
     if len(sys.argv) > 1:
         if testdebug is True and debug is False:
@@ -233,7 +253,6 @@ if __name__ == '__main__':
             dialog.notification(_('Kodi Callbacks'), msg, xbmcgui.NOTIFICATION_INFO, 5000)
 
         elif sys.argv[1] == 'updatefromzip':
-            from resources.lib.utils.kodipathtools import translatepath
             from resources.lib.utils.updateaddon import UpdateAddon
 
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
@@ -247,8 +266,6 @@ if __name__ == '__main__':
                     dialog.ok(_('Kodi Callbacks'), _('Incorrect path'))
 
         elif sys.argv[1] == 'restorebackup':
-            from resources.lib.utils.kodipathtools import translatepath
-
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
             dialog = xbmcgui.Dialog()
             zipfn = dialog.browse(1, _('Locate backup zip file'), 'files', '.zip', False, False,
@@ -258,27 +275,6 @@ if __name__ == '__main__':
 
                 ua = UpdateAddon(addonid)
                 ua.installFromZip(zipfn, updateonly=False, dryrun=dryrun)
-
-        elif sys.argv[1] == 'checkupdate':
-            from resources.lib.utils.githubtools import GitHubTools
-
-            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-            branchname = xbmcaddon.Addon().getSetting('repobranchname')
-            downloadnew, ghversion, currentversion = GitHubTools.checkForDownload(GHUser, reponame, branchname, addonid)
-            dialog = xbmcgui.Dialog()
-            if downloadnew is True:
-                answer = dialog.yesno(_('New version available for branch: %s' % branchname),
-                                      line1=_('Current version: %s') % currentversion,
-                                      line2=_('Available version: %s') % ghversion,
-                                      line3=_('Download and install?'))
-            else:
-                answer = dialog.yesno(_('A new version is not available for branch: %s' % branchname), line1='Current version: %s' % currentversion,
-                                      line2=_('Available version: %s') % ghversion,
-                                      line3=_('Download and install anyway?'))
-            if answer != 0:
-                silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
-                GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun,
-                                               updateonly=downloadnew, silent=silent)
 
         elif sys.argv[1] == 'lselector':
             from resources.lib.utils.selector import selectordialog
@@ -297,6 +293,14 @@ if __name__ == '__main__':
             msg = _('Settings written to log')
             dialog.ok(_('Kodi Callbacks'), msg)
 
+        if branch != 'master':
+            try:
+                from resources.lib.utils.gitHubTools import processargs
+            except ImportError:
+                pass
+            else:
+                processargs(sys.argv)
+
         else:
             # Direct Event/Task Testing
             KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
@@ -311,12 +315,5 @@ if __name__ == '__main__':
         tt = testTasks()
         tt.runTests()
     else:
-        from resources.lib.utils.githubtools import GitHubTools
-
-        GitHubTools.updateSettingsWithBranches('repobranchname', GHUser, reponame)
-        if xbmcaddon.Addon().getSetting('autodownload') == 'true':
-            silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
-            branchname = xbmcaddon.Addon().getSetting('repobranchname')
-            GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=True,
-                                           silent=silent)
+        createUserTasks()
         main()

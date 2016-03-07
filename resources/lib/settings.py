@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-import os
+
 import xbmcaddon
 from resources.lib.pubsub import Topic
 from resources.lib.events import Events
@@ -26,7 +26,7 @@ from resources.lib.events import requires_subtopic
 from resources.lib.utils.poutil import PoDict
 from resources.lib.utils.kodipathtools import translatepath
 podict = PoDict()
-podict.read_from_file(os.path.join(translatepath(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path')), r'resources/language/English/strings.po'))
+podict.read_from_file(translatepath('special://addon/resources/language/English/strings.po'))
 
 def getEnglishStringFromId(msgctxt):
     status, ret = podict.has_msgctxt(msgctxt)

@@ -25,13 +25,14 @@ import os
 import codecs
 from resources.lib.utils.poutil import KodiPo, PoDict
 kodipo = KodiPo()
-kodipo.updateAlways = False
+kodipo.updateAlways = True
 glsid = kodipo.getLocalizedStringId
 __ = kodipo.podict.has_msgctxt
 kl = KodiLogger()
 log = kl.log
 
 podict = PoDict()
+from default import branch as branch
 
 pofile = os.path.join(xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('path').decode("utf-8"), 'resources', 'language', 'English', 'strings.po')
 if pofile.startswith('resources'):
@@ -146,7 +147,7 @@ def createEvents(tasks):
         else:
             conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, glsid('None'), last_id)
             eventcontrols.append(struct.Lsep('%s.lsep' % prefix, 'Event %i' % i, visible=conditionals))
-            eventcontrols.append(struct.Action('%s.action' % prefix, 'Choose event type', action=action, visible=conditionals))
+            eventcontrols.append(struct.Action('%s.action' % prefix, 'Choose event type (click here)', action=action, visible=conditionals))
             eventcontrols.append(struct.Select('%s.type-v' % prefix, 'Event:', default=glsid('None'), enable=False, lvalues=evts, visible=conditionals))
         conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, glsid('None'), curTaskType)
         eventcontrols.append(struct.Text(curTaskType, '', default=glsid('None'), visible=False))
@@ -234,11 +235,12 @@ def createGeneral():
 def createUpdate():
     updatecontrols = []
     updatecontrols.append(struct.Lsep(label='Before any installation, the current is backed up to userdata/addon_data'))
-    updatecontrols.append(struct.Text('installed branch', 'Currently installed branch', default='nonrepo', enable=False))
-    updatecontrols.append(struct.Select('repobranchname','Repository branch name for downloads', default='nonrepo', values=['master', 'nonrepo']))
-    updatecontrols.append( struct.Bool('autodownload', 'Automatically download/install latest from GitHub on startup?', default=False))
-    updatecontrols.append(struct.Bool('silent_install', 'Install without prompts?', default=False))
-    updatecontrols.append(struct.Action('checkupdate', 'Check for update on GitHub', action='RunScript(script.service.kodi.callbacks, checkupdate)'))
+    if branch != 'master':
+        updatecontrols.append(struct.Text('installed branch', 'Currently installed branch', default='nonrepo', enable=False))
+        updatecontrols.append(struct.Select('repobranchname','Repository branch name for downloads', default='nonrepo', values=['master', 'nonrepo']))
+        updatecontrols.append( struct.Bool('autodownload', 'Automatically download/install latest from GitHub on startup?', default=False))
+        updatecontrols.append(struct.Bool('silent_install', 'Install without prompts?', visible = True, default=False))
+        updatecontrols.append(struct.Action('checkupdate', 'Check for update on GitHub', action='RunScript(script.service.kodi.callbacks, checkupdate)'))
     updatecontrols.append(struct.Action('updatefromzip', 'Update from downloaded zip', action='RunScript(script.service.kodi.callbacks, updatefromzip)'))
     updatecontrols.append(struct.Action('restorebackup', 'Restore from previous back up', action='RunScript(script.service.kodi.callbacks, restorebackup)'))
     return updatecontrols
@@ -249,7 +251,7 @@ def writetofile(fn, output):
     with codecs.open(fn, 'wb', 'UTF-8') as f:
         f.writelines(output)
     try:
-        log(msg=glsid('Settings.xml rewritten'))
+        log(msg='Settings.xml rewritten')
     except TypeError:
         pass
 

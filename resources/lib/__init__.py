@@ -22,10 +22,10 @@ import pkgutil
 from resources.lib.taskABC import AbstractTask
 import tasks
 from resources.lib.utils.kodipathtools import translatepath
-dir = translatepath(r'special://addondata/lib')
+dirn = translatepath(r'special://addondata/lib')
 usertasks = None
-if os.path.exists(dir):
-    sys.path.insert(0, dir)
+if os.path.exists(dirn):
+    sys.path.insert(0, dirn)
     try:
         import usertasks
     except ImportError:
@@ -34,11 +34,10 @@ if usertasks is None:
     packages = [tasks]
 else:
     packages = [tasks, usertasks]
+taskdict = {}
+tasktypes = []
 for package in packages:
     prefix = package.__name__ + "."
-    taskdict = {}
-    tasktypes = []
-
     for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
         module = __import__(modname, fromlist="dummy")
         for name, cls in module.__dict__.items():

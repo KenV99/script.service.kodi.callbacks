@@ -1,4 +1,7 @@
-v.0.9.8.2 (2016-03-05)
+v0.9.8.3 (2016-03-07)
+- Removed github code from master branch
+
+v0.9.8.2 (2016-03-05)
 - Refactored settings xml generation
 - Made unconfigured tasks unselectable in settings
 
