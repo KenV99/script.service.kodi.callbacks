@@ -20,6 +20,7 @@
 debug = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
+branch = 'master'
 
 import os
 import sys
@@ -32,7 +33,7 @@ def startdebugger():
         try:
             import pydevd
         except ImportError:
-            pass
+            import None as pydevd
         else:
             pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
 
@@ -291,6 +292,14 @@ if __name__ == '__main__':
             dialog = xbmcgui.Dialog()
             msg = _('Settings written to log')
             dialog.ok(_('Kodi Callbacks'), msg)
+
+        if branch != 'master':
+            try:
+                from resources.lib.utils.gitHubTools import processargs
+            except ImportError:
+                pass
+            else:
+                processargs(sys.argv)
 
         else:
             # Direct Event/Task Testing
