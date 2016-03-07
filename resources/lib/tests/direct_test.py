@@ -54,7 +54,8 @@ class TestLogger(object):
     def __init__(self):
         self._log = []
 
-    def log(self, loglevel=1, msg=''):
+    def log(self, level=1, msg=''):
+        assert isinstance(level, int)
         msg_list = msg.split('\n')
         if not isinstance(msg_list, list):
             msg_list = [msg]

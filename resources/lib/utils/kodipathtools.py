@@ -82,6 +82,8 @@ def translatepath(path):
         ret = re.split(r'\\|/', path)
     if ret[0].endswith(':'):
         ret[0] = '%s\\' % ret[0]
+    for i, r in enumerate(ret):
+        ret[i] = secure_filename(r)
     ret = os.path.join(*ret)
     ret = os.path.expandvars(ret)
     ret = os.path.expanduser(ret)
@@ -113,7 +115,7 @@ def addonpath(addon_id='script.service.kodi.callbacks'):
     else:
         try:
             path = xbmcaddon.Addon(addon_id).getAddonInfo('path')
-        except Exception:
+        except RuntimeError:
             path = ''
     if path == '':
         path = os.path.join(*[homepath(), 'addons', addon_id])

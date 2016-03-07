@@ -30,10 +30,10 @@ class TaskBuiltin(AbstractTask):
     tasktype = 'builtin'
     variables = [
         {
-            'id':'builtin',
+            'id':u'builtin',
             'settings':{
-                'default':'',
-                'label':__('Kodi Builtin Function'),
+                'default':u'',
+                'label':u'Kodi Builtin Function',
                 'type':'text'
             }
         },

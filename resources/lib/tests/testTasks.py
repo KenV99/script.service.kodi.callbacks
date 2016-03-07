@@ -41,18 +41,17 @@ setPathExecuteRW(testdir)
 
 
 def is_xbmc_debug():
-    json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'
-                                     ' { "filter":{"section":"system", "category":"debug"} } }')
+    json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.GetSettingValue", "params": {"setting":"debug.showloginfo"} }')
     json_query = unicode(json_query, 'utf-8', errors='ignore')
     json_response = json.loads(json_query)
+    if json_response.has_key('result'):
+        if json_response['result'].has_key('value'):
+            return json_response['result']['value']
+        else:
+            raise SyntaxError('Bad JSON')
+    else:
+        raise SyntaxError('Bad JSON')
 
-    if json_response.has_key('result') and json_response['result'].has_key('settings') and json_response['result']['settings'] is not None:
-        for item in json_response['result']['settings']:
-            if item["id"] == "debug.showloginfo":
-                if item["value"] is True:
-                    return True
-                else:
-                    return False
 
 def getWebserverInfo():
     json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "Settings.getSettings", "params":'

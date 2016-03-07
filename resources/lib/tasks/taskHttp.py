@@ -34,28 +34,28 @@ class TaskHttp(AbstractTask):
     tasktype = 'http'
     variables = [
         {
-            'id':'http',
+            'id':u'http',
             'settings':{
-                'default':'',
-                'label':__('HTTP string (without parameters)'),
+                'default':u'',
+                'label':u'HTTP string (without parameters)',
                 'type':'text'
             }
         },
         {
-            'id':'user',
+            'id':u'user',
             'settings':{
-                'default':'',
-                'label':__('user for Basic Auth (optional)'),
+                'default':u'',
+                'label':u'user for Basic Auth (optional)',
                 'type':'text'
             }
         },
         {
-            'id':'pass',
+            'id':u'pass',
             'settings':{
-                'default':'',
-                'label':__('password for Basic Auth (optional)'),
+                'default':u'',
+                'label':u'password for Basic Auth (optional)',
                 'type':'text',
-                'option':'hidden'
+                'option':u'hidden'
             }
         }
     ]

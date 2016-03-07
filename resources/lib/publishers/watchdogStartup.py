@@ -108,7 +108,7 @@ class WatchdogStartup(Publisher):
         for event in events.keys():
             try:
                 mylist = diff.__getattribute__(event)
-            except Exception:
+            except AttributeError:
                 mylist = []
             if len(mylist) > 0:
                 for item in mylist:

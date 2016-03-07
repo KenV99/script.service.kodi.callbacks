@@ -16,20 +16,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-debug = False
-remote = False
-if debug:
-    if remote:
-        sys.path.append(r'C:\\Users\\Ken User\\AppData\\Roaming\\XBMC\\addons\\script.ambibox\\resources\\lib\\'
-                        r'pycharm-debug.py3k\\')
-        import pydevd
-        pydevd.settrace('192.168.1.103', port=51234, stdoutToServer=True, stderrToServer=True)
-    else:
-        sys.path.append('C:\Program Files (x86)\JetBrains\PyCharm 3.1.3\pycharm-debug-py3k.egg')
-        import pydevd
-        pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True)
-"""
 
 import xbmc
 import xbmcgui

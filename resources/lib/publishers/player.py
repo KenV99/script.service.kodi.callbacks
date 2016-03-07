@@ -27,6 +27,7 @@ _ = kodipo.getLocalizedString
 class PlayerPublisher(Publisher, threading.Thread):
     publishes = Events.Player.keys()
     def __init__(self, dispatcher, settings):
+        assert settings is not None
         Publisher.__init__(self, dispatcher)
         threading.Thread.__init__(self, name='PlayerPublisher')
         self.dispatcher = dispatcher
@@ -74,7 +75,7 @@ class Player(xbmc.Player):
                 isMovie = True
         try:
             filename = self.getPlayingFile()
-        except Exception:
+        except RuntimeError:
             filename = ''
         if filename != '':
             if filename[0:3] == 'pvr':
@@ -121,7 +122,7 @@ class Player(xbmc.Player):
     def getPlayingFileX(self):
         try:
             fn = self.getPlayingFile()
-        except Exception:
+        except RuntimeError:
             fn = 'unknown'
         if fn is None:
             fn = 'Kodi returned playing file is none'
@@ -129,21 +130,19 @@ class Player(xbmc.Player):
 
     @staticmethod
     def getAspectRatio():
-        try:
-            ar = xbmc.getInfoLabel("VideoPlayer.VideoAspect")
-        except Exception:
-            ar = 'unknown'
+        ar = xbmc.getInfoLabel("VideoPlayer.VideoAspect")
         if ar is None:
+            ar = 'unknown'
+        elif ar == '':
             ar = 'unknown'
         return str(ar)
 
     @staticmethod
     def getResoluion():
-        try:
-            vr = xbmc.getInfoLabel("VideoPlayer.VideoResolution")
-        except Exception:
-            vr = 'unknown'
+        vr = xbmc.getInfoLabel("VideoPlayer.VideoResolution")
         if vr is None:
+            vr = 'unknown'
+        elif vr == '':
             vr = 'unknown'
         return str(vr)
 
@@ -151,7 +150,7 @@ class Player(xbmc.Player):
         self.playingFile = self.getPlayingFileX()
         try:
             self.totalTime = self.getTotalTime()
-        except Exception:
+        except RuntimeError:
             self.totalTime = -1
         self.playingType = self.playing_type()
         self.playingTitle = self.getTitle()
@@ -165,7 +164,7 @@ class Player(xbmc.Player):
             tt = self.totalTime
             tp = self.playingTime
             pp = int(100 * tp/tt)
-        except Exception:
+        except RuntimeError:
             pp=-1
         kwargs = {'mediaType':self.playingType, 'fileName':self.playingFile, 'title':self.playingTitle, 'percentPlayed':str(pp)}
         self.publish(Message(topic, **kwargs))

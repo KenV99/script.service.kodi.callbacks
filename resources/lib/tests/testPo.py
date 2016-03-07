@@ -61,11 +61,12 @@ def testPoFileUpdate():
                    [r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\watchdog',
                     r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\pathtools',
                     r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\helpers',
-                    r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\tests\stubs'])
+                    r'C:\Users\Ken User\AppData\Roaming\Kodi\addons\script.service.kodi.callbacks\resources\lib\tests\Kodi_stubs'])
     assert isinstance(up, poutil.UpdatePo)
     up.updateStringsPo()
 
-def moclog(msg=None):
+def moclog(msg=None, level=None):
+    assert isinstance(level, None) or isinstance(level, str)
     print msg
 
 # def testPoFailure():

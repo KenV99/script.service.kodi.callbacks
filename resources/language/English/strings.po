@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32273
+#Add-on messages id=32001 to 32284
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -1067,7 +1067,7 @@ msgid "on Window Opened"
 msgstr ""
 
 msgctxt "#32261"
-msgid "Choose event type"
+msgid "Choose event type (click here)"
 msgstr ""
 
 msgctxt "#32262"
@@ -1087,7 +1087,7 @@ msgid "Incorrect path"
 msgstr ""
 
 msgctxt "#32266"
-msgid "New version available"
+msgid "New version available for branch: %s"
 msgstr ""
 
 msgctxt "#32267"
@@ -1103,7 +1103,7 @@ msgid "Download and install?"
 msgstr ""
 
 msgctxt "#32270"
-msgid "A new version is not available"
+msgid "A new version is not available for branch: %s"
 msgstr ""
 
 msgctxt "#32271"
@@ -1116,5 +1116,49 @@ msgstr ""
 
 msgctxt "#32273"
 msgid "Process returned data: [%s]\n"
+msgstr ""
+
+msgctxt "#32274"
+msgid "Script executable file - browse"
+msgstr ""
+
+msgctxt "#32275"
+msgid "Script executable file - edit"
+msgstr ""
+
+msgctxt "#32276"
+msgid ""
+msgstr ""
+
+msgctxt "#32277"
+msgid "Choose event type (click here)"
+msgstr ""
+
+msgctxt "#32278"
+msgid "Hint - variables can be subbed (%%=%, _%=space, __%=,):"
+msgstr ""
+
+msgctxt "#32279"
+msgid "ws_folder - browse"
+msgstr ""
+
+msgctxt "#32280"
+msgid "ws_folder - edit"
+msgstr ""
+
+msgctxt "#32281"
+msgid "folder - browse"
+msgstr ""
+
+msgctxt "#32282"
+msgid "folder - edit"
+msgstr ""
+
+msgctxt "#32283"
+msgid "Upload Log"
+msgstr ""
+
+msgctxt "#32284"
+msgid "Choose event type"
 msgstr ""
 
