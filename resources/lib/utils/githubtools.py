@@ -16,15 +16,16 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
+import codecs
 import json
 import os
 import re
-import urllib2
-import codecs
 import traceback
+import urllib2
 
 import requests
 
+import xbmcaddon
 import xbmcgui
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.utils.kodipathtools import translatepath
@@ -36,9 +37,42 @@ _ = kodipo.getLocalizedString
 kl = KodiLogger()
 log = kl.log
 
+dryrun = False
+addonid = 'script.service.kodi.callbacks'
+GHUser = 'KenV99'
+reponame = addonid
+
+
+def processargs(argv):
+    if argv[1] == 'checkupdate':
+        KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+        branchname = xbmcaddon.Addon().getSetting('repobranchname')
+        downloadnew, ghversion, currentversion = GitHubTools.checkForDownload(GHUser, reponame, branchname, addonid)
+        dialog = xbmcgui.Dialog()
+        if downloadnew is True:
+            answer = dialog.yesno(_('New version available for branch: %s' % branchname),
+                                  line1=_('Current version: %s') % currentversion,
+                                  line2=_('Available version: %s') % ghversion,
+                                  line3=_('Download and install?'))
+        else:
+            answer = dialog.yesno(_('A new version is not available for branch: %s' % branchname),
+                                  line1=_('Current version: %s') % currentversion,
+                                  line2=_('Available version: %s') % ghversion,
+                                  line3=_('Download and install anyway?'))
+        if answer != 0:
+            silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
+            GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun,
+                                           updateonly=downloadnew, silent=silent)
+    else:
+        GitHubTools.updateSettingsWithBranches('repobranchname', GHUser, reponame)
+        if xbmcaddon.Addon().getSetting('autodownload') == 'true':
+            silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
+            branchname = xbmcaddon.Addon().getSetting('repobranchname')
+            GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun, updateonly=True,
+                                           silent=silent)
+
 
 class GitHubTools(object):
-
     @staticmethod
     def checkForDownload(username, reponame, branch, addonid):
         addonxmlurl = r'https://raw.githubusercontent.com/%s/%s/%s/addon.xml' % (username, reponame, branch)
@@ -71,7 +105,7 @@ class GitHubTools(object):
         try:
             GitHubTools.dlBinaryFile(zipurl, zipfn)
         except GitHubToolsException as e:
-            log (msg='GitHubTools Exception: %s' % e.message)
+            log(msg='GitHubTools Exception: %s' % e.message)
             if e.iserror:
                 raise e
         else:

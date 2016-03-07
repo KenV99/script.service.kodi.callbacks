@@ -20,7 +20,7 @@
 import abc
 from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
-kodipo.updateAlways = False
+kodipo.updateAlways = True
 _ = kodipo.getLocalizedStringId
 
 def getSettingMock(sid):

@@ -115,7 +115,7 @@ def addonpath(addon_id='script.service.kodi.callbacks'):
     else:
         try:
             path = xbmcaddon.Addon(addon_id).getAddonInfo('path')
-        except Exception:
+        except RuntimeError:
             path = ''
     if path == '':
         path = os.path.join(*[homepath(), 'addons', addon_id])

@@ -65,7 +65,8 @@ def testPoFileUpdate():
     assert isinstance(up, poutil.UpdatePo)
     up.updateStringsPo()
 
-def moclog(msg=None):
+def moclog(msg=None, level=None):
+    assert isinstance(level, None) or isinstance(level, str)
     print msg
 
 # def testPoFailure():
