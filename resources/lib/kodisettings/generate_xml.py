@@ -132,8 +132,8 @@ def createEvents(tasks):
     levts = "|".join(levts)
     eventcontrols = []
     # Hidden copies of the Task types to reference below for only allowing to choose tasks that have been configured
-    for i in xrange(1,11):
-        eventcontrols.append(struct.Text('T%s.type' % str(i), '', visible=False, default='0', internal_ref='Tx%s.type' % str(i)))
+    # for i in xrange(1,11):
+    #     eventcontrols.append(struct.Text('T%s.type' % str(i), '', visible=False, default='0', internal_ref='Tx%s.type' % str(i)))
 
     last_id = None
     for i in xrange(1,11):
@@ -153,15 +153,15 @@ def createEvents(tasks):
         eventcontrols.append(struct.Text(curTaskType, '', default=glsid('None'), visible=False))
 
         # Conditionally show only the number of tasks configured
-        conditional =  struct.Conditionals([struct.Conditional(struct.Conditional.OP_EQUAL, 'none', 'Tx1.type'), conditionals])
-        eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=['none'], enable=False, visible=conditional))
-        for i1 in xrange(2, 11):
-            conditional1 =  struct.Conditional(struct.Conditional.OP_NOT_EQUAL, 'none', 'Tx%s.type' % str(i1-1))
-            conditional2 =  struct.Conditional(struct.Conditional.OP_EQUAL, 'none', 'Tx%s.type' % str(i1))
-            conditional = struct.Conditionals([conditional1, conditional2, conditionals])
-            eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=tasks[:i1-1], visible=conditional))
-        conditional =  struct.Conditionals([struct.Conditional(struct.Conditional.OP_NOT_EQUAL, 'none', 'Tx10.type'), conditionals])
-        eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=tasks, visible=conditional))
+        # conditional =  struct.Conditionals([struct.Conditional(struct.Conditional.OP_EQUAL, 'none', 'Tx1.type'), conditionals])
+        # eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=['none'], enable=False, visible=conditional))
+        # for i1 in xrange(2, 11):
+        #     conditional1 =  struct.Conditional(struct.Conditional.OP_NOT_EQUAL, 'none', 'Tx%s.type' % str(i1-1))
+        #     conditional2 =  struct.Conditional(struct.Conditional.OP_EQUAL, 'none', 'Tx%s.type' % str(i1))
+        #     conditional = struct.Conditionals([conditional1, conditional2, conditionals])
+        #     eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=tasks[:i1-1], visible=conditional))
+        # conditional =  struct.Conditionals([struct.Conditional(struct.Conditional.OP_NOT_EQUAL, 'none', 'Tx10.type'), conditionals])
+        eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=tasks, visible=conditionals))
 
         for evtkey in allevts.keys():
             evt = allevts[evtkey]

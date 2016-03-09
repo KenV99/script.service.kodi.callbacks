@@ -49,6 +49,7 @@ class AbstractTask(threading.Thread):
         self.log = logger
         self.runtimeargs = []
         self.taskKwargs = {}
+        self.publisherKwargs = {}
         self.topic = None
         self.type = ''
         self.taskId = ''
@@ -92,6 +93,7 @@ class AbstractTask(threading.Thread):
             self.taskKwargs = taskKwargs
             self.userargs = taskKwargs['userargs']
             self.taskId = taskKwargs['taskid']
+            self.publisherKwargs = kwargs
             self.runtimeargs = self.processUserargs(kwargs)
         self.start()
 
