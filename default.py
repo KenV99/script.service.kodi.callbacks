@@ -293,9 +293,9 @@ if __name__ == '__main__':
             msg = _('Settings written to log')
             dialog.ok(_('Kodi Callbacks'), msg)
 
-        if branch != 'master':
+        elif branch != 'master' and sys.argv[1] == 'checkupdate':
             try:
-                from resources.lib.utils.gitHubTools import processargs
+                from resources.lib.utils.githubtools import processargs
             except ImportError:
                 pass
             else:
@@ -315,5 +315,12 @@ if __name__ == '__main__':
         tt = testTasks()
         tt.runTests()
     else:
+        if branch != 'master':
+            try:
+                from resources.lib.utils.githubtools import processargs
+            except ImportError:
+                pass
+            else:
+                processargs(sys.argv)
         createUserTasks()
         main()

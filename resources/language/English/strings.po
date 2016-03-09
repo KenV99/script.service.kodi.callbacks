@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32326
+#Add-on messages id=32001 to 32328
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -1328,5 +1328,13 @@ msgstr ""
 
 msgctxt "#32326"
 msgid "Choose event type (click here)"
+msgstr ""
+
+msgctxt "#32327"
+msgid "JsonNotify"
+msgstr ""
+
+msgctxt "#32328"
+msgid "Sender string"
 msgstr ""
 
