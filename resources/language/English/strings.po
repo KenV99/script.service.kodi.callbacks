@@ -1331,7 +1331,7 @@ msgid "Choose event type (click here)"
 msgstr ""
 
 msgctxt "#32327"
-msgid "JsonNotify"
+msgid "json_rpc_notify"
 msgstr ""
 
 msgctxt "#32328"

@@ -44,25 +44,26 @@ reponame = addonid
 
 
 def processargs(argv):
-    if argv[1] == 'checkupdate':
-        KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-        branchname = xbmcaddon.Addon().getSetting('repobranchname')
-        downloadnew, ghversion, currentversion = GitHubTools.checkForDownload(GHUser, reponame, branchname, addonid)
-        dialog = xbmcgui.Dialog()
-        if downloadnew is True:
-            answer = dialog.yesno(_('New version available for branch: %s' % branchname),
-                                  line1=_('Current version: %s') % currentversion,
-                                  line2=_('Available version: %s') % ghversion,
-                                  line3=_('Download and install?'))
-        else:
-            answer = dialog.yesno(_('A new version is not available for branch: %s' % branchname),
-                                  line1=_('Current version: %s') % currentversion,
-                                  line2=_('Available version: %s') % ghversion,
-                                  line3=_('Download and install anyway?'))
-        if answer != 0:
-            silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
-            GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun,
-                                           updateonly=downloadnew, silent=silent)
+    if len(argv) > 1:
+        if argv[1] == 'checkupdate':
+            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+            branchname = xbmcaddon.Addon().getSetting('repobranchname')
+            downloadnew, ghversion, currentversion = GitHubTools.checkForDownload(GHUser, reponame, branchname, addonid)
+            dialog = xbmcgui.Dialog()
+            if downloadnew is True:
+                answer = dialog.yesno(_('New version available for branch: %s' % branchname),
+                                      line1=_('Current version: %s') % currentversion,
+                                      line2=_('Available version: %s') % ghversion,
+                                      line3=_('Download and install?'))
+            else:
+                answer = dialog.yesno(_('A new version is not available for branch: %s' % branchname),
+                                      line1=_('Current version: %s') % currentversion,
+                                      line2=_('Available version: %s') % ghversion,
+                                      line3=_('Download and install anyway?'))
+            if answer != 0:
+                silent = (xbmcaddon.Addon().getSetting('silent_install') == 'true')
+                GitHubTools.downloadAndInstall(GHUser, reponame, addonid, branchname, dryrun=dryrun,
+                                               updateonly=downloadnew, silent=silent)
     else:
         GitHubTools.updateSettingsWithBranches('repobranchname', GHUser, reponame)
         if xbmcaddon.Addon().getSetting('autodownload') == 'true':

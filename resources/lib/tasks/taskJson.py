@@ -28,10 +28,10 @@ _ = kodipo.getLocalizedString
 __ = kodipo.getLocalizedStringId
 
 class TaskJsonNotify(AbstractTask):
-    tasktype = 'JsonNotify'
+    tasktype = 'json_rpc_notify'
     variables = [
         {
-            'id':u'JsonNotify',
+            'id':u'jsonnotify',
             'settings':{
                 'default':u'kodi.callbacks',
                 'label':u'Sender string',

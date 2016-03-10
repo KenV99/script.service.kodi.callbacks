@@ -133,6 +133,8 @@ class Settings(object):
             et = Settings.eventsReverseLookup[et]
             evt['type'] = et
         tsk = get('%s.task' % pid, 'text')
+        if tsk == '' or tsk.lower() == 'none':
+            return None
         evt['task'] = 'T%s' % int(tsk[5:])
         for ri in Settings.allevents[et]['reqInfo']:
             evt[ri[0]] = get('%s.%s' % (pid,ri[0]), ri[1])
