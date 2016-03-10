@@ -131,41 +131,29 @@ def createEvents(tasks):
         levts.append(glsid(evt))
     levts = "|".join(levts)
     eventcontrols = []
-    # Hidden copies of the Task types to reference below for only allowing to choose tasks that have been configured
-    # for i in xrange(1,11):
-    #     eventcontrols.append(struct.Text('T%s.type' % str(i), '', visible=False, default='0', internal_ref='Tx%s.type' % str(i)))
 
     last_id = None
     for i in xrange(1,11):
         prefix = 'E%s' % str(i)
-        curTaskType = '%s.type' % prefix
-        action = 'RunScript(script.service.kodi.callbacks, lselector, id=%s.type, heading=%s, lvalues=%s)' % (prefix, glsid('Choose event type'), levts)
+        curEvtType = '%s.type' % prefix
+        action_evt = 'RunScript(script.service.kodi.callbacks, lselector, id=%s.type, heading=%s, lvalues=%s)' % (prefix, glsid('Choose event type'), levts)
         if i == 1:
             eventcontrols.append(struct.Lsep('%s.lsep' % prefix, 'Event %i' % i))
-            eventcontrols.append(struct.Action('%s.action' % prefix, 'Choose event type (click here)', action=action))
+            eventcontrols.append(struct.Action('%s.action' % prefix, 'Choose event type (click here)', action=action_evt))
             eventcontrols.append(struct.Select('%s.type-v' % prefix, 'Event:', default='None', enable=False, lvalues=evts))
         else:
             conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, glsid('None'), last_id)
             eventcontrols.append(struct.Lsep('%s.lsep' % prefix, 'Event %i' % i, visible=conditionals))
-            eventcontrols.append(struct.Action('%s.action' % prefix, 'Choose event type (click here)', action=action, visible=conditionals))
+            eventcontrols.append(struct.Action('%s.action' % prefix, 'Choose event type (click here)', action=action_evt, visible=conditionals))
             eventcontrols.append(struct.Select('%s.type-v' % prefix, 'Event:', default=glsid('None'), enable=False, lvalues=evts, visible=conditionals))
-        conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, glsid('None'), curTaskType)
-        eventcontrols.append(struct.Text(curTaskType, '', default=glsid('None'), visible=False))
+        conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, glsid('None'), curEvtType)
+        eventcontrols.append(struct.Text(curEvtType, '', default=glsid('None'), visible=False))
 
-        # Conditionally show only the number of tasks configured
-        # conditional =  struct.Conditionals([struct.Conditional(struct.Conditional.OP_EQUAL, 'none', 'Tx1.type'), conditionals])
-        # eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=['none'], enable=False, visible=conditional))
-        # for i1 in xrange(2, 11):
-        #     conditional1 =  struct.Conditional(struct.Conditional.OP_NOT_EQUAL, 'none', 'Tx%s.type' % str(i1-1))
-        #     conditional2 =  struct.Conditional(struct.Conditional.OP_EQUAL, 'none', 'Tx%s.type' % str(i1))
-        #     conditional = struct.Conditionals([conditional1, conditional2, conditionals])
-        #     eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=tasks[:i1-1], visible=conditional))
-        # conditional =  struct.Conditionals([struct.Conditional(struct.Conditional.OP_NOT_EQUAL, 'none', 'Tx10.type'), conditionals])
         eventcontrols.append(struct.LabelEnum('%s.task' % prefix, 'Task', default='Task 1', lvalues=tasks, visible=conditionals))
 
         for evtkey in allevts.keys():
             evt = allevts[evtkey]
-            conditionals = struct.Conditional(struct.Conditional.OP_EQUAL, glsid(evt['text']), curTaskType)
+            conditionals = struct.Conditional(struct.Conditional.OP_EQUAL, glsid(evt['text']), curEvtType)
             for req in evt['reqInfo']:
                 r1 = req[1]
                 if r1 in ['float', 'int']:
@@ -212,10 +200,10 @@ def createEvents(tasks):
                         podict.addentry(strid, vs[x+1:])
                         podirty = True
                     eventcontrols.append(struct.Lsep(label=vs[x+1:], visible=conditionals))
-        conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, unicode(glsid('None')), curTaskType)
+        conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, unicode(glsid('None')), curEvtType)
         eventcontrols.append(struct.Text('%s.userargs' % prefix, 'Var subbed arg string', default='', visible=conditionals))
         eventcontrols.append(struct.Action('%s.test' % prefix, 'Test Command (click OK to save changes first)', action='RunScript(script.service.kodi.callbacks, %s)' % prefix, visible=conditionals))
-        last_id = curTaskType
+        last_id = curEvtType
     return eventcontrols, podirty
 
 def createGeneral():
