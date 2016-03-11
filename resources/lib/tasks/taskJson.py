@@ -55,7 +55,7 @@ class TaskJsonNotify(AbstractTask):
         message = str(self.topic)
         data = str(self.publisherKwargs).replace('\'', '"')
         try:
-            json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "JSONRPC.NotifyAll", "params": {"sender":"%s", "message":"%s", "data":%s} }' %(self.taskKwargs['JsonNotify'], message, data))
+            json_query = xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "id": 0, "method": "JSONRPC.NotifyAll", "params": {"sender":"%s", "message":"%s", "data":%s} }' %(self.taskKwargs['jsonnotify'], message, data))
             json_query = unicode(json_query, 'utf-8', errors='ignore')
             json_response = json.loads(json_query)
         except Exception:
