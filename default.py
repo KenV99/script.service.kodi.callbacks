@@ -136,6 +136,8 @@ def start():
 
 def main():
     xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s') % str(__version__), level=xbmc.LOGNOTICE)
+    if branch != 'master':
+        xbmcaddon.Addon().setSetting('installed branch', branch)
     dispatcher, publishers = start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
     monitor = MainMonitor(dispatcher, publishers)
