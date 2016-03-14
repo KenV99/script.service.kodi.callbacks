@@ -25,6 +25,7 @@ import urllib2
 
 import requests
 
+import xbmc
 import xbmcaddon
 import xbmcgui
 from resources.lib.kodilogging import KodiLogger
@@ -133,25 +134,37 @@ class GitHubTools(object):
     def dlBinaryFile(url, destfn):
         u = None
         mprogress = None
-        f = None
         if os.path.isfile(destfn):
             os.remove(destfn)
         destfolder = os.path.split(destfn)[0]
         if not os.path.isdir(destfolder):
             os.makedirs(destfolder)
         try:
-            u = urllib2.urlopen(url)
-            f = open(destfn, 'wb')
-            meta = u.info()
-            cl = meta.getheaders("Content-Length")
-            if isinstance(cl, list):
-                file_size = int(cl[0])
-            else:
-                file_size = int(cl)
+            tries = 0
+            file_size = 0
+            while tries < 5 and file_size == 0:
+                u = urllib2.urlopen(url)
+                meta = u.info()
+                cl = meta.getheaders("Content-Length")
+                if isinstance(cl, list):
+                    file_size = int(cl[0])
+                    break
+                else:
+                    try:
+                        file_size = int(cl)
+                        break
+                    except TypeError:
+                        if tries < 5:
+                            xbmc.sleep(100)
+                            tries += 1
+                        else:
+                            raise GitHubToolsException(message='Could not get file length', iserror=True)
+
             mprogress = xbmcgui.DialogProgress()
             mprogress.create(_('Downloading %s bytes %s') % (os.path.basename(destfn), file_size))
             file_size_dl = 0
             block_sz = 8192
+            f = open(destfn, 'wb')
             while True and not mprogress.iscanceled():
                 mbuffer = u.read(block_sz)
                 if not mbuffer:
@@ -167,7 +180,7 @@ class GitHubTools(object):
                     os.remove(destfn)
                 except OSError:
                     pass
-                raise GitHubToolsException(_('Download Cancelled'))
+                raise GitHubToolsException(message= _('Download Cancelled'))
             else:
                 mprogress.close()
                 f.close()
@@ -175,7 +188,7 @@ class GitHubTools(object):
         except GitHubToolsException as e:
             raise e
         except urllib2.HTTPError as e:
-            raise GitHubToolsException(message='GitHubTools HTTPError - Code: %s' % e.code)
+            raise GitHubToolsException(message='GitHubTools HTTPError - Code: %s' % e.code, iserror=True)
         except urllib2.URLError as e:
             raise GitHubToolsException(message='GitHubTools URLError: %s' % str(e.reason), iserror=True)
         except Exception as e:
@@ -269,6 +282,6 @@ class GitHubTools(object):
 
 
 class GitHubToolsException(Exception):
-    def __init__(self, message="Unknown GitHub Error", iserror=False):
-        self.message = message
+    def __init__(self, message="Unknown GitHub Error", iserror=False, *args):
+        super(GitHubToolsException, self).__init__(message, iserror, *args)
         self.iserror = iserror
