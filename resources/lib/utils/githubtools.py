@@ -147,8 +147,12 @@ class GitHubTools(object):
                 meta = u.info()
                 cl = meta.getheaders("Content-Length")
                 if isinstance(cl, list):
-                    file_size = int(cl[0])
-                    break
+                    if len(cl) > 0:
+                        file_size = int(cl[0])
+                        break
+                    else:
+                        xbmc.sleep(100)
+                        tries += 1
                 else:
                     try:
                         file_size = int(cl)
