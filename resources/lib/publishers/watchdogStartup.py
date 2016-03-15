@@ -72,29 +72,30 @@ class WatchdogStartup(Publisher):
             if os.path.exists(folder):
                 newsnapshot = DirectorySnapshot(folder, recursive=setting['ws_recursive'])
                 newsnapshots[folder] = newsnapshot
-                if folder in oldsnapshots.keys():
-                    oldsnapshot = oldsnapshots[folder]
-                    diff = DirectorySnapshotDiff(oldsnapshot, newsnapshot)
-                    changes = self.getChangesFromDiff(diff)
-                    if len(changes) > 0:
-                        eh = EventHandler(patterns=setting['ws_patterns'].split(','), ignore_patterns=setting['ws_ignore_patterns'].split(','),
-                                          ignore_directories=setting['ws_ignore_directories'])
-                        observer = Observer()
-                        try:
-                            observer.schedule(eh, folder, recursive=setting['ws_recursive'])
-                            time.sleep(0.5)
-                            for change in changes:
-                                eh.dispatch(change)
-                                time.sleep(0.25)
+                if oldsnapshots is not None:
+                    if folder in oldsnapshots.keys():
+                        oldsnapshot = oldsnapshots[folder]
+                        diff = DirectorySnapshotDiff(oldsnapshot, newsnapshot)
+                        changes = self.getChangesFromDiff(diff)
+                        if len(changes) > 0:
+                            eh = EventHandler(patterns=setting['ws_patterns'].split(','), ignore_patterns=setting['ws_ignore_patterns'].split(','),
+                                              ignore_directories=setting['ws_ignore_directories'])
+                            observer = Observer()
                             try:
-                                observer.unschedule_all()
+                                observer.schedule(eh, folder, recursive=setting['ws_recursive'])
+                                time.sleep(0.5)
+                                for change in changes:
+                                    eh.dispatch(change)
+                                    time.sleep(0.25)
+                                try:
+                                    observer.unschedule_all()
+                                except Exception:
+                                    pass
                             except Exception:
-                                pass
-                        except Exception:
-                            raise
-                        if len(eh.data) > 0:
-                            message = Message(Topic('onStartupFileChanges', setting['key']), listOfChanges=eh.data)
-                            self.publish(message)
+                                raise
+                            if len(eh.data) > 0:
+                                message = Message(Topic('onStartupFileChanges', setting['key']), listOfChanges=eh.data)
+                                self.publish(message)
             else:
                 message = Message(Topic('onStartupFileChanges', setting['key']), listOfChanges=[{'DirsDeleted':folder}])
                 log(msg=_('Watchdog Startup folder not found: %s') % folder)
