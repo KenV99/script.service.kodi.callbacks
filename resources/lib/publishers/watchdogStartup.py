@@ -82,7 +82,7 @@ class WatchdogStartup(Publisher):
                         observer = Observer()
                         try:
                             observer.schedule(eh, folder, recursive=setting['ws_recursive'])
-                            time.sleep(0.25)
+                            time.sleep(0.5)
                             for change in changes:
                                 eh.dispatch(change)
                                 time.sleep(0.25)
@@ -155,7 +155,7 @@ class WatchdogStartup(Publisher):
     @staticmethod
     def getPicklePath():
         path = translatepath('special://addondata/watchdog.pkl')
-        setPathRW(path)
+        setPathRW(os.path.split(path)[0])
         return path
 
     @staticmethod
