@@ -145,12 +145,21 @@ def logpath():
 
 def setPathExecuteRW(path):
     path = translatepath(path)
-    os.chmod(path, os.stat(path).st_mode| stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH | stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+    try:
+        os.chmod(path, os.stat(path).st_mode| stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH | stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+    except OSError:
+        pass
 
 def setPathExecute(path):
     path = translatepath(path)
-    os.chmod(path, os.stat(path).st_mode| stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+    try:
+        os.chmod(path, os.stat(path).st_mode| stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+    except OSError:
+        pass
 
 def setPathRW(path):
     path = translatepath(path)
-    os.chmod(path, os.stat(path).st_mode | stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+    try:
+        os.chmod(path, os.stat(path).st_mode | stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
+    except:
+        OSError

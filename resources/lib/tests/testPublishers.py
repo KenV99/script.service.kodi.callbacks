@@ -36,16 +36,20 @@ import Queue
 import threading
 import time
 import nose
+
+
 # from nose.plugins.skip import SkipTest
 
-def printlog(msg, loglevel=0):
-    print msg, loglevel
+def printlog(msg,level=0):
+    print msg, level
+
 
 flexmock(xbmc, log=printlog)
 
 
 def sleep(xtime):
-    time.sleep(xtime/1000.0)
+    time.sleep(xtime / 1000.0)
+
 
 class MockSubscriber(Subscriber):
     def __init__(self):
@@ -76,24 +80,26 @@ class MockSubscriber(Subscriber):
                 time.sleep(1)
                 loopcount += 1
 
+
 # @SkipTest
 class testWatchdogStartup(object):
     def __init__(self):
-        self.publisher=None
-        self.dispatcher=None
-        self.subscriber=None
-        self.topic=None
-        self.folder=None
+        self.publisher = None
+        self.dispatcher = None
+        self.subscriber = None
+        self.topic = None
+        self.folder = None
         self.saveduserpickle = None
 
     def setup(self):
         self.folder = translatepath('special://addon/resources/lib/tests')
-        watchdogStartupSettings = [{'ws_folder':self.folder, 'ws_patterns':'*', 'ws_ignore_patterns':'', 'ws_ignore_directories':True,
-                            'ws_recursive':False, 'key':'E1'}]
+        watchdogStartupSettings = [
+            {'ws_folder': self.folder, 'ws_patterns': '*', 'ws_ignore_patterns': '', 'ws_ignore_directories': True,
+             'ws_recursive': False, 'key': 'E1'}]
         self.saveduserpickle = WatchdogStartup.getPickle()
         self.dispatcher = Dispatcher()
         self.subscriber = MockSubscriber()
-        self.topic = Topic('onStartupFileChanges','E1')
+        self.topic = Topic('onStartupFileChanges', 'E1')
         self.subscriber.addTopic(self.topic)
         self.dispatcher.addSubscriber(self.subscriber)
         settings = Settings()
@@ -109,13 +115,13 @@ class testWatchdogStartup(object):
         del self.dispatcher
 
     def testWatchdogPublisherCreate(self):
-        fn = os.path.join(self.folder,'test.txt')
+        fn = os.path.join(self.folder, 'test.txt')
         if os.path.exists(fn):
             os.remove(fn)
         self.publisher.start()
         self.publisher.abort()
         time.sleep(1)
-        self.subscriber.testq=Queue.Queue()
+        self.subscriber.testq = Queue.Queue()
         with open(fn, 'w') as f:
             f.writelines('test')
         time.sleep(1)
@@ -137,23 +143,24 @@ class testWatchdogStartup(object):
         if len(messages) > 1:
             raise AssertionError('Warning: Too many messages found for Watchdog Startup Create')
 
+
 # @SkipTest
 class testWatchdog(object):
     def __init__(self):
-        self.publisher=None
-        self.dispatcher=None
-        self.subscriber=None
-        self.topic=None
-        self.folder=None
+        self.publisher = None
+        self.dispatcher = None
+        self.subscriber = None
+        self.topic = None
+        self.folder = None
 
     def setup(self):
         self.folder = translatepath('special://addon/resources/lib/tests')
         setPathRW(self.folder)
-        watchdogSettings = [{'folder':self.folder, 'patterns':'*', 'ignore_patterns':'', 'ignore_directories':True,
-                            'recursive':False, 'key':'E1'}]
+        watchdogSettings = [{'folder': self.folder, 'patterns': '*', 'ignore_patterns': '', 'ignore_directories': True,
+                             'recursive': False, 'key': 'E1'}]
         self.dispatcher = Dispatcher()
         self.subscriber = MockSubscriber()
-        self.topic = Topic('onFileSystemChange','E1')
+        self.topic = Topic('onFileSystemChange', 'E1')
         self.subscriber.addTopic(self.topic)
         self.dispatcher.addSubscriber(self.subscriber)
         settings = Settings()
@@ -168,7 +175,7 @@ class testWatchdog(object):
         del self.dispatcher
 
     def testWatchdogPublisherCreate(self):
-        fn = os.path.join(self.folder,'test.txt')
+        fn = os.path.join(self.folder, 'test.txt')
         if os.path.exists(fn):
             os.remove(fn)
         time.sleep(1)
@@ -204,7 +211,7 @@ class testWatchdog(object):
             raise AssertionError('Warning: Too many messages found for Watchdog Create')
 
     def testWatchdogPublisherDelete(self):
-        fn = os.path.join(self.folder,'test.txt')
+        fn = os.path.join(self.folder, 'test.txt')
         if os.path.exists(fn) is False:
             with open(fn, 'w') as f:
                 f.writelines('test')
@@ -230,7 +237,7 @@ class testWatchdog(object):
             raise AssertionError('Warning: Too many messages found for Watchdog Delete')
 
     def testWatchdogPublisherModify(self):
-        fn = os.path.join(self.folder,'test.txt')
+        fn = os.path.join(self.folder, 'test.txt')
         if os.path.exists(fn) is False:
             with open(fn, 'w') as f:
                 f.writelines('test')
@@ -257,16 +264,16 @@ class testWatchdog(object):
         if len(messages) > 1:
             raise AssertionError('Warning: Too many messages found for Watchdog Modify')
 
+
 # @SkipTest
 class testLoop(object):
     def __init__(self):
-        self.publisher=None
-        self.dispatcher=None
-        self.subscriber=None
-        self.globalidletime=None
+        self.publisher = None
+        self.dispatcher = None
+        self.subscriber = None
+        self.globalidletime = None
         self.starttime = None
         self.topics = None
-
 
     def getGlobalIdleTime(self):
         if self.globalidletime is None:
@@ -274,7 +281,7 @@ class testLoop(object):
             self.globalidletime = 0
             return 0
         else:
-            self.globalidletime = int(time.time()-self.starttime)
+            self.globalidletime = int(time.time() - self.starttime)
             return self.globalidletime
 
     def getStereoMode(self):
@@ -285,7 +292,7 @@ class testLoop(object):
 
     def getCurrentWindowId(self):
         git = self.getGlobalIdleTime()
-        if git <2:
+        if git < 2:
             return 10000
         elif 2 <= git < 4:
             return 10001
@@ -308,7 +315,6 @@ class testLoop(object):
         self.dispatcher = Dispatcher()
         self.subscriber = MockSubscriber()
 
-
     def teardown(self):
         self.publisher.abort()
         self.dispatcher.abort()
@@ -316,14 +322,14 @@ class testLoop(object):
         del self.dispatcher
 
     def testLoopIdle(self):
-        self.topics = [Topic('onIdle','E1'), Topic('onIdle', 'E2')]
+        self.topics = [Topic('onIdle', 'E1'), Topic('onIdle', 'E2')]
         for topic in self.topics:
             self.subscriber.addTopic(topic)
         self.dispatcher.addSubscriber(self.subscriber)
-        idleSettings = {'E1':3, 'E2':5}
+        idleSettings = {'E1': 3, 'E2': 5}
         settings = Settings()
         flexmock(settings, getIdleTimes=idleSettings)
-        flexmock(settings, general={'LoopFreq':100})
+        flexmock(settings, general={'LoopFreq': 100})
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
@@ -335,13 +341,12 @@ class testLoop(object):
         for topic in self.topics:
             assert topic in msgtopics
 
-
     def testStereoModeChange(self):
         self.topics = [Topic('onStereoModeChange')]
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
         settings = Settings()
-        flexmock(settings, general={'LoopFreq':100})
+        flexmock(settings, general={'LoopFreq': 100})
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
@@ -354,12 +359,12 @@ class testLoop(object):
             assert topic in msgtopics
 
     def testOnWindowOpen(self):
-        self.topics = [Topic('onWindowOpen','E1' )]
+        self.topics = [Topic('onWindowOpen', 'E1')]
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
         settings = Settings()
-        flexmock(settings, general={'LoopFreq':100})
-        flexmock(settings, getOpenwindowids={10001:'E1'})
+        flexmock(settings, general={'LoopFreq': 100})
+        flexmock(settings, getOpenwindowids={10001: 'E1'})
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
@@ -372,12 +377,12 @@ class testLoop(object):
             assert topic in msgtopics
 
     def testOnWindowClose(self):
-        self.topics = [Topic('onWindowClose','E1' )]
+        self.topics = [Topic('onWindowClose', 'E1')]
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
         settings = Settings()
-        flexmock(settings, general={'LoopFreq':100})
-        flexmock(settings, getClosewindowids={10001:'E1'})
+        flexmock(settings, general={'LoopFreq': 100})
+        flexmock(settings, getClosewindowids={10001: 'E1'})
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
@@ -394,7 +399,7 @@ class testLoop(object):
         self.subscriber.addTopic(self.topics[0])
         self.dispatcher.addSubscriber(self.subscriber)
         settings = Settings()
-        flexmock(settings, general={'LoopFreq':100})
+        flexmock(settings, general={'LoopFreq': 100})
         self.publisher = LoopPublisher(self.dispatcher, settings)
         self.dispatcher.start()
         self.publisher.start()
@@ -406,6 +411,7 @@ class testLoop(object):
         for topic in self.topics:
             assert topic in msgtopics
 
+
 # @SkipTest
 class testLog(object):
     path = translatepath('special://addondata')
@@ -415,10 +421,10 @@ class testLog(object):
     fn = translatepath('special://addondata/kodi.log')
 
     def __init__(self):
-        self.publisher=None
-        self.dispatcher=None
-        self.subscriber=None
-        self.globalidletime=None
+        self.publisher = None
+        self.dispatcher = None
+        self.subscriber = None
+        self.globalidletime = None
         self.starttime = None
         self.topics = None
 
@@ -426,8 +432,8 @@ class testLog(object):
     def logSimulate():
         import random, string
         randomstring = ''.join(random.choice(string.lowercase) for _ in range(30)) + '\n'
-        targetstring = '%s%s%s' %(randomstring[:12],'kodi_callbacks',randomstring[20:])
-        for i in xrange(0,10):
+        targetstring = '%s%s%s' % (randomstring[:12], 'kodi_callbacks', randomstring[20:])
+        for i in xrange(0, 10):
             with open(testLog.fn, 'a') as f:
                 if i == 5:
                     f.writelines(targetstring)
@@ -449,11 +455,11 @@ class testLog(object):
         del self.dispatcher
 
     def testLogSimple(self):
-        self.topics = [Topic('onLogSimple','E1')]
-        xsettings = [{'matchIf':'kodi_callbacks', 'rejectIf':'', 'eventId':'E1'}]
+        self.topics = [Topic('onLogSimple', 'E1')]
+        xsettings = [{'matchIf': 'kodi_callbacks', 'rejectIf': '', 'eventId': 'E1'}]
         settings = Settings()
         flexmock(settings, getLogSimples=xsettings)
-        flexmock(settings, general={'LogFreq':100})
+        flexmock(settings, general={'LogFreq': 100})
         self.publisher = LogPublisher(self.dispatcher, settings)
         try:
             os.remove(testLog.fn)
@@ -482,11 +488,11 @@ class testLog(object):
             assert topic in msgtopics
 
     def testLogRegex(self):
-        self.topics = [Topic('onLogRegex','E1')]
-        xsettings = [{'matchIf':'kodi_callbacks', 'rejectIf':'', 'eventId':'E1'}]
+        self.topics = [Topic('onLogRegex', 'E1')]
+        xsettings = [{'matchIf': 'kodi_callbacks', 'rejectIf': '', 'eventId': 'E1'}]
         settings = Settings()
         flexmock(settings, getLogRegexes=xsettings)
-        flexmock(settings, general={'LogFreq':100})
+        flexmock(settings, general={'LogFreq': 100})
         self.publisher = LogPublisher(self.dispatcher, settings)
         try:
             os.remove(testLog.fn)
@@ -514,12 +520,13 @@ class testLog(object):
         for topic in self.topics:
             assert topic in msgtopics
 
+# @SkipTest
 class TestSchedule(object):
     def __init__(self):
-        self.publisher=None
-        self.dispatcher=None
-        self.subscriber=None
-        self.topics=None
+        self.publisher = None
+        self.dispatcher = None
+        self.subscriber = None
+        self.topics = None
 
     def setup(self):
         flexmock(log.xbmc, log=printlog)
@@ -535,13 +542,13 @@ class TestSchedule(object):
 
     def testDailyAlarm(self):
         from time import strftime
-        self.topics = [Topic('onDailyAlarm','E1')]
+        self.topics = [Topic('onDailyAlarm', 'E1')]
         hour, minute = strftime('%H:%M').split(':')
-        xsettings = [{'hour':int(hour), 'minute':int(minute)+1, 'key':'E1'}]
+        xsettings = [{'hour': int(hour), 'minute': int(minute) + 1, 'key': 'E1'}]
         settings = Settings()
         flexmock(settings, getEventsByType=xsettings)
         self.publisher = SchedulePublisher(self.dispatcher, settings)
-        self.publisher.intervalAlarms=[]
+        self.publisher.intervalAlarms = []
         self.publisher.sleep = time.sleep
         self.publisher.sleepinterval = 1
         self.subscriber.addTopic(self.topics[0])
@@ -558,8 +565,8 @@ class TestSchedule(object):
             assert topic in msgtopics
 
     def testIntervalAlarm(self):
-        self.topics = [Topic('onIntervalAlarm','E1')]
-        xsettings = [{'hours':0, 'minutes':0, 'seconds':10, 'key':'E1'}]
+        self.topics = [Topic('onIntervalAlarm', 'E1')]
+        xsettings = [{'hours': 0, 'minutes': 0, 'seconds': 10, 'key': 'E1'}]
         settings = Settings()
         self.dispatcher = Dispatcher()
         self.subscriber = MockSubscriber()
@@ -587,8 +594,9 @@ def main():
     result = nose.run(
         argv=[sys.argv[0],
               module_name]
-        )
+    )
     return result
+
 
 if __name__ == '__main__':
     main()
