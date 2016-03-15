@@ -22,33 +22,13 @@ testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 branch = 'nonrepo'
 
-import os
-import sys
-
-class pydevd_dummy(object):
-    @staticmethod
-    def settrace(*args, **kwargs):
-        pass
-
-def startdebugger():
-    debugegg = ''
-    if sys.platform.lower().startswith('win'):
-        debugegg = os.path.expandvars('%programfiles(x86)%\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
-    elif sys.platform.lower().startswith('darwin'):
-        debugegg = '/Applications/PyCharm.app/Contents/debug-eggs/pycharm-debug.egg'
-    elif sys.platform.lower().startswith('linux'):
-        debugegg = os.path.expandvars(os.path.expanduser('~/pycharm-5.0.4/debug-eggs/'))
-    if os.path.exists(debugegg):
-        sys.path.append(debugegg)
-        try:
-            import pydevd
-        except ImportError:
-            pydevd = pydevd_dummy
-        pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
+from resources.lib.utils.debugger import startdebugger
 
 if debug:
     startdebugger()
 
+import os
+import sys
 import threading
 import xbmc
 import xbmcaddon
