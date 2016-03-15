@@ -161,5 +161,5 @@ def setPathRW(path):
     path = translatepath(path)
     try:
         os.chmod(path, os.stat(path).st_mode | stat.S_IRWXU | stat.S_IRWXG |stat.S_IRWXO)
-    except:
-        OSError
+    except OSError:
+        pass
