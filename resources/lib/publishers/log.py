@@ -27,7 +27,7 @@ from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
-logfn = xbmc.translatePath(r'special://logpath/Kodi.log')
+logfn = xbmc.translatePath(r'special://logpath/kodi.log')
 
 class LogMonitor(threading.Thread):
     def __init__(self, interval=100):

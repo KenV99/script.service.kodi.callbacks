@@ -22,25 +22,13 @@ testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 branch = 'master'
 
-import os
-import sys
-
-
-def startdebugger():
-    debugegg = 'C:\\Program Files (x86)\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg'
-    if os.path.exists(debugegg):
-        sys.path.append(debugegg)
-        try:
-            import pydevd
-        except ImportError:
-            import None as pydevd
-        else:
-            pydevd.settrace('localhost', port=51234, stdoutToServer=True, stderrToServer=True, suspend=False)
-
+from resources.lib.utils.debugger import startdebugger
 
 if debug:
     startdebugger()
 
+import os
+import sys
 import threading
 import xbmc
 import xbmcaddon

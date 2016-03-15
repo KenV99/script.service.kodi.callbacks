@@ -17,11 +17,6 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-from resources.lib.utils.poutil import KodiPo
-kodipo = KodiPo()
-_ = kodipo.getLocalizedStringId
-
-
 def requires_subtopic():
     return ['onFileSystemChange', 'onLogSimple', 'onLogRegex', 'onIdle', 'afterIdle', 'onWindowOpen', 'onWindowClose',
             'onNotification', 'onFileSystemChange', 'onStartupFileChanges', 'onDailyAlarm', 'onIntervalAlarm']
