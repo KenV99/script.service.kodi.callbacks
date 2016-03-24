@@ -38,7 +38,7 @@ from resources.lib.kodilogging import KodiLogger
 from resources.lib.publisherfactory import PublisherFactory
 from resources.lib.subscriberfactory import SubscriberFactory
 from resources.lib.settings import Settings
-from resources.lib.utils.kodipathtools import translatepath
+from resources.lib.utils.kodipathtools import translatepath, setPathExecuteRW
 from resources.lib.utils.poutil import KodiPo
 
 kodipo = KodiPo()
@@ -62,6 +62,7 @@ def createUserTasks():
         if not os.path.isdir(path):
             try:
                 os.mkdir(path)
+                setPathExecuteRW(path)
             except OSError:
                 pass
     for path in paths[1:]:
@@ -70,6 +71,7 @@ def createUserTasks():
             try:
                 with open(fn, mode='w') as f:
                     f.writelines('')
+                setPathExecuteRW(fn)
             except (OSError, IOError):
                 pass
 
@@ -81,11 +83,12 @@ class MainMonitor(xbmc.Monitor):
         self.publishers = publishers
 
     def onSettingsChanged(self):
-        log(msg=_('Settings change detected - attempting to restart'))
-        for p in self.publishers:
-            p.abort(0.525)
-        self.dispatcher.abort(0.25)
-        start()
+        if xbmcgui.getCurrentWindowId() != 10140 and xbmcgui.getCurrentWindowDialogId() != 10140:
+            log(msg=_('Settings change detected - attempting to restart'))
+            for p in self.publishers:
+                p.abort(0.525)
+            self.dispatcher.abort(0.25)
+            start()
 
 
 def start():
