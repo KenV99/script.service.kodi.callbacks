@@ -83,12 +83,11 @@ class MainMonitor(xbmc.Monitor):
         self.publishers = publishers
 
     def onSettingsChanged(self):
-        if xbmcgui.getCurrentWindowId() != 10140 and xbmcgui.getCurrentWindowDialogId() != 10140:
-            log(msg=_('Settings change detected - attempting to restart'))
-            for p in self.publishers:
-                p.abort(0.525)
-            self.dispatcher.abort(0.25)
-            start()
+        log(msg=_('Settings change detected - attempting to restart'))
+        for p in self.publishers:
+            p.abort(0.525)
+        self.dispatcher.abort(0.25)
+        start()
 
 
 def start():
@@ -154,8 +153,8 @@ def main():
                 log(msg=_('Attempting to kill thread: %i: %s') % (t.ident, t.name))
                 xbmc.sleep(25)
                 try:
-                    t.abort(0.525)
-                except threading.ThreadError:
+                    t.abort(0.1)
+                except (threading.ThreadError, AttributeError):
                     log(msg=_('Error killing thread'))
                 else:
                     if not t.is_alive():
