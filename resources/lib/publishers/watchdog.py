@@ -69,8 +69,6 @@ class WatchdogPublisher(Publisher):
             mysetting = [eh, folder, setting['recursive']]
             self.observersettings.append(mysetting)
 
-
-
     def start(self):
         for item in self.observersettings:
             observer = Observer()

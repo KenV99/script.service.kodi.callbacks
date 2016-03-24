@@ -53,6 +53,8 @@ except RuntimeError:
     except RuntimeError:
         __version__ = 'ERROR getting version'
 
+publishers = None
+dispatcher = None
 
 def createUserTasks():
     paths = [translatepath('special://addondata')]
@@ -77,21 +79,40 @@ def createUserTasks():
 
 
 class MainMonitor(xbmc.Monitor):
-    def __init__(self, dispatcher, publishers):
+    def __init__(self):
         super(MainMonitor, self).__init__()
-        self.dispatcher = dispatcher
-        self.publishers = publishers
 
     def onSettingsChanged(self):
         log(msg=_('Settings change detected - attempting to restart'))
-        for p in self.publishers:
-            p.abort(0.525)
-        self.dispatcher.abort(0.25)
+        abortall()
         start()
 
+def abortall():
+    global dispatcher, publishers
+    for p in publishers:
+        try:
+            p.abort(0.5)
+        except threading.ThreadError as e:
+            log(msg=_('Error aborting: %s - Error: %s') % (str(p), str(e)))
+    dispatcher.abort(0.5)
+    if len(threading.enumerate()) > 1:
+        main_thread = threading.current_thread()
+        log(msg=_('Enumerating threads to kill others than main (%i)') % main_thread.ident)
+        for t in threading.enumerate():
+            if t is not main_thread and t.is_alive():
+                log(msg=_('Attempting to kill thread: %i: %s') % (t.ident, t.name))
+                try:
+                    t.abort(0.5)
+                except (threading.ThreadError, AttributeError):
+                    log(msg=_('Error killing thread'))
+                else:
+                    if not t.is_alive():
+                        log(msg=_('Thread killed succesfully'))
+                    else:
+                        log(msg=_('Error killing thread'))
 
 def start():
-    global log
+    global log, publishers, dispatcher
     settings = Settings()
     settings.getSettings()
     kl = KodiLogger()
@@ -121,42 +142,23 @@ def start():
         except threading.ThreadError:
             raise
     log(msg=_('Publisher(s) started'))
-    return dispatcher, publishers
 
 
 def main():
+    global dispatcher, publishers
     xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s') % str(__version__), level=xbmc.LOGNOTICE)
     if branch != 'master':
         xbmcaddon.Addon().setSetting('installed branch', branch)
-    dispatcher, publishers = start()
+    start()
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
-    monitor = MainMonitor(dispatcher, publishers)
+    monitor = MainMonitor()
     log(msg=_('Entering wait loop'))
     monitor.waitForAbort()
 
     # Shutdown tasks
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown'), pid=os.getpid()))
     log(msg=_('Shutdown started'))
-    for p in publishers:
-        try:
-            p.abort(0.5)
-        except threading.ThreadError as e:
-            log(msg=_('Error aborting: %s - Error: %s') % (str(p), str(e)))
-    dispatcher.abort(0.5)
-    if len(threading.enumerate()) > 1:
-        main_thread = threading.current_thread()
-        log(msg=_('Enumerating threads to kill others than main (%i)') % main_thread.ident)
-        for t in threading.enumerate():
-            if t is not main_thread:
-                if t.is_alive():
-                    log(msg=_('Attempting to kill thread: %i: %s') % (t.ident, t.name))
-                    try:
-                        t.abort(0.5)
-                    except (threading.ThreadError, AttributeError):
-                        log(msg=_('Error killing thread'))
-                    else:
-                        if not t.is_alive():
-                            log(msg=_('Thread killed succesfully'))
+    abortall()
     log(msg='Shutdown complete')
 
 
