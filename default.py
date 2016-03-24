@@ -136,29 +136,27 @@ def main():
 
     # Shutdown tasks
     dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown'), pid=os.getpid()))
-    xbmc.sleep(500)
     log(msg=_('Shutdown started'))
     for p in publishers:
         try:
-            p.abort()
+            p.abort(0.5)
         except threading.ThreadError as e:
             log(msg=_('Error aborting: %s - Error: %s') % (str(p), str(e)))
-    dispatcher.abort()
-    xbmc.sleep(1000)
+    dispatcher.abort(0.5)
     if len(threading.enumerate()) > 1:
         main_thread = threading.current_thread()
         log(msg=_('Enumerating threads to kill others than main (%i)') % main_thread.ident)
         for t in threading.enumerate():
             if t is not main_thread:
-                log(msg=_('Attempting to kill thread: %i: %s') % (t.ident, t.name))
-                xbmc.sleep(25)
-                try:
-                    t.abort(0.1)
-                except (threading.ThreadError, AttributeError):
-                    log(msg=_('Error killing thread'))
-                else:
-                    if not t.is_alive():
-                        log(msg=_('Thread killed succesfully'))
+                if t.is_alive():
+                    log(msg=_('Attempting to kill thread: %i: %s') % (t.ident, t.name))
+                    try:
+                        t.abort(0.5)
+                    except (threading.ThreadError, AttributeError):
+                        log(msg=_('Error killing thread'))
+                    else:
+                        if not t.is_alive():
+                            log(msg=_('Thread killed succesfully'))
     log(msg='Shutdown complete')
 
 
