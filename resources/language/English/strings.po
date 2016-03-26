@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32287
+#Add-on messages id=32001 to 32288
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -311,7 +311,7 @@ msgid "Show debugging info in normal log?"
 msgstr ""
 
 msgctxt "#32072"
-msgid "Regenerate settings.xml"
+msgid "Regenerate settings.xml (Developers Only)"
 msgstr ""
 
 msgctxt "#32073"
@@ -1135,7 +1135,7 @@ msgid "Choose event type (click here)"
 msgstr ""
 
 msgctxt "#32278"
-msgid "Hint - variables can be subbed (%%=%, _%=space, __%=,):"
+msgid "Note: variables can be subbed (%%=%, _%=space, __%=,):"
 msgstr ""
 
 msgctxt "#32279"
@@ -1171,6 +1171,10 @@ msgid "Sender string"
 msgstr ""
 
 msgctxt "#32287"
+msgid "Request Type"
+msgstr ""
+
+msgctxt "#32288"
 msgid "json_rpc_notify"
 msgstr ""
 

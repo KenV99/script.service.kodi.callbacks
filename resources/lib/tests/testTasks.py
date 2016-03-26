@@ -89,8 +89,8 @@ class testTasks(object):
         serverEnabled, serverPort, serverUser, serverPassword = getWebserverInfo()
         if serverEnabled:
             self.task = taskdict['http']['class']
-            taskKwargs = {'http':'http://localhost:%s/jsonrpc' % str(serverPort), 'user':serverUser, 'pass':serverPassword, 'type':'http', 'notify':False}
-            userargs = '?request={"jsonrpc": "2.0", "id": 1, "method":"Application.Setmute", "params":{"mute":"toggle"}}'
+            taskKwargs = {'http':'http://localhost:%s/jsonrpc' % str(serverPort), 'user':serverUser, 'pass':serverPassword, 'type':'http', 'request-type':'GET', 'notify':False}
+            userargs = '?request={"jsonrpc":%__"2.0"%_%__"id": 1%_%__"method":"Application.Setmute"%_%__"params":{"mute":"toggle"}}'
             tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
             tm.returnHandler = self.returnHandler
             topic = Topic('onPlaybackStarted')
@@ -105,7 +105,7 @@ class testTasks(object):
                 tm.start(topic, **runKwargs)  # Toggle Mute again
             if tr.iserror is True:
                 log(loglevel=xbmc.LOGERROR, msg=_('testHttp returned with an error: %s') % tr.msg)
-            if tr.msg.startswith('{"id":1,"jsonrpc":"2.0","result":') is False:
+            if '{"id":1,"jsonrpc":"2.0","result":' not in tr.msg:
                 raise AssertionError(_('Http test failed'))
         else:
             raise AssertionError('Http test cannot be run because webserver not enabled')

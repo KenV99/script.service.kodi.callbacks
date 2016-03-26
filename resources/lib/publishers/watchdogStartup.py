@@ -131,6 +131,9 @@ class WatchdogStartup(Publisher):
                 snapshots[folder] = snapshot
         WatchdogStartup.savePickle(snapshots)
 
+    def join(self, timeout=None):
+        pass
+
     @staticmethod
     def savePickle(snapshots):
         picklepath = WatchdogStartup.getPicklePath()

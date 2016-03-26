@@ -80,5 +80,14 @@ class WatchdogPublisher(Publisher):
         for item in self.observers:
             assert isinstance(item, Observer)
             item.stop()
+        if timeout > 0:
+            self.join(timeout)
+
+    def join(self, timeout=0):
         for item in self.observers:
-            item.join(timeout)
+            if timeout > 0:
+                item.join(timeout)
+            else:
+                item.join()
+
+

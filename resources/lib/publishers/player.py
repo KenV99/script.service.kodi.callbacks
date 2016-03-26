@@ -24,7 +24,7 @@ from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
-class PlayerPublisher(Publisher, threading.Thread):
+class PlayerPublisher(threading.Thread, Publisher):
     publishes = Events.Player.keys()
     def __init__(self, dispatcher, settings):
         assert settings is not None
@@ -103,20 +103,48 @@ class Player(xbmc.Player):
 
     def getTitle(self):
         if self.isPlayingAudio():
-            while xbmc.getInfoLabel('MusicPlayer.Title') is None:
+            tries = 0
+            while xbmc.getInfoLabel('MusicPlayer.Title') is None and tries < 8:
                 xbmc.sleep(250)
-            return xbmc.getInfoLabel('MusicPlayer.Title')
+                tries += 1
+            title = xbmc.getInfoLabel('MusicPlayer.Title')
+            if title is None or title == '':
+                return 'Kodi cannot detect title'
+            else:
+                return title
         elif self.isPlayingVideo():
-            while xbmc.getInfoLabel('VideoPlayer.Title') is None:
+            tries = 0
+            while xbmc.getInfoLabel('VideoPlayer.Title') is None and tries < 8:
                 xbmc.sleep(250)
+                tries += 1
             if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
                 if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
-                    return (xbmc.getInfoLabel('VideoPlayer.TVShowTitle') + '-Season ' +
-                            xbmc.getInfoLabel('VideoPlayer.Season') + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
+                    return '%s-Season %s-%s' % (xbmc.getInfoLabel('VideoPlayer.TVShowTitle'),
+                                                xbmc.getInfoLabel('VideoPlayer.Season'),
+                                                xbmc.getInfoLabel('VideoPlayer.Title'))
             else:
-                return xbmc.getInfoLabel('VideoPlayer.Title')
+                title = xbmc.getInfoLabel('VideoPlayer.Title')
+                if title is None or title == '':
+                    import json
+                    try:
+                        ret = json.loads(xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title"], "playerid": 1 }, "id": "1"}'))
+                    except RuntimeError:
+                        title = ''
+                    else:
+                        try:
+                            title = ret['result']['item']['title']
+                        except KeyError:
+                            title = 'Kodi cannot detect title'
+                        else:
+                            if title == '':
+                                title = ret['result']['item']['label']
+                            if title == '':
+                                title = 'Kodi cannot detect title'
+                    return title
+                else:
+                    return title
         else:
-            return 'Kodi cannot detect title'
+            return 'Kodi cannot detect title - none playing'
 
 
     def getPlayingFileX(self):

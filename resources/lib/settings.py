@@ -18,15 +18,17 @@
 #
 
 import xbmcaddon
-from resources.lib.pubsub import Topic
-from resources.lib.events import Events
-from resources.lib.kodilogging import KodiLogger
 from resources.lib import taskdict
+from resources.lib.events import Events
 from resources.lib.events import requires_subtopic
-from resources.lib.utils.poutil import PoDict
+from resources.lib.kodilogging import KodiLogger
+from resources.lib.pubsub import Topic
 from resources.lib.utils.kodipathtools import translatepath
+from resources.lib.utils.poutil import PoDict
+
 podict = PoDict()
 podict.read_from_file(translatepath('special://addon/resources/language/English/strings.po'))
+
 
 def getEnglishStringFromId(msgctxt):
     status, ret = podict.has_msgctxt(msgctxt)
@@ -34,6 +36,7 @@ def getEnglishStringFromId(msgctxt):
         return ret
     else:
         return ''
+
 
 _ = getEnglishStringFromId
 
@@ -46,9 +49,10 @@ except Exception:
 kl = KodiLogger()
 log = kl.log
 
+
 def get(settingid, var_type):
     t = xbmcaddon.Addon(addonid).getSetting(settingid)
-    if var_type == 'text' or var_type == 'file' or var_type == 'folder' or var_type == 'sfile' or var_type == 'sfolder':
+    if var_type == 'text' or var_type == 'file' or var_type == 'folder' or var_type == 'sfile' or var_type == 'sfolder' or var_type == 'labelenum':
         return t
     elif var_type == 'int':
         try:
@@ -65,10 +69,11 @@ def get(settingid, var_type):
         log(msg='ERROR Could not process variable %s = "%s"' % (settingid, t))
         return None
 
+
 class Settings(object):
     allevents = Events().AllEvents
-    taskSuffixes = {'general':[['maxrunning', 'int'], ['maxruns','int'], ['refractory', 'int']],
-                     }
+    taskSuffixes = {'general': [['maxrunning', 'int'], ['maxruns', 'int'], ['refractory', 'int']],
+                    }
     eventsReverseLookup = None
 
     def __init__(self):
@@ -83,7 +88,7 @@ class Settings(object):
 
     def logSettings(self):
         import pprint
-        settingspp = {'Tasks':self.tasks, 'Events': self.events, 'General':self.general}
+        settingspp = {'Tasks': self.tasks, 'Events': self.events, 'General': self.general}
         pp = pprint.PrettyPrinter(indent=2)
         msg = pp.pformat(settingspp)
         kl = KodiLogger()
@@ -95,7 +100,7 @@ class Settings(object):
         self.getGeneralSettings()
 
     def getTaskSettings(self):
-        for i in xrange(1,11):
+        for i in xrange(1, 11):
             pid = 'T%s' % str(i)
             tsk = self.getTaskSetting(pid)
             if tsk is not None:
@@ -110,13 +115,13 @@ class Settings(object):
         else:
             tsk['type'] = tasktype
             for suff in Settings.taskSuffixes['general']:
-                tsk[suff[0]] = get('%s.%s' % (pid,suff[0]), suff[1])
+                tsk[suff[0]] = get('%s.%s' % (pid, suff[0]), suff[1])
             for var in taskdict[tasktype]['variables']:
                 tsk[var['id']] = get('%s.%s' % (pid, var['id']), var['settings']['type'])
             return tsk
 
     def getEventSettings(self):
-        for i in xrange(1,11):
+        for i in xrange(1, 11):
             pid = "E%s" % str(i)
             evt = self.getEventSetting(pid)
             if evt is not None:
@@ -137,7 +142,7 @@ class Settings(object):
             return None
         evt['task'] = 'T%s' % int(tsk[5:])
         for ri in Settings.allevents[et]['reqInfo']:
-            evt[ri[0]] = get('%s.%s' % (pid,ri[0]), ri[1])
+            evt[ri[0]] = get('%s.%s' % (pid, ri[0]), ri[1])
         evt['userargs'] = get('%s.userargs' % pid, 'text')
         return evt
 
@@ -152,9 +157,9 @@ class Settings(object):
 
     def getGeneralSettings(self):
         polls = ['LoopFreq', 'LogFreq', 'TaskFreq']
-        self.general['Notify'] = get('Notify','bool')
+        self.general['Notify'] = get('Notify', 'bool')
         for p in polls:
-            self.general[p] = get(p,'int')
+            self.general[p] = get(p, 'int')
         self.general['elevate_loglevel'] = get('loglevel', 'bool')
 
     def getOpenwindowids(self):
@@ -212,14 +217,14 @@ class Settings(object):
         evts = self.getEventsByType('onLogSimple')
         ret = []
         for evt in evts:
-            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['key']})
+            ret.append({'matchIf': evt['matchIf'], 'rejectIf': evt['rejectIf'], 'eventId': evt['key']})
         return ret
 
     def getLogRegexes(self):
         evts = self.getEventsByType('onLogRegex')
         ret = []
         for evt in evts:
-            ret.append({'matchIf':evt['matchIf'], 'rejectIf':evt['rejectIf'], 'eventId':evt['key']})
+            ret.append({'matchIf': evt['matchIf'], 'rejectIf': evt['rejectIf'], 'eventId': evt['key']})
         return ret
 
     def getWatchdogSettings(self):

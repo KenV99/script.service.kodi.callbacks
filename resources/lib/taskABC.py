@@ -62,8 +62,9 @@ class AbstractTask(threading.Thread):
             return []
         ret = copy.copy(self.userargs)
         ret = ret.replace(r'%%', '{@literal%@}')
-        tmp = self.delimitregex.sub(r'{@originaldelim@}', ret)
-        ret = tmp
+        if self.tasktype == 'script' or self.tasktype == 'python':
+            tmp = self.delimitregex.sub(r'{@originaldelim@}', ret)
+            ret = tmp
         try:
             varArgs = events.AllEvents[self.topic.topic]['varArgs']
         except KeyError:
@@ -79,8 +80,11 @@ class AbstractTask(threading.Thread):
         ret = ret.replace('%__', " ")
         ret = ret.replace('%_', ",")
         ret = ret.replace('{@literal%@}', r'%')
-        ret = ret.split('{@originaldelim@}')
-        return ret
+        if self.tasktype == 'script' or self.tasktype == 'python':
+            ret = ret.split('{@originaldelim@}')
+            return ret
+        else:
+            return ret
 
     @staticmethod
     @abc.abstractmethod

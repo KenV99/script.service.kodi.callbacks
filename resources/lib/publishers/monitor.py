@@ -24,7 +24,7 @@ from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
-class MonitorPublisher(Publisher, threading.Thread):
+class MonitorPublisher(threading.Thread, Publisher):
     publishes = Events().Monitor.keys()
 
     def __init__(self, dispatcher, settings):
