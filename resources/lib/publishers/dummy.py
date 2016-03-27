@@ -23,8 +23,14 @@ from resources.lib.pubsub import Publisher
 class WatchdogPublisherDummy(Publisher):
     publishes = Events().Watchdog.keys()
 
-    def __init__(self, dispatcher, watchdogSettings):
+    def __init__(self, dispatcher, _):
         super(WatchdogPublisherDummy, self).__init__(dispatcher)
 
     def start(self):
+        pass
+
+    def abort(self, timeout=None):
+        pass
+
+    def join(self, timeout=None):
         pass

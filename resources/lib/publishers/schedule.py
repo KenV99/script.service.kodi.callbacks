@@ -25,7 +25,7 @@ from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
-class SchedulePublisher(Publisher, threading.Thread):
+class SchedulePublisher(threading.Thread, Publisher):
     publishes = Events().Schedule.keys()
 
     def __init__(self, dispatcher, settings):

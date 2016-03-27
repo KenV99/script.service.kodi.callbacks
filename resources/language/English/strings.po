@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32328
+#Add-on messages id=32001 to 32287
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -311,7 +311,7 @@ msgid "Show debugging info in normal log?"
 msgstr ""
 
 msgctxt "#32072"
-msgid "Regenerate settings.xml"
+msgid "Regenerate settings.xml (Developers Only)"
 msgstr ""
 
 msgctxt "#32073"
@@ -1119,222 +1119,58 @@ msgid "Process returned data: [%s]\n"
 msgstr ""
 
 msgctxt "#32274"
-msgid "32096"
-msgstr ""
-
-msgctxt "#32275"
 msgid "Script executable file - browse"
 msgstr ""
 
-msgctxt "#32276"
+msgctxt "#32275"
 msgid "Script executable file - edit"
 msgstr ""
 
-msgctxt "#32277"
-msgid "ws_folder - browse"
-msgstr ""
-
-msgctxt "#32278"
-msgid "ws_folder - edit"
-msgstr ""
-
-msgctxt "#32279"
-msgid "folder - browse"
-msgstr ""
-
-msgctxt "#32280"
-msgid "folder - edit"
-msgstr ""
-
-msgctxt "#32281"
-msgid "Upload Log"
-msgstr ""
-
-msgctxt "#32282"
-msgid "32075"
-msgstr ""
-
-msgctxt "#32283"
-msgid "32077"
-msgstr ""
-
-msgctxt "#32284"
-msgid "32078"
-msgstr ""
-
-msgctxt "#32285"
-msgid "32079"
-msgstr ""
-
-msgctxt "#32286"
-msgid "32092"
-msgstr ""
-
-msgctxt "#32287"
-msgid "32093"
-msgstr ""
-
-msgctxt "#32288"
-msgid "32096 - browse"
-msgstr ""
-
-msgctxt "#32289"
-msgid "32096 - edit"
-msgstr ""
-
-msgctxt "#32290"
-msgid "32097"
-msgstr ""
-
-msgctxt "#32291"
-msgid "32098"
-msgstr ""
-
-msgctxt "#32292"
+msgctxt "#32276"
 msgid ""
 msgstr ""
 
-msgctxt "#32293"
-msgid "Hint - variables can be subbed (%%=%, _%=space, __%=,):"
-msgstr ""
-
-msgctxt "#32294"
-msgid "update"
-msgstr ""
-
-msgctxt "#32295"
-msgid "onIdle"
-msgstr ""
-
-msgctxt "#32296"
-msgid "onPlayBackSpeedChanged"
-msgstr ""
-
-msgctxt "#32297"
-msgid "onPlayBackStarted"
-msgstr ""
-
-msgctxt "#32298"
-msgid "onScreensaverDeactivated"
-msgstr ""
-
-msgctxt "#32299"
-msgid "onStartupFileChanges"
-msgstr ""
-
-msgctxt "#32300"
-msgid "afterIdle"
-msgstr ""
-
-msgctxt "#32301"
-msgid "onPlayBackSeek"
-msgstr ""
-
-msgctxt "#32302"
-msgid "onShutdown"
-msgstr ""
-
-msgctxt "#32303"
-msgid "onPlayBackSeekChapter"
-msgstr ""
-
-msgctxt "#32304"
-msgid "onCleanFinished"
-msgstr ""
-
-msgctxt "#32305"
-msgid "onScreensaverActivated"
-msgstr ""
-
-msgctxt "#32306"
-msgid "onWindowOpen"
-msgstr ""
-
-msgctxt "#32307"
-msgid "onDMPSDeactivated"
-msgstr ""
-
-msgctxt "#32308"
-msgid "onScanStarted"
-msgstr ""
-
-msgctxt "#32309"
-msgid "onProfileChange"
-msgstr ""
-
-msgctxt "#32310"
-msgid "onFileSystemChange"
-msgstr ""
-
-msgctxt "#32311"
-msgid "onDailyAlarm"
-msgstr ""
-
-msgctxt "#32312"
-msgid "onPlayBackEnded"
-msgstr ""
-
-msgctxt "#32313"
-msgid "onQueueNextItem"
-msgstr ""
-
-msgctxt "#32314"
-msgid "onCleanStarted"
-msgstr ""
-
-msgctxt "#32315"
-msgid "onNotification"
-msgstr ""
-
-msgctxt "#32316"
-msgid "onStereoModeChange"
-msgstr ""
-
-msgctxt "#32317"
-msgid "onIntervalAlarm"
-msgstr ""
-
-msgctxt "#32318"
-msgid "onLogRegex"
-msgstr ""
-
-msgctxt "#32319"
-msgid "onWindowClose"
-msgstr ""
-
-msgctxt "#32320"
-msgid "onLogSimple"
-msgstr ""
-
-msgctxt "#32321"
-msgid "onStartup"
-msgstr ""
-
-msgctxt "#32322"
-msgid "onPlayBackResumed"
-msgstr ""
-
-msgctxt "#32323"
-msgid "onDPMSActivated"
-msgstr ""
-
-msgctxt "#32324"
-msgid "onScanFinished"
-msgstr ""
-
-msgctxt "#32325"
-msgid "onPlayBackPaused"
-msgstr ""
-
-msgctxt "#32326"
+msgctxt "#32277"
 msgid "Choose event type (click here)"
 msgstr ""
 
-msgctxt "#32327"
-msgid "json_rpc_notify"
+msgctxt "#32278"
+msgid "Note: variables can be subbed (%%=%, _%=space, __%=,):"
 msgstr ""
 
-msgctxt "#32328"
+msgctxt "#32279"
+msgid "ws_folder - browse"
+msgstr ""
+
+msgctxt "#32280"
+msgid "ws_folder - edit"
+msgstr ""
+
+msgctxt "#32281"
+msgid "folder - browse"
+msgstr ""
+
+msgctxt "#32282"
+msgid "folder - edit"
+msgstr ""
+
+msgctxt "#32283"
+msgid "Upload Log"
+msgstr ""
+
+msgctxt "#32284"
+msgid "Choose event type"
+msgstr ""
+
+msgctxt "#32285"
+msgid "JsonNotify"
+msgstr ""
+
+msgctxt "#32286"
 msgid "Sender string"
+msgstr ""
+
+msgctxt "#32287"
+msgid "json_rpc_notify"
 msgstr ""
 

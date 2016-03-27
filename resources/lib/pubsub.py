@@ -167,11 +167,25 @@ class Dispatcher(threading.Thread):
 
 
 class Publisher(object):
+    __metaclass__ = abc.ABCMeta
     def __init__(self, dispatcher):
         self.dispatcher = dispatcher
 
     def publish(self, message):
         self.dispatcher.q_message(message)
+
+    @abc.abstractmethod
+    def start(self):
+        pass
+
+    @abc.abstractmethod
+    def abort(self, timeout=0):
+        pass
+
+    @abc.abstractmethod
+    def join(self, timeout=0):
+        pass
+
 
 
 class Task(threading.Thread):

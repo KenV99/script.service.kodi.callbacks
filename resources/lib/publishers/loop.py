@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-# MONITORS EVENTS NOT AVAILABLE IN XBMC API
+
 
 import threading
 import time
@@ -59,7 +59,7 @@ def getProfileString():
     return ps
 
 
-class LoopPublisher(Publisher, threading.Thread):
+class LoopPublisher(threading.Thread, Publisher):
     publishes = Events().CustomLoop.keys()
 
     def __init__(self, dispatcher, settings):

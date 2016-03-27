@@ -141,7 +141,7 @@ class PoDict(object):
             self.dict_msgctxt[str_msgctxt] = str_msgid
             self.dict_msgid[str_msgid] = str_msgctxt
 
-    def has_msgctxt(self, str_msgctxt): # Returns the English string associate with the id provided
+    def has_msgctxt(self, str_msgctxt): # Returns the English string associated with the id provided
         with PoDict._lock:
             if str_msgctxt in self.dict_msgctxt.keys():
                 return [True, self.dict_msgctxt[str_msgctxt]]

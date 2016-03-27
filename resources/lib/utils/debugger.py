@@ -27,11 +27,11 @@ class pydevd_dummy(object):
 def startdebugger():
     debugegg = ''
     if sys.platform.lower().startswith('win'):
-        debugegg = os.path.expandvars('%programfiles(x86)%\\JetBrains\\PyCharm 5.0.2\\debug-eggs\\pycharm-debug.egg')
+        debugegg = os.path.expandvars('%programfiles(x86)%\\JetBrains\\PyCharm 2016.1\\debug-eggs\\pycharm-debug.egg')
     elif sys.platform.lower().startswith('darwin'):
         debugegg = '/Applications/PyCharm.app/Contents/debug-eggs/pycharm-debug.egg'
     elif sys.platform.lower().startswith('linux'):
-        debugegg = os.path.expandvars(os.path.expanduser('~/pycharm-5.0.4/debug-eggs/pycharm-debug.egg'))
+        debugegg = os.path.expandvars(os.path.expanduser('~/PyCharm 2016.1/debug-eggs/pycharm-debug.egg'))
     if os.path.exists(debugegg):
         sys.path.append(debugegg)
         try:

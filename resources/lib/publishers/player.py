@@ -24,7 +24,7 @@ from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 
-class PlayerPublisher(Publisher, threading.Thread):
+class PlayerPublisher(threading.Thread, Publisher):
     publishes = Events.Player.keys()
     def __init__(self, dispatcher, settings):
         assert settings is not None

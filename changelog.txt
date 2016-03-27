@@ -1,9 +1,12 @@
+v0.9.9 (2016-03-22)
+Version changed to meet official repo rules
+
 v0.9.8.5 (2016-03-15)
 Fixed log bug and testWatchdogStartup bugs
 
 v0.9.8.4 (2016-03-09)
 - Added JSON Notify task
-- Corrected settings bug where on could not select tasks properly
+- Corrected settings bug where one could not select tasks properly
 
 v0.9.8.3 (2016-03-07)
 - Removed github code from master branch
