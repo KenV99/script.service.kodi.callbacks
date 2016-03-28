@@ -90,7 +90,7 @@ class testTasks(object):
         if serverEnabled:
             self.task = taskdict['http']['class']
             taskKwargs = {'http':'http://localhost:%s/jsonrpc' % str(serverPort), 'user':serverUser, 'pass':serverPassword, 'type':'http', 'notify':False}
-            userargs = '?request={"jsonrpc": "2.0", "id": 1, "method":"Application.Setmute", "params":{"mute":"toggle"}}'
+            userargs = '?request={"jsonrpc":%__"2.0"%_%__"id": 1%_%__"method":"Application.Setmute"%_%__"params":{"mute":"toggle"}}'
             tm = TaskManager(self.task, 1, None, -1, taskid='T1', userargs=userargs, **taskKwargs)
             tm.returnHandler = self.returnHandler
             topic = Topic('onPlaybackStarted')
