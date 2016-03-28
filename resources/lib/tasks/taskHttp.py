@@ -73,26 +73,28 @@ class TaskHttp(AbstractTask):
             xlog(msg=_('Invalid url: %s') % taskKwargs['http'])
             return False
 
-    def processUserargs(self, kwargs):
-        if self.userargs == '':
-            return []
-        ret = self.userargs
-        ret = ret.replace(r'%%', '{@literal%@}')
-        try:
-            varArgs = events.Player[self.topic.topic]['varArgs']
-        except KeyError:
-            pass
-        else:
-            for key in varArgs.keys():
-                try:
-                    kw = kwargs[varArgs[key]]
-                    kw = kw.replace(" ", '%__')
-                    ret = ret.replace(key, kw)
-                except KeyError:
-                    pass
-        ret = ret.replace('%__', " ")
-        ret = ret.replace('{@literal%@}', r'%')
-        return ret
+    # def processUserargs(self, kwargs):
+    #     x = super(TaskHttp, self).processUserargs(kwargs)
+    #     self.userargs = x
+    #     if self.userargs == '':
+    #         return []
+    #     ret = self.userargs
+    #     ret = ret.replace(r'%%', '{@literal%@}')
+    #     try:
+    #         varArgs = events.Player[self.topic.topic]['varArgs']
+    #     except KeyError:
+    #         pass
+    #     else:
+    #         for key in varArgs.keys():
+    #             try:
+    #                 kw = kwargs[varArgs[key]]
+    #                 kw = kw.replace(" ", '%__')
+    #                 ret = ret.replace(key, kw)
+    #             except KeyError:
+    #                 pass
+    #     ret = ret.replace('%__', " ")
+    #     ret = ret.replace('{@literal%@}', r'%')
+    #     return ret
 
     def run(self):
         if self.taskKwargs['notify'] is True:
