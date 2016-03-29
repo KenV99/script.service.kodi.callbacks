@@ -125,11 +125,26 @@ class Player(xbmc.Player):
             else:
                 title = xbmc.getInfoLabel('VideoPlayer.Title')
                 if title is None or title == '':
-                    return 'Kodi cannot detect title'
+                    import json
+                    try:
+                        ret = json.loads(xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title"], "playerid": 1 }, "id": "1"}'))
+                    except RuntimeError:
+                        title = ''
+                    else:
+                        try:
+                            title = ret['result']['item']['title']
+                        except KeyError:
+                            title = 'Kodi cannot detect title'
+                        else:
+                            if title == '':
+                                title = ret['result']['item']['label']
+                            if title == '':
+                                title = 'Kodi cannot detect title'
+                    return title
                 else:
                     return title
         else:
-            return 'Kodi cannot detect title'
+            return 'Kodi cannot detect title - none playing'
 
 
     def getPlayingFileX(self):
