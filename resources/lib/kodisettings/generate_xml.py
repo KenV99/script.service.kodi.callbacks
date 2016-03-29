@@ -115,10 +115,17 @@ def createTasks():
                         taskcontrols.append(
                             struct.Text(u'%s.%s' % (prefix, var['id']), labeledit, default=varset['default'],
                                         visible=conditionals))
+                    elif varset['type'] == 'labelenum':
+                        Control = struct.getControlClass[mytype]
+                        taskcontrols.append(
+                            Control('%s.%s' % (prefix, var['id']), label=varset['label'], values=varset['values'],
+                                    default=varset['default'],
+                                    visible=conditionals))
                     else:
                         Control = struct.getControlClass[mytype]
                         taskcontrols.append(
-                            Control('%s.%s' % (prefix, var['id']), varset['label'], default=varset['default'],
+                            Control('%s.%s' % (prefix, var['id']), label=varset['label'],
+                                    default=varset['default'],
                                     visible=conditionals))
                 else:
                     conditionals = struct.Conditional(struct.Conditional.OP_EQUAL, unicode(key), curTaskType)
@@ -160,7 +167,7 @@ def createEvents(tasks):
         prefix = 'E%s' % str(i)
         curEvtType = '%s.type' % prefix
         action_evt = 'RunScript(script.service.kodi.callbacks, lselector, id=%s.type, heading=%s, lvalues=%s)' % (
-        prefix, glsid('Choose event type'), levts)
+            prefix, glsid('Choose event type'), levts)
         if i == 1:
             eventcontrols.append(struct.Lsep('%s.lsep' % prefix, 'Event %i' % i))
             eventcontrols.append(
@@ -259,7 +266,8 @@ def createGeneral():
                                          visible=struct.Conditionals(struct.Conditional(struct.Conditional.OP_HAS_ADDON,
                                                                                         'script.xbmc.debug.log'))))
     generalcontrols.append(
-        struct.Action('regen', 'Regenerate settings.xml (Developers Only)', action='RunScript(script.service.kodi.callbacks, regen)'))
+        struct.Action('regen', 'Regenerate settings.xml (Developers Only)',
+                      action='RunScript(script.service.kodi.callbacks, regen)'))
     generalcontrols.append(struct.Action('test', 'Test addon native tasks (see log for output)',
                                          action='RunScript(script.service.kodi.callbacks, test)'))
     return generalcontrols
@@ -269,13 +277,19 @@ def createUpdate():
     updatecontrols = []
     updatecontrols.append(struct.Lsep(label='Before any installation, the current is backed up to userdata/addon_data'))
     if branch != 'master':
-        updatecontrols.append(struct.Text('installed branch', 'Currently installed branch', default='nonrepo', enable=False))
-        updatecontrols.append(struct.Select('repobranchname','Repository branch name for downloads', default='nonrepo', values=['master', 'nonrepo']))
-        updatecontrols.append( struct.Bool('autodownload', 'Automatically download/install latest from GitHub on startup?', default=False))
-        updatecontrols.append(struct.Action('checkupdate', 'Check for update on GitHub', action='RunScript(script.service.kodi.callbacks, checkupdate)'))
-    updatecontrols.append(struct.Bool('silent_install', 'Install without prompts?', visible = False, default=False))
-    updatecontrols.append(struct.Action('updatefromzip', 'Update from downloaded zip', action='RunScript(script.service.kodi.callbacks, updatefromzip)'))
-    updatecontrols.append(struct.Action('restorebackup', 'Restore from previous back up', action='RunScript(script.service.kodi.callbacks, restorebackup)'))
+        updatecontrols.append(
+            struct.Text('installed branch', 'Currently installed branch', default='nonrepo', enable=False))
+        updatecontrols.append(struct.Select('repobranchname', 'Repository branch name for downloads', default='nonrepo',
+                                            values=['master', 'nonrepo']))
+        updatecontrols.append(
+            struct.Bool('autodownload', 'Automatically download/install latest from GitHub on startup?', default=False))
+        updatecontrols.append(struct.Action('checkupdate', 'Check for update on GitHub',
+                                            action='RunScript(script.service.kodi.callbacks, checkupdate)'))
+    updatecontrols.append(struct.Bool('silent_install', 'Install without prompts?', visible=False, default=False))
+    updatecontrols.append(struct.Action('updatefromzip', 'Update from downloaded zip',
+                                        action='RunScript(script.service.kodi.callbacks, updatefromzip)'))
+    updatecontrols.append(struct.Action('restorebackup', 'Restore from previous back up',
+                                        action='RunScript(script.service.kodi.callbacks, restorebackup)'))
     return updatecontrols
 
 

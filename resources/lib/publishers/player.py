@@ -103,18 +103,31 @@ class Player(xbmc.Player):
 
     def getTitle(self):
         if self.isPlayingAudio():
-            while xbmc.getInfoLabel('MusicPlayer.Title') is None:
+            tries = 0
+            while xbmc.getInfoLabel('MusicPlayer.Title') is None and tries < 8:
                 xbmc.sleep(250)
-            return xbmc.getInfoLabel('MusicPlayer.Title')
+                tries += 1
+            title = xbmc.getInfoLabel('MusicPlayer.Title')
+            if title is None or title == '':
+                return 'Kodi cannot detect title'
+            else:
+                return title
         elif self.isPlayingVideo():
-            while xbmc.getInfoLabel('VideoPlayer.Title') is None:
+            tries = 0
+            while xbmc.getInfoLabel('VideoPlayer.Title') is None and tries < 8:
                 xbmc.sleep(250)
+                tries += 1
             if xbmc.getCondVisibility('VideoPlayer.Content(episodes)'):
                 if xbmc.getInfoLabel('VideoPlayer.Season') != "" and xbmc.getInfoLabel('VideoPlayer.TVShowTitle') != "":
-                    return (xbmc.getInfoLabel('VideoPlayer.TVShowTitle') + '-Season ' +
-                            xbmc.getInfoLabel('VideoPlayer.Season') + '-' + xbmc.getInfoLabel('VideoPlayer.Title'))
+                    return '%s-Season %s-%s' % (xbmc.getInfoLabel('VideoPlayer.TVShowTitle'),
+                                                xbmc.getInfoLabel('VideoPlayer.Season'),
+                                                xbmc.getInfoLabel('VideoPlayer.Title'))
             else:
-                return xbmc.getInfoLabel('VideoPlayer.Title')
+                title = xbmc.getInfoLabel('VideoPlayer.Title')
+                if title is None or title == '':
+                    return 'Kodi cannot detect title'
+                else:
+                    return title
         else:
             return 'Kodi cannot detect title'
 

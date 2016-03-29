@@ -19,7 +19,7 @@
 
 import sys
 import traceback
-import requests as requests
+import requests
 import urllib2
 import httplib
 from urlparse import urlparse
@@ -57,6 +57,15 @@ class TaskHttp(AbstractTask):
                 'type':'text',
                 'option':u'hidden'
             }
+        },
+        {
+            'id': u'request-type',
+            'settings': {
+                'default': u'GET',
+                'label': u'Request Type',
+                'type': u'labelenum',
+                'values': [u'GET', u'POST', u'POST-GET', u'PUT', u'DELETE', u'HEAD', u'OPTIONS']
+            }
         }
     ]
 
@@ -73,30 +82,21 @@ class TaskHttp(AbstractTask):
             xlog(msg=_('Invalid url: %s') % taskKwargs['http'])
             return False
 
-    def run(self):
-        if self.taskKwargs['notify'] is True:
-            notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
-        err = False
-        msg = ''
-        if isinstance(self.runtimeargs, list):
-            if len(self.runtimeargs) > 0:
-                self.runtimeargs = ''.join(self.runtimeargs)
-            else:
-                self.runtimeargs = ''
+    def sendRequest(self, session, verb, url):
+        req = requests.Request(verb, url)
+        prepped = session.prepare_request(req)
+        msg = 'Prepped URL: %s' % prepped.url
         try:
-            if self.taskKwargs['user'] != '' and self.taskKwargs['pass'] != '':
-                u = requests.get(self.taskKwargs['http']+self.runtimeargs, auth=(self.taskKwargs['user'], self.taskKwargs['pass']), timeout=20)
+            resp = session.send(prepped, timeout=20)
+            msg += '\nStatus: %s' % str(resp.status_code)
+            resp.raise_for_status()
+            err = False
+            if resp.text == '':
+                respmsg = 'No response received'
             else:
-                u = requests.get(self.taskKwargs['http']+self.runtimeargs, timeout=20)
-            try:
-                result = u.text
-            except Exception as e:
-                err = True
-                result = ''
-                msg = _('Error on url read')
-                if hasattr(e, 'message'):
-                    msg = msg + '\n' + (str(e.message))
-            msg = str(result)
+                respmsg = resp.text
+            msg += '\nResponse for %s: %s' %(verb, respmsg)
+            resp.close()
         except requests.ConnectionError:
             err = True
             msg = _('Requests Connection Error')
@@ -121,7 +121,6 @@ class TaskHttp(AbstractTask):
         except httplib.BadStatusLine:
             err = False
             self.log(msg=_('Http Bad Status Line caught and passed'))
-
         except httplib.HTTPException, e:
             err = True
             msg = _('HTTPException')
@@ -136,6 +135,33 @@ class TaskHttp(AbstractTask):
             if hasattr(e, 'message'):
                 msg = str(e.message)
             msg = msg + '\n' + traceback.format_exc()
+        return err, msg
+
+
+    def run(self):
+        if self.taskKwargs['notify'] is True:
+            notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
+        if isinstance(self.runtimeargs, list):
+            if len(self.runtimeargs) > 0:
+                self.runtimeargs = ''.join(self.runtimeargs)
+            else:
+                self.runtimeargs = ''
+        s = requests.Session()
+        url = self.taskKwargs['http']+self.runtimeargs
+        if self.taskKwargs['user'] != '' and self.taskKwargs['pass'] != '':
+            s.auth = (self.taskKwargs['user'], self.taskKwargs['pass'])
+        if self.taskKwargs['request-type'] == 'POST-GET':
+            verb = 'POST'
         else:
-            msg = str(result)
+            verb = self.taskKwargs['request-type']
+
+        err, msg = self.sendRequest(s, verb, url)
+
+        if self.taskKwargs['request-type'] == 'POST-GET':
+            err2, msg2 = self.sendRequest(s, 'GET', url)
+            err = err or err2
+            msg = '\n'.join([msg, msg2])
+
+        s.close()
         self.threadReturn(err, msg)
+

@@ -10,15 +10,16 @@
     <setting id="T1.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T1.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T1.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T1.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T1.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T1.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T1.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T1.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T1.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T1.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T2.div" label="32002" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T2.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T1.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T1.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T1.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T1.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T1.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T1.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T1.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T1.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T2.div" label="32002" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T2.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T2.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T2.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T2.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -26,15 +27,16 @@
     <setting id="T2.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T2.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T2.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T2.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T2.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T2.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T2.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T2.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T2.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T2.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T3.div" label="32003" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T3.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T2.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T2.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T2.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T2.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T2.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T2.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T2.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T2.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T3.div" label="32003" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T3.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T3.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T3.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T3.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -42,15 +44,16 @@
     <setting id="T3.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T3.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T3.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T3.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T3.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T3.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T3.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T3.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T3.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T3.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T4.div" label="32004" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T4.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T3.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T3.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T3.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T3.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T3.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T3.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T3.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T3.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T4.div" label="32004" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T4.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T4.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T4.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T4.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -58,15 +61,16 @@
     <setting id="T4.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T4.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T4.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T4.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T4.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T4.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T4.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T4.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T4.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T4.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T5.div" label="32005" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T5.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T4.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T4.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T4.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T4.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T4.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T4.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T4.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T4.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T5.div" label="32005" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T5.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T5.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T5.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T5.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -74,15 +78,16 @@
     <setting id="T5.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T5.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T5.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T5.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T5.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T5.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T5.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T5.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T5.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T5.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T6.div" label="32006" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T6.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T5.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T5.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T5.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T5.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T5.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T5.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T5.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T5.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T6.div" label="32006" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T6.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T6.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T6.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T6.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -90,15 +95,16 @@
     <setting id="T6.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T6.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T6.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T6.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T6.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T6.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T6.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T6.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T6.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T6.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T7.div" label="32007" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T7.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T6.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T6.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T6.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T6.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T6.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T6.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T6.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T6.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T7.div" label="32007" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T7.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T7.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T7.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T7.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -106,15 +112,16 @@
     <setting id="T7.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T7.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T7.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T7.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T7.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T7.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T7.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T7.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T7.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T7.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T8.div" label="32008" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T8.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T7.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T7.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T7.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T7.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T7.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T7.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T7.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T7.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T8.div" label="32008" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T8.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T8.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T8.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T8.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -122,15 +129,16 @@
     <setting id="T8.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T8.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T8.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T8.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T8.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T8.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T8.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T8.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T8.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T8.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T9.div" label="32009" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T9.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T8.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T8.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T8.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T8.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T8.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T8.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T8.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T8.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T9.div" label="32009" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T9.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T9.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T9.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T9.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -138,15 +146,16 @@
     <setting id="T9.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T9.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T9.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T9.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T9.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T9.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T9.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T9.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T9.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T9.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
-    <setting id="T10.div" label="32010" type="lsep" visible="!eq(-15,0)" />
-    <setting id="T10.type" label="32057" type="labelenum" visible="!eq(-16,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
+    <setting id="T9.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T9.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T9.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T9.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T9.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T9.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T9.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T9.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
+    <setting id="T10.div" label="32010" type="lsep" visible="!eq(-16,0)" />
+    <setting id="T10.type" label="32057" type="labelenum" visible="!eq(-17,0)" default="none" lvalues="32129|32130|32131|32287|32132|32133" />
     <setting id="T10.maxrunning" label="32058" type="number" visible="!eq(-1,0)" default="-1" />
     <setting id="T10.maxruns" label="32059" type="number" visible="!eq(-2,0)" default="-1" />
     <setting id="T10.refractory" label="32060" type="number" visible="!eq(-3,0)" default="-1" />
@@ -154,13 +163,14 @@
     <setting id="T10.http" label="32077" type="text" visible="eq(-5,2)" default="" />
     <setting id="T10.user" label="32078" type="text" visible="eq(-6,2)" default="" />
     <setting id="T10.pass" label="32079" type="text" visible="eq(-7,2)" default="" option="hidden" />
-    <setting id="T10.jsonnotify" label="32286" type="text" visible="eq(-8,3)" default="kodi.callbacks" />
-    <setting id="T10.pythonfile" label="32092" type="file" visible="eq(-9,4)" value="" />
-    <setting id="T10.import" label="32093" type="bool" visible="eq(-10,4)" default="false" />
-    <setting id="T10.scriptfile" label="32274" type="file" visible="eq(-11,5)" value="" />
-    <setting id="T10.scriptfile" label="32275" type="text" visible="eq(-12,5)" default="" />
-    <setting id="T10.use_shell" label="32097" type="bool" visible="eq(-13,5)" default="false" />
-    <setting id="T10.waitForCompletion" label="32098" type="bool" visible="eq(-14,5)" default="true" />
+    <setting id="T10.request-type" label="32288" type="labelenum" visible="eq(-8,2)" default="GET" values="GET|POST|POST-GET|PUT|DELETE|HEAD|OPTIONS" />
+    <setting id="T10.jsonnotify" label="32286" type="text" visible="eq(-9,3)" default="kodi.callbacks" />
+    <setting id="T10.pythonfile" label="32092" type="file" visible="eq(-10,4)" value="" />
+    <setting id="T10.import" label="32093" type="bool" visible="eq(-11,4)" default="false" />
+    <setting id="T10.scriptfile" label="32274" type="file" visible="eq(-12,5)" value="" />
+    <setting id="T10.scriptfile" label="32275" type="text" visible="eq(-13,5)" default="" />
+    <setting id="T10.use_shell" label="32097" type="bool" visible="eq(-14,5)" default="false" />
+    <setting id="T10.waitForCompletion" label="32098" type="bool" visible="eq(-15,5)" default="true" />
   </category>
   <category label="32061">
     <setting id="E1.lsep" label="32011" type="lsep" />
