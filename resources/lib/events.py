@@ -27,10 +27,10 @@ class Events(object):
         'onPlayBackStarted':{
             'text':'on Playback Started',
             'reqInfo':[],
-            'optArgs':['mediaType', 'fileName', 'title', 'aspectRatio', 'resolution'],
-            'varArgs':{'%mt':'mediaType', '%fn':'fileName', '%ti':'title', '%ar':'aspectRatio', '%rs':'resolution'},
+            'optArgs':['mediaType', 'fileName', 'title', 'aspectRatio', 'width', 'height', 'stereomode', 'season', 'episode', 'showtitle'],
+            'varArgs':{'%mt':'mediaType', '%fn':'fileName', '%ti':'title', '%ar':'aspectRatio', '%ht':'height', '%wi':'width', '%sm':'stereomode', '%se':'season', '%ep':'episode', '%st':'showtitle', '%at':'artist', '%al':'album'},
             'expArgs':{'mediaType':'movie', 'fileName':'G:\\movies\\Star Wars - Episode IV\\movie.mkv',
-                       'title':'Star Wars Episode IV - A New Hope', 'aspectRatio':'2.35', 'resolution':'1080'}
+                       'title':'Star Wars Episode IV - A New Hope', 'aspectRatio':'2.35', 'width':'1080'}
         },
         'onPlayBackEnded':{
             'text':'on Playback Ended',
