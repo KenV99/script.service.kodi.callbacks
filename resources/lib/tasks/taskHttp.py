@@ -24,7 +24,7 @@ import urllib2
 import httplib
 from urlparse import urlparse
 import socket
-from resources.lib.taskABC import AbstractTask, KodiLogger, notify, events
+from resources.lib.taskABC import AbstractTask, KodiLogger, notify
 from resources.lib.utils.poutil import KodiPo
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
@@ -66,6 +66,15 @@ class TaskHttp(AbstractTask):
                 'type': u'labelenum',
                 'values': [u'GET', u'POST', u'POST-GET', u'PUT', u'DELETE', u'HEAD', u'OPTIONS']
             }
+        },
+        {
+            'id': u'content-type',
+            'settings': {
+                'default': u'application/json',
+                'label': u'Content-Type (for POST or PUT only)',
+                'type': u'labelenum',
+                'values': [u'application/json', u'application/x-www-form-urlencoded', u'text/html', u'text/plain']
+            }
         }
     ]
 
@@ -82,10 +91,18 @@ class TaskHttp(AbstractTask):
             xlog(msg=_('Invalid url: %s') % taskKwargs['http'])
             return False
 
-    def sendRequest(self, session, verb, url):
-        req = requests.Request(verb, url)
+    def sendRequest(self, session, verb, url, postget=False):
+        if postget or verb == 'POST' or verb == 'PUT':
+            url, data = url.split('??', 1)
+            if postget:
+                data = None
+        else:
+            data = None
+        req = requests.Request(verb, url, data=data)
         prepped = session.prepare_request(req)
-        msg = 'Prepped URL: %s' % prepped.url
+        if verb == 'POST' or verb == 'PUT':
+            prepped.headers['Content-Type'] = self.taskKwargs['content-type']
+        msg = 'Prepped URL: %s\nBody: %s' % (prepped.url, prepped.body)
         try:
             resp = session.send(prepped, timeout=20)
             msg += '\nStatus: %s' % str(resp.status_code)
@@ -158,7 +175,7 @@ class TaskHttp(AbstractTask):
         err, msg = self.sendRequest(s, verb, url)
 
         if self.taskKwargs['request-type'] == 'POST-GET':
-            err2, msg2 = self.sendRequest(s, 'GET', url)
+            err2, msg2 = self.sendRequest(s, 'GET', url, postget=True)
             err = err or err2
             msg = '\n'.join([msg, msg2])
 

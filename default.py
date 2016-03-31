@@ -38,7 +38,7 @@ from resources.lib.kodilogging import KodiLogger
 from resources.lib.publisherfactory import PublisherFactory
 from resources.lib.subscriberfactory import SubscriberFactory
 from resources.lib.settings import Settings
-from resources.lib.utils.kodipathtools import translatepath, setPathExecuteRW, setPathRW
+from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
 
 kodipo = KodiPo()
@@ -57,32 +57,6 @@ except RuntimeError:
 class Cache(object):
     publishers = None
     dispatcher = None
-
-
-def createUserTasks():
-    paths = [translatepath('special://addondata')]
-    try:
-        setPathRW(paths[0])
-    except OSError:
-        pass
-    paths.append(os.path.join(paths[0], 'lib'))
-    paths.append(os.path.join(paths[1], 'usertasks'))
-    for path in paths:
-        if not os.path.isdir(path):
-            try:
-                os.mkdir(path)
-                setPathExecuteRW(path)
-            except OSError:
-                pass
-    for path in paths[1:]:
-        fn = os.path.join(path, '__init__.py')
-        if not os.path.isfile(fn):
-            try:
-                with open(fn, mode='w') as f:
-                    f.writelines('')
-                setPathExecuteRW(fn)
-            except (OSError, IOError):
-                pass
 
 
 class MainMonitor(xbmc.Monitor):
@@ -324,5 +298,4 @@ if __name__ == '__main__':
                 pass
             else:
                 processargs(sys.argv)
-        createUserTasks()
         main()

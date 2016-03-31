@@ -219,10 +219,10 @@ def createEvents(tasks):
                 vargs = evt['varArgs']
             except KeyError:
                 vargs = {}
-            vs = ''
+            vs = []
             for key in vargs.keys():
-                vs += '%s=%s,' % (key, vargs[key])
-            vs = vs[:-1]
+                vs.append('%s=%s' % (key, vargs[key]))
+            vs = ','.join(vs)
             brk = 60
             if len(vs) > 0:
                 if len(vs) < brk:
@@ -232,17 +232,24 @@ def createEvents(tasks):
                         podirty = True
                     eventcontrols.append(struct.Lsep(label=vs, visible=conditionals))
                 else:
-                    x = vs.rfind(',', 0, brk)
-                    found, strid = podict.has_msgid(vs[:x])
-                    if found is False:
-                        podict.addentry(strid, vs[:x])
-                        podirty = True
-                    eventcontrols.append(struct.Lsep(label=vs[:x], visible=conditionals))
+                    startindex = 0
+                    x = 0
+                    lines = []
+                    while startindex + brk < len(vs):
+                        x = vs.rfind(',', startindex, startindex+brk)
+                        found, strid = podict.has_msgid(vs[startindex:x])
+                        if found is False:
+                            podict.addentry(strid, vs[startindex:x])
+                            podirty = True
+                        lines.append(vs[startindex:x])
+                        startindex = x + 1
                     found, strid = podict.has_msgid(vs[x + 1:])
                     if found is False:
                         podict.addentry(strid, vs[x + 1:])
                         podirty = True
-                    eventcontrols.append(struct.Lsep(label=vs[x + 1:], visible=conditionals))
+                    lines.append(vs[x+1:])
+                    for line in lines:
+                        eventcontrols.append(struct.Lsep(label=line, visible=conditionals))
         conditionals = struct.Conditional(struct.Conditional.OP_NOT_EQUAL, unicode(glsid('None')), curEvtType)
         eventcontrols.append(
             struct.Text('%s.userargs' % prefix, 'Var subbed arg string', default='', visible=conditionals))

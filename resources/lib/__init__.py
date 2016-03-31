@@ -21,15 +21,45 @@ import sys
 import pkgutil
 from resources.lib.taskABC import AbstractTask
 import tasks
-from resources.lib.utils.kodipathtools import translatepath
+from resources.lib.utils.kodipathtools import translatepath, setPathExecuteRW, setPathRW
+from resources.lib.kodilogging import KodiLogger
+KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
+log = KodiLogger.log
+
+def createUserTasks():
+    paths = [translatepath('special://addondata')]
+    try:
+        setPathRW(paths[0])
+    except OSError:
+        pass
+    paths.append(os.path.join(paths[0], 'lib'))
+    paths.append(os.path.join(paths[1], 'usertasks'))
+    for path in paths:
+        if not os.path.isdir(path):
+            try:
+                os.mkdir(path)
+                setPathExecuteRW(path)
+            except OSError:
+                pass
+    for path in paths[1:]:
+        fn = os.path.join(path, '__init__.py')
+        if not os.path.isfile(fn):
+            try:
+                with open(fn, mode='w') as f:
+                    f.writelines('')
+                setPathExecuteRW(fn)
+            except (OSError, IOError):
+                pass
+
 dirn = translatepath(r'special://addondata/lib')
 usertasks = None
-if os.path.exists(dirn):
-    sys.path.insert(0, dirn)
-    try:
-        import usertasks
-    except ImportError:
-        usertasks = None
+createUserTasks()
+sys.path.insert(0, dirn)
+try:
+    import usertasks
+except ImportError:
+    usertasks = None
+    log(msg='Failed importing usertasks from addondata')
 if usertasks is None:
     packages = [tasks]
 else:
@@ -52,6 +82,5 @@ for package in packages:
                                 raise Exception('Error loading class for %s' % cls.tasktype)
             except TypeError:
                 pass
-
 
 
