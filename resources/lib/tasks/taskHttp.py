@@ -66,6 +66,15 @@ class TaskHttp(AbstractTask):
                 'type': u'labelenum',
                 'values': [u'GET', u'POST', u'POST-GET', u'PUT', u'DELETE', u'HEAD', u'OPTIONS']
             }
+        },
+        {
+            'id': u'content-type',
+            'settings': {
+                'default': u'application/json',
+                'label': u'Content-Type (for POST or PUT only)',
+                'type': u'labelenum',
+                'values': [u'application/json', u'application/x-www-form-urlencoded', u'text/html', u'text/plain']
+            }
         }
     ]
 
@@ -83,7 +92,7 @@ class TaskHttp(AbstractTask):
             return False
 
     def sendRequest(self, session, verb, url, postget=False):
-        if postget or verb == 'POST':
+        if postget or verb == 'POST' or verb == 'PUT':
             url, data = url.split('??', 1)
             if postget:
                 data = None
@@ -91,8 +100,8 @@ class TaskHttp(AbstractTask):
             data = None
         req = requests.Request(verb, url, data=data)
         prepped = session.prepare_request(req)
-        if verb == 'POST':
-            prepped.headers['Content-Type'] = 'application/json'
+        if verb == 'POST' or verb == 'PUT':
+            prepped.headers['Content-Type'] = self.taskKwargs['content-type']
         msg = 'Prepped URL: %s\nBody: %s' % (prepped.url, prepped.body)
         try:
             resp = session.send(prepped, timeout=20)
