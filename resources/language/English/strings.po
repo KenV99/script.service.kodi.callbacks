@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32291
+#Add-on messages id=32001 to 32296
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -1188,5 +1188,25 @@ msgstr ""
 
 msgctxt "#32291"
 msgid "%fn=fileName,%sm=stereomode,%ti=title"
+msgstr ""
+
+msgctxt "#32292"
+msgid "%st=showtitle,%sp=speed,%ep=episode,%mt=mediaType"
+msgstr ""
+
+msgctxt "#32293"
+msgid "%se=season,%fn=fileName,%sm=stereomode,%ti=title"
+msgstr ""
+
+msgctxt "#32294"
+msgid "%fn=fileName,%sm=stereomode,%ti=title,%tm=time"
+msgstr ""
+
+msgctxt "#32295"
+msgid "%al=album,%wi=width,%ch=chapter,%ar=aspectRatio,%at=artist"
+msgstr ""
+
+msgctxt "#32296"
+msgid "%ht=height,%st=showtitle,%ep=episode,%mt=mediaType"
 msgstr ""
 

@@ -62,9 +62,6 @@ class Player(xbmc.Player):
     def __init__(self):
         super(Player, self).__init__()
         self.publish = None
-        self.playingFile = ''
-        self.playingTitle = ''
-        self.playingType = ''
         self.totalTime = -1
         self.playingTime = 0
         self.info = {}
@@ -155,6 +152,90 @@ class Player(xbmc.Player):
         else:
             return 'Kodi cannot detect title - none playing'
 
+    def getAudioInfo(self, playerid):
+        try:
+            info = json.loads(xbmc.executeJSONRPC(
+                '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album",'
+                ' "artist", "duration", "file", "streamdetails"], "playerid": %s }, "id": "AudioGetItem"}'
+                % playerid))['result']['item']
+            if 'artist' in info.keys():
+                t = info['artist']
+                if isinstance(t, list):
+                    info['artist'] = t[0]
+                elif isinstance(t, unicode):
+                    if t != u'':
+                        info['artist'] = t
+                    else:
+                        info['artist'] = u'unknown'
+                else:
+                    info['artist'] = u'unknown'
+            else:
+                info['artist'] = u'unknown'
+            items = ['duration', 'id', 'label', 'type']
+            for item in items:
+                try:
+                    del info[item]
+                except KeyError:
+                    pass
+            info['mediaType'] = 'audio'
+        except RuntimeError:
+            self.info = {}
+        else:
+            self.info = info
+
+    def getVideoInfo(self, playerid):
+        try:
+            info = json.loads(xbmc.executeJSONRPC(
+                '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album",'
+                ' "artist", "season", "episode", "duration", "showtitle", "tvshowid", "file",  "streamdetails"],'
+                ' "playerid": %s }, "id": "VideoGetItem"}' % playerid))['result']['item']
+        except RuntimeError:
+            self.info = {}
+        else:
+            items = ['label', 'id', 'tvshowid']
+            for item in items:
+                try:
+                    del info[item]
+                except KeyError:
+                    pass
+            items = {'mediaType': 'type', 'fileName': 'file'}
+            for item in items.keys():
+                try:
+                    t = items[item]
+                    info[item] = info.pop(t, 'unknown')
+                except KeyError:
+                    info[item] = 'unknown'
+            if info['mediaType'] != 'musicvideo':
+                items = ['artist', 'album']
+                for item in items:
+                    try:
+                        del info[item]
+                    except KeyError:
+                        pass
+            else:
+                info['artist'] = info['artist'][0]
+            if 'streamdetails' in info.keys():
+                sd = info.pop('streamdetails', {})
+                info['stereomode'] = sd['video'][0]['stereomode']
+                info['width'] = str(sd['video'][0]['width'])
+                info['height'] = str(sd['video'][0]['height'])
+                info['aspectRatio'] = str(int((sd['video'][0]['aspect'] * 100.0) + 0.5) / 100.0)
+            if info['mediaType'] == u'episode':
+                items = ['episode', 'season']
+                for item in items:
+                    try:
+                        info[item] = str(info[item]).zfill(2)
+                    except KeyError:
+                        info[item] = 'unknown'
+            else:
+                items = ['episode', 'season', 'showtitle']
+                for item in items:
+                    try:
+                        del info[item]
+                    except KeyError:
+                        pass
+            self.info = info
+
     def getInfo(self):
         tries = 0
         while tries < 8 and self.isPlaying() is False:
@@ -162,105 +243,53 @@ class Player(xbmc.Player):
         try:
             player = json.loads(xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}'))
         except RuntimeError:
-            player = {}
-        try:
-            playerid = player['result'][0]['playerid']
-            playertype = player['result'][0]['type']
-        except KeyError:
             playerid = -1
             playertype = 'none'
+        else:
+            try:
+                playerid = player['result'][0]['playerid']
+                playertype = player['result'][0]['type']
+            except KeyError:
+                playerid = -1
+                playertype = 'none'
         if playertype == 'audio':
-            try:
-                info = json.loads(xbmc.executeJSONRPC(
-                    '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album",'
-                    ' "artist", "duration", "file", "streamdetails"], "playerid": %s }, "id": "AudioGetItem"}'
-                    % playerid))['result']['item']
-                if 'artist' in info.keys():
-                    t = info['artist']
-                    if isinstance(t, list):
-                        info['artist'] = t[0]
-                    elif isinstance(t, unicode):
-                        if t != u'':
-                            info['artist'] = t
-                        else:
-                            info['artist'] = u'unknown'
-                    else:
-                        info['artist'] = u'unknown'
-                else:
-                    info['artist'] = u'unknown'
-                items = ['duration', 'id', 'label', 'type']
-                for item in items:
-                    try:
-                        del info[item]
-                    except KeyError:
-                        pass
-                info['mediaType'] = 'audio'
-            except RuntimeError:
-                self.info = {}
-            else:
-                self.info = info
+            self.getAudioInfo(playerid)
+            self.rectifyUnknowns()
         elif playertype == 'video':
-            try:
-                info = json.loads(xbmc.executeJSONRPC(
-                    '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album",'
-                    ' "artist", "season", "episode", "duration", "showtitle", "tvshowid", "file",  "streamdetails"],'
-                    ' "playerid": %s }, "id": "VideoGetItem"}' % playerid))['result']['item']
-            except RuntimeError:
-                self.info = {}
-            else:
-                items = ['label', 'id', 'tvshowid']
-                for item in items:
-                    try:
-                        del info[item]
-                    except KeyError:
-                        pass
-                items = {'mediaType': 'type', 'fileName': 'file'}
-                for item in items.keys():
-                    try:
-                        t = items[item]
-                        info[item] = info.pop(t, 'unknown')
-                    except KeyError:
-                        info[item] = 'unknown'
-                if info['mediaType'] != 'musicvideo':
-                    items = ['artist', 'album']
-                    for item in items:
-                        try:
-                            del info[item]
-                        except KeyError:
-                            pass
-                else:
-                    info['artist'] = info['artist'][0]
-                if 'streamdetails' in info.keys():
-                    sd = info.pop('streamdetails', {})
-                    info['stereomode'] = sd['video'][0]['stereomode']
-                    info['width'] = str(sd['video'][0]['width'])
-                    info['height'] = str(sd['video'][0]['height'])
-                    info['aspectRatio'] = str(int((sd['video'][0]['aspect'] * 100.0) + 0.5) / 100.0)
-                if info['mediaType'] == u'episode':
-                    items = ['episode', 'season']
-                    for item in items:
-                        try:
-                            info[item] = str(info[item]).zfill(2)
-                        except KeyError:
-                            info[item] = 'unknown'
-                else:
-                    items = ['episode', 'season', 'showtitle']
-                    for item in items:
-                        try:
-                            del info[item]
-                        except KeyError:
-                            pass
-                self.info = info
+            self.getVideoInfo(playerid)
+            self.rectifyUnknowns()
         else:
             self.info = {}
+
+    def rectifyUnknowns(self):
+        items = {'filename': self.getPlayingFileX, 'aspectRatio': self.getAspectRatio, 'height': self.getResoluion,
+                 'title': self.getTitle}
+        for item in items.keys():
+            if item not in self.info.keys():
+                self.info[item] = items[item]()
+            else:
+                try:
+                    if self.info[item] == '' or self.info[item] == 'unknown':
+                        self.info[item] = items[item]()
+                except KeyError:
+                    pass
+        pt = self.playing_type()
+        if 'mediaType' not in self.info.keys():
+            self.info['mediaType'] = pt
+        else:
+            try:
+                if pt != 'unknown' and self.info['mediaType'] != pt:
+                    self.info['mediaType'] = pt
+            except KeyError:
+                pass
 
     def getPlayingFileX(self):
         try:
             fn = self.getPlayingFile()
         except RuntimeError:
             fn = 'unknown'
-        if fn is None:
-            fn = 'Kodi returned playing file is none'
+        if fn is None or fn == '':
+            fn = 'unknown'
         return xbmc.translatePath(fn)
 
     @staticmethod
@@ -283,15 +312,10 @@ class Player(xbmc.Player):
 
     def onPlayBackStarted(self):
         self.getInfo()
-        self.playingFile = self.getPlayingFileX()
         try:
             self.totalTime = self.getTotalTime()
         except RuntimeError:
             self.totalTime = -1
-        self.playingType = self.playing_type()
-        if self.playingType != 'unknown' and self.info['mediaType'] != self.playingType:
-            self.info['mediaType'] = self.playingType
-        self.playingTitle = self.info['title']
         topic = Topic('onPlayBackStarted')
         self.publish(Message(topic, **self.info))
 
@@ -303,44 +327,34 @@ class Player(xbmc.Player):
             pp = int(100 * tp / tt)
         except RuntimeError:
             pp = -1
-        kwargs = {'mediaType': self.playingType, 'fileName': self.playingFile, 'title': self.playingTitle,
-                  'percentPlayed': str(pp)}
-        self.publish(Message(topic, **kwargs))
-        self.playingTitle = ''
-        self.playingFile = ''
-        self.playingType = ''
+        self.publish(Message(topic, percentPlayed=str(pp), **self.info))
         self.totalTime = -1.0
         self.playingTime = 0.0
+        self.info = {}
 
     def onPlayBackStopped(self):
         self.onPlayBackEnded()
 
     def onPlayBackPaused(self):
         topic = Topic('onPlayBackPaused')
-        kwargs = {'time': str(self.getTime()), 'mediaType': self.playingType}
-        self.publish(Message(topic, **kwargs))
+        self.publish(Message(topic, time=str(self.getTime()), **self.info))
 
     def onPlayBackResumed(self):
         topic = Topic('onPlayBackResumed')
-        kwargs = {'mediaType': self.playingType}
-        self.publish(Message(topic, **kwargs))
+        self.publish(Message(topic, time=str(self.getTime()), **self.info))
 
     def onPlayBackSeek(self, time, seekOffset):
         topic = Topic('onPlayBackSeek')
-        kwargs = {'time': str(time)}
-        self.publish(Message(topic, **kwargs))
+        self.publish(Message(topic, time=str(time), **self.info))
 
     def onPlayBackSeekChapter(self, chapter):
         topic = Topic('onPlayBackSeekChapter')
-        kwargs = {'chapter': str(chapter)}
-        self.publish(Message(topic, **kwargs))
+        self.publish(Message(topic, chapter=str(chapter), **self.info))
 
     def onPlayBackSpeedChanged(self, speed):
         topic = Topic('onPlayBackSpeedChanged')
-        kwargs = {'speed': str(speed)}
-        self.publish(Message(topic, **kwargs))
+        self.publish(Message(topic, speed=str(speed), **self.info))
 
     def onQueueNextItem(self):
         topic = Topic('onQueueNextItem')
-        kwargs = {}
-        self.publish(Message(topic, **kwargs))
+        self.publish(Message(topic, **self.info))
