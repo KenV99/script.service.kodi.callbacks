@@ -1000,7 +1000,7 @@ class FileBrowser(Control):
         :rtype:
         """
         super(FileBrowser, self).__init__(self.TYPE_DICT[fbtype], sid, label, enable, visible, subsetting, internal_ref=internal_ref)
-        assert (fbtype >= self.TYPE_FILE and fbtype <= self.TYPE_FILE_ENUM)
+        assert (self.TYPE_FILE <= fbtype <= self.TYPE_FILE_ENUM)
         self.fbtype = fbtype
         if fbtype == self.TYPE_FOLDER:
             self.source = source

@@ -40,7 +40,9 @@ class Events(object):
             'reqInfo': [],
             'optArgs': ['mediaType', 'fileName', 'title', 'aspectRatio', 'width', 'height', 'stereomode', 'season',
                         'episode', 'showtitle', 'percentPlayed'],
-            'varArgs': {'%mt': 'mediaType', '%fn': 'fileName', '%ti': 'title', '%pp': 'percentPlayed'},
+            'varArgs': {'%mt': 'mediaType', '%fn': 'fileName', '%ti': 'title', '%ar': 'aspectRatio', '%ht': 'height',
+                        '%wi': 'width', '%sm': 'stereomode', '%se': 'season', '%ep': 'episode', '%st': 'showtitle',
+                        '%at': 'artist', '%al': 'album'},
             'expArgs': {'mediaType': 'movie', 'fileName': 'G:\\movies\\Star Wars - Episode IV\\movie.mkv',
                         'title': 'Star Wars Episode IV - A New Hope', 'percentPlayed': '26'}
         },

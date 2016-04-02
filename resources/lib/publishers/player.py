@@ -130,7 +130,6 @@ class Player(xbmc.Player):
             else:
                 title = xbmc.getInfoLabel('VideoPlayer.Title')
                 if title is None or title == '':
-                    import json
                     try:
                         ret = json.loads(xbmc.executeJSONRPC(
                             '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title"], "playerid": 1 }, "id": "1"}'))
