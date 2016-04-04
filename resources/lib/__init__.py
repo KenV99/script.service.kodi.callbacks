@@ -17,14 +17,17 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 import os
-import sys
 import pkgutil
-from resources.lib.taskABC import AbstractTask
+import sys
+
 import tasks
-from resources.lib.utils.kodipathtools import translatepath, setPathExecuteRW, setPathRW
 from resources.lib.kodilogging import KodiLogger
+from resources.lib.taskABC import AbstractTask
+from resources.lib.utils.kodipathtools import translatepath, setPathExecuteRW, setPathRW
+
 KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
 log = KodiLogger.log
+
 
 def createUserTasks():
     paths = [translatepath('special://addondata')]
@@ -51,6 +54,7 @@ def createUserTasks():
             except (OSError, IOError):
                 pass
 
+
 dirn = translatepath(r'special://addondata/lib')
 usertasks = None
 createUserTasks()
@@ -76,11 +80,9 @@ for package in packages:
                     if cls.tasktype != 'abstract':
                         if cls.tasktype not in tasktypes:
                             try:
-                                taskdict[cls.tasktype] = {'class':cls, 'variables':cls.variables}
+                                taskdict[cls.tasktype] = {'class': cls, 'variables': cls.variables}
                                 tasktypes.append(cls.tasktype)
                             except:
                                 raise Exception('Error loading class for %s' % cls.tasktype)
             except TypeError:
                 pass
-
-

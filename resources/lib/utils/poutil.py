@@ -307,22 +307,24 @@ class UpdatePo(object):
         files = self.getFileList()
         lstrings = []
         for myfile in files:
+            finds = []
             with open(myfile, 'r') as f:
                 lines = ''.join(f.readlines())
             try:
                 finds = self.find_localizer.findall(lines)
             except re.error:
-                finds = []
+                pass
             finally:
                 if len(finds) != 1:
-                    print 'Skipping file: %s, localizer not found' % myfile
+                    log(msg='Skipping file: %s, localizer not found' % myfile)
                 else:
                     findstr = r"%s\('(.+?)'\)" % finds[0]
                     find = re.compile(findstr)
+                    finds = []
                     try:
                         finds = find.findall(lines)
                     except re.error:
-                        finds = []
+                        pass
                     lstrings += finds
         return lstrings
 

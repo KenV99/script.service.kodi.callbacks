@@ -41,14 +41,8 @@ class SchedulePublisher(threading.Thread, Publisher):
 
     def run(self):
         for alarm in self.dailyAlarms:
-            if alarm['hour'] > 9:
-                hour = str(alarm['hour'])
-            else:
-                hour = '0%i' % alarm['hour']
-            if alarm['minute'] > 9:
-                minute = str(alarm['minute'])
-            else:
-                minute = '0%i' % alarm['minute']
+            hour = str(alarm['hour']).zfill(2)
+            minute = str(alarm['minutle']).zfill(2)
             stime = ':'.join([hour, minute])
             schedule.every().day.at(stime).do(self.prePublishDailyAlarm, key=alarm['key'])
         for alarm in self.intervalAlarms:

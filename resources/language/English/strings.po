@@ -24,7 +24,7 @@ msgctxt "Addon Disclaimer"
 msgid "For bugs, requests or general questions visit the Kodi forums."
 msgstr ""
 
-#Add-on messages id=32001 to 32297
+#Add-on messages id=32001 to 32298
 
 msgctxt "#32001"
 msgid "Task 1"
@@ -1212,5 +1212,9 @@ msgstr ""
 
 msgctxt "#32297"
 msgid "Content-Type (for POST or PUT only)"
+msgstr ""
+
+msgctxt "#32298"
+msgid "No actions run for this addon from Programs"
 msgstr ""
 

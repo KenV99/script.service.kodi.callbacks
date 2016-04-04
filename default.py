@@ -32,13 +32,11 @@ import sys
 import threading
 import xbmc
 import xbmcaddon
-import xbmcgui
 import resources.lib.pubsub as PubSub_Threaded
 from resources.lib.kodilogging import KodiLogger
 from resources.lib.publisherfactory import PublisherFactory
 from resources.lib.subscriberfactory import SubscriberFactory
 from resources.lib.settings import Settings
-from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
 
 kodipo = KodiPo()
@@ -46,12 +44,12 @@ _ = kodipo.getLocalizedString
 log = KodiLogger.log
 
 try:
-    __version__ = xbmcaddon.Addon().getAddonInfo('version')
+    _addonversion_ = xbmcaddon.Addon().getAddonInfo('version')
 except RuntimeError:
     try:
-        __version__ = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('version')
+        _addonversion_ = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('version')
     except RuntimeError:
-        __version__ = 'ERROR getting version'
+        _addonversion_ = 'ERROR getting version'
 
 
 class Cache(object):
@@ -130,7 +128,7 @@ def start():
 
 
 def main():
-    xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s') % str(__version__), level=xbmc.LOGNOTICE)
+    xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s') % str(_addonversion_), level=xbmc.LOGNOTICE)
     if branch != 'master':
         xbmcaddon.Addon().setSetting('installed branch', branch)
     start()
@@ -146,144 +144,9 @@ def main():
     log(msg='Shutdown complete')
 
 
-def test(key):
-    global log
-    log = KodiLogger.log
-    import resources.lib.tests.direct_test as direct_test
-    from resources.lib.events import Events
-    import traceback
-    log(msg=_('Running Test for Event: %s') % key)
-    events = Events().AllEvents
-    settings = Settings()
-    settings.getSettings()
-    if settings.general['elevate_loglevel'] is True:
-        KodiLogger.setLogLevel(xbmc.LOGNOTICE)
-    else:
-        KodiLogger.setLogLevel(xbmc.LOGDEBUG)
-    log(msg=_('Settings for test read'))
-    evtsettings = settings.events[key]
-    topic = settings.topicFromSettingsEvent(key)
-    task_key = settings.events[key]['task']
-    tasksettings = settings.tasks[task_key]
-    testlogger = direct_test.TestLogger()
-    log(msg=_('Creating subscriber for test'))
-    subscriberfactory = SubscriberFactory(settings, testlogger)
-    subscriber = subscriberfactory.createSubscriber(key)
-    if subscriber is not None:
-        log(msg=_('Test subscriber created successfully'))
-        try:
-            kwargs = events[evtsettings['type']]['expArgs']
-        except KeyError:
-            kwargs = {}
-        testRH = direct_test.TestHandler(direct_test.testMsg(subscriber.taskmanagers[0], tasksettings, kwargs))
-        subscriber.taskmanagers[0].returnHandler = testRH.testReturnHandler
-        # Run test
-        log(msg=_('Running test'))
-        nMessage = PubSub_Threaded.Message(topic=topic, **kwargs)
-        try:
-            subscriber.notify(nMessage)
-        except Exception:
-            msg = _('Unspecified error during testing')
-            e = sys.exc_info()[0]
-            if hasattr(e, 'message'):
-                msg = str(e.message)
-            msg = msg + '\n' + traceback.format_exc()
-            log(msg=msg)
-            msgList = msg.split('\n')
-            import resources.lib.dialogtb as dialogtb
-            dialogtb.show_textbox('Error', msgList)
-    else:
-        log(msg=_('Test subscriber creation failed due to errors'))
-        msgList = testlogger.retrieveLogAsList()
-        import resources.lib.dialogtb as dialogtb
-        dialogtb.show_textbox('Error', msgList)
-
-    xbmc.sleep(2000)
-
-
 if __name__ == '__main__':
-    dryrun = False
-    addonid = 'script.service.kodi.callbacks'
 
-    if len(sys.argv) > 1:
-        if testdebug is True and debug is False:
-            startdebugger()
-            dryrun = True
-
-        if sys.argv[1] == 'regen':
-            from resources.lib.kodisettings.generate_xml import generate_settingsxml
-
-            generate_settingsxml()
-            dialog = xbmcgui.Dialog()
-            msg = _('Settings Regenerated')
-            dialog.ok(_('Kodi Callbacks'), msg)
-
-        elif sys.argv[1] == 'test':
-            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-            from resources.lib.tests.testTasks import testTasks
-
-            tt = testTasks()
-            tt.runTests()
-            dialog = xbmcgui.Dialog()
-            msg = _('Native Task Testing Complete - see log for results')
-            dialog.notification(_('Kodi Callbacks'), msg, xbmcgui.NOTIFICATION_INFO, 5000)
-
-        elif sys.argv[1] == 'updatefromzip':
-            from resources.lib.utils.updateaddon import UpdateAddon
-
-            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-            dialog = xbmcgui.Dialog()
-            zipfn = dialog.browse(1, _('Locate zip file'), 'files', '.zip', False, False, translatepath('~'))
-            if zipfn != translatepath('~'):
-                if os.path.isfile(zipfn):
-                    ua = UpdateAddon(addonid)
-                    ua.installFromZip(zipfn, updateonly=True, dryrun=dryrun)
-                else:
-                    dialog.ok(_('Kodi Callbacks'), _('Incorrect path'))
-
-        elif sys.argv[1] == 'restorebackup':
-            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-            dialog = xbmcgui.Dialog()
-            zipfn = dialog.browse(1, _('Locate backup zip file'), 'files', '.zip', False, False,
-                                  translatepath('special://addondata/backup/'))
-            if zipfn != translatepath('special://addondata/backup/'):
-                from resources.lib.utils.updateaddon import UpdateAddon
-
-                ua = UpdateAddon(addonid)
-                ua.installFromZip(zipfn, updateonly=False, dryrun=dryrun)
-
-        elif sys.argv[1] == 'lselector':
-            from resources.lib.utils.selector import selectordialog
-
-            try:
-                result = selectordialog(sys.argv[2:])
-            except (SyntaxError, TypeError) as e:
-                xbmc.log(msg='Error: %s' % str(e), level=xbmc.LOGERROR)
-
-        elif sys.argv[1] == 'logsettings':
-            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-            settings = Settings()
-            settings.getSettings()
-            settings.logSettings()
-            dialog = xbmcgui.Dialog()
-            msg = _('Settings written to log')
-            dialog.ok(_('Kodi Callbacks'), msg)
-
-        elif branch != 'master' and sys.argv[1] == 'checkupdate':
-            try:
-                from resources.lib.utils.githubtools import processargs
-            except ImportError:
-                pass
-            else:
-                processargs(sys.argv)
-
-        else:
-            # Direct Event/Task Testing
-            KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
-            eventId = sys.argv[1]
-            test(eventId)
-
-    elif testTasks:
+    if testTasks:
         KodiLogger.setLogLevel(KodiLogger.LOGNOTICE)
         startdebugger()
         from resources.lib.tests.testTasks import testTasks
