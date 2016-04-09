@@ -5,10 +5,8 @@
     <import addon="script.module.requests" version="2.3.0"/>
   </requires>
   <extension point="xbmc.service" library="default.py" start="startup">
-    <provides>executable</provides>
   </extension>
-  <extension point="xbmc.python.script" library="default.py">
-    <provides>executable</provides>
+  <extension point="xbmc.python.script" library="script.py">
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Callbacks for Kodi</summary>

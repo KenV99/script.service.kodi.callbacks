@@ -40,11 +40,13 @@ def getEnglishStringFromId(msgctxt):
 
 _ = getEnglishStringFromId
 
-# noinspection PyBroadException
 try:
     addonid = xbmcaddon.Addon('script.service.kodi.callbacks').getAddonInfo('id')
-except Exception:
+except RuntimeError:
     addonid = 'script.service.kodi.callbacks'
+else:
+    if addonid == '':
+        addonid = 'script.service.kodi.callbacks'
 
 kl = KodiLogger()
 log = kl.log

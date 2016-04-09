@@ -34,7 +34,6 @@ class MonitorPublisher(threading.Thread, Publisher):
         self._abortevt = threading.Event()
         self._abortevt.clear()
         self.jsoncriteria = settings.getJsonNotifications()
-        # self.publishes = Events().Monitor.keys()
 
     def run(self):
         publish = super(MonitorPublisher, self).publish

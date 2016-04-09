@@ -58,7 +58,7 @@ class UpdateAddon(object):
     def currentversion(addonid):
         currentversion = xbmcaddon.Addon(addonid).getAddonInfo('version')
         if currentversion == u'':  # Running stub
-            currentversion = '0.9.0'
+            currentversion = '0.9.9'
         return currentversion
 
     @staticmethod

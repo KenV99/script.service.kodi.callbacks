@@ -192,7 +192,7 @@ class Task(threading.Thread):
     __metaclass__ = abc.ABCMeta
 
     def __init__(self):
-        super(Task, self).__init__()
+        super(Task, self).__init__(name='Task')
         self.kwargs = {}
         self.userargs = []
         self.topic = None

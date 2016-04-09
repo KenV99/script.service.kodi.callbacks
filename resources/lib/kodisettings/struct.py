@@ -19,6 +19,8 @@
 
 import abc
 from resources.lib.utils.poutil import KodiPo
+from resources.lib.kodilogging import KodiLogger
+log = KodiLogger.log
 kodipo = KodiPo()
 kodipo.updateAlways = True
 _ = kodipo.getLocalizedStringId
@@ -102,7 +104,7 @@ class Settings(object):
             c.addControl(control)
             if control.internal_ref != u'':
                 if self._controldict.has_key(control.internal_ref):
-                    print 'Warning - control with duplicate internal reference: %s' % control.internal_ref
+                    log(msg='Warning - control with duplicate internal reference: %s' % control.internal_ref)
                 else:
                     self._controldict[control.internal_ref] = control
 
@@ -162,7 +164,7 @@ class Settings(object):
                     if not self.id_position.has_key(control.internal_ref):
                         self.id_position[control.internal_ref] = curindex
                     else:
-                        print 'Warning duplicate key found: %s [%s, %s]' % (control.internal_ref, control.label, self.control(control.internal_ref).label)
+                        log(msg='Warning duplicate key found: %s [%s, %s]' % (control.internal_ref, control.label, self.control(control.internal_ref).label))
                         self.duplicateids.append(control.internal_ref)
                 control._outputindex = curindex
             curindex += 1

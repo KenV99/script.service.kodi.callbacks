@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 .idea
-*.iml
 *.exe
 *.zip
 strings.xml
@@ -12,3 +11,4 @@ strings.xml
 *.xlsm
 *.bak
 *.psd
+Thumbs.db

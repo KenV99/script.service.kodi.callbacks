@@ -26,18 +26,22 @@ def log(loglevel=xbmc.LOGNOTICE, msg=''):
     xbmc.log(msg=message.encode("utf-8"), level=loglevel)
 
 class KodiLogger(object):
-    LOGERROR = xbmc.LOGERROR
-    LOGDEBUG = xbmc.LOGDEBUG
-    LOGFATAL = xbmc.LOGFATAL
-    LOGINFO = xbmc.LOGINFO
-    LOGNOTICE = xbmc.LOGNOTICE
-    LOGSEVERE = xbmc.LOGSEVERE
-    LOGWARNING = xbmc.LOGWARNING
+    LOGDEBUG = 0
+    LOGERROR = 4
+    LOGFATAL = 6
+    LOGINFO = 1
+    LOGNONE = 7
+    LOGNOTICE = 2
+    LOGSEVERE = 5
+    LOGWARNING = 3
     _instance = None
     _lock = threading.Lock()
     selfloglevel = xbmc.LOGDEBUG
+    kodirunning = True
 
     def __new__(cls):
+        if xbmc.getFreeMem() == long():
+            KodiLogger.kodirunning = False
         if KodiLogger._instance is None:
             with KodiLogger._lock:
                 if KodiLogger._instance is None:
@@ -57,5 +61,8 @@ class KodiLogger(object):
             loglevel = KodiLogger.selfloglevel
         if isinstance(msg, str):
             msg = msg.decode("utf-8")
-        message = u"$$$ [%s] - %s" % ('kodi.callbacks', msg)
-        xbmc.log(msg=message.encode("utf-8"), level=loglevel)
+        if KodiLogger.kodirunning:
+            message = u"$$$ [%s] - %s" % ('kodi.callbacks', msg)
+            xbmc.log(msg=message.encode("utf-8"), level=loglevel)
+        else:
+            print msg

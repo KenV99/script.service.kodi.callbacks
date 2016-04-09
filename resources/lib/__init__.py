@@ -82,6 +82,3 @@ for package in packages:
                                 raise Exception('Error loading class for %s' % cls.tasktype)
             except TypeError:
                 pass
-
-
-

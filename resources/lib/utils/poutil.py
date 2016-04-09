@@ -315,7 +315,7 @@ class UpdatePo(object):
                 finds = []
             finally:
                 if len(finds) != 1:
-                    print 'Skipping file: %s, localizer not found' % myfile
+                    log(msg='Skipping file: %s, localizer not found' % myfile)
                 else:
                     findstr = r"%s\('(.+?)'\)" % finds[0]
                     find = re.compile(findstr)
