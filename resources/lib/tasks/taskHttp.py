@@ -114,21 +114,21 @@ class TaskHttp(AbstractTask):
                 respmsg = resp.text
             msg += '\nResponse for %s: %s' %(verb, respmsg)
             resp.close()
-        except requests.ConnectionError:
+        except requests.ConnectionError as e:
             err = True
             msg = _('Requests Connection Error')
-        except requests.HTTPError:
+        except requests.HTTPError as e:
             err = True
-            msg = _('Requests HTTPError')
-        except requests.URLRequired:
+            msg = '%s: %s' %(_('Requests HTTPError'), str(e))
+        except requests.URLRequired as e:
             err = True
-            msg = _('Requests URLRequired Error')
-        except requests.Timeout:
+            msg = '%s: %s' %(_('Requests URLRequired Error'), str(e))
+        except requests.Timeout as e:
             err = True
-            msg = _('Requests Timeout Error')
-        except requests.RequestException:
+            msg = '%s: %s' %(_('Requests Timeout Error'), str(e))
+        except requests.RequestException as e:
             err = True
-            msg = _('Generic Requests Error')
+            msg = '%s: %s' %(_('Generic Requests Error'), str(e))
         except urllib2.HTTPError, e:
             err = True
             msg = _('HTTPError = ') + str(e.code)

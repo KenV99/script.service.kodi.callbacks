@@ -44,10 +44,10 @@ class TestHandler(object):
             TestHandler.testMessage.append(_('Command for Task %s, Event %s completed succesfully!') % (taskReturn.taskId, taskReturn.eventId))
             if taskReturn.msg != '':
                 TestHandler.testMessage.append(_('The following message was returned: %s') % taskReturn.msg)
-                log(msg=TestHandler.testMessage, loglevel=kl.LOGNOTICE)
+                log(msg='\n'.join(TestHandler.testMessage), loglevel=kl.LOGNOTICE)
         else:
             TestHandler.testMessage.append(_('ERROR encountered for Task %s, Event %s\nERROR mesage: %s') % (taskReturn.taskId, taskReturn.eventId, taskReturn.msg))
-            log(msg=TestHandler.testMessage, loglevel=kl.LOGERROR)
+            log(msg='\n'.join(TestHandler.testMessage), loglevel=kl.LOGERROR)
         show_textbox('Test Results', TestHandler.testMessage)
 
 class TestLogger(object):

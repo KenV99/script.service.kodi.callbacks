@@ -19,24 +19,30 @@
 scriptdebug = False  # TODO: check
 testTasks = False  # TODO: check
 
-from default import branch
-from resources.lib.utils.debugger import startdebugger
-
 import os
 import sys
+
+import resources.lib.pubsub as PubSub_Threaded
 import xbmc
 import xbmcgui
-import resources.lib.pubsub as PubSub_Threaded
+from default import branch
 from resources.lib.kodilogging import KodiLogger
-from resources.lib.subscriberfactory import SubscriberFactory
 from resources.lib.settings import Settings
+from resources.lib.subscriberfactory import SubscriberFactory
+from resources.lib.utils.debugger import startdebugger
 from resources.lib.utils.kodipathtools import translatepath
 from resources.lib.utils.poutil import KodiPo
+
+
+def notify(msg):
+    dialog = xbmcgui.Dialog()
+    dialog.notification('Kodi Callabacks', msg, xbmcgui.NOTIFICATION_INFO, 5000)
+
 
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
 log = KodiLogger.log
-log(msg='Running from script.py')
+
 
 def test(key):
     global log
@@ -91,6 +97,7 @@ def test(key):
         dialogtb.show_textbox('Error', msgList)
 
     xbmc.sleep(2000)
+
 
 if __name__ == '__main__':
     dryrun = False
@@ -183,5 +190,4 @@ if __name__ == '__main__':
         tt.runTests()
 
     else:
-        from resources.lib.kodinotify import notify
-        notify('No actions run for this addon from Programs')
+        notify(_('No actions run for this addon from Programs'))
