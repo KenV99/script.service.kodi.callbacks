@@ -135,8 +135,9 @@ def main():
     Cache.dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onStartup')))
     monitor = MainMonitor()
     log(msg=_('Entering wait loop'))
-    monitor.waitForAbort()
-
+    # monitor.waitForAbort()
+    if not xbmc.abortRequested:
+        xbmc.sleep(250)
     # Shutdown tasks
     Cache.dispatcher.q_message(PubSub_Threaded.Message(PubSub_Threaded.Topic('onShutdown'), pid=os.getpid()))
     log(msg=_('Shutdown started'))
