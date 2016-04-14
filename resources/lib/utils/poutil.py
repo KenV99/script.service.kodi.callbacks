@@ -234,7 +234,7 @@ class PoDict(object):
 
     @staticmethod
     def write_po_header(fo):
-        fo.write('# XBMC Media Center language file\n')
+        fo.write('# Kodi Media Center language file\n')
         fo.write('# Addon Name: Kodi Callbacks\n')
         fo.write('# Addon id: script.service.kodi.callbacks\n')
         fo.write('# Addon Provider: KenV99\n')

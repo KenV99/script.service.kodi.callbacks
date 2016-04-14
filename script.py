@@ -188,6 +188,3 @@ if __name__ == '__main__':
 
         tt = testTasks()
         tt.runTests()
-
-    else:
-        notify(_('No actions run for this addon from Programs'))
