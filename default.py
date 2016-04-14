@@ -17,10 +17,12 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
+
 debug = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 branch = 'nonrepo'
+build = '1004'
 
 from resources.lib.utils.debugger import startdebugger
 
@@ -128,7 +130,8 @@ def start():
 
 
 def main():
-    xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s') % str(_addonversion_), level=xbmc.LOGNOTICE)
+    xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (build %s)') % (str(_addonversion_), build),
+             level=xbmc.LOGNOTICE)
     if branch != 'master':
         xbmcaddon.Addon().setSetting('installed branch', branch)
     start()
