@@ -1,4 +1,4 @@
-# XBMC Media Center language file
+# Kodi Media Center language file
 # Addon Name: Kodi Callbacks
 # Addon id: script.service.kodi.callbacks
 # Addon Provider: KenV99
@@ -175,7 +175,7 @@ msgid "Publisher(s) started"
 msgstr ""
 
 msgctxt "#32038"
-msgid "$$$ [kodi.callbacks] Staring kodi.callbacks ver: %s"
+msgid "$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (build %s)"
 msgstr ""
 
 msgctxt "#32039"
