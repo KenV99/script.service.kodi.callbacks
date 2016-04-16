@@ -22,7 +22,7 @@ debug = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 branch = 'gotham'
-build = '1004'
+build = '1005'
 
 from resources.lib.utils.debugger import startdebugger
 

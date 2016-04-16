@@ -1207,6 +1207,10 @@
   </category>
   <category label="32190">
     <setting label="32205" type="lsep" />
+    <setting id="installed branch" label="32224" type="text" enable="false" default="nonrepo" />
+    <setting id="repobranchname" label="32225" type="select" default="nonrepo" values="master|nonrepo" />
+    <setting id="autodownload" label="32206" type="bool" default="false" />
+    <setting id="checkupdate" label="32208" type="action" action="RunScript(script.service.kodi.callbacks, checkupdate)" />
     <setting id="silent_install" label="32207" type="bool" visible="false" default="false" />
     <setting id="updatefromzip" label="32191" type="action" action="RunScript(script.service.kodi.callbacks, updatefromzip)" />
     <setting id="restorebackup" label="32192" type="action" action="RunScript(script.service.kodi.callbacks, restorebackup)" />
