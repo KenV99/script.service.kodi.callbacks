@@ -315,6 +315,9 @@ class Player(xbmc.Player):
             self.totalTime = self.getTotalTime()
         except RuntimeError:
             self.totalTime = -1
+        finally:
+            if self.totalTime == 0:
+                self.totalTime = -1
         topic = Topic('onPlayBackStarted')
         self.publish(Message(topic, **self.info))
 
@@ -325,6 +328,8 @@ class Player(xbmc.Player):
             tp = self.playingTime
             pp = int(100 * tp / tt)
         except RuntimeError:
+            pp = -1
+        except OverflowError:
             pp = -1
         self.publish(Message(topic, percentPlayed=str(pp), **self.info))
         self.totalTime = -1.0
