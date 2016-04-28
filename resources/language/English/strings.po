@@ -123,11 +123,14 @@ msgid "Command for Task %s, Event %s completed succesfully!"
 msgstr ""
 
 msgctxt "#32025"
-msgid "\nThe following message was returned: %s"
+msgid "\n"
+"The following message was returned: %s"
 msgstr ""
 
 msgctxt "#32026"
-msgid "ERROR encountered for Task %s, Event %s\nERROR mesage: %s"
+msgid ""
+"ERROR encountered for Task %s, Event %s\n"
+"ERROR mesage: %s"
 msgstr ""
 
 msgctxt "#32027"
@@ -807,7 +810,9 @@ msgid "Watchdog Startup could not load pickle"
 msgstr ""
 
 msgctxt "#32196"
-msgid "A new version of %s is available\nDownload and install?"
+msgid ""
+"A new version of %s is available\n"
+"Download and install?"
 msgstr ""
 
 msgctxt "#32197"
@@ -827,7 +832,8 @@ msgid "New version installed"
 msgstr ""
 
 msgctxt "#32201"
-msgid "\nPrevious installation backed up"
+msgid "\n"
+"Previous installation backed up"
 msgstr ""
 
 msgctxt "#32202"
@@ -839,7 +845,9 @@ msgid "All files are current"
 msgstr ""
 
 msgctxt "#32204"
-msgid "Could not find addon.xml\nInstallation aborted"
+msgid ""
+"Could not find addon.xml\n"
+"Installation aborted"
 msgstr ""
 
 msgctxt "#32205"
@@ -1219,6 +1227,8 @@ msgid "No actions run for this addon from Programs"
 msgstr ""
 
 msgctxt "#32299"
-msgid "If improperly implemented, running user tasks can damage your system.\nThe user assumes all risks and liability for running tasks."
+msgid ""
+"If improperly implemented, running user tasks can damage your system.\n"
+"The user assumes all risks and liability for running tasks."
 msgstr ""
 

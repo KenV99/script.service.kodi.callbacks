@@ -66,7 +66,6 @@ class KodiPo(object):
         self.getLocalizedString(strToId, update)
 
     def getLocalizedString(self, strToId, update=False):
-        strToId = strToId.replace('\n', '\\n')
         idFound, strid = self.podict.has_msgid(strToId)
         if idFound:
             if self.podict.savethread.is_alive():
@@ -172,7 +171,12 @@ class PoDict(object):
                             str_msgctxt = t[0][2:7]
                             i += 1
                             line2 = poin[i]
-                            str_msgid = self.remsgid.findall(line2)[0]
+                            str_msgid = ''
+                            while not line2.startswith('msgstr'):
+                                str_msgid += self.remsgid.findall(line2)[0]
+                                i += 1
+                                line2 = poin[i]
+                            str_msgid = str_msgid.decode('unicode_escape')
                             self.dict_msgctxt[str_msgctxt] = str_msgid
                             self.dict_msgid[str_msgid] = str_msgctxt
                             self.chkdict[str_msgctxt] = False
@@ -253,7 +257,7 @@ class PoDict(object):
     def write_to_po(fileobject, int_num, str_msg):
         w = r'"#' + str(int_num) + r'"'
         fileobject.write('msgctxt ' + w + '\n')
-        fileobject.write('msgid ' + r'"' + str_msg + r'"' + '\n')
+        fileobject.write(splitstring(str_msg))
         fileobject.write('msgstr ' + r'""' + '\n')
         fileobject.write('\n')
 
@@ -270,6 +274,25 @@ class PoDict(object):
         ret = '\n    '.join(reportpo)
         return ret
 
+def splitstring(s):
+    ret = []
+    s = s.replace('\n', '~@\n')
+    split = s.split('\n')
+    for i in xrange(0, len(split)):
+        split[i] = split[i].replace('~@', '\n').encode('unicode_escape')
+        if i == 0:
+            if (len(split) == 2 and split[i+1] == '') or split[i] == '\\n' or len(split) == 1:
+                ret.append('msgid "%s"\n' % split[i])
+            else:
+                ret.append('msgid ""\n')
+                ret.append('"%s"\n' % split[i])
+        elif i == len(split) - 1:
+            if split[i] != '':
+                ret.append('"%s"\n' % split[i])
+        else:
+            ret.append('"%s"\n' % split[i])
+    ret = ''.join(ret)
+    return ret
 
 class UpdatePo(object):
 
@@ -331,7 +354,7 @@ class UpdatePo(object):
     def updateStringsPo(self):
         lstrings = self.scanPyFilesForStrings()
         for s in lstrings:
-            found, strid = self.podict.has_msgid(s)
+            found, strid = self.podict.has_msgid(s.decode('unicode_escape'))
             if found is False:
                 self.podict.addentry(strid, s)
         self.podict.write_to_file(self.current_working_English_strings_po)
