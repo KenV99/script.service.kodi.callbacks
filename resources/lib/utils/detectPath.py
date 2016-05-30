@@ -28,9 +28,9 @@ def process_cmdline(cmd):
     for i in xrange(0, len(parts)):
         found=-1
         for j in xrange(i+1, len(parts)+1):
-            t = ' '.join(parts[i:j])
+            t = u' '.join(parts[i:j])
             t = translatepath(t)
-            t = t.strip('"')
+            t = t.strip(u'"')
             if os.path.exists(t):
                 if j > found:
                     found = j
@@ -50,15 +50,19 @@ def process_cmdline(cmd):
         for i in xrange(0, len(parts)):
             for j in xrange(0, len(paths)):
                 if i == paths[j][0]:
-                    t = ' '.join(parts[i:paths[j][1]])
+                    t = u' '.join(parts[i:paths[j][1]])
                     t = translatepath(t)
-                    t = t.strip('"')
+                    t = t.strip(u'"')
                     parts[i] = t
                     for k in xrange(i+1, paths[j][1]):
-                        parts[k]=''
+                        parts[k]=u''
         for i in xrange(0, len(parts)):
-            if parts[i] != '':
+            if parts[i] != u'':
                 args.append(parts[i])
     else:
         args = parts
-    return args
+    ret = []
+    fse = sys.getfilesystemencoding()
+    for arg in args:
+        ret.append(arg.encode(fse))
+    return ret

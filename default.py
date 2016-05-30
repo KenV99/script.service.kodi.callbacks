@@ -22,7 +22,7 @@ debug = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 branch = 'nonrepo'
-build = '1005'
+build = '1015'
 
 from resources.lib.utils.debugger import startdebugger
 
@@ -40,6 +40,7 @@ from resources.lib.publisherfactory import PublisherFactory
 from resources.lib.subscriberfactory import SubscriberFactory
 from resources.lib.settings import Settings
 from resources.lib.utils.poutil import KodiPo
+import xbmcgui
 
 kodipo = KodiPo()
 _ = kodipo.getLocalizedString
@@ -64,6 +65,9 @@ class MainMonitor(xbmc.Monitor):
         super(MainMonitor, self).__init__()
 
     def onSettingsChanged(self):
+        dialog = xbmcgui.Dialog()
+        msg = _('If improperly implemented, running user tasks can damage your system.\nThe user assumes all risks and liability for running tasks.').split('\n')
+        dialog.ok(_('Kodi Callbacks'), line1=msg[0], line2=msg[1])
         log(msg=_('Settings change detected - attempting to restart'))
         abortall()
         start()
