@@ -87,7 +87,7 @@ class TaskScript(AbstractTask):
         return True
 
     def run(self):
-        msg = ''
+        msg = u''
         if self.taskKwargs['notify'] is True:
             notify(_('Task %s launching for event: %s') % (self.taskId, str(self.topic)))
         try:
@@ -112,22 +112,22 @@ class TaskScript(AbstractTask):
                 if i == 0:
                     if os.path.splitext(fn)[1] == u'.sh':
                         if isAndroid:
-                            sysexecutable = '/system/bin/sh'
+                            sysexecutable = u'/system/bin/sh'
                         elif not sysplat.startswith('win'):
-                            sysexecutable = '/bin/bash'
+                            sysexecutable = u'/bin/bash'
             else:
                 tmpl[i] = tmp
-        if sysexecutable == '/system/bin/sh':
-            tmpl.insert(0, 'sh')
-        elif sysexecutable == '/bin/bash':
-            tmpl.insert(0, 'bash')
+        if sysexecutable == u'/system/bin/sh':
+            tmpl.insert(0, u'sh')
+        elif sysexecutable == u'/bin/bash':
+            tmpl.insert(0, u'bash')
 
         cwd = os.getcwd()
         args = tmpl + self.runtimeargs
         if needs_shell:
             args = ' '.join(args)
         err = False
-        msg += 'taskScript ARGS = %s\n    SYSEXEC = %s\n BASEDIR = %s\n' % (args, sysexecutable, basedir)
+        msg += u'taskScript ARGS = %s\n    SYSEXEC = %s\n BASEDIR = %s\n' % (args, sysexecutable, basedir)
         sys.exc_clear()
         try:
             if basedir is not None:
@@ -145,29 +145,31 @@ class TaskScript(AbstractTask):
             if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
-                    stdoutdata = str(stdoutdata).strip()
+                    fse = sys.getfilesystemencoding()
+                    stdoutdata = stdoutdata.decode(fse, errors='ignore').strip()
                     if stdoutdata != '':
-                        msg += _('Process returned data: [%s]\n') % stdoutdata
+                        msg += _(u'Process returned data: [%s]\n') % stdoutdata
                     else:
-                        msg += _('Process returned no data\n')
+                        msg += _(u'Process returned no data\n')
                 else:
-                    msg += _('Process returned no data\n')
+                    msg += _(u'Process returned no data\n')
                 if stderrdata is not None:
-                    stderrdata = str(stderrdata).strip()
+                    fse = sys.getfilesystemencoding()
+                    stderrdata = stderrdata.decode(fse, errors='ignore').strip()
                     if stderrdata != '':
-                        msg += _('Process returned error: %s') % stdoutdata
+                        msg += _(u'Process returned error: %s') % stderrdata
         except ValueError, e:
             err = True
-            msg = str(e)
+            msg = unicode(e)
         except subprocess.CalledProcessError, e:
             err = True
-            msg = e.output
+            msg = unicode(e.output)
         except Exception:
             e = sys.exc_info()[0]
             err = True
             if hasattr(e, 'message'):
-                msg = str(e.message)
-            msg = msg + '\n' + traceback.format_exc()
+                msg = unicode(e.message)
+            msg = msg + u'\n' + unicode(traceback.format_exc())
         finally:
             os.chdir(cwd)
         self.threadReturn(err, msg)

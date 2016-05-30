@@ -21,6 +21,7 @@ import xbmc
 import threading
 from Queue import Queue, Empty
 import re
+import codecs
 from resources.lib.pubsub import Publisher, Topic, Message
 from resources.lib.events import Events
 from resources.lib.utils.poutil import KodiPo
@@ -39,7 +40,7 @@ class LogMonitor(threading.Thread):
         self.interval = interval
 
     def run(self):
-        f = open(self.logfn, 'r')
+        f = codecs.open(self.logfn, 'r', encoding='utf-8', errors='ignore')
         f.seek(0, 2)           # Seek @ EOF
         fsize_old = f.tell()
         while not self.__abort_evt.is_set():
