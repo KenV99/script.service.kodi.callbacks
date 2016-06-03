@@ -22,6 +22,7 @@ import os
 import traceback
 import xbmc
 import xbmcvfs
+from resources.lib.utils.detectPath import fsencode
 from resources.lib.taskABC import AbstractTask, KodiLogger, notify
 from resources.lib.utils.poutil import KodiPo
 from resources.lib.utils.kodipathtools import translatepath
@@ -56,10 +57,14 @@ class TaskPython(AbstractTask):
 
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):
-        tmp = xbmc.translatePath(taskKwargs['pythonfile'])
+        tmp = translatepath(taskKwargs['pythonfile'])
+        fse = sys.getfilesystemencoding()
+        if sys.platform.lower().startswith('win'):
+            if tmp.encode('utf-8') != tmp.encode(fse):
+                tmp = fsencode(tmp)
         if xbmcvfs.exists(tmp):
             ext = os.path.splitext(tmp)[1]
-            if ext == '.py':
+            if ext.lower() == '.py':
                 return True
             else:
                 xlog(msg=_('Error - not a python script: %s') % tmp)
@@ -79,19 +84,23 @@ class TaskPython(AbstractTask):
         except KeyError:
             useImport = False
         fn = translatepath(self.taskKwargs['pythonfile'])
+        fse = sys.getfilesystemencoding()
+        if sys.platform.lower().startswith('win'):
+            if fn.encode('utf-8') != fn.encode(fse):
+                fn = fsencode(fn)
         try:
             if len(self.runtimeargs) > 0:
                 if useImport is False:
                     args = ' %s' % ' '.join(args)
+                    args = args.encode('ascii', errors='replace')
                     result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (fn, args))
                 else:
-                    directory, module_name = os.path.split(fn)
+                    directory, module_name = os.path.split(self.taskKwargs['pythonfile'])
                     module_name = os.path.splitext(module_name)[0]
-
                     path = list(sys.path)
                     sys.path.insert(0, directory)
                     try:
-                        module = __import__(module_name)
+                        module = __import__(module_name.encode('utf-8'))
                         result = module.run(args)
                     finally:
                         sys.path[:] = path
@@ -99,14 +108,15 @@ class TaskPython(AbstractTask):
                 if useImport is False:
                     result = xbmc.executebuiltin('XBMC.RunScript(%s)' % fn)
                 else:
+
                     directory, module_name = os.path.split(fn)
                     module_name = os.path.splitext(module_name)[0]
 
                     path = list(sys.path)
                     sys.path.insert(0, directory)
                     try:
-                        module = __import__(module_name)
-                        result = module.run(args)
+                        module = __import__(module_name.encode('utf-8'))
+                        result = module.run(None)
                     finally:
                         sys.path[:] = path
             if result is not None:

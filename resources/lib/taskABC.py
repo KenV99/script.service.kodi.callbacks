@@ -85,10 +85,13 @@ class AbstractTask(threading.Thread):
         ret = ret.replace(u'{@literal%@}', ur'%')
         if self.tasktype == 'script' or self.tasktype == 'python':
             ret2 = ret.split(u'{@originaldelim@}') # need to split first to avoid unicode error
-            fse = sys.getfilesystemencoding()
-            ret = []
-            for r in ret2:
-                ret.append(r.encode(fse))
+            if self.tasktype == 'script':
+                fse = sys.getfilesystemencoding()
+                ret = []
+                for r in ret2:
+                    ret.append(r.encode(fse))
+            else:
+                ret = ret2
         return ret
 
     @staticmethod

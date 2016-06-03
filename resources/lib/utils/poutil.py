@@ -238,7 +238,7 @@ class PoDict(object):
         self.dict_msgctxt = dict()
         self.dict_msgid = dict()
         self.chkdict = dict()
-        self.remsgid = re.compile(r'"([^"\\]*(?:\\.[^"\\]*)*)"')
+        self.remsgid = re.compile(ur'"([^"\\]*(?:\\.[^"\\]*)*)"')
         self.savethread = threading.Thread()
 
     def get_new_key(self):
@@ -309,7 +309,7 @@ class PoDict(object):
         :rtype:
         """
         if url is None:
-            log(msg='No URL to Read PoDict From')
+            log(msg=u'No URL to Read PoDict From')
             return
         if os.path.exists(url):
             try:
@@ -318,18 +318,23 @@ class PoDict(object):
                 i = 0
                 while i < len(poin):
                     line = poin[i]
-                    if line[0:7] == 'msgctxt':
-                        t = re.findall(r'".+"', line)
-                        if not t[0].startswith('"Addon'):
+                    if line[0:7] == u'msgctxt':
+                        t = re.findall(ur'".+"', line)
+                        if not t[0].startswith(u'"Addon'):
                             str_msgctxt = t[0][2:7]
                             i += 1
                             line2 = poin[i]
                             str_msgid = ''
-                            while not line2.startswith('msgstr'):
+                            while not line2.startswith(u'msgstr'):
                                 str_msgid += self.remsgid.findall(line2)[0]
                                 i += 1
                                 line2 = poin[i]
-                            str_msgid = str_msgid.decode('unicode_escape')
+                            try:
+                                str_msgid = str_msgid.decode('unicode_escape')
+                            except UnicodeEncodeError:
+                                t = str_msgid.encode('utf-8')
+                                t = t.decode('string_escape')
+                                str_msgid = t.decode('utf-8')
                             self.dict_msgctxt[str_msgctxt] = str_msgid
                             self.dict_msgid[str_msgid] = str_msgctxt
                             self.chkdict[str_msgctxt] = False
@@ -337,9 +342,9 @@ class PoDict(object):
                             i += 1
                     i += 1
             except Exception as e:
-                log(msg='Error reading po: %s' % e.message)
+                log(msg=u'Error reading po: %s' % e.message)
         else:
-            log(msg='Could not locate po at %s' % url)
+            log(msg=u'Could not locate po at %s' % url)
 
     def write_to_file(self, url):
         """
@@ -516,7 +521,7 @@ class PoDict(object):
         s = s.replace(u'\n', u'~@\n')
         split = s.split(u'\n')
         for i in xrange(0, len(split)):
-            split[i] = split[i].replace(u'~@', u'\n').encode('unicode_escape')
+            split[i] = split[i].replace(u'~@', u'\n').encode('unicode_escape') #TODO: Fix for unicode errors
             if i == 0:
                 if (len(split) == 2 and split[i + 1] == u'') or split[i] == u'\\n' or len(split) == 1:
                     ret.append(u'msgid "%s"\n' % split[i])
@@ -578,7 +583,7 @@ class UpdatePo(object):
         self.podict.read_from_file(self.current_working_English_strings_po)
         self.exclude_directories = exclude_directories
         self.exclude_files = exclude_files
-        self.find_localizer = re.compile(r'^(\S+?)\s*=\s*kodipo.getLocalizedString\s*$', flags=re.MULTILINE)
+        self.find_localizer = re.compile(ur'^(\S+?)\s*=\s*kodipo.getLocalizedString\s*$', flags=re.MULTILINE)
 
     def getFileList(self):
         """
@@ -715,4 +720,3 @@ class ReversibleDict(dict):
 
 if __name__ == '__main__':
     kp = KodiPo()
-    pass

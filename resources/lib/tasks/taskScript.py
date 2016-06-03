@@ -23,7 +23,7 @@ import stat
 import subprocess
 import traceback
 from resources.lib.taskABC import AbstractTask, notify, KodiLogger
-from resources.lib.utils.detectPath import process_cmdline
+from resources.lib.utils.detectPath import process_cmdline, fsencode
 import xbmc
 import xbmcvfs
 from resources.lib.utils.poutil import KodiPo
@@ -98,12 +98,17 @@ class TaskScript(AbstractTask):
             wait = self.taskKwargs['waitForCompletion']
         except KeyError:
             wait = True
-        tmpl = process_cmdline(self.taskKwargs['scriptfile'])
+        fse = sys.getfilesystemencoding()
+        cmd = self.taskKwargs['scriptfile']
+        if sysplat.startswith('win'):
+            if cmd.encode('utf-8') != cmd.encode(fse):
+                cmd = fsencode(self.taskKwargs['scriptfile'])
+        tmpl = process_cmdline(cmd)
         filefound = False
         basedir = None
         sysexecutable = None
         for i, tmp in enumerate(tmpl):
-            tmp = xbmc.translatePath(tmp)
+            tmp = unicode(xbmc.translatePath(tmp), encoding='utf-8')
             if os.path.exists(tmp) and filefound is False:
                 basedir, fn = os.path.split(tmp)
                 basedir = os.path.realpath(basedir)
@@ -123,12 +128,17 @@ class TaskScript(AbstractTask):
             tmpl.insert(0, u'bash')
 
         cwd = os.getcwd()
-        args = tmpl + self.runtimeargs
+        argsu = tmpl + self.runtimeargs
+
+        args = []
+        for arg in argsu:
+            args.append(arg.encode(fse))
         if needs_shell:
             args = ' '.join(args)
         err = False
         msg += u'taskScript ARGS = %s\n    SYSEXEC = %s\n BASEDIR = %s\n' % (args, sysexecutable, basedir)
         sys.exc_clear()
+
         try:
             if basedir is not None:
                 os.chdir(basedir)

@@ -22,7 +22,7 @@ debug = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 branch = 'master'
-build = '1015'
+build = '1016'
 
 from resources.lib.utils.debugger import startdebugger
 
@@ -134,8 +134,8 @@ def start():
 
 
 def main():
-    xbmc.log(msg=_('$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (build %s)') % (str(_addonversion_), build),
-             level=xbmc.LOGNOTICE)
+    msg = _(u'$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (build %s)').encode('utf-8') % (str(_addonversion_), build)
+    xbmc.log(msg=msg, level=xbmc.LOGNOTICE)
     if branch != 'master':
         xbmcaddon.Addon().setSetting('installed branch', branch)
     start()
