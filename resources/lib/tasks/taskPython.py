@@ -88,11 +88,16 @@ class TaskPython(AbstractTask):
         if sys.platform.lower().startswith('win'):
             if fn.encode('utf-8') != fn.encode(fse):
                 fn = fsencode(fn)
+        else:
+            fn = fn.encode(fse)
         try:
             if len(self.runtimeargs) > 0:
                 if useImport is False:
-                    args = ' %s' % ' '.join(args)
-                    args = args.encode('ascii', errors='replace')
+                    args = u' %s' % ' '.join(args)
+                    try:
+                        args = args.encode(fse)
+                    except UnicodeEncodeError:
+                        msg += 'Unicode Encode Error for "%s" Encoder: %s' % (args, fse)
                     result = xbmc.executebuiltin('XBMC.RunScript(%s, %s)' % (fn, args))
                 else:
                     directory, module_name = os.path.split(self.taskKwargs['pythonfile'])
@@ -106,7 +111,7 @@ class TaskPython(AbstractTask):
                         sys.path[:] = path
             else:
                 if useImport is False:
-                    result = xbmc.executebuiltin('XBMC.RunScript(%s)' % fn)
+                    result = xbmc.executebuiltin(u'XBMC.RunScript(%s)' % fn)
                 else:
 
                     directory, module_name = os.path.split(fn)

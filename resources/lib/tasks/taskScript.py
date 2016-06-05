@@ -132,7 +132,10 @@ class TaskScript(AbstractTask):
 
         args = []
         for arg in argsu:
-            args.append(arg.encode(fse))
+            try:
+                args.append(arg.encode(fse))
+            except UnicodeEncodeError:
+                msg += u'Unicode Encode Error for: "%s" Encoder: %s' % (arg, fse)
         if needs_shell:
             args = ' '.join(args)
         err = False

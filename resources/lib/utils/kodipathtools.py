@@ -97,8 +97,8 @@ def translatepath(path):
     if path.startswith('/'):
         ret = u'/%s' % ret
 
-    if not os.path.supports_unicode_filenames:
-        ret = ret.decode('utf-8')
+    # if not os.path.supports_unicode_filenames:
+    #     ret = ret.decode('utf-8')
 
     ret = secure_filename(ret)
     return ret
