@@ -131,8 +131,10 @@ class TaskPython(AbstractTask):
         except Exception:
             e = sys.exc_info()[0]
             err = True
+            msg = u''
             if hasattr(e, 'message'):
-                msg = str(e.message)
-            msg = msg + '\n' + traceback.format_exc()
-
+                msg += unicode(e.message) + u'\n'
+            msg +=  unicode(e) + u'\n'
+            tb = traceback.format_exc()
+            msg += tb.decode('utf-8')
         self.threadReturn(err, msg)

@@ -182,7 +182,7 @@ class TaskScript(AbstractTask):
             err = True
             if hasattr(e, 'message'):
                 msg = unicode(e.message)
-            msg = msg + u'\n' + unicode(traceback.format_exc())
+            msg = msg + u'\n' +traceback.format_exc().decode('utf-8')
         finally:
             os.chdir(cwd)
         self.threadReturn(err, msg)
