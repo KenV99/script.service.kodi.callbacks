@@ -22,7 +22,7 @@ debug = False  # TODO: check
 testdebug = False  # TODO: check
 testTasks = False  # TODO: check
 branch = 'master'
-build = '1016'
+build = '1017'
 
 from resources.lib.utils.debugger import startdebugger
 

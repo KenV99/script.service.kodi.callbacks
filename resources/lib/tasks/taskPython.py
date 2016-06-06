@@ -59,6 +59,8 @@ class TaskPython(AbstractTask):
     def validate(taskKwargs, xlog=KodiLogger.log):
         tmp = translatepath(taskKwargs['pythonfile'])
         fse = sys.getfilesystemencoding()
+        if fse is None:
+            fse = 'utf-8'
         if sys.platform.lower().startswith('win'):
             if tmp.encode('utf-8') != tmp.encode(fse):
                 tmp = fsencode(tmp)
@@ -85,6 +87,8 @@ class TaskPython(AbstractTask):
             useImport = False
         fn = translatepath(self.taskKwargs['pythonfile'])
         fse = sys.getfilesystemencoding()
+        if fse is None:
+            fse = 'utf-8'
         if sys.platform.lower().startswith('win'):
             if fn.encode('utf-8') != fn.encode(fse):
                 fn = fsencode(fn)

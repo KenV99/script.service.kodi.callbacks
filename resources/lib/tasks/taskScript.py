@@ -99,6 +99,8 @@ class TaskScript(AbstractTask):
         except KeyError:
             wait = True
         fse = sys.getfilesystemencoding()
+        if fse is None:
+            fse = 'utf-8'
         cmd = self.taskKwargs['scriptfile']
         if sysplat.startswith('win'):
             if cmd.encode('utf-8') != cmd.encode(fse):
@@ -158,7 +160,6 @@ class TaskScript(AbstractTask):
             if wait:
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
-                    fse = sys.getfilesystemencoding()
                     stdoutdata = stdoutdata.decode(fse, 'ignore').strip()
                     if stdoutdata != '':
                         msg += _(u'Process returned data: [%s]\n') % stdoutdata
@@ -167,7 +168,6 @@ class TaskScript(AbstractTask):
                 else:
                     msg += _(u'Process returned no data\n')
                 if stderrdata is not None:
-                    fse = sys.getfilesystemencoding()
                     stderrdata = stderrdata.decode(fse, 'ignore').strip()
                     if stderrdata != '':
                         msg += _(u'Process returned error: %s') % stderrdata
