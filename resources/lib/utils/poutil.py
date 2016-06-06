@@ -697,25 +697,25 @@ def homepath():
     return ret
 
 
-class ReversibleDict(dict):
-    def __init__(self, *args, **kwargs):
-        super(ReversibleDict, self).__init__(*args, **kwargs)
-        self.rev = {v: k for k, v in self.items()}
-
-    def __delitem__(self, k):
-        del self.rev[self[k]]
-        del super(ReversibleDict, self)[k]
-
-    def __setitem__(self, k, v):
-        try:
-            del self.rev[self[k]]
-        except KeyError:
-            pass
-        super(ReversibleDict, self)[k] = v
-        self.rev[v] = k
-
-    def lookup(self, v):
-        return self.rev[v]
+# class ReversibleDict(dict):
+#     def __init__(self, *args, **kwargs):
+#         super(ReversibleDict, self).__init__(*args, **kwargs)
+#         self.rev = {v: k for k, v in self.items()}
+#
+#     def __delitem__(self, k):
+#         del self.rev[self[k]]
+#         del super(ReversibleDict, self)[k]
+#
+#     def __setitem__(self, k, v):
+#         try:
+#             del self.rev[self[k]]
+#         except KeyError:
+#             pass
+#         super(ReversibleDict, self)[k] = v
+#         self.rev[v] = k
+#
+#     def lookup(self, v):
+#         return self.rev[v]
 
 
 if __name__ == '__main__':

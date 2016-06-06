@@ -159,7 +159,7 @@ class TaskScript(AbstractTask):
                 stdoutdata, stderrdata = p.communicate()
                 if stdoutdata is not None:
                     fse = sys.getfilesystemencoding()
-                    stdoutdata = stdoutdata.decode(fse, errors='ignore').strip()
+                    stdoutdata = stdoutdata.decode(fse, 'ignore').strip()
                     if stdoutdata != '':
                         msg += _(u'Process returned data: [%s]\n') % stdoutdata
                     else:
@@ -168,7 +168,7 @@ class TaskScript(AbstractTask):
                     msg += _(u'Process returned no data\n')
                 if stderrdata is not None:
                     fse = sys.getfilesystemencoding()
-                    stderrdata = stderrdata.decode(fse, errors='ignore').strip()
+                    stderrdata = stderrdata.decode(fse, 'ignore').strip()
                     if stderrdata != '':
                         msg += _(u'Process returned error: %s') % stderrdata
         except ValueError, e:
@@ -182,7 +182,7 @@ class TaskScript(AbstractTask):
             err = True
             if hasattr(e, 'message'):
                 msg = unicode(e.message)
-            msg = msg + u'\n' +traceback.format_exc().decode('utf-8')
+            msg = msg + u'\n' +traceback.format_exc().decode('utf-8', 'ignore')
         finally:
             os.chdir(cwd)
         self.threadReturn(err, msg)

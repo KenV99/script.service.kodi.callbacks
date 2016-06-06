@@ -56,9 +56,9 @@ class TaskJsonNotify(AbstractTask):
         data = json.dumps(self.publisherKwargs)
         try:
             qs = u'{ "jsonrpc": "2.0", "id": 0, "method": "JSONRPC.NotifyAll", "params": {"sender":"%s", "message":"%s", "data":%s} }' %(self.taskKwargs['jsonnotify'], message, data)
-            qs = qs.encode('utf-8', errors='ignore')
+            qs = qs.encode('utf-8', 'ignore')
             json_query = xbmc.executeJSONRPC(qs)
-            json_query = unicode(json_query, 'utf-8', errors='ignore')
+            json_query = unicode(json_query, 'utf-8', 'ignore')
             json_response = json.loads(json_query)
         except Exception:
             e = sys.exc_info()[0]
