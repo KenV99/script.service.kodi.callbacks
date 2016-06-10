@@ -20,7 +20,7 @@ msgid "Callbacks for Kodi"
 msgstr ""
 
 msgctxt "Addon Description"
-msgid "Provides user definable actions for specific events within Kodi. Credit to Yesudeep Mangalapilly (gorakhargosh on github) and contributors for watchdog and pathtools modules.    "
+msgid "Provides user definable actions for specific events within Kodi. Credit to Yesudeep Mangalapilly (gorakhargosh on github) and contributors for watchdog and pathtools modules."
 msgstr ""
 
 msgctxt "Addon Disclaimer"

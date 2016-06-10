@@ -134,7 +134,7 @@ def start():
 
 
 def main():
-    msg = _(u'$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (build %s)').encode('utf-8') % (str(_addonversion_), build)
+    msg = _(u'$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (build %s) python: %s').encode('utf-8') % (str(_addonversion_), build, sys.version)
     xbmc.log(msg=msg, level=xbmc.LOGNOTICE)
     if branch != 'master':
         xbmcaddon.Addon().setSetting('installed branch', branch)

@@ -31,8 +31,7 @@ try:
     import xml.etree.cElementTree as ET
 except ImportError:
     import xml.etree.ElementTree as ET
-
-
+from pyexpat import ExpatError
 def logprint(msg='', level=0):
     if msg != '' and level > -1:
         print msg
@@ -421,16 +420,18 @@ class PoDict(object):
                 ret['name'] = unicode(root.attrib['name'], 'utf-8', errors='ignore')
                 ret['author'] = unicode(root.attrib['provider-name'], 'utf-8', errors='ignore')
                 ret['version'] = unicode(root.attrib['version'], 'utf-8', errors='ignore')
-                for elem in tree.iter(tag='extension'):
+                itrtr = tree.getiterator(tag='extension')
+                for elem in itrtr:
                     if elem.attrib['point'] == u"xbmc.addon.metadata":
-                        for child in elem.iter():
+                        citrtr = elem.getiterator()
+                        for child in citrtr:
                             if child.attrib == {'lang': 'en'}:
-                                ret[child.tag] = unicode(child.text, 'utf-8', errors='ignore')
+                                ret[child.tag] = unicode(child.text, 'utf-8', errors='ignore').strip()
             except IOError:
                 log(msg=u'Error opening addon.xml file')
                 return None
-            except ET.ParseError:
-                log(u'Error parsing addon.xml')
+            except SyntaxError as e:
+                log(u'Error parsing addon.xml: %s' % unicode(e))
                 return None
             else:
                 req_elements = ['id', 'name', 'author', 'version', 'summary', 'description', 'disclaimer']
@@ -695,27 +696,6 @@ def homepath():
     ret = os.path.expanduser(ret)
     ret = os.path.normpath(ret)
     return ret
-
-
-# class ReversibleDict(dict):
-#     def __init__(self, *args, **kwargs):
-#         super(ReversibleDict, self).__init__(*args, **kwargs)
-#         self.rev = {v: k for k, v in self.items()}
-#
-#     def __delitem__(self, k):
-#         del self.rev[self[k]]
-#         del super(ReversibleDict, self)[k]
-#
-#     def __setitem__(self, k, v):
-#         try:
-#             del self.rev[self[k]]
-#         except KeyError:
-#             pass
-#         super(ReversibleDict, self)[k] = v
-#         self.rev[v] = k
-#
-#     def lookup(self, v):
-#         return self.rev[v]
 
 
 if __name__ == '__main__':

@@ -41,7 +41,7 @@ class TaskJsonNotify(AbstractTask):
     ]
 
     def __init__(self):
-        super(TaskJsonNotify, self).__init__()
+        super(TaskJsonNotify, self).__init__(name='TaskJson')
 
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):

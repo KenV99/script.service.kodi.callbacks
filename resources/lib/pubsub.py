@@ -163,6 +163,10 @@ class Dispatcher(threading.Thread):
         if self.running:
             while not self._message_q.empty(): #Fixes bug where Shutdown event does not run bc abort called
                 time.sleep(0.1)
+            for subcriber in self.subscribers:
+                for tm in subcriber.taskmanagers:
+                    for task in tm.run_tasks:
+                        task.join(0.1)
             self._abort_evt.set()
             if timeout > 0:
                 self.join(timeout)

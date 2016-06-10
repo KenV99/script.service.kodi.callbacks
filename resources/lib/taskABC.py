@@ -17,7 +17,6 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-import sys
 import threading
 import Queue
 import abc
@@ -43,8 +42,8 @@ class AbstractTask(threading.Thread):
     tasktype = 'abstract'
     lock = threading.RLock()
 
-    def __init__(self, logger=KodiLogger.log):
-        super(AbstractTask, self).__init__(name='Worker')
+    def __init__(self, logger=KodiLogger.log, name='AbstractTask'):
+        super(AbstractTask, self).__init__(name=name)
         self.cmd_str = ''
         self.userargs = ''
         self.log = logger

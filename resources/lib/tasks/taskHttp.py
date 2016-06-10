@@ -79,7 +79,7 @@ class TaskHttp(AbstractTask):
     ]
 
     def __init__(self):
-        super(TaskHttp, self).__init__()
+        super(TaskHttp, self).__init__(name='TaskHttp')
         self.runtimeargs = u''
 
     @staticmethod

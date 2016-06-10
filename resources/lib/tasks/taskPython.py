@@ -53,7 +53,7 @@ class TaskPython(AbstractTask):
     ]
 
     def __init__(self):
-        super(TaskPython, self).__init__()
+        super(TaskPython, self).__init__(name='TaskPython')
 
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):

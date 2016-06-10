@@ -65,7 +65,7 @@ class TaskScript(AbstractTask):
 
 
     def __init__(self):
-        super(TaskScript, self).__init__()
+        super(TaskScript, self).__init__(name='TaskScript')
 
     @staticmethod
     def validate(taskKwargs, xlog=KodiLogger.log):
@@ -176,7 +176,10 @@ class TaskScript(AbstractTask):
             msg = unicode(e)
         except subprocess.CalledProcessError, e:
             err = True
-            msg = unicode(e.output)
+            if hasattr(e, 'output'):
+                msg = unicode(e.output)
+            else:
+                msg = unicode(e)
         except Exception:
             e = sys.exc_info()[0]
             err = True
