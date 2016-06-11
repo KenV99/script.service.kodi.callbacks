@@ -79,7 +79,7 @@ class TaskHttp(AbstractTask):
     ]
 
     def __init__(self):
-        super(TaskHttp, self).__init__()
+        super(TaskHttp, self).__init__(name='TaskHttp')
         self.runtimeargs = u''
 
     @staticmethod
@@ -111,7 +111,15 @@ class TaskHttp(AbstractTask):
             return err, msg
         if verb == 'POST' or verb == 'PUT':
             prepped.headers['Content-Type'] = self.taskKwargs['content-type']
-        msg = u'Prepped URL: %s\nBody: %s' % (prepped.url.decode('utf-8'), prepped.body.decode('utf-8'))
+        try:
+            pu = prepped.url.decode('utf-8')
+        except (AttributeError, UnicodeDecodeError):
+            pu = u''
+        try:
+            pb = prepped.body.decode('utf-8')
+        except (AttributeError, UnicodeDecodeError):
+            pb = u''
+        msg = u'Prepped URL: %s\nBody: %s' % (pu, pb)
         sys.exc_clear()
         try:
             resp = session.send(prepped, timeout=20)
@@ -121,7 +129,7 @@ class TaskHttp(AbstractTask):
             if resp.text == '':
                 respmsg = u'No response received'
             else:
-                respmsg = resp.text.decode('unicode_escape', errors='ignore')
+                respmsg = resp.text.decode('unicode_escape', 'ignore')
             msg += u'\nResponse for %s: %s' %(verb, respmsg)
             resp.close()
         except requests.ConnectionError:

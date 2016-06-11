@@ -20,7 +20,7 @@ msgid "Callbacks for Kodi"
 msgstr ""
 
 msgctxt "Addon Description"
-msgid "Provides user definable actions for specific events within Kodi. Credit to Yesudeep Mangalapilly (gorakhargosh on github) and contributors for watchdog and pathtools modules.    "
+msgid "Provides user definable actions for specific events within Kodi. Credit to Yesudeep Mangalapilly (gorakhargosh on github) and contributors for watchdog and pathtools modules."
 msgstr ""
 
 msgctxt "Addon Disclaimer"
@@ -181,7 +181,7 @@ msgid "Publisher(s) started"
 msgstr ""
 
 msgctxt "#32038"
-msgid "$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (build %s)"
+msgid "$$$ [kodi.callbacks] - Staring kodi.callbacks ver: %s (%s:build %s) python: %s"
 msgstr ""
 
 msgctxt "#32039"

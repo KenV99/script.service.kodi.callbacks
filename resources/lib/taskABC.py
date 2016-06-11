@@ -17,7 +17,6 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-import sys
 import threading
 import Queue
 import abc
@@ -43,8 +42,8 @@ class AbstractTask(threading.Thread):
     tasktype = 'abstract'
     lock = threading.RLock()
 
-    def __init__(self, logger=KodiLogger.log):
-        super(AbstractTask, self).__init__(name='Worker')
+    def __init__(self, logger=KodiLogger.log, name='AbstractTask'):
+        super(AbstractTask, self).__init__(name=name)
         self.cmd_str = ''
         self.userargs = ''
         self.log = logger
@@ -84,11 +83,14 @@ class AbstractTask(threading.Thread):
         ret = ret.replace(u'%_', u",")
         ret = ret.replace(u'{@literal%@}', ur'%')
         if self.tasktype == 'script' or self.tasktype == 'python':
-            ret2 = ret.split(u'{@originaldelim@}') # need to split first to avoid unicode error
-            fse = sys.getfilesystemencoding()
-            ret = []
-            for r in ret2:
-                ret.append(r.encode(fse))
+            ret = ret.split(u'{@originaldelim@}') # need to split first to avoid unicode error
+            # if self.tasktype == 'script':
+            #     fse = sys.getfilesystemencoding()
+            #     ret = []
+            #     for r in ret2:
+            #         ret.append(r.encode(fse))
+            # else:
+            #     ret = ret2
         return ret
 
     @staticmethod

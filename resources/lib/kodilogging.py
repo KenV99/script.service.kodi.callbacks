@@ -63,6 +63,6 @@ class KodiLogger(object):
             msg = msg.decode("utf-8")
         if KodiLogger.kodirunning:
             message = u"$$$ [%s] - %s" % (u'kodi.callbacks', msg)
-            xbmc.log(msg=message.encode("utf-8", errors='replace'), level=loglevel)
+            xbmc.log(msg=message.encode("utf-8", 'replace'), level=loglevel)
         else:
             print msg
