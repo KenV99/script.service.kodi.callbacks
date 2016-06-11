@@ -31,7 +31,8 @@ try:
     import xml.etree.cElementTree as ET
 except ImportError:
     import xml.etree.ElementTree as ET
-from pyexpat import ExpatError
+
+
 def logprint(msg='', level=0):
     if msg != '' and level > -1:
         print msg
@@ -374,29 +375,28 @@ class PoDict(object):
         :rtype:
         """
         addoninfo = PoDict.get_addoninfo()
-        fo = codecs.open(url, 'wb', 'UTF-8')
-        PoDict.write_po_header(fo, addoninfo)
-        str_max = max(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
-        str_min = min(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
+        with codecs.open(url, 'wb', 'UTF-8') as fo:
+            PoDict.write_po_header(fo, addoninfo)
+            str_max = max(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
+            str_min = min(dict_msgctxt.iteritems(), key=operator.itemgetter(0))[0]
 
-        fo.write(u'msgctxt "Addon Summary"\n')
-        fo.write(u'msgid "%s"\n' % addoninfo['summary'].replace('\n',''))
-        fo.write(u'msgstr ""\n\n')
-        fo.write(u'msgctxt "Addon Description"\n')
-        fo.write(u'msgid "%s"\n' % addoninfo['description'].replace('\n',''))
-        fo.write(u'msgstr ""\n\n')
-        fo.write(u'msgctxt "Addon Disclaimer"\n')
-        fo.write(u'msgid "%s"\n' % addoninfo['disclaimer'].replace('\n',''))
-        fo.write(u'msgstr ""\n\n')
-        fo.write(u'#Add-on messages id=%s to %s\n\n' % (str_min, str_max))
-        last = int(str_min) - 1
-        for str_msgctxt in sorted(dict_msgctxt):
-            if not str_msgctxt.startswith('Addon'):
-                if int(str_msgctxt) != last + 1:
-                    fo.write(u'#empty strings from id %s to %s\n\n' % (str(last + 1), str(int(str_msgctxt) - 1)))
-                PoDict.write_to_po(fo, str_msgctxt, PoDict.format_string_forpo(dict_msgctxt[str_msgctxt]))
-                last = int(str_msgctxt)
-        fo.close()
+            fo.write(u'msgctxt "Addon Summary"\n')
+            fo.write(u'msgid "%s"\n' % addoninfo['summary'].replace('\n',''))
+            fo.write(u'msgstr ""\n\n')
+            fo.write(u'msgctxt "Addon Description"\n')
+            fo.write(u'msgid "%s"\n' % addoninfo['description'].replace('\n',''))
+            fo.write(u'msgstr ""\n\n')
+            fo.write(u'msgctxt "Addon Disclaimer"\n')
+            fo.write(u'msgid "%s"\n' % addoninfo['disclaimer'].replace('\n',''))
+            fo.write(u'msgstr ""\n\n')
+            fo.write(u'#Add-on messages id=%s to %s\n\n' % (str_min, str_max))
+            last = int(str_min) - 1
+            for str_msgctxt in sorted(dict_msgctxt):
+                if not str_msgctxt.startswith('Addon'):
+                    if int(str_msgctxt) != last + 1:
+                        fo.write(u'#empty strings from id %s to %s\n\n' % (str(last + 1), str(int(str_msgctxt) - 1)))
+                    PoDict.write_to_po(fo, str_msgctxt, PoDict.format_string_forpo(dict_msgctxt[str_msgctxt]))
+                    last = int(str_msgctxt)
 
     @staticmethod
     def get_addoninfo(addonid=None):
