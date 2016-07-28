@@ -52,11 +52,11 @@ def show_textbox(title, msg):
     msgbox = MessageDialog(u"DialogTextViewer.xml", _cwd_, u"Default")
     xt = type(msg)
     if xt is str or xt is unicode:
-        wmsg = u'\n'.join(textwrap.wrap(msg, 62))
+        wmsg = u'\n'.join(textwrap.wrap(msg, 88))
     elif xt is list:
         tmsg = []
         for i in msg:
-            omsg = textwrap.wrap(i, width=62, break_long_words=True)
+            omsg = textwrap.wrap(i, width=88, break_long_words=True)
             l1 = []
             for i1 in omsg:
                 l1.append(u'i=%s, len=%s' % (i1, len(i1)))
