@@ -17,17 +17,16 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-import xbmc
-import xbmcgui
-import xbmcaddon
 import textwrap
 
-class MessageDialog(xbmcgui.WindowXMLDialog):
+import xbmc
+import xbmcaddon
+import xbmcgui
 
-    MESSAGE_ACTION_OK = 110
-    MESSAGE_EXIT = 111
-    MESSAGE_TITLE = 101
-    MESSAGE_TEXT = 105
+
+class MessageDialog(xbmcgui.WindowXMLDialog):
+    MESSAGE_TITLE = 1
+    MESSAGE_TEXT = 5
 
     def __init__(self, *args, **kwargs):
         super(MessageDialog, self).__init__(*args, **kwargs)
@@ -46,22 +45,11 @@ class MessageDialog(xbmcgui.WindowXMLDialog):
         except Exception:
             pass
 
-    def onAction(self, action):
-        if action == 1010:
-            self.close()
-
-    def onClick(self, controlID):
-        if controlID == self.MESSAGE_ACTION_OK or controlID == self.MESSAGE_EXIT:
-            self.onAction(1010)
-
-    def onFocus(self, controlID):
-        pass
-
 
 def show_textbox(title, msg):
     _addon_ = xbmcaddon.Addon('script.service.kodi.callbacks')
     _cwd_ = xbmc.translatePath(_addon_.getAddonInfo('path'))
-    msgbox = MessageDialog(u"DialogTextBox.xml", _cwd_, u"Default")
+    msgbox = MessageDialog(u"DialogTextViewer.xml", _cwd_, u"Default")
     xt = type(msg)
     if xt is str or xt is unicode:
         wmsg = u'\n'.join(textwrap.wrap(msg, 62))
@@ -80,4 +68,3 @@ def show_textbox(title, msg):
     msgbox.set_text(title, wmsg)
     msgbox.doModal()
     del msg
-
